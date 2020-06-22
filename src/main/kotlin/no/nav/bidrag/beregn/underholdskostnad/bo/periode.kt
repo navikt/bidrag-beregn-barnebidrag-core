@@ -1,0 +1,40 @@
+package no.nav.bidrag.beregn.underholdskostnad.bo
+
+import no.nav.bidrag.beregn.felles.bo.Periode
+import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+
+
+data class BarnetilsynMedStonadPeriode(
+    val barnetilsynMedStonadDatoFraTil: Periode,
+    val barnetilsynMedStonadTilsynType: String,
+    val barnetilsynStonadType: String) : PeriodisertGrunnlag {
+  constructor(barnetilsynMedStonadPeriode: BarnetilsynMedStonadPeriode)
+      : this(barnetilsynMedStonadPeriode.barnetilsynMedStonadDatoFraTil.justerDatoer(),
+      barnetilsynMedStonadPeriode.barnetilsynMedStonadTilsynType,
+      barnetilsynMedStonadPeriode.barnetilsynStonadType)
+  override fun getDatoFraTil(): Periode {
+    return barnetilsynMedStonadDatoFraTil
+  }
+}
+
+data class BarnetilsynFaktiskUtgiftBruttoPeriode(
+    val barnetilsynFaktiskUtgiftBruttoDatoFraTil: Periode,
+    val barnetilsynFaktiskUtgiftBruttoBelop: Double) : PeriodisertGrunnlag {
+  constructor(barnetilsynFaktiskUtgiftBruttoPeriode: BarnetilsynFaktiskUtgiftBruttoPeriode)
+      : this(barnetilsynFaktiskUtgiftBruttoPeriode.barnetilsynFaktiskUtgiftBruttoDatoFraTil.justerDatoer(),
+      barnetilsynFaktiskUtgiftBruttoPeriode.barnetilsynFaktiskUtgiftBruttoBelop)
+  override fun getDatoFraTil(): Periode {
+    return barnetilsynFaktiskUtgiftBruttoDatoFraTil
+  }
+}
+
+data class ForpleiningUtgiftPeriode(
+    val forpleiningUtgiftDatoFraTil: Periode,
+    val forpleiningUtgiftBelop: Double) : PeriodisertGrunnlag {
+  constructor(forpleiningUtgiftPeriode: ForpleiningUtgiftPeriode)
+      : this(forpleiningUtgiftPeriode.forpleiningUtgiftDatoFraTil.justerDatoer(),
+      forpleiningUtgiftPeriode.forpleiningUtgiftBelop)
+  override fun getDatoFraTil(): Periode {
+    return forpleiningUtgiftDatoFraTil
+  }
+}
