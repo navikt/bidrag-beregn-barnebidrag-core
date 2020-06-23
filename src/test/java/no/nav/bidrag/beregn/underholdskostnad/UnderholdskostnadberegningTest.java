@@ -26,7 +26,7 @@ class UnderholdskostnadberegningTest {
 
     //
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
-        = new BeregnUnderholdskostnadGrunnlagPeriodisert("12",
+        = new BeregnUnderholdskostnadGrunnlagPeriodisert(12,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
         new BarnetilsynFaktiskUtgiftBrutto(0.0),
         new ForpleiningUtgift(0.0),

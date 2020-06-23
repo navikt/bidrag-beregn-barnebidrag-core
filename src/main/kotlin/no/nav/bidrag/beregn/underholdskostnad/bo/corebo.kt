@@ -48,7 +48,7 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class BeregnUnderholdskostnadGrunnlagPeriodisert(
-    val soknadBarnAlder: String,
+    val soknadBarnAlder: Int,
     val barnetilsynMedStonad: BarnetilsynMedStonad,
     val barnetilsynFaktiskUtgiftBrutto: BarnetilsynFaktiskUtgiftBrutto,
     val forpleiningUtgift: ForpleiningUtgift,
