@@ -8,7 +8,7 @@ import java.time.LocalDate
 
 
 // Grunnlag periode
-data class UnderholdskostnadGrunnlag(
+data class BeregnUnderholdskostnadGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadBarnFodselsdato: LocalDate,

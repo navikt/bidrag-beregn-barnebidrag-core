@@ -8,7 +8,7 @@ public interface Underholdskostnadberegning {
   ResultatBeregning beregn(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 
-  Double beregnTilsynsutgift(
+  Double beregnBarnetilsynMedStonad(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 
   Double beregnNettoBarnetilsyn(
