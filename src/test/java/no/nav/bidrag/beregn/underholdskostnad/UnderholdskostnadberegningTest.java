@@ -123,7 +123,25 @@ class UnderholdskostnadberegningTest {
         underholdskostnadberegning.beregn(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
-  @DisplayName("Test av beregning av underholdskostnad når barnet er 11 år gammelt")
+  @DisplayName("Test at netto barnetilsynsutgifter blir lagt til underholdskostnad")
+  @Test
+  void testBeregningAlder11MedNettoBarnetilsyn() {
+
+    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+
+    BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
+        = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
+        new BarnetilsynMedStonad("Ingen", "Ingen"),
+        666d,
+        0.0d,
+        sjablonListe
+    );
+
+    assertEquals(7820d + 666d,
+        underholdskostnadberegning.beregn(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+  }
+
+  @DisplayName("Test at forpleiningsutgifter blir lagt til underholdskostnad")
   @Test
   void testBeregningAlder11MedForpleiningsutgifter() {
 

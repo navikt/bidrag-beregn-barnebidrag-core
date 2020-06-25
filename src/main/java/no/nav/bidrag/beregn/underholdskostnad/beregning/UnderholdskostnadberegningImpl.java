@@ -19,7 +19,7 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
   public ResultatBeregning beregn(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
-    // Sjablonverdi for forbruksutgifter basert på barnets alder legges til
+    // Legger til sjablonverdi for forbruksutgifter basert på barnets alder
     var tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
         beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
         SjablonNavn.FORBRUKSUTGIFTER,
@@ -31,15 +31,14 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
             SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP);
 
     // Legger til eventuell støtte til barnetilsyn
-    // ! Har spurt John om ikke dette i stedet skal trekkes fra underholdskostnaden
     tempBeregnetUnderholdskostnad +=
         beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert);
 
-    // Legger til eventuelle faktiske utgifter til barnetilsyn
+    // Legger til eventuelt netto barnetilsyn
     tempBeregnetUnderholdskostnad +=
-        beregnBarnetilsynFaktiskUtgift(beregnUnderholdskostnadGrunnlagPeriodisert);
+        beregnUnderholdskostnadGrunnlagPeriodisert.getNettoBarnetilsynBelop();
 
-    // Trekk fra barnetrygd
+    // Trekker fra barnetrygd
     tempBeregnetUnderholdskostnad -=
         SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
             SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP);
@@ -73,23 +72,6 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
       return tempBarnetilsynBelop;
     } else
       return 0.0d;
-  }
-
-  @Override
-  public Double beregnBarnetilsynFaktiskUtgift(
-      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
-
-    beregnNettoBarnetilsyn(beregnUnderholdskostnadGrunnlagPeriodisert);
-
-    return 0.0d;
-  }
-
-  @Override
-  public Double beregnNettoBarnetilsyn(
-      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
-      return null;
-
-
   }
 
 }

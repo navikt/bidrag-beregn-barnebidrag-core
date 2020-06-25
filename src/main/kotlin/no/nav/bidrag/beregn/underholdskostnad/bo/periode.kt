@@ -17,14 +17,14 @@ data class BarnetilsynMedStonadPeriode(
   }
 }
 
-data class BarnetilsynFaktiskUtgiftBruttoPeriode(
-    val barnetilsynFaktiskUtgiftBruttoDatoFraTil: Periode,
-    val barnetilsynFaktiskUtgiftBruttoBelop: Double) : PeriodisertGrunnlag {
-  constructor(barnetilsynFaktiskUtgiftBruttoPeriode: BarnetilsynFaktiskUtgiftBruttoPeriode)
-      : this(barnetilsynFaktiskUtgiftBruttoPeriode.barnetilsynFaktiskUtgiftBruttoDatoFraTil.justerDatoer(),
-      barnetilsynFaktiskUtgiftBruttoPeriode.barnetilsynFaktiskUtgiftBruttoBelop)
+data class NettoBarnetilsynPeriode(
+    val nettoBarnetilsynDatoFraTil: Periode,
+    val nettoBarnetilsynBelop: Double) : PeriodisertGrunnlag {
+  constructor(nettoBarnetilsynPeriode: NettoBarnetilsynPeriode)
+      : this(nettoBarnetilsynPeriode.nettoBarnetilsynDatoFraTil.justerDatoer(),
+      nettoBarnetilsynPeriode.nettoBarnetilsynBelop)
   override fun getDatoFraTil(): Periode {
-    return barnetilsynFaktiskUtgiftBruttoDatoFraTil
+    return nettoBarnetilsynDatoFraTil
   }
 }
 
