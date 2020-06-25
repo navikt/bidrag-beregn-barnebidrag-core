@@ -11,7 +11,7 @@ import java.time.LocalDate
 data class BeregnUnderholdskostnadGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadBarnFodselsdato: LocalDate,
+    val soknadsbarnFodselsdato: LocalDate,
     val barnetilsynMedStonadPeriodeListe: List<BarnetilsynMedStonadPeriode>,
     val nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriode>,
     val forpleiningUtgiftPeriodeListe: List<ForpleiningUtgiftPeriode>,
