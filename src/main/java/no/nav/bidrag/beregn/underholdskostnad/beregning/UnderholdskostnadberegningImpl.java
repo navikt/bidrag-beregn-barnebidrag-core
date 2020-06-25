@@ -19,19 +19,34 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
   public ResultatBeregning beregn(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
-    System.out.println("Start beregning av underholdskostnad");
-
+    // Sjablonverdi for forbruksutgifter basert på barnets alder legges til
     var tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
         beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
         SjablonNavn.FORBRUKSUTGIFTER,
         beregnUnderholdskostnadGrunnlagPeriodisert.getSoknadBarnAlder());
 
-    tempBeregnetUnderholdskostnad = tempBeregnetUnderholdskostnad +=
+    // Sjablonverdi for boutgifter legges til
+    tempBeregnetUnderholdskostnad +=
         SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
             SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP);
 
-    tempBeregnetUnderholdskostnad = tempBeregnetUnderholdskostnad +=
+    // Legger til eventuell støtte til barnetilsyn
+    // ! Har spurt John om ikke dette i stedet skal trekkes fra underholdskostnaden
+    tempBeregnetUnderholdskostnad +=
         beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert);
+
+    // Legger til eventuelle faktiske utgifter til barnetilsyn
+    tempBeregnetUnderholdskostnad +=
+        beregnBarnetilsynFaktiskUtgift(beregnUnderholdskostnadGrunnlagPeriodisert);
+
+    // Trekk fra barnetrygd
+    tempBeregnetUnderholdskostnad -=
+        SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+            SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP);
+
+    // Legger til forpleiningsutgifter
+    tempBeregnetUnderholdskostnad +=
+        beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
 
     return new ResultatBeregning(tempBeregnetUnderholdskostnad);
   }
@@ -61,13 +76,20 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
   }
 
   @Override
+  public Double beregnBarnetilsynFaktiskUtgift(
+      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
+
+    beregnNettoBarnetilsyn(beregnUnderholdskostnadGrunnlagPeriodisert);
+
+    return 0.0d;
+  }
+
+  @Override
   public Double beregnNettoBarnetilsyn(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
-    if (beregnUnderholdskostnadGrunnlagPeriodisert.getBarnetilsynFaktiskUtgiftBrutto() != null) {
       return null;
 
-    }
-    return null;
+
   }
 
 }

@@ -23,13 +23,13 @@ data class BarnetilsynMedStonad(
     val barnetilsynMedStonadStonadType: String
 )
 
-data class BarnetilsynFaktiskUtgiftBrutto(
+/*data class BarnetilsynFaktiskUtgiftBrutto(
     val barnetilsynFaktiskUtgiftBruttoBelop: Double
-)
+)*/
 
-data class ForpleiningUtgift(
+/*data class ForpleiningUtgift(
     val forpleiningUtgiftBelop: Double
-)
+)*/
 
 // Resultatperiode
 data class BeregnUnderholdskostnadResultat(
@@ -50,8 +50,8 @@ data class ResultatBeregning(
 data class BeregnUnderholdskostnadGrunnlagPeriodisert(
     val soknadBarnAlder: Int,
     val barnetilsynMedStonad: BarnetilsynMedStonad,
-    val barnetilsynFaktiskUtgiftBrutto: BarnetilsynFaktiskUtgiftBrutto,
-    val forpleiningUtgift: ForpleiningUtgift,
+    val barnetilsynFaktiskUtgiftBruttoBelop: Double,
+    val forpleiningUtgiftBelop: Double,
     val sjablonListe: List<Sjablon>)
 
 // Avvikperiode
