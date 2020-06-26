@@ -56,7 +56,7 @@ public class UnderholdskostnadPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopEvne()).isEqualTo(Double.valueOf(15604)),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getBostatusKode()).isEqualTo(
-            BostatusKode.ALENE),
+            BostatusKode.ALENE))
 
 
     printGrunnlagResultat(resultat);
