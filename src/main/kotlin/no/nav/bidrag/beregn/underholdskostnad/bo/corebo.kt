@@ -45,9 +45,3 @@ data class BeregnUnderholdskostnadGrunnlagPeriodisert(
     val nettoBarnetilsynBelop: Double,
     val forpleiningUtgiftBelop: Double,
     val sjablonListe: List<Sjablon>)
-
-// Avvikperiode
-data class Avvik(
-    val avvikTekst: String,
-    val avvikType: AvvikType
-)

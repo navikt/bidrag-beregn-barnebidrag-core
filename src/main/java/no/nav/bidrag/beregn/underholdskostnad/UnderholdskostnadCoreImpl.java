@@ -56,13 +56,11 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     var barnetilsynMedStonadPeriodeListe = mapBarnetilsynMedStonadPeriodeListe(beregnUnderholdskostnadGrunnlagCore.getBarnetilsynMedStonadPeriodeListe());
     var nettoBarnetilsynPeriodeListe = mapNettoBarnetilsynPeriodeListe(beregnUnderholdskostnadGrunnlagCore.getNettoBarnetilsynPeriodeListe());
     var forpleiningUtgiftPeriodeListe = mapForpleiningUtgiftPeriodeListe(beregnUnderholdskostnadGrunnlagCore.getForpleiningUtgiftPeriodeListe());
-
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnUnderholdskostnadGrunnlagCore.getSjablonPeriodeListe());
 
     return new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
         forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
   }
-
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -83,8 +81,7 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     return sjablonPeriodeListe;
   }
 
-  private List<BarnetilsynMedStonadPeriode> mapBarnetilsynMedStonadPeriodeListe(List<BarnetilsynMedStonadPeriodeCore>
-      barnetilsynMedStonadPeriodeListeCore) {
+  private List<BarnetilsynMedStonadPeriode> mapBarnetilsynMedStonadPeriodeListe(List<BarnetilsynMedStonadPeriodeCore> barnetilsynMedStonadPeriodeListeCore) {
     var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriode>();
     for (BarnetilsynMedStonadPeriodeCore barnetilsynMedStonadPeriodeCore : barnetilsynMedStonadPeriodeListeCore) {
       barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(

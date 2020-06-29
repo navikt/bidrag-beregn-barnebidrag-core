@@ -20,7 +20,7 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
     // Legger til sjablonverdi for forbruksutgifter basert på barnets alder
-    var tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
+    Double tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
         beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
         SjablonNavn.FORBRUKSUTGIFTER,
         beregnUnderholdskostnadGrunnlagPeriodisert.getSoknadBarnAlder());
@@ -46,6 +46,11 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
     // Legger til forpleiningsutgifter
     tempBeregnetUnderholdskostnad +=
         beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
+
+    // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
+    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0){
+      tempBeregnetUnderholdskostnad = Double.valueOf(0.0);
+    }
 
     return new ResultatBeregning(tempBeregnetUnderholdskostnad);
   }

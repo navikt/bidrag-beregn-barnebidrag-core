@@ -56,7 +56,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    // Barnets fødselsdag og måned blir overstyrt til 01.07. Lager liste for å sikre brudd ved ny
+    // Barnets fødselsdag og måned skal overstyres til 01.07. Lager liste for å sikre brudd ved ny
     // alder fra 01.07 hvert år i beregningsperioden
     var bruddlisteBarnAlder = new ArrayList<Periode>();
     Integer tellerAar = beregnUnderholdskostnadGrunnlag.getBeregnDatoFra().getYear();
@@ -115,14 +115,10 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
 
       var alderBarn = beregnSoknadbarnAlder(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFra());
 
-      System.out.println("Beregnet alder for søknadsbarn: " + alderBarn);
-
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
               sjablonPeriode.getSjablon().getSjablonNokkelListe(),
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
-
-      System.out.println("Beregner underholdskostnad for periode: " + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnUnderholdskostnadGrunnlagPeriodisert = new BeregnUnderholdskostnadGrunnlagPeriodisert(
@@ -148,11 +144,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
         .withDayOfMonth(01)
         .withMonth(07);
 
-    System.out.println("tempSoknadbarnFodselsdato: " + tempSoknadbarnFodselsdato);
-
-    Integer beregnetAlder = Period.between(tempSoknadbarnFodselsdato, LocalDate.now()).getYears();
-
-    System.out.println("Beregnet alder: " + beregnetAlder);
+    Integer beregnetAlder = Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
 
     return beregnetAlder;
 
