@@ -115,6 +115,8 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
 
       var alderBarn = beregnSoknadbarnAlder(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFra());
 
+      System.out.println("Beregnet alder for søknadsbarn: " + alderBarn);
+
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
               sjablonPeriode.getSjablon().getSjablonNokkelListe(),
@@ -142,11 +144,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
       BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag,
       LocalDate beregnDatoFra) {
 
-    LocalDate overstyrtFodselsdato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
-        .withDayOfMonth(01)
-        .withMonth(07)
-        .withYear(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra().getYear());
-
     LocalDate tempSoknadbarnFodselsdato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
         .withDayOfMonth(01)
         .withMonth(07);
@@ -162,7 +159,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
   }
 
 
-  // Validerer at input-verdier til bidragsevneberegning er gyldige
+  // Validerer at input-verdier til underholdskostnadsberegning er gyldige
   public List<Avvik> validerInput(BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag) {
     var avvikListe = new ArrayList<Avvik>();
 
@@ -178,24 +175,27 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
     for (BarnetilsynMedStonadPeriode barnetilsynMedStonadPeriode : beregnUnderholdskostnadGrunnlag.getBarnetilsynMedStonadPeriodeListe()) {
       barnetilsynMedStonadPeriodeListe.add(barnetilsynMedStonadPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("inntektPeriodeListe", barnetilsynMedStonadPeriodeListe, true, true, true));
+    avvikListe.addAll(validerInput("barnetilsynMedStonadListe", barnetilsynMedStonadPeriodeListe, true, true, true));
 
     // Sjekk perioder for netto barnetilsyn
     var nettoBarnetilsynPeriodeListe = new ArrayList<Periode>();
     for (NettoBarnetilsynPeriode nettoBarnetilsynPeriode : beregnUnderholdskostnadGrunnlag.getNettoBarnetilsynPeriodeListe()) {
       nettoBarnetilsynPeriodeListe.add(nettoBarnetilsynPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("skatteklassePeriodeListe", nettoBarnetilsynPeriodeListe, true, true, true));
+    avvikListe.addAll(validerInput("nettoBarnetilsynPeriodeListe", nettoBarnetilsynPeriodeListe, true, true, true));
 
     // Sjekk perioder for forpleiningsutgifter
     var forpleiningUtgiftPeriodeListe = new ArrayList<Periode>();
     for (ForpleiningUtgiftPeriode forpleiningUtgiftPeriode : beregnUnderholdskostnadGrunnlag.getForpleiningUtgiftPeriodeListe()) {
       forpleiningUtgiftPeriodeListe.add(forpleiningUtgiftPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("bostatusPeriodeListe", forpleiningUtgiftPeriodeListe, true, true, true));
+    avvikListe.addAll(validerInput("forpleiningUtgiftPeriodeListe", forpleiningUtgiftPeriodeListe, true, true, true));
 
     // Sjekk beregn dato fra/til
     avvikListe.addAll(validerBeregnPeriodeInput(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()));
+
+    // Sjekk fødselsdato for søknadsbarn
+    avvikListe.addAll(validerDatoInput(beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()));
 
     return avvikListe;
   }
@@ -268,6 +268,16 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
       avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FRA_ETTER_DATO_TIL));
     }
 
+    return avvikListe;
+  }
+
+  // Validerer at fødselsdato er gyldig
+  private List<Avvik> validerDatoInput(LocalDate dato) {
+    var avvikListe = new ArrayList<Avvik>();
+
+    if (dato == null) {
+      avvikListe.add(new Avvik("Fødselsdato for søknadsbarn kan ikke være null", AvvikType.NULL_VERDI_I_DATO));
+    }
     return avvikListe;
   }
 
