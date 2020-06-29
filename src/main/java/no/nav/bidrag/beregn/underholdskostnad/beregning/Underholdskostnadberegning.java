@@ -11,12 +11,6 @@ public interface Underholdskostnadberegning {
   Double beregnBarnetilsynMedStonad(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 
-  Double beregnBarnetilsynFaktiskUtgift(
-      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
-
-  Double beregnNettoBarnetilsyn(
-      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
-
   static Underholdskostnadberegning getInstance(){
     return new UnderholdskostnadberegningImpl();
   }

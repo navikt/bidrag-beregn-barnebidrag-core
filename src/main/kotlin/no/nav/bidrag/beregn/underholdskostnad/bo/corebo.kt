@@ -11,9 +11,9 @@ import java.time.LocalDate
 data class BeregnUnderholdskostnadGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadBarnFodselsdato: LocalDate,
+    val soknadsbarnFodselsdato: LocalDate,
     val barnetilsynMedStonadPeriodeListe: List<BarnetilsynMedStonadPeriode>,
-    val barnetilsynFaktiskUtgiftBruttoPeriodeListe: List<BarnetilsynFaktiskUtgiftBruttoPeriode>,
+    val nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriode>,
     val forpleiningUtgiftPeriodeListe: List<ForpleiningUtgiftPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
@@ -22,14 +22,6 @@ data class BarnetilsynMedStonad(
     val barnetilsynMedStonadTilsynType: String,
     val barnetilsynMedStonadStonadType: String
 )
-
-/*data class BarnetilsynFaktiskUtgiftBrutto(
-    val barnetilsynFaktiskUtgiftBruttoBelop: Double
-)*/
-
-/*data class ForpleiningUtgift(
-    val forpleiningUtgiftBelop: Double
-)*/
 
 // Resultatperiode
 data class BeregnUnderholdskostnadResultat(
@@ -50,7 +42,7 @@ data class ResultatBeregning(
 data class BeregnUnderholdskostnadGrunnlagPeriodisert(
     val soknadBarnAlder: Int,
     val barnetilsynMedStonad: BarnetilsynMedStonad,
-    val barnetilsynFaktiskUtgiftBruttoBelop: Double,
+    val nettoBarnetilsynBelop: Double,
     val forpleiningUtgiftBelop: Double,
     val sjablonListe: List<Sjablon>)
 

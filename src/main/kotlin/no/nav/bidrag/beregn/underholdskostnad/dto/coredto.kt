@@ -1,48 +1,42 @@
 package no.nav.bidrag.beregn.underholdskostnad.dto
 
+import no.nav.bidrag.beregn.felles.dto.AvvikCore
+import no.nav.bidrag.beregn.felles.dto.PeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonCore
+import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.time.LocalDate
 
 
 // Grunnlag periode
-data class UnderholdskostnadGrunnlagCore(
+data class BeregnUnderholdskostnadGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadBarnFodselsdato: LocalDate,
     val barnetilsynMedStonadPeriodeListe: List<BarnetilsynMedStonadPeriodeCore>,
-    val barnetilsynFaktiskUtgiftBruttoPeriodeListe: List<BarnetilsynFaktiskUtgiftBruttoPeriodeCore>,
+    val nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriodeCore>,
     val forpleiningUtgiftPeriodeListe: List<ForpleiningUtgiftPeriodeCore>,
     val sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class BarnetilsynMedStonadPeriodeCore(
-    val barnetilsynMedStonadDatoFra: LocalDate,
-    val barnetilsynMedStonadDatoTil: LocalDate,
-    val barnetilsynMedStonadType: String,
-    val barnetilsynStonadType: String
+    val barnetilsynMedStonadPeriodeDatoFraTil: PeriodeCore,
+    val barnetilsynMedStonadTilsynType: String,
+    val barnetilsynStonadStonadType: String
 )
 
-data class BarnetilsynFaktiskUtgiftBruttoPeriodeCore(
-    val barnetilsynFaktiskUtgiftBruttoDatoFra: LocalDate,
-    val barnetilsynFaktiskUtgiftBruttoDatoTil: LocalDate,
-    val barnetilsynFaktiskUtgiftBruttoBelop: Double
+data class NettoBarnetilsynPeriodeCore(
+    val nettoBarnetilsynPeriodeDatoFraTil: PeriodeCore,
+    val nettoBarnetilsynBelop: Double
 )
 
 data class ForpleiningUtgiftPeriodeCore(
-    val forpleiningUtgiftDatoFra: LocalDate,
-    val forpleiningUtgiftDatoTil: LocalDate,
+    val forpleiningUtgiftPeriodeDatoFraTil: PeriodeCore,
     val forpleiningUtgiftBelop: Double
-)
-
-data class SjablonPeriodeCore(
-    val sjablonPeriodeDatoFraTil: PeriodeCore,
-    val sjablonNavn: String,
-    val sjablonNokkelListe: List<SjablonNokkelCore>? = emptyList(),
-    val sjablonInnholdListe: List<SjablonInnholdCore>
 )
 
 
 // Resultat
-data class UnderholdskostnadResultatCore(
+data class BeregnUnderholdskostnadResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
 )
@@ -58,37 +52,10 @@ data class ResultatBeregningCore(
 )
 
 data class ResultatGrunnlagCore(
-    val soknadBarnFodselsdato: LocalDate,
+    val soknadBarnAlder: Int,
     val barnetilsynMedStonadTilsynType: String,
     val barnetilsynMedStonadStonadType: String,
     val barnetilsynFaktiskUtgiftBruttoBelop: Double,
     val forpleiningUtgiftBelop: Double,
     val sjablonListe: List<SjablonCore>
-)
-
-// Felles
-data class PeriodeCore(
-    val periodeDatoFra: LocalDate,
-    val periodeDatoTil: LocalDate?
-)
-
-data class SjablonCore(
-    val sjablonNavn: String,
-    val sjablonNokkelListe: List<SjablonNokkelCore>? = emptyList(),
-    val sjablonInnholdListe: List<SjablonInnholdCore>
-)
-
-data class SjablonNokkelCore(
-    val sjablonNokkelNavn: String,
-    val sjablonNokkelVerdi: String
-)
-
-data class SjablonInnholdCore(
-    val sjablonInnholdNavn: String,
-    val sjablonInnholdVerdi: Double
-)
-
-data class AvvikCore(
-    val avvikTekst: String,
-    val avvikType: String
 )
