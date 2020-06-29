@@ -11,4 +11,3 @@ Versjon | Endringstype | Beskrivelse
 0.0.3   | Endret       | Alle beregninger er nå med, bortsett fra netto barnetilsyn
 0.0.2   | Endret       | Beregner nå med forbruksutgifter, boutgifter og barnetilsyn med stønad
 0.0.1   | Opprettet    | Init commit for beregning av underholdskostnad'
-Logikk for periodisering og mapping mot Core lagt til
