@@ -1,19 +1,17 @@
-package no.nav.bidrag.beregn.underholdskostnad;
+package no.nav.bidrag.beregn.nettobarnetilsyn;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
-import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.underholdskostnad.beregning.UnderholdskostnadberegningImpl;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonad;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlagPeriodisert;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test av beregning Underholdskostnad")
-class UnderholdskostnadberegningTest {
+class NettoBarnetilsynBeregningTest {
   private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 3 år gammelt")

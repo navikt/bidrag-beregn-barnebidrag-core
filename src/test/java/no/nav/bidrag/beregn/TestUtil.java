@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.underholdskostnad;
+package no.nav.bidrag.beregn;
 
 import static java.util.Collections.emptyList;
 

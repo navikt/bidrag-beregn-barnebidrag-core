@@ -1,9 +1,8 @@
-package no.nav.bidrag.beregn.underholdskostnad;
+package no.nav.bidrag.beregn.nettobarnetilsyn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
@@ -11,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test hent av sjablonverdier for trinnvis skattesats")
-public class UnderholdskostnadberegningGrunnlagTest {
+public class NettoBarnetilsynBeregningGrunnlagTest {
 
   private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
