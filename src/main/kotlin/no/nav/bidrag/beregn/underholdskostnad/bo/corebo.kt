@@ -3,9 +3,7 @@ package no.nav.bidrag.beregn.underholdskostnad.bo
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.felles.enums.AvvikType
 import java.time.LocalDate
-
 
 // Grunnlag periode
 data class BeregnUnderholdskostnadGrunnlag(

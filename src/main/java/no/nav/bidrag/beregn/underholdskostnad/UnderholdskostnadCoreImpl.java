@@ -93,15 +93,15 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     return barnetilsynMedStonadPeriodeListe;
   }
 
-  private List<NettoBarnetilsynPeriode> mapNettoBarnetilsynPeriodeListe(List<NettoBarnetilsynPeriodeCore> NettoBarnetilsynPeriodeListeCore) {
-    var NettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
-    for (NettoBarnetilsynPeriodeCore NettoBarnetilsynPeriodeCore : NettoBarnetilsynPeriodeListeCore) {
-      NettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-          new Periode(NettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoFra(),
-              NettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoTil()),
-          NettoBarnetilsynPeriodeCore.getNettoBarnetilsynBelop()));
+  private List<NettoBarnetilsynPeriode> mapNettoBarnetilsynPeriodeListe(List<NettoBarnetilsynPeriodeCore> nettoBarnetilsynPeriodeListeCore) {
+    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
+    for (NettoBarnetilsynPeriodeCore nettoBarnetilsynPeriodeCore : nettoBarnetilsynPeriodeListeCore) {
+      nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
+          new Periode(nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoFra(),
+              nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoTil()),
+          nettoBarnetilsynPeriodeCore.getNettoBarnetilsynBelop()));
     }
-    return NettoBarnetilsynPeriodeListe;
+    return nettoBarnetilsynPeriodeListe;
   }
 
   private List<ForpleiningUtgiftPeriode> mapForpleiningUtgiftPeriodeListe(List<ForpleiningUtgiftPeriodeCore> forpleiningUtgiftPeriodeListeCore) {
@@ -114,7 +114,6 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     }
     return forpleiningUtgiftPeriodeListe;
   }
-
 
   private BeregnUnderholdskostnadResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnUnderholdskostnadResultat resultat) {
     return new BeregnUnderholdskostnadResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
@@ -145,7 +144,6 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     }
     return resultatPeriodeCoreListe;
   }
-
 
   private List<SjablonCore> mapResultatGrunnlagSjabloner(List<Sjablon> resultatGrunnlagSjablonListe) {
     var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonCore>();

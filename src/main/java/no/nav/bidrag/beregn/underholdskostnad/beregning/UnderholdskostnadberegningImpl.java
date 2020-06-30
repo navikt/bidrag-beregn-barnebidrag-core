@@ -55,7 +55,6 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
     return new ResultatBeregning(tempBeregnetUnderholdskostnad);
   }
 
-
   @Override
   public Double beregnBarnetilsynMedStonad(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
@@ -78,7 +77,4 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
     } else
       return 0.0d;
   }
-
 }
-
-

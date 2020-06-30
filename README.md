@@ -7,6 +7,7 @@ Repo for alle felles beregninger for bidrag. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.1.0   | Opprettet    | Beregning av underholdskostnad klar for videre test via resttjeneste
 0.0.5   | Endret       | Lagt til ekstra test på periodisering og mapping til Core
 0.0.4   | Endret       | Logikk for periodisering og mapping mot Core lagt til
 0.0.3   | Endret       | Alle beregninger er nå med, bortsett fra netto barnetilsyn

@@ -15,6 +15,4 @@ public interface Underholdskostnadberegning {
     return new UnderholdskostnadberegningImpl();
   }
 
-
 }
-
