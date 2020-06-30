@@ -108,11 +108,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
       var forpleiningUtgiftBelop = justertForpleiningUtgiftPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(ForpleiningUtgiftPeriode::getForpleiningUtgiftBelop).findFirst().orElse(null);
 
-/*
-      var alderBarn = bruddlisteBarnAlder.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(beregnSoknadbarnAlder(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoTil()));
-*/
-
       var alderBarn = beregnSoknadbarnAlder(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFra());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -263,6 +258,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
     return avvikListe;
   }
 
+/*
   // Validerer at fødselsdato er gyldig
   private List<Avvik> validerDatoInput(LocalDate dato) {
     var avvikListe = new ArrayList<Avvik>();
@@ -271,8 +267,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
       avvikListe.add(new Avvik("Fødselsdato for søknadsbarn kan ikke være null", AvvikType.NULL_VERDI_I_DATO));
     }
     return avvikListe;
-  }
-
-
+  }*/
 
 }
