@@ -3,7 +3,6 @@ package no.nav.bidrag.beregn.underholdskostnad.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 
-
 data class BarnetilsynMedStonadPeriode(
     val barnetilsynMedStonadDatoFraTil: Periode,
     val barnetilsynMedStonadTilsynType: String,

@@ -40,17 +40,14 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
         .stream()
         .map(BarnetilsynMedStonadPeriode::new)
         .collect(toCollection(ArrayList::new));
-
     var justertNettoBarnetilsynPeriodeListe = beregnUnderholdskostnadGrunnlag.getNettoBarnetilsynPeriodeListe()
         .stream()
         .map(NettoBarnetilsynPeriode::new)
         .collect(toCollection(ArrayList::new));
-
     var justertForpleiningUtgiftPeriodeListe = beregnUnderholdskostnadGrunnlag.getForpleiningUtgiftPeriodeListe()
         .stream()
         .map(ForpleiningUtgiftPeriode::new)
         .collect(toCollection(ArrayList::new));
-
     var justertSjablonPeriodeListe = beregnUnderholdskostnadGrunnlag.getSjablonPeriodeListe()
         .stream()
         .map(SjablonPeriode::new)
@@ -61,7 +58,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
     var bruddlisteBarnAlder = new ArrayList<Periode>();
     Integer tellerAar = beregnUnderholdskostnadGrunnlag.getBeregnDatoFra().getYear();
 
-
     // Bygger opp liste med bruddpunker i perioden mellom beregnFraDato og beregnTilDato,
     // passer også på å ikke legge til bruddpunkt etter beregnTilDato
     while (tellerAar <= beregnUnderholdskostnadGrunnlag.getBeregnDatoTil().getYear()
@@ -70,7 +66,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
       bruddlisteBarnAlder.add(new Periode (LocalDate.of(tellerAar, 07, 01), LocalDate.of(tellerAar, 07, 01)));
       tellerAar ++;
     }
-
 
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
@@ -83,8 +78,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
         .finnPerioder(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnUnderholdskostnadGrunnlag.getBeregnDatoTil());
 
 
-    // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
-
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
     if (perioder.size() > 1) {
       if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil())) &&
@@ -96,6 +89,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
       }
     }
 
+    // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
       var BarnetilsynMedStonad = justertBarnetilsynMedStonadPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -125,10 +119,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
 
     //Slår sammen perioder med samme resultat
     return new BeregnUnderholdskostnadResultat(resultatPeriodeListe);
-
   }
-
-
 
   @Override
   public Integer beregnSoknadbarnAlder(
@@ -142,7 +133,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
     Integer beregnetAlder = Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
 
     return beregnetAlder;
-
   }
 
 
@@ -180,9 +170,6 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
 
     // Sjekk beregn dato fra/til
     avvikListe.addAll(validerBeregnPeriodeInput(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()));
-
-    // Sjekk fødselsdato for søknadsbarn
-    avvikListe.addAll(validerDatoInput(beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()));
 
     return avvikListe;
   }
@@ -257,16 +244,4 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
 
     return avvikListe;
   }
-
-/*
-  // Validerer at fødselsdato er gyldig
-  private List<Avvik> validerDatoInput(LocalDate dato) {
-    var avvikListe = new ArrayList<Avvik>();
-
-    if (dato == null) {
-      avvikListe.add(new Avvik("Fødselsdato for søknadsbarn kan ikke være null", AvvikType.NULL_VERDI_I_DATO));
-    }
-    return avvikListe;
-  }*/
-
 }
