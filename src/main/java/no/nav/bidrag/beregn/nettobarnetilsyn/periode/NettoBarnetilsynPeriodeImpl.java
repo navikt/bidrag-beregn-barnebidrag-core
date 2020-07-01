@@ -17,10 +17,10 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.beregning.NettoBarnetilsynBeregning
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.NettoBarnetilsynPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftBarnetilsynPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 
-public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
+public class NettoBarnetilsynPeriodeImpl implements FaktiskUtgiftBarnetilsynPeriode {
 
   public NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning nettoBarnetilsynBeregning) {
     this.nettoBarnetilsynBeregning = nettoBarnetilsynBeregning;
@@ -33,9 +33,9 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
-    var justertNettoBarnetilsynPeriodeListe = beregnNettoBarnetilsynGrunnlag.getNettoBarnetilsynPeriodeListe()
+    var justertNettoBarnetilsynPeriodeListe = beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftBarnetilsynPeriodeListe()
         .stream()
-        .map(NettoBarnetilsynPeriode::new)
+        .map(FaktiskUtgiftBarnetilsynPeriode::new)
         .collect(toCollection(ArrayList::new));
 
     var justertSjablonPeriodeListe = beregnNettoBarnetilsynGrunnlag.getSjablonPeriodeListe()
@@ -81,7 +81,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
     for (Periode beregningsperiode : perioder) {
 
       var nettoBarnetilsynBelop = justertNettoBarnetilsynPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(NettoBarnetilsynPeriode::getNettoBarnetilsynBelop).findFirst().orElse(null);
+          .map(FaktiskUtgiftBarnetilsynPeriode::getFaktiskUtgiftBarnetilsynBelop).findFirst().orElse(null);
 
       var alderBarn = beregnSoknadbarnAlder(beregnNettoBarnetilsynGrunnlag, beregningsperiode.getDatoFra());
 
@@ -107,7 +107,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
       BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag,
       LocalDate beregnDatoFra) {
 
-    LocalDate tempSoknadbarnFodselsdato = beregnNettoBarnetilsynGrunnlag.getNettoBarnetilsynPeriodeListe().
+    LocalDate tempSoknadbarnFodselsdato = beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftBarnetilsynPeriodeListe().
 
         .withDayOfMonth(01)
         .withMonth(07);
@@ -131,8 +131,8 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
 
     // Sjekk perioder for netto barnetilsyn
     var nettoBarnetilsynPeriodeListe = new ArrayList<Periode>();
-    for (NettoBarnetilsynPeriode nettoBarnetilsynPeriode : beregnNettoBarnetilsynGrunnlag.getNettoBarnetilsynPeriodeListe()) {
-      nettoBarnetilsynPeriodeListe.add(nettoBarnetilsynPeriode.getDatoFraTil());
+    for (FaktiskUtgiftBarnetilsynPeriode faktiskUtgiftBarnetilsynPeriode : beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftBarnetilsynPeriodeListe()) {
+      nettoBarnetilsynPeriodeListe.add(faktiskUtgiftBarnetilsynPeriode.getDatoFraTil());
     }
     avvikListe.addAll(validerInput("nettoBarnetilsynPeriodeListe", nettoBarnetilsynPeriodeListe, true, true, true));
 

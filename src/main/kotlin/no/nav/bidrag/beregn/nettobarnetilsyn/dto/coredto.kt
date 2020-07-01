@@ -11,14 +11,15 @@ import java.time.LocalDate
 data class BeregnNettoBarnetilsynGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriodeCore>,
+    val faktiskUtgiftBarnetilsynPeriodeListe: List<FaktiskUtgiftBarnetilsynPeriodeCore>,
     val sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
-data class NettoBarnetilsynPeriodeCore(
-    val nettoBarnetilsynPeriodeDatoFraTil: PeriodeCore,
-    val nettoBarnetilsynSoknadsbarnFodselsdato: LocalDate,
-    val nettoBarnetilsynBelop: Double
+data class FaktiskUtgiftBarnetilsynPeriodeCore(
+    val faktiskUtgiftBarnetilsynPeriodeDatoFraTil: PeriodeCore,
+    val faktiskUtgiftBarnetilsynSoknadsbarnFodselsdato: LocalDate,
+    val faktiskUtgiftBarnetilsynSoknadsbarnPersonId: Int,
+    val faktiskUtgiftBarnetilsynBelop: Double
 )
 
 
@@ -30,16 +31,21 @@ data class BeregnNettoBarnetilsynResultatCore(
 
 data class ResultatPeriodeCore(
     val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: ResultatBeregningCore,
+    val resultatBeregningListe: List<ResultatBeregningCore>,
     val resultatGrunnlag: ResultatGrunnlagCore
 )
 
 data class ResultatBeregningCore(
+    val resultatPersonIdSoknadsbard: Int,
     val resultatNettoBarnetilsynBelop: Double
 )
 
 data class ResultatGrunnlagCore(
-    val soknadBarnAlder: Int,
-    val barnetilsynFaktiskUtgiftBruttoBelop: Double,
+    val grunnlagCoreListe: List<GrunnlagCore>,
     val sjablonListe: List<SjablonCore>
+)
+
+data class GrunnlagCore(
+    val soknadBarnFodselsdato: LocalDate,
+    val faktiskUtgiftBelop: Double
 )

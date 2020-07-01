@@ -17,7 +17,7 @@ import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.NettoBarnetilsynPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftBarnetilsynPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynResultatCore;
@@ -25,21 +25,22 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.dto.NettoBarnetilsynPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatBeregningCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatPeriodeCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
 
 public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
 
-  public NettoBarnetilsynCoreImpl(NettoBarnetilsynPeriode NettoBarnetilsynPeriode) {
-    this.NettoBarnetilsynPeriode = NettoBarnetilsynPeriode;
+  public NettoBarnetilsynCoreImpl(NettoBarnetilsynPeriode nettoBarnetilsynPeriode) {
+    this.nettoBarnetilsynPeriode = nettoBarnetilsynPeriode;
   }
 
-  private NettoBarnetilsynPeriode NettoBarnetilsynPeriode;
+  private NettoBarnetilsynPeriode nettoBarnetilsynPeriode;
 
   public BeregnNettoBarnetilsynResultatCore beregnNettoBarnetilsyn(BeregnNettoBarnetilsynGrunnlagCore beregnNettoBarnetilsynGrunnlagCore) {
     var beregnNettoBarnetilsynGrunnlag = mapTilBusinessObject(beregnNettoBarnetilsynGrunnlagCore);
     var beregnNettoBarnetilsynResultat = new BeregnNettoBarnetilsynResultat(Collections.emptyList());
-    var avvikListe = NettoBarnetilsynPeriode.validerInput(beregnNettoBarnetilsynGrunnlag);
+    var avvikListe = nettoBarnetilsynPeriode.validerInput(beregnNettoBarnetilsynGrunnlag);
     if (avvikListe.isEmpty()) {
-      beregnNettoBarnetilsynResultat = NettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
+      beregnNettoBarnetilsynResultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
     }
     return mapFraBusinessObject(avvikListe, beregnNettoBarnetilsynResultat);
   }
@@ -47,7 +48,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
   private BeregnNettoBarnetilsynGrunnlag mapTilBusinessObject(BeregnNettoBarnetilsynGrunnlagCore beregnNettoBarnetilsynGrunnlagCore) {
     var beregnDatoFra = beregnNettoBarnetilsynGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnNettoBarnetilsynGrunnlagCore.getBeregnDatoTil();
-    var nettoBarnetilsynPeriodeListe = mapNettoBarnetilsynPeriodeListe(beregnNettoBarnetilsynGrunnlagCore.getNettoBarnetilsynPeriodeListe());
+    var nettoBarnetilsynPeriodeListe = mapFaktiskUtgiftBarnetilsynPeriodeListe(beregnNettoBarnetilsynGrunnlagCore.getNettoBarnetilsynPeriodeListe());
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnNettoBarnetilsynGrunnlagCore.getSjablonPeriodeListe());
 
     return new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, nettoBarnetilsynPeriodeListe, sjablonPeriodeListe);
@@ -72,16 +73,17 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     return sjablonPeriodeListe;
   }
 
-  private List<NettoBarnetilsynPeriode> mapNettoBarnetilsynPeriodeListe(List<NettoBarnetilsynPeriodeCore> nettoBarnetilsynPeriodeListeCore) {
-    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
-    for (NettoBarnetilsynPeriodeCore nettoBarnetilsynPeriodeCore : nettoBarnetilsynPeriodeListeCore) {
-      nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
+  private List<FaktiskUtgiftBarnetilsynPeriode> mapFaktiskUtgiftBarnetilsynPeriodeListe(
+      List<FaktiskUtgiftBarnetilsynPeriodeCore> faktiskUtgiftBarnetilsynPeriodeListeCore) {
+    var faktiskUtgiftBarnetilsynPeriodeListe = new ArrayList<FaktiskUtgiftBarnetilsynPeriode>();
+    for (NettoBarnetilsynPeriodeCore nettoBarnetilsynPeriodeCore : faktiskUtgiftBarnetilsynPeriodeListeCore) {
+      faktiskUtgiftBarnetilsynPeriodeListe.add(new FaktiskUtgiftBarnetilsynPeriode(
           new Periode(nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoFra(),
               nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoTil()),
           nettoBarnetilsynPeriodeCore.getNettoBarnetilsynSoknadsbarnFodselsdato(),
           nettoBarnetilsynPeriodeCore.getNettoBarnetilsynBelop()));
     }
-    return nettoBarnetilsynPeriodeListe;
+    return faktiskUtgiftBarnetilsynPeriodeListe;
   }
 
 
@@ -105,7 +107,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(NettoBarnetilsynResultat.getResultatNettoBarnetilsynBelop()),
-          new ResultatGrunnlagCore(NettoBarnetilsynResultatGrunnlag.getSoknadBarnAlder(),
+          new ResultatGrunnlagCore(NettoBarnetilsynResultatGrunnlag.get .getSoknadBarnAlder(),
               NettoBarnetilsynResultatGrunnlag.getNettoBarnetilsynBelop(),
               mapResultatGrunnlagSjabloner(NettoBarnetilsynResultatGrunnlag.getSjablonListe()))));
     }

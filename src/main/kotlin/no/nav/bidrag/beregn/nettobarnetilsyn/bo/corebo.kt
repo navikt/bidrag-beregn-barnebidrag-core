@@ -10,7 +10,7 @@ import java.time.LocalDate
 data class BeregnNettoBarnetilsynGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriode>,
+    val faktiskUtgiftBarnetilsynPeriodeListe: List<FaktiskUtgiftBarnetilsynPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
@@ -31,6 +31,9 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class BeregnNettoBarnetilsynGrunnlagPeriodisert(
-    val soknadBarnAlder: Int,
-    val nettoBarnetilsynBelop: Double,
+    val faktiskUtgiftBarnetilsynBelopListe: List<FaktiskUtgiftBarnetilsyn>,
     val sjablonListe: List<Sjablon>)
+
+data class FaktiskUtgiftBarnetilsyn(
+    val soknadBarnAlder: Int,
+    val faktiskUtgiftBarnetilsynBelop: Double)
