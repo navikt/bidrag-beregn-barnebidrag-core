@@ -70,7 +70,7 @@ public class NettoBarnetilsynCoreTest {
         () -> assertThat(beregnNettoBarnetilsynResultatCore).isNotNull(),
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getAvvikListe()).isEmpty(),
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
 
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2017-01-01")),
