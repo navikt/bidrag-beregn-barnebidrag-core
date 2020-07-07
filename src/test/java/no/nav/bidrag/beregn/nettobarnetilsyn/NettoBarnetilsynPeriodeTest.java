@@ -18,122 +18,55 @@ import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
-import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonadPeriode;
-import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlag;
-import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadResultat;
-import no.nav.bidrag.beregn.underholdskostnad.bo.ForpleiningUtgiftPeriode;
-import no.nav.bidrag.beregn.underholdskostnad.bo.NettoBarnetilsynPeriode;
-import no.nav.bidrag.beregn.underholdskostnad.periode.UnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
 import org.junit.jupiter.api.Test;
 
 public class NettoBarnetilsynPeriodeTest {
-  private UnderholdskostnadPeriode underholdskostnadPeriode = UnderholdskostnadPeriode.getInstance();
+  private NettoBarnetilsynPeriode nettoBarnetilsynPeriode = NettoBarnetilsynPeriode.getInstance();
 
   @Test
   void lagGrunnlagTest() {
     System.out.println("Starter test");
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2020-01-01");
-//    var beregnDatoTil = LocalDate.parse("2019-06-01");
-    var soknadsbarnFodselsdato = LocalDate.parse("2008-01-29");
 
-    BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag =
-        new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
-        lagBarnetilsynMedStonadGrunnlag(), lagNettoBarnetilsynGrunnlag(), lagForpleiningUtgiftGrunnlag()
-            ,lagSjablonGrunnlag());
+    BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, lagFaktiskUtgiftGrunnlag(),
+            lagSjablonGrunnlag());
 
-    var resultat = underholdskostnadPeriode.beregnPerioder(beregnUnderholdskostnadGrunnlag);
+    var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
     assertThat(resultat).isNotNull();
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(6),
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSoknadBarnAlder()).isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad()).isEqualTo(Double.valueOf(4737d)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getSoknadBarnAlder()).isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad()).isEqualTo(Double.valueOf(5848d)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getForpleiningUtgiftBelop()).isEqualTo(Double.valueOf(123d)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlag().getSoknadBarnAlder()).isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad()).isEqualTo(Double.valueOf(7070d)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatGrunnlag().getSoknadBarnAlder()).isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatBelopUnderholdskostnad()).isEqualTo(Double.valueOf(7070d)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlag().getSoknadBarnAlder()).isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatBeregning().getResultatBelopUnderholdskostnad()).isEqualTo(Double.valueOf(7181d)),
-
-        // Barnet har fyllt 11 år og skal ha høyere forbruksutgifter enn de første periodene
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlag().getSoknadBarnAlder()).isEqualTo(11),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregning().getResultatBelopUnderholdskostnad()).isEqualTo(Double.valueOf(8167d))
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getFaktiskUtgiftBelopListe().get(0).getFaktiskUtgiftBelop())
+            .isEqualTo(2d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBeregningListe().get(0).getResultatBelop())
+            .isEqualTo(Double.valueOf(2d))
 
     );
 
     printGrunnlagResultat(resultat);
   }
 
-  private List<BarnetilsynMedStonadPeriode> lagBarnetilsynMedStonadGrunnlag(){
-    var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriode>();
+  private List<FaktiskUtgiftPeriode> lagFaktiskUtgiftGrunnlag(){
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
 
-    barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
-        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-07-01")),
-        "DU", "64"));
-    barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-01-01")),
-        "DU", "64"));
-    barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
-        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-03-01")),
-        "DU", "64"));
-    barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
-        new Periode(LocalDate.parse("2019-03-01"), LocalDate.parse("2019-07-01")),
-        "DU", "64"));
-    barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
-        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-12-01")),
-        "DU", "64"));
+        LocalDate.parse("2010-01-01"), 1, 2d));
 
-    return barnetilsynMedStonadPeriodeListe;
-  }
 
-  private List<NettoBarnetilsynPeriode> lagNettoBarnetilsynGrunnlag(){
-    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
-    nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-        new Periode(LocalDate.parse("2016-01-01"), LocalDate.parse("2019-01-01")), 555d));
-    nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-04-01")), 1666d));
-    nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-        new Periode(LocalDate.parse("2019-04-01"), LocalDate.parse("2020-01-01")), 1777d));
-    nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-        new Periode(LocalDate.parse("2020-01-01"), null), 1));
-
-    return nettoBarnetilsynPeriodeListe;
-  }
-
-  private List<ForpleiningUtgiftPeriode> lagForpleiningUtgiftGrunnlag(){
-    var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriode>();
-    forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-        new Periode(LocalDate.parse("2001-01-01"), LocalDate.parse("2017-01-01")), 123d));
-    forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2019-02-01")), 123d));
-    forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-        new Periode(LocalDate.parse("2019-02-01"), LocalDate.parse("2020-01-01")), 1345d));
-
-    return forpleiningUtgiftPeriodeListe;
+    return faktiskUtgiftPeriodeListe;
   }
 
   private List<SjablonPeriode> lagSjablonGrunnlag() {
@@ -174,12 +107,12 @@ public class NettoBarnetilsynPeriodeTest {
     return sjablonPeriodeListe;
   }
 
-  private void printGrunnlagResultat(BeregnUnderholdskostnadResultat beregnUnderholdskostnadResultat) {
-    beregnUnderholdskostnadResultat.getResultatPeriodeListe().stream().sorted(
+  private void printGrunnlagResultat(BeregnNettoBarnetilsynResultat beregnNettoBarnetilsynResultat) {
+    beregnNettoBarnetilsynResultat.getResultatPeriodeListe().stream().sorted(
         Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFra()))
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
                 + sortedPR.getResultatDatoFraTil().getDatoTil()
-                + "; " + "Beløp: " + sortedPR.getResultatBeregning().getResultatBelopUnderholdskostnad()));
+                + "; " + "Beløp: " + sortedPR.getResultatBeregning().getResultatBeregningListe()));
   }
 }

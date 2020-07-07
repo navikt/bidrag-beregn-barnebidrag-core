@@ -3,14 +3,13 @@ package no.nav.bidrag.beregn.nettobarnetilsyn.bo
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode
 import java.time.LocalDate
 
 // Grunnlag periode
 data class BeregnNettoBarnetilsynGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val faktiskUtgiftBarnetilsynPeriodeListe: List<FaktiskUtgiftBarnetilsynPeriode>,
+    val faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
@@ -21,19 +20,25 @@ data class BeregnNettoBarnetilsynResultat(
 
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: ResultatBeregning,
+    val resultatBeregning: ResultatBeregningListe,
     val resultatGrunnlag: BeregnNettoBarnetilsynGrunnlagPeriodisert
 )
 
+data class ResultatBeregningListe(
+    val resultatBeregningListe: List<ResultatBeregning>
+)
+
 data class ResultatBeregning(
-    val resultatNettoBarnetilsynBelop: Double
+    val resultatPersonIdSoknadsbard: Int,
+    val resultatBelop: Double
 )
 
 // Grunnlag beregning
 data class BeregnNettoBarnetilsynGrunnlagPeriodisert(
-    val faktiskUtgiftBarnetilsynBelopListe: List<FaktiskUtgiftBarnetilsyn>,
+    val faktiskUtgiftBelopListe: List<FaktiskUtgift>,
     val sjablonListe: List<Sjablon>)
 
-data class FaktiskUtgiftBarnetilsyn(
-    val soknadBarnAlder: Int,
-    val faktiskUtgiftBarnetilsynBelop: Double)
+data class FaktiskUtgift(
+    val soknadsbarnFodselsdato: LocalDate,
+    val soknadsbarnPersonId: Int,
+    val faktiskUtgiftBelop: Double)

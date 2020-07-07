@@ -20,103 +20,78 @@ import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
-import no.nav.bidrag.beregn.underholdskostnad.UnderholdskostnadCore;
-import no.nav.bidrag.beregn.underholdskostnad.UnderholdskostnadCoreImpl;
-import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonad;
-import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadResultat;
-import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatPeriode;
-import no.nav.bidrag.beregn.underholdskostnad.dto.BarnetilsynMedStonadPeriodeCore;
-import no.nav.bidrag.beregn.underholdskostnad.dto.BeregnUnderholdskostnadGrunnlagCore;
-import no.nav.bidrag.beregn.underholdskostnad.dto.ForpleiningUtgiftPeriodeCore;
-import no.nav.bidrag.beregn.underholdskostnad.dto.NettoBarnetilsynPeriodeCore;
-import no.nav.bidrag.beregn.underholdskostnad.periode.UnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregningListe;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynGrunnlagCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftPeriodeCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-@DisplayName("UnderholdskostnadCore (dto-test)")
+@DisplayName("NettoBarnetilsynCore (dto-test)")
 public class NettoBarnetilsynCoreTest {
 
-  private UnderholdskostnadCore underholdskostnadCore;
+  private NettoBarnetilsynCore nettoBarnetilsynCore;
 
   private List<Sjablon> sjablonListe = new ArrayList<>();
 
   @Mock
-  private UnderholdskostnadPeriode underholdskostnadPeriodeMock;
+  private NettoBarnetilsynPeriode nettoBarnetilsynPeriodeMock;
 
-  private BeregnUnderholdskostnadGrunnlagCore beregnUnderholdskostnadGrunnlagCore;
-  private BeregnUnderholdskostnadResultat underholdskostnadPeriodeResultat;
+  private BeregnNettoBarnetilsynGrunnlagCore beregnNettoBarnetilsynGrunnlagCore;
+  private BeregnNettoBarnetilsynResultat nettoBarnetilsynPeriodeResultat;
   private List<Avvik> avvikListe;
 
   @BeforeEach
   void initMocksAndService() {
     MockitoAnnotations.initMocks(this);
-    underholdskostnadCore = new UnderholdskostnadCoreImpl(underholdskostnadPeriodeMock);
+    nettoBarnetilsynCore = new NettoBarnetilsynCoreImpl(nettoBarnetilsynPeriodeMock);
   }
 
   @Test
-  @DisplayName("Skal beregne underholdskostnad")
-  void skalBeregneunderholdskostnad() {
-    byggUnderholdskostnadPeriodeGrunnlagCore();
-    byggUnderholdskostnadPeriodeResultat();
+  @DisplayName("Skal beregne NettoBarnetilsyn")
+  void skalBeregneNettoBarnetilsyn() {
+    byggNettoBarnetilsynPeriodeGrunnlagCore();
+    byggNettoBarnetilsynPeriodeResultat();
 
-    when(underholdskostnadPeriodeMock.beregnPerioder(any())).thenReturn(
-        underholdskostnadPeriodeResultat);
-    var beregnUnderholdskostnadResultatCore = underholdskostnadCore.beregnUnderholdskostnad(
-        beregnUnderholdskostnadGrunnlagCore);
+    when(nettoBarnetilsynPeriodeMock.beregnPerioder(any())).thenReturn(
+        nettoBarnetilsynPeriodeResultat);
+    var beregnNettoBarnetilsynResultatCore = nettoBarnetilsynCore.beregnNettoBarnetilsyn(
+        beregnNettoBarnetilsynGrunnlagCore);
 
     assertAll(
-        () -> assertThat(beregnUnderholdskostnadResultatCore).isNotNull(),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getAvvikListe()).isEmpty(),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore).isNotNull(),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getAvvikListe()).isEmpty(),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
 
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(666)),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBarnetilsynFaktiskUtgiftBruttoBelop())
-            .isEqualTo(666),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getForpleiningUtgiftBelop())
-            .isEqualTo(777),
-        () -> assertThat(
-            beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBarnetilsynMedStonadTilsynType())
-            .isEqualTo("DU"),
 
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
-            .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
-            .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(667)),
-
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
-            .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
-            .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(668)),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
             .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
 
     );
   }
 
   @Test
-  @DisplayName("Skal ikke beregne underholdskostnad ved avvik")
+  @DisplayName("Skal ikke beregne NettoBarnetilsyn ved avvik")
   void skalIkkeBeregneBidragsevneVedAvvik() {
-    byggUnderholdskostnadPeriodeGrunnlagCore();
+    byggNettoBarnetilsynPeriodeGrunnlagCore();
     byggAvvik();
 
-    when(underholdskostnadPeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = underholdskostnadCore.beregnUnderholdskostnad(
-        beregnUnderholdskostnadGrunnlagCore);
+    when(nettoBarnetilsynPeriodeMock.validerInput(any())).thenReturn(avvikListe);
+    var beregnbidragsevneResultatCore = nettoBarnetilsynCore.beregnNettoBarnetilsyn(
+        beregnNettoBarnetilsynGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
@@ -130,22 +105,13 @@ public class NettoBarnetilsynCoreTest {
   }
 
 
-  private void byggUnderholdskostnadPeriodeGrunnlagCore() {
+  private void byggNettoBarnetilsynPeriodeGrunnlagCore() {
 
-    var barnetilsynMedStonadPeriode = new BarnetilsynMedStonadPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), "DU", "64");
-    var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriodeCore>();
-    barnetilsynMedStonadPeriodeListe.add(barnetilsynMedStonadPeriode);
-
-    var nettoBarnetilsynPeriode = new NettoBarnetilsynPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), 666d);
-    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriodeCore>();
-    nettoBarnetilsynPeriodeListe.add(nettoBarnetilsynPeriode);
-
-    var forpleiningUtgiftPeriode = new ForpleiningUtgiftPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), 666d);
-    var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriodeCore>();
-    forpleiningUtgiftPeriodeListe.add(forpleiningUtgiftPeriode);
+    var faktiskUtgiftPeriode = new FaktiskUtgiftPeriodeCore(
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), LocalDate.parse("2010-01-01"),
+        1, 2);
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriodeCore>();
+    faktiskUtgiftPeriodeListe.add(faktiskUtgiftPeriode);
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
@@ -153,41 +119,22 @@ public class NettoBarnetilsynCoreTest {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
-    beregnUnderholdskostnadGrunnlagCore = new BeregnUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        LocalDate.parse("2017-01-01"), barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe, forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
+    beregnNettoBarnetilsynGrunnlagCore = new BeregnNettoBarnetilsynGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
+        faktiskUtgiftPeriodeListe, sjablonPeriodeListe);
   }
 
-  private void byggUnderholdskostnadPeriodeResultat() {
+  private void byggNettoBarnetilsynPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(Double.valueOf(666)),
-        new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
-            666,
-            777,
+        new ResultatBeregningListe(Arrays.asList(new ResultatBeregning(1, 1))),
+        new BeregnNettoBarnetilsynGrunnlagPeriodisert(
+            Arrays.asList(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3)),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(Double.valueOf(667)),
-        new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
-            667,
-            778,
-            Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
-
-    periodeResultatListe.add(new ResultatPeriode(
-        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(Double.valueOf(668)),
-        new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
-            668,
-            778,
-            Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
-
-    underholdskostnadPeriodeResultat = new BeregnUnderholdskostnadResultat(periodeResultatListe);
+    nettoBarnetilsynPeriodeResultat = new BeregnNettoBarnetilsynResultat(periodeResultatListe);
   }
 
   private void byggAvvik() {

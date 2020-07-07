@@ -1,11 +1,11 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregningListe;
 
 public interface NettoBarnetilsynBeregning {
 
-  ResultatBeregning beregn(
+  ResultatBeregningListe beregn(
       BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert);
 
   static NettoBarnetilsynBeregning getInstance(){

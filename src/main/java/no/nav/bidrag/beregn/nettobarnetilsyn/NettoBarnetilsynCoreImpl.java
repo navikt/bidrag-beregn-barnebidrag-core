@@ -17,12 +17,16 @@ import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftBarnetilsynPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynResultatCore;
-import no.nav.bidrag.beregn.nettobarnetilsyn.dto.NettoBarnetilsynPeriodeCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftPeriodeCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatBeregningCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatBeregningListeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
@@ -48,7 +52,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
   private BeregnNettoBarnetilsynGrunnlag mapTilBusinessObject(BeregnNettoBarnetilsynGrunnlagCore beregnNettoBarnetilsynGrunnlagCore) {
     var beregnDatoFra = beregnNettoBarnetilsynGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnNettoBarnetilsynGrunnlagCore.getBeregnDatoTil();
-    var nettoBarnetilsynPeriodeListe = mapFaktiskUtgiftBarnetilsynPeriodeListe(beregnNettoBarnetilsynGrunnlagCore.getNettoBarnetilsynPeriodeListe());
+    var nettoBarnetilsynPeriodeListe = mapFaktiskUtgiftBarnetilsynPeriodeListe(beregnNettoBarnetilsynGrunnlagCore.getFaktiskUtgiftPeriodeListe());
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnNettoBarnetilsynGrunnlagCore.getSjablonPeriodeListe());
 
     return new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, nettoBarnetilsynPeriodeListe, sjablonPeriodeListe);
@@ -73,15 +77,16 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     return sjablonPeriodeListe;
   }
 
-  private List<FaktiskUtgiftBarnetilsynPeriode> mapFaktiskUtgiftBarnetilsynPeriodeListe(
-      List<FaktiskUtgiftBarnetilsynPeriodeCore> faktiskUtgiftBarnetilsynPeriodeListeCore) {
-    var faktiskUtgiftBarnetilsynPeriodeListe = new ArrayList<FaktiskUtgiftBarnetilsynPeriode>();
-    for (NettoBarnetilsynPeriodeCore nettoBarnetilsynPeriodeCore : faktiskUtgiftBarnetilsynPeriodeListeCore) {
-      faktiskUtgiftBarnetilsynPeriodeListe.add(new FaktiskUtgiftBarnetilsynPeriode(
-          new Periode(nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoFra(),
-              nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoTil()),
-          nettoBarnetilsynPeriodeCore.getNettoBarnetilsynSoknadsbarnFodselsdato(),
-          nettoBarnetilsynPeriodeCore.getNettoBarnetilsynBelop()));
+  private List<FaktiskUtgiftPeriode> mapFaktiskUtgiftBarnetilsynPeriodeListe(
+      List<FaktiskUtgiftPeriodeCore> faktiskUtgiftBarnetilsynPeriodeListeCore) {
+    var faktiskUtgiftBarnetilsynPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
+    for (FaktiskUtgiftPeriodeCore faktiskUtgiftPeriodeCore : faktiskUtgiftBarnetilsynPeriodeListeCore) {
+      faktiskUtgiftBarnetilsynPeriodeListe.add(new FaktiskUtgiftPeriode(
+          new Periode(faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getPeriodeDatoFra(),
+              faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getPeriodeDatoTil()),
+          faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnFodselsdato(),
+          faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnPersonId(),
+          faktiskUtgiftPeriodeCore.getFaktiskUtgiftBelop()));
     }
     return faktiskUtgiftBarnetilsynPeriodeListe;
   }
@@ -99,19 +104,39 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     return avvikCoreListe;
   }
 
-  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> periodeResultatListe) {
+  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
-    for (ResultatPeriode periodeResultat : periodeResultatListe) {
-      var NettoBarnetilsynResultat = periodeResultat.getResultatBeregning();
-      var NettoBarnetilsynResultatGrunnlag = periodeResultat.getResultatGrunnlag();
+    for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
+      var nettoBarnetilsynResultatBeregning = resultatPeriode.getResultatBeregning();
+      var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(NettoBarnetilsynResultat.getResultatNettoBarnetilsynBelop()),
-          new ResultatGrunnlagCore(NettoBarnetilsynResultatGrunnlag.get .getSoknadBarnAlder(),
-              NettoBarnetilsynResultatGrunnlag.getNettoBarnetilsynBelop(),
-              mapResultatGrunnlagSjabloner(NettoBarnetilsynResultatGrunnlag.getSjablonListe()))));
+          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
+          new ResultatBeregningListeCore(mapResultatBeregning(nettoBarnetilsynResultatBeregning.getResultatBeregningListe())),
+          new ResultatGrunnlagCore(mapResultatGrunnlag(nettoBarnetilsynResultatGrunnlag.getFaktiskUtgiftBelopListe()),
+              mapResultatGrunnlagSjabloner(nettoBarnetilsynResultatGrunnlag.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
+  }
+
+  private List<ResultatBeregningCore>mapResultatBeregning(List<ResultatBeregning> resultatBeregningListe) {
+    var resultatBeregningListeCore = new ArrayList<ResultatBeregningCore>();
+    for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
+      resultatBeregningListeCore
+          .add(new ResultatBeregningCore(resultatBeregning.getResultatPersonIdSoknadsbard(),
+              resultatBeregning.getResultatBelop()));
+    }
+    return resultatBeregningListeCore;
+  }
+
+  private List<FaktiskUtgiftCore> mapResultatGrunnlag(List<FaktiskUtgift> faktiskUtgiftListe) {
+    var faktiskUtgiftListeCore = new ArrayList<FaktiskUtgiftCore>();
+    for (FaktiskUtgift faktiskUtgift : faktiskUtgiftListe) {
+      faktiskUtgiftListeCore.add(new FaktiskUtgiftCore(
+          faktiskUtgift.getSoknadsbarnFodselsdato(),
+          faktiskUtgift.getSoknadsbarnPersonId(),
+          faktiskUtgift.getFaktiskUtgiftBelop()));
+    }
+    return faktiskUtgiftListeCore;
   }
 
   private List<SjablonCore> mapResultatGrunnlagSjabloner(List<Sjablon> resultatGrunnlagSjablonListe) {
@@ -131,7 +156,5 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
 
     return resultatGrunnlagSjablonListeCore;
   }
-
-
 
 }
