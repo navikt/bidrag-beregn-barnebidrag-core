@@ -48,7 +48,7 @@ public class NettoBarnetilsynPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getFaktiskUtgiftBelopListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(2d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(2d))

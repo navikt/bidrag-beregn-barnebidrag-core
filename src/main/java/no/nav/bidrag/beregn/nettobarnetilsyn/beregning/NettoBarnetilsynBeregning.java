@@ -8,6 +8,11 @@ public interface NettoBarnetilsynBeregning {
   ResultatBeregningListe beregn(
       BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert);
 
+  Double beregnFradragsbelopPerBarn(
+      BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert,
+      int antallBarn,
+      double tilsynsbelop);
+
   static NettoBarnetilsynBeregning getInstance(){
     return new NettoBarnetilsynBeregningImpl();
   }

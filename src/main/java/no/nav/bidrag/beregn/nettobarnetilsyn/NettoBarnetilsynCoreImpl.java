@@ -112,7 +112,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningListeCore(mapResultatBeregning(nettoBarnetilsynResultatBeregning.getResultatBeregningListe())),
-          new ResultatGrunnlagCore(mapResultatGrunnlag(nettoBarnetilsynResultatGrunnlag.getFaktiskUtgiftBelopListe()),
+          new ResultatGrunnlagCore(mapResultatGrunnlag(nettoBarnetilsynResultatGrunnlag.getFaktiskUtgiftListe()),
               mapResultatGrunnlagSjabloner(nettoBarnetilsynResultatGrunnlag.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;

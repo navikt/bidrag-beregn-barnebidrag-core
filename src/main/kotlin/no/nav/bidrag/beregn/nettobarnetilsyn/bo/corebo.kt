@@ -35,7 +35,7 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class BeregnNettoBarnetilsynGrunnlagPeriodisert(
-    val faktiskUtgiftBelopListe: List<FaktiskUtgift>,
+    val faktiskUtgiftListe: List<FaktiskUtgift>,
     val sjablonListe: List<Sjablon>)
 
 data class FaktiskUtgift(
