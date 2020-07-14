@@ -5,6 +5,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -43,9 +44,11 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    // Lager liste for å sikre brudd det året hvert barn i beregningen fyller 12 år.
+    // Metode beregnSoknadbarn12aarsdagSet returneres et Hashset<Periode> med alle 12årsdager i grunnlaget,
+    // konverterer det til ArrayList under.
+    // Lager liste for å sikre brudd  01.01 året etter hvert barn i beregningen fyller 12 år.
     // Netto barnetilsyn er kun gyldig ut det året barnet fyller 12 år
-    var bruddliste12Aar = beregnSoknadbarn12aarsdagListe(beregnNettoBarnetilsynGrunnlag);
+    ArrayList<Periode> bruddliste12Aar = new ArrayList<>(beregnSoknadbarn12aarsdagListe(beregnNettoBarnetilsynGrunnlag));
 
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
@@ -69,8 +72,12 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
-      var faktiskUtgiftListe = justertFaktiskUtgiftPeriodeListe.stream().filter(i ->
-          i.getDatoFraTil().overlapperMed(beregningsperiode))
+      // Filtrerer vekk forekomster for barn som har fyllt 12 år i tillegg til der innsendt beløp ikke er større enn 0
+      var faktiskUtgiftListe = justertFaktiskUtgiftPeriodeListe.stream()
+          .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .filter(i -> Double.valueOf(i.getFaktiskUtgiftBelop()).compareTo(0.0) > 0)
+          .filter(i -> beregnSoknadbarn12aarsdag(i.getFaktiskUtgiftSoknadsbarnFodselsdato())
+              .compareTo(beregningsperiode.getDatoTil()) >= 0)
           .map(faktiskUtgiftPeriode -> new FaktiskUtgift(faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnFodselsdato(),
               faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnPersonId(),
               faktiskUtgiftPeriode.getFaktiskUtgiftBelop())).collect(toList());
@@ -94,20 +101,24 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
   }
 
   @Override
-  public List<Periode> beregnSoknadbarn12aarsdagListe(BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag) {
-    var tolvaarsdagListe = new ArrayList<Periode>();
+  public HashSet<Periode> beregnSoknadbarn12aarsdagListe(BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag) {
+    var tolvaarsdagListe = new HashSet<Periode>();
     LocalDate tolvaarsdag;
 
     for (FaktiskUtgiftPeriode grunnlag: beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftPeriodeListe()) {
-      tolvaarsdag = grunnlag.getFaktiskUtgiftSoknadsbarnFodselsdato().plusYears(12).withMonth(12).withDayOfMonth(31);
-      System.out.println("Fødselsdato: " + grunnlag.getFaktiskUtgiftSoknadsbarnFodselsdato());
-      System.out.println("12-Årsdag: " + tolvaarsdag);
-      System.out.println(" ");
+      tolvaarsdag = grunnlag.getFaktiskUtgiftSoknadsbarnFodselsdato().plusYears(13).withMonth(01).withDayOfMonth(01);
+//      System.out.println("Fødselsdato: " + grunnlag.getFaktiskUtgiftSoknadsbarnFodselsdato());
+//      System.out.println("12-Årsdag: " + tolvaarsdag);
+//      System.out.println(" ");
       tolvaarsdagListe.add(new Periode(tolvaarsdag, tolvaarsdag));
     }
     return tolvaarsdagListe;
   }
 
+  @Override
+  public LocalDate beregnSoknadbarn12aarsdag(LocalDate fodselsdato) {
+    return fodselsdato.plusYears(13).withMonth(01).withDayOfMonth(01);
+  }
 
   // Validerer at input-verdier til NettoBarnetilsynsberegning er gyldige
   public List<Avvik> validerInput(BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag) {

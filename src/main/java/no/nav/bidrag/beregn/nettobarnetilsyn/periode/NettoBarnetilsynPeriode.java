@@ -1,5 +1,7 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.periode;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -17,7 +19,9 @@ public interface NettoBarnetilsynPeriode {
     return new NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning.getInstance());
   }
 
-  List<Periode> beregnSoknadbarn12aarsdagListe(
+  HashSet<Periode> beregnSoknadbarn12aarsdagListe(
       BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag);
+
+  LocalDate beregnSoknadbarn12aarsdag(LocalDate fodselsdato);
 
 }

@@ -16,8 +16,6 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregningListe;
 
 public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning {
 
-//  private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
-
   @Override
   public ResultatBeregningListe beregn(
       BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert) {
@@ -27,14 +25,14 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     Double fradragsbelopPerBarn;
 //    Double Belop = 0d;
 
-    int antallBarn = beregnNettoBarnetilsynGrunnlagPeriodisert.getFaktiskUtgiftListe().size();
+    int antallBarnIPerioden = beregnNettoBarnetilsynGrunnlagPeriodisert.getFaktiskUtgiftListe().size();
 
-/*    int antallBarn = (int)beregnNettoBarnetilsynGrunnlagPeriodisert.getFaktiskUtgiftListe()
+/*    int antallBarnIPerioden = (int)beregnNettoBarnetilsynGrunnlagPeriodisert.getFaktiskUtgiftListe()
         .stream()
         .map(FaktiskUtgift::getSoknadsbarnPersonId)
         .distinct()
         .count();
-    System.out.println("Antall barn: " + antallBarn);*/
+    System.out.println("Antall barn: " + antallBarnIPerioden);*/
 
 
 
@@ -57,10 +55,10 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
 
 
 
-    System.out.println("Antall barn: " + antallBarn);
+    System.out.println("Antall barn i perioden: " + antallBarnIPerioden);
 
     var maksTilsynsbelop = SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
-        SjablonNavn.MAKS_TILSYN, antallBarn);
+        SjablonNavn.MAKS_TILSYN, antallBarnIPerioden);
     System.out.println("Maks tilsynsbeløp: " + maksTilsynsbelop);
 
     Double samletFaktiskUtgiftBelop = faktiskUtgiftListeSortertPaaBarn
@@ -73,13 +71,13 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     Boolean brukMaksTilsynsbelop;
 
     if (samletFaktiskUtgiftBelop > SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
-        SjablonNavn.MAKS_TILSYN, antallBarn)) {
+        SjablonNavn.MAKS_TILSYN, antallBarnIPerioden)) {
       brukMaksTilsynsbelop = Boolean.TRUE;
-      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(beregnNettoBarnetilsynGrunnlagPeriodisert, antallBarn,
+      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(beregnNettoBarnetilsynGrunnlagPeriodisert, antallBarnIPerioden,
           maksTilsynsbelop);
     } else {
       brukMaksTilsynsbelop = Boolean.FALSE;
-      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(beregnNettoBarnetilsynGrunnlagPeriodisert, antallBarn,
+      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(beregnNettoBarnetilsynGrunnlagPeriodisert, antallBarnIPerioden,
           samletFaktiskUtgiftBelop);
     }
 
@@ -89,7 +87,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         resultatBelop = (faktiskUtgift.getFaktiskUtgiftBelop()/samletFaktiskUtgiftBelop)
             *
             SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
-                SjablonNavn.MAKS_TILSYN, antallBarn);
+                SjablonNavn.MAKS_TILSYN, antallBarnIPerioden);
       }
       else {
         resultatBelop = faktiskUtgift.getFaktiskUtgiftBelop();
