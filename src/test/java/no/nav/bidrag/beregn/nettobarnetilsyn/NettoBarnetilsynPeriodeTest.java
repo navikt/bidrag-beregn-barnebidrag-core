@@ -51,8 +51,6 @@ public class NettoBarnetilsynPeriodeTest {
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
-    assertThat(resultat).isNotNull();
-
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
@@ -104,8 +102,6 @@ public class NettoBarnetilsynPeriodeTest {
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
-    assertThat(resultat).isNotNull();
-
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
@@ -154,8 +150,6 @@ public class NettoBarnetilsynPeriodeTest {
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
-    assertThat(resultat).isNotNull();
-
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
@@ -186,8 +180,6 @@ public class NettoBarnetilsynPeriodeTest {
             lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
-
-    assertThat(resultat).isNotNull();
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
@@ -225,8 +217,6 @@ public class NettoBarnetilsynPeriodeTest {
             lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
-
-    assertThat(resultat).isNotNull();
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
