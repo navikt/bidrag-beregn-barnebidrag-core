@@ -91,7 +91,6 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     return faktiskUtgiftBarnetilsynPeriodeListe;
   }
 
-
   private BeregnNettoBarnetilsynResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnNettoBarnetilsynResultat resultat) {
     return new BeregnNettoBarnetilsynResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
