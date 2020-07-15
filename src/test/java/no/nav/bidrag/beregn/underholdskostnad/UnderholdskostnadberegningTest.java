@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.underholdskostnad;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
+import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.underholdskostnad.beregning.UnderholdskostnadberegningImpl;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonad;

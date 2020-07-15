@@ -24,13 +24,15 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadResultat
 import no.nav.bidrag.beregn.underholdskostnad.bo.ForpleiningUtgiftPeriode;
 import no.nav.bidrag.beregn.underholdskostnad.bo.NettoBarnetilsynPeriode;
 import no.nav.bidrag.beregn.underholdskostnad.periode.UnderholdskostnadPeriode;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class UnderholdskostnadPeriodeTest {
   private UnderholdskostnadPeriode underholdskostnadPeriode = UnderholdskostnadPeriode.getInstance();
 
+  @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
   @Test
-  void lagGrunnlagTest() {
+  void testPeriodisering() {
     System.out.println("Starter test");
     var beregnDatoFra = LocalDate.parse("2018-07-01");
     var beregnDatoTil = LocalDate.parse("2020-01-01");
