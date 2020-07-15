@@ -43,8 +43,8 @@ public class UnderholdskostnadberegningImpl implements Underholdskostnadberegnin
         SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
             SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP);
 
-    // Legger til forpleiningsutgifter
-    tempBeregnetUnderholdskostnad +=
+    // Trekker fra forpleiningsutgifter
+    tempBeregnetUnderholdskostnad -=
         beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
 
     // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
