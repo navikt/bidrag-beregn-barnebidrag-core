@@ -44,7 +44,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    // Metode beregnSoknadbarn12aarsdagSet returneres et Hashset<Periode> med alle 12årsdager i grunnlaget,
+    // Metode beregnSoknadbarn12aarsdagSet returnerer et Hashset<Periode> med alle 12årsdager i grunnlaget,
     // konverterer det til ArrayList under.
     // Lager liste for å sikre brudd  01.01 året etter hvert barn i beregningen fyller 12 år.
     // Netto barnetilsyn er kun gyldig ut det året barnet fyller 12 år
@@ -96,7 +96,6 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
           beregnNettoBarnetilsynGrunnlagPeriodisert));
     }
 
-    //Slår sammen perioder med samme resultat
     return new BeregnNettoBarnetilsynResultat(resultatPeriodeListe);
   }
 
@@ -107,9 +106,6 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
 
     for (FaktiskUtgiftPeriode grunnlag: beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftPeriodeListe()) {
       tolvaarsdag = grunnlag.getFaktiskUtgiftSoknadsbarnFodselsdato().plusYears(13).withMonth(01).withDayOfMonth(01);
-//      System.out.println("Fødselsdato: " + grunnlag.getFaktiskUtgiftSoknadsbarnFodselsdato());
-//      System.out.println("12-Årsdag: " + tolvaarsdag);
-//      System.out.println(" ");
       tolvaarsdagListe.add(new Periode(tolvaarsdag, tolvaarsdag));
     }
     return tolvaarsdagListe;

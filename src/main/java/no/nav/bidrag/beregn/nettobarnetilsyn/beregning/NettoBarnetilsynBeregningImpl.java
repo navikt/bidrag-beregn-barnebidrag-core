@@ -1,8 +1,5 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
-import static java.util.stream.Collectors.toCollection;
-
-import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
@@ -23,18 +20,6 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
     Double resultatBelop;
     Double fradragsbelopPerBarn;
-//    Double Belop = 0d;
-
-    int antallBarnIPerioden = beregnNettoBarnetilsynGrunnlagPeriodisert.getFaktiskUtgiftListe().size();
-
-/*    int antallBarnIPerioden = (int)beregnNettoBarnetilsynGrunnlagPeriodisert.getFaktiskUtgiftListe()
-        .stream()
-        .map(FaktiskUtgift::getSoknadsbarnPersonId)
-        .distinct()
-        .count();
-    System.out.println("Antall barn: " + antallBarnIPerioden);*/
-
-
 
     var faktiskUtgiftListeSortertPaaBarn = beregnNettoBarnetilsynGrunnlagPeriodisert
         .getFaktiskUtgiftListe()
@@ -42,19 +27,9 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         .sorted(Comparator.comparingInt(FaktiskUtgift::getSoknadsbarnPersonId))
         .collect(Collectors.toList());
 
-        /*    ,
-        toCollection(ArrayList::new));
-        */
+    // faktiskUtgiftListeSortertPaaBarn må i tillegg summeres per barn før beregning.
 
-
-        //ArrayList<FaktiskUtgift>
-        /*.collect(Collectors.groupingBy(FaktiskUtgift::getSoknadsbarnPersonId),
-            Collectors.summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop),
-            Collectors.toCollection(ArrayList::new));
-*/
-
-
-
+    int antallBarnIPerioden = faktiskUtgiftListeSortertPaaBarn.size();
     System.out.println("Antall barn i perioden: " + antallBarnIPerioden);
 
     var maksTilsynsbelop = SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
@@ -105,7 +80,6 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
 
       resultatBeregningListe.add(new ResultatBeregning(faktiskUtgift.getSoknadsbarnPersonId(),
           Math.round(resultatBelop * 100.0) / 100.0));
-
     }
 
     return new ResultatBeregningListe(resultatBeregningListe);

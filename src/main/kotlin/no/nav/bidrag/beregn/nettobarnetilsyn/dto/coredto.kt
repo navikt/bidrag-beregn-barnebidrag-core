@@ -6,7 +6,6 @@ import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.time.LocalDate
 
-
 // Grunnlag periode
 data class BeregnNettoBarnetilsynGrunnlagCore(
     val beregnDatoFra: LocalDate,
@@ -21,7 +20,6 @@ data class FaktiskUtgiftPeriodeCore(
     val faktiskUtgiftSoknadsbarnPersonId: Int,
     val faktiskUtgiftBelop: Double
 )
-
 
 // Resultat
 data class BeregnNettoBarnetilsynResultatCore(
