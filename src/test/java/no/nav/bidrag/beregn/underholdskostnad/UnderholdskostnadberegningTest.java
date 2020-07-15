@@ -142,7 +142,7 @@ class UnderholdskostnadberegningTest {
         underholdskostnadberegning.beregn(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
-  @DisplayName("Test at forpleiningsutgifter blir lagt til underholdskostnad")
+  @DisplayName("Test at forpleiningsutgifter blir trukket fra underholdskostnad")
   @Test
   void testBeregningAlder11MedForpleiningsutgifter() {
 
@@ -156,7 +156,7 @@ class UnderholdskostnadberegningTest {
         sjablonListe
     );
 
-    assertEquals(7820d + 17d,
+    assertEquals(7820d - 17d,
         underholdskostnadberegning.beregn(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
