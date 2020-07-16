@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.2.5   | Endret       | Rettet navn i resultat på beregning av underholdskostnad
 0.2.4   | Endret       | Litt flere tester på periodisering
 0.2.3   | Endret       | Ryddet i koden og lagt til noen flere tester under periodisering
 0.2.2   | Endret       | Rettet feil, forpleiningsutgifter skal trekkes fra i beregning av underholdskostnad, ikke legges til
