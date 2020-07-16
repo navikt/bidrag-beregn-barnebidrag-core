@@ -79,7 +79,7 @@ public class UnderholdskostnadCoreTest {
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(Double.valueOf(666)),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBarnetilsynFaktiskUtgiftBruttoBelop())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getNettoBarnetilsynBelop())
             .isEqualTo(666),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getForpleiningUtgiftBelop())
             .isEqualTo(777),
