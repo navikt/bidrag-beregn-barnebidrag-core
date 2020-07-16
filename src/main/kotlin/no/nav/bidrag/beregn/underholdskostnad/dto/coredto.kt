@@ -55,7 +55,7 @@ data class ResultatGrunnlagCore(
     val soknadBarnAlder: Int,
     val barnetilsynMedStonadTilsynType: String,
     val barnetilsynMedStonadStonadType: String,
-    val barnetilsynFaktiskUtgiftBruttoBelop: Double,
+    val nettoBarnetilsynBelop: Double,
     val forpleiningUtgiftBelop: Double,
     val sjablonListe: List<SjablonCore>
 )
