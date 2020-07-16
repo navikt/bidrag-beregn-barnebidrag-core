@@ -59,9 +59,10 @@ class NettoBarnetilsynBeregningTest {
     );
   }
 
-  @DisplayName("Beregning med to barn, beløp over maks tilsynsbeløp, resultatet skal da beregnes fra sjablon maks tilsynsbeløp")
+  @DisplayName("Beregning med to barn, beløp over maks tilsynsbeløp, og fradragsbeløp over maks fradragsbeløp,  "
+      + "resultatet skal da beregnes fra sjablon maks tilsynsbeløp for to barn og sjablon maks fradragsbeløp for to barn")
   @Test
-  void testToBarnOverMaksTilsynsbelop() {
+  void testToBarnOverMaksTilsynsbelopogMaksFradragsbelop() {
 
     NettoBarnetilsynBeregningImpl nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
@@ -90,9 +91,10 @@ class NettoBarnetilsynBeregningTest {
     );
   }
 
-  @DisplayName("Beregning med tre barn, beløp over maks tilsynsbeløp, resultatet skal da beregnes fra sjablon maks tilsynsbeløp for tre barn")
+  @DisplayName("Beregning med tre barn, beløp over maks tilsynsbeløp, og fradragsbeløp over maks fradragsbeløp,  "
+      + "resultatet skal da beregnes fra sjablon maks tilsynsbeløp for tre barn og sjablon maks fradragsbeløp for tre barn")
   @Test
-  void testTreBarnOverMaksTilsynsbelop() {
+  void testTreBarnOverMaksTilsynsbelopOgMaksFradragsbelop() {
 
     NettoBarnetilsynBeregningImpl nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 

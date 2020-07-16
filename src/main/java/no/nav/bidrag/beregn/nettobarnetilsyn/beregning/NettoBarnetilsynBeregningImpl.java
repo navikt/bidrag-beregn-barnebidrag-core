@@ -92,7 +92,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
 
     System.out.println("Tilsynsbeløp: " + tilsynsbelop);
     System.out.println("Skattesats: " + SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
-        SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT)/100);
+        SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT));
     System.out.println("Maks fradragsbeløp: " + SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
         SjablonNavn.MAKS_FRADRAG, antallBarn));
 
