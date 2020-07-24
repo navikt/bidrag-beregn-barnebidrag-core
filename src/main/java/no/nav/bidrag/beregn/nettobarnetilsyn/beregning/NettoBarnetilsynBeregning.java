@@ -1,11 +1,12 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
+import java.util.List;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregningListe;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
 
 public interface NettoBarnetilsynBeregning {
 
-  ResultatBeregningListe beregn(
+  List<ResultatBeregning> beregn(
       BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert);
 
   Double beregnFradragsbelopPerBarn(

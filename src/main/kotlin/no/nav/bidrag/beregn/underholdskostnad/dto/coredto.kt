@@ -13,7 +13,7 @@ data class BeregnUnderholdskostnadGrunnlagCore(
     val beregnDatoTil: LocalDate,
     val soknadBarnFodselsdato: LocalDate,
     val barnetilsynMedStonadPeriodeListe: List<BarnetilsynMedStonadPeriodeCore>,
-    val nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriodeCore>,
+    var nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriodeCore>,
     val forpleiningUtgiftPeriodeListe: List<ForpleiningUtgiftPeriodeCore>,
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )

@@ -23,10 +23,9 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynResultatCore;
-import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftCore;
+import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatBeregningCore;
-import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatBeregningListeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.ResultatPeriodeCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
@@ -106,11 +105,10 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      var nettoBarnetilsynResultatBeregning = resultatPeriode.getResultatBeregning();
       var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningListeCore(mapResultatBeregning(nettoBarnetilsynResultatBeregning.getResultatBeregningListe())),
+          mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
           new ResultatGrunnlagCore(mapResultatGrunnlag(nettoBarnetilsynResultatGrunnlag.getFaktiskUtgiftListe()),
               mapResultatGrunnlagSjabloner(nettoBarnetilsynResultatGrunnlag.getSjablonListe()))));
     }
@@ -121,7 +119,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     var resultatBeregningListeCore = new ArrayList<ResultatBeregningCore>();
     for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
       resultatBeregningListeCore
-          .add(new ResultatBeregningCore(resultatBeregning.getResultatPersonIdSoknadsbard(),
+          .add(new ResultatBeregningCore(resultatBeregning.getResultatSoknadsbarnPersonId(),
               resultatBeregning.getResultatBelop()));
     }
     return resultatBeregningListeCore;

@@ -33,9 +33,8 @@ class NettoBarnetilsynBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(1978.13)
+        () -> assertThat(resultat.size()).isEqualTo(1),
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(1978.13)
     );
   }
 
@@ -54,10 +53,9 @@ class NettoBarnetilsynBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(2082.54),
-        () -> assertThat(resultat.getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(4582.54)
+        () -> assertThat(resultat.size()).isEqualTo(2),
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2082.54),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4582.54)
     );
   }
 
@@ -79,10 +77,9 @@ class NettoBarnetilsynBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(2082.54),
-        () -> assertThat(resultat.getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(4582.54)
+        () -> assertThat(resultat.size()).isEqualTo(2),
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2082.54),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4582.54)
     );
   }
 
@@ -111,10 +108,9 @@ class NettoBarnetilsynBeregningTest {
      */
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(5258.84),
-        () -> assertThat(resultat.getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(2015.24)
+        () -> assertThat(resultat.size()).isEqualTo(2),
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(5258.84),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2015.24)
     );
   }
 
@@ -144,11 +140,10 @@ class NettoBarnetilsynBeregningTest {
      */
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(3),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(4211.82),
-        () -> assertThat(resultat.getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(2374.02),
-        () -> assertThat(resultat.getResultatBeregningListe().get(2).getResultatBelop()).isEqualTo(1455.12)
+        () -> assertThat(resultat.size()).isEqualTo(3),
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(4211.82),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02),
+        () -> assertThat(resultat.get(2).getResultatBelop()).isEqualTo(1455.12)
     );
   }
 
@@ -171,9 +166,8 @@ class NettoBarnetilsynBeregningTest {
      */
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(749.5)
+        () -> assertThat(resultat.size()).isEqualTo(1),
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(749.5)
     );
   }
 
@@ -193,10 +187,9 @@ class NettoBarnetilsynBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe()).isNotNull(),
-        () -> assertThat(resultat.getResultatBeregningListe().size()).isEqualTo(3),
-        () -> assertThat(resultat.getResultatBeregningListe().get(0).getResultatPersonIdSoknadsbard()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatBeregningListe().get(1).getResultatPersonIdSoknadsbard()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatBeregningListe().get(2).getResultatPersonIdSoknadsbard()).isEqualTo(3));
+        () -> assertThat(resultat.size()).isEqualTo(3),
+        () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
+        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3));
   }
 }

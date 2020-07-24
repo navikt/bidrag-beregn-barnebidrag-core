@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.3.0   | Endret       | Forenklet DTO for netto barnetilsyn og åpnet for set-metoder på noen av input-variablene
 0.2.6   | Endret       | Lagt til summering av faktiske utgifter pr barn i beregning
 0.2.5   | Endret       | Rettet navn i resultat på beregning av underholdskostnad
 0.2.4   | Endret       | Litt flere tester på periodisering

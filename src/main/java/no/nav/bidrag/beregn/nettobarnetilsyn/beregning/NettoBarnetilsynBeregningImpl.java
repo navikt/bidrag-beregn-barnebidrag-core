@@ -4,18 +4,18 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingDouble;
 
 import java.util.ArrayList;
+import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregningListe;
 
 public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning {
 
   @Override
-  public ResultatBeregningListe beregn(BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert) {
+  public List<ResultatBeregning> beregn(BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert) {
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
     Double resultatBelop = 0.0;
@@ -63,7 +63,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
       System.out.println("Beregnet netto barnetilsynsbeløp: " + Math.round(resultatBelop * 100.0) / 100.0);
     }
 
-    return new ResultatBeregningListe(resultatBeregningListe);
+    return resultatBeregningListe;
   }
 
   @Override
