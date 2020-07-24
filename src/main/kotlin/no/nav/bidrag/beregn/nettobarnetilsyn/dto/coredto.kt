@@ -11,7 +11,7 @@ data class BeregnNettoBarnetilsynGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriodeCore>,
-    val sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class FaktiskUtgiftPeriodeCore(
@@ -29,26 +29,22 @@ data class BeregnNettoBarnetilsynResultatCore(
 
 data class ResultatPeriodeCore(
     val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: ResultatBeregningListeCore,
+    val resultatBeregningListe: List<ResultatBeregningCore>,
     val resultatGrunnlag: ResultatGrunnlagCore
 )
 
-data class ResultatBeregningListeCore(
-    val resultatBeregningListeCore: List<ResultatBeregningCore>
-)
-
 data class ResultatBeregningCore(
-    val resultatSoknadsbardPersonId: Int,
+    val resultatSoknadsbarnPersonId: Int,
     val resultatBelop: Double
 )
 
 data class ResultatGrunnlagCore(
-    val faktiskUtgiftCoreListe: List<FaktiskUtgiftCore>,
+    val faktiskUtgiftListe: List<FaktiskUtgiftCore>,
     val sjablonListe: List<SjablonCore>
 )
 
 data class FaktiskUtgiftCore(
-    val soknadBarnFodselsdato: LocalDate,
-    val soknadsbardPersonId: Int,
+    val soknadsbarnFodselsdato: LocalDate,
+    val soknadsbarnPersonId: Int,
     val faktiskUtgiftBelop: Double
 )

@@ -1,8 +1,8 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.bo
 
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -20,16 +20,12 @@ data class BeregnNettoBarnetilsynResultat(
 
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: ResultatBeregningListe,
+    val resultatBeregningListe: List<ResultatBeregning>,
     val resultatGrunnlag: BeregnNettoBarnetilsynGrunnlagPeriodisert
 )
 
-data class ResultatBeregningListe(
-    val resultatBeregningListe: List<ResultatBeregning>
-)
-
 data class ResultatBeregning(
-    val resultatPersonIdSoknadsbard: Int,
+    val resultatSoknadsbarnPersonId: Int,
     val resultatBelop: Double
 )
 

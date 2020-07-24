@@ -24,7 +24,6 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPe
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregningListe;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynGrunnlagCore;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.FaktiskUtgiftPeriodeCore;
@@ -128,7 +127,7 @@ public class NettoBarnetilsynCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregningListe(Arrays.asList(new ResultatBeregning(1, 1))),
+        Arrays.asList(new ResultatBeregning(1, 1)),
         new BeregnNettoBarnetilsynGrunnlagPeriodisert(
             Arrays.asList(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3)),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
