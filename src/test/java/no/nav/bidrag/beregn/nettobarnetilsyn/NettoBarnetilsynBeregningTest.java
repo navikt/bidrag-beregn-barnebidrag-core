@@ -192,4 +192,29 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
         () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3));
   }
+
+  @DisplayName("Test summering på søknadsbarns personid")
+  @Test
+  void testSummeringPaaSoknadsbarnPersonId() {
+
+    var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
+
+    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
+
+    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+
+    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.size()).isEqualTo(3),
+        () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
+        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02))
+        ;
+  }
 }
