@@ -296,6 +296,39 @@ public class NettoBarnetilsynPeriodeTest {
     printGrunnlagResultat(resultat);
   }
 
+  @DisplayName("Test av periodisering for to barn med overlappende perioder")
+  @Test
+  void testPeriodiseringToBarnOverlappendePerioder() {
+    var beregnDatoFra = LocalDate.parse("2019-07-01");
+    var beregnDatoTil = LocalDate.parse("2020-01-01");
+
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
+        LocalDate.parse("2008-03-17"), 1, 1000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
+        LocalDate.parse("2012-02-18"), 2, 2000d));
+
+    BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
+            lagSjablonGrunnlag());
+
+    var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2)
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+
 
   private List<SjablonPeriode> lagSjablonGrunnlag() {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
