@@ -127,12 +127,12 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
     }
     avvikListe.addAll(validerInput("sjablonPeriodeListe", sjablonPeriodeListe, false, false, false));
 
-    // Sjekk perioder for faktisk utgift
+    // Sjekk perioder for faktisk utgift, skrur av kontroll op overlapp og opphold pga potensielt flere barn i input
     var faktiskUtgiftPeriodeListe = new ArrayList<Periode>();
     for (FaktiskUtgiftPeriode faktiskUtgiftPeriode : beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftPeriodeListe()) {
       faktiskUtgiftPeriodeListe.add(faktiskUtgiftPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("faktiskUtgiftPeriodeListe", faktiskUtgiftPeriodeListe, true, true, true));
+    avvikListe.addAll(validerInput("faktiskUtgiftPeriodeListe", faktiskUtgiftPeriodeListe, false, false, true));
 
     // Sjekk beregn dato fra/til
     avvikListe.addAll(validerBeregnPeriodeInput(beregnNettoBarnetilsynGrunnlag.getBeregnDatoFra(), beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil()));
