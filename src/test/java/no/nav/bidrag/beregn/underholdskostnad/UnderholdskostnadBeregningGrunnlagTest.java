@@ -11,7 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test hent av sjablonverdier for trinnvis skattesats")
-public class UnderholdskostnadberegningGrunnlagTest {
+public class UnderholdskostnadBeregningGrunnlagTest {
 
   private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
