@@ -8,6 +8,8 @@ public interface BPsAndelUnderholdskostnadBeregning {
   ResultatBeregning beregn(
       BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
+  ResultatBeregning beregnMedGamleRegler(
+      BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
   static BPsAndelUnderholdskostnadBeregning getInstance(){
     return new BPsAndelUnderholdskostnadBeregningImpl();
