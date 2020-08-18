@@ -179,4 +179,6 @@ public class BPsAndelUnderholdskostnadBeregningTest {
         () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3)
     );
   }
+
+
 }

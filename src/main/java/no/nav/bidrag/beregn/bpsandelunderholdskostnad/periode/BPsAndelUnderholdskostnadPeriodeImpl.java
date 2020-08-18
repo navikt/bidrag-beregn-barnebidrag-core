@@ -43,12 +43,16 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
+    // Regler for beregning av BPs andel ble endret fra 01.01.2009, alle perioder etter da skal beregnes på ny måte.
+    // Det må derfor legges til brudd på denne datoen
+    var datoRegelendringer = new ArrayList<Periode>();
+    datoRegelendringer.add(new Periode(LocalDate.parse("2009-01-01"), LocalDate.parse("2009-01-01")));
+
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
-
-      //  Her må det lages brudd for regelendringer !
-
         .addBruddpunkt(beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
+        .addBruddpunkter(justertSjablonPeriodeListe)
+        .addBruddpunkter(datoRegelendringer)
         .addBruddpunkter(justertInntekterPeriodeListe)
         .finnPerioder(beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoTil());
 
@@ -78,10 +82,20 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert = new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
           inntekter, sjablonliste);
-
-      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-          bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
-          beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert));
+      
+      // Beregner med gamle regler hvis periodens beregntilogmeddato er 01.01.2009 eller tidligere
+      if(beregningsperiode.getDatoTil() == null ||
+         beregningsperiode.getDatoFraTil().getDatoTil().isAfter(LocalDate.parse("2009-01-01"))){
+        System.out.println("Beregner med nye regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
+        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+            bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
+            beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert));
+      } else {
+        System.out.println("Beregner med gamle regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
+        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+            bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
+            beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert));
+      }
     }
 
     //Slår sammen perioder med samme resultat
