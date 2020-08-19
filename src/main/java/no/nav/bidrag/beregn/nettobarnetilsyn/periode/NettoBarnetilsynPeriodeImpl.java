@@ -56,6 +56,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkter(justertFaktiskUtgiftPeriodeListe)
         .addBruddpunkter((bruddliste12Aar))
+        .addBruddpunkt(beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnNettoBarnetilsynGrunnlag.getBeregnDatoFra(), beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil());
 
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
