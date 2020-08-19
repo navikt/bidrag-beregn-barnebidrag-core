@@ -200,7 +200,7 @@ public class NettoBarnetilsynPeriodeTest {
   @Test
   void testAt0IFaktiskUtgiftFjernesFraGrunnlag() {
     var beregnDatoFra = LocalDate.parse("2019-07-01");
-    var beregnDatoTil = LocalDate.parse("2020-02-01");
+    var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
     faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
