@@ -75,6 +75,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
         .addBruddpunkter(justertNettoBarnetilsynPeriodeListe)
         .addBruddpunkter(justertForpleiningUtgiftPeriodeListe)
         .addBruddpunkter(bruddlisteBarnAlder)
+        .addBruddpunkt(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnUnderholdskostnadGrunnlag.getBeregnDatoTil());
 
 
