@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.3.4   | Endret       | Beregn-til-dato legges nå med i perioder som skal beregnes for å sikre minst én resultatperiode der det er ingen bruddpunkter i andre parametre
 0.3.3   | Endret       | Logikk lagt til for å håndtere to sett med regler
 0.3.2   | Endret       | Slått av test på overlapp og opphold i faktisk utgift-perioder pga flere barn i input
 0.3.1   | Endret       | Lagt til test på summering av faktiske utgifter per barn

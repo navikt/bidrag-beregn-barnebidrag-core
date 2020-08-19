@@ -96,8 +96,11 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     // Lag inntekter
     var inntekterPeriodeListe = new ArrayList<InntekterPeriode>();
     inntekterPeriodeListe.add(new InntekterPeriode(
-        new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2020-08-01")),
+        new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
         300000, 400000, 40000));
+    inntekterPeriodeListe.add(new InntekterPeriode(
+        new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
+        3000, 400000, 4000000));
 
     // Lag sjabloner
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -121,7 +124,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
-//        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(4),
 
         // Gamle regler
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2008-01-01")),
@@ -131,13 +134,16 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         // Gamle regler
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2008-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2009-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatAndelProsent()).isEqualTo(33.3d)
-        /*,
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatAndelProsent()).isEqualTo(33.3d),
 
         // Nye regler
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2009-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatAndelProsent()).isEqualTo(40.5d)*/
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2009-06-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatAndelProsent()).isEqualTo(40.5d),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2009-06-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2009-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatAndelProsent()).isEqualTo(0.0d)
     );
 
     printGrunnlagResultat(resultat);
