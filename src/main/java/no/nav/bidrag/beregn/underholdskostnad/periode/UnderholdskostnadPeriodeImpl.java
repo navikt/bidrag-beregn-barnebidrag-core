@@ -13,7 +13,7 @@ import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
-import no.nav.bidrag.beregn.underholdskostnad.beregning.Underholdskostnadberegning;
+import no.nav.bidrag.beregn.underholdskostnad.beregning.UnderholdskostnadBeregning;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonad;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonadPeriode;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlag;
@@ -25,11 +25,11 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatPeriode;
 
 public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode{
 
-  public UnderholdskostnadPeriodeImpl(Underholdskostnadberegning underholdskostnadberegning) {
+  public UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning underholdskostnadberegning) {
     this.underholdskostnadberegning = underholdskostnadberegning;
   }
 
-  private Underholdskostnadberegning underholdskostnadberegning;
+  private UnderholdskostnadBeregning underholdskostnadberegning;
 
   public BeregnUnderholdskostnadResultat beregnPerioder(
       BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag) {

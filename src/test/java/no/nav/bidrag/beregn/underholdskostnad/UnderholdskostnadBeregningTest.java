@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.underholdskostnad.beregning.UnderholdskostnadberegningImpl;
+import no.nav.bidrag.beregn.underholdskostnad.beregning.UnderholdskostnadBeregningImpl;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BarnetilsynMedStonad;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlagPeriodisert;
 
@@ -13,14 +13,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test av beregning Underholdskostnad")
-class UnderholdskostnadberegningTest {
+class UnderholdskostnadBeregningTest {
   private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 3 år gammelt")
   @Test
   void testBeregningAlder3MedKunSjablonverdier() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(3,
@@ -38,7 +38,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testBeregningAlder7MedKunSjablonverdier() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(7,
@@ -56,7 +56,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testBeregningAlder10MedKunSjablonverdier() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(10,
@@ -74,7 +74,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testBeregningAlder11MedKunSjablonverdier() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
@@ -93,7 +93,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testStonadBarnetilsynDU() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
@@ -111,7 +111,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testBeregningAlder11StonadBarnetilsynDU() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
@@ -128,7 +128,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testBeregningAlder11MedNettoBarnetilsyn() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
@@ -146,7 +146,7 @@ class UnderholdskostnadberegningTest {
   @Test
   void testBeregningAlder11MedForpleiningsutgifter() {
 
-    UnderholdskostnadberegningImpl underholdskostnadberegning = new UnderholdskostnadberegningImpl();
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,

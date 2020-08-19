@@ -11,7 +11,7 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatBeregning;
 
-public class UnderholdskostnadberegningImpl implements Underholdskostnadberegning {
+public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregning {
 
   private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
