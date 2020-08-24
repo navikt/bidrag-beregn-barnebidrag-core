@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo
+package no.nav.bidrag.beregn.barnebidrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag

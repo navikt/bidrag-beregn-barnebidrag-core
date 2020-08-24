@@ -1,22 +1,14 @@
-package no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto
+package no.nav.bidrag.beregn.barnebidrag.dto
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BPsAndelUnderholdskostnadPeriode
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragGrunnlagPeriodisert
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatBeregning
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatPeriode
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.SamvaersklassePeriode
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.UnderholdskostnadPeriode
 import no.nav.bidrag.beregn.underholdskostnad.dto.ResultatGrunnlagCore
 import java.time.LocalDate
 
 // Grunnlag periode
-data class BeregnKostnadsberegnetBidragGrunnlagCore(
+data class BeregnBarnebidragGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadsbarnFodselsdato: LocalDate,
@@ -42,7 +34,7 @@ data class SamvaersklassePeriodeCore(
 )
 
 // Resultatperiode
-data class BeregnKostnadsberegnetBidragResultatCore(
+data class BeregnBarnebidragResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>
 )
 
@@ -53,7 +45,7 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatKostnadsberegnetBidragBelop: Double
+    val resultatBarnebidragBelop: Double
 )
 
 // Grunnlag beregning
