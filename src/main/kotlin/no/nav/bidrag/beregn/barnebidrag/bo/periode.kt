@@ -24,14 +24,14 @@ data class BPsAndelUnderholdskostnadPeriode(
     return bPsAndelUnderholdskostnadDatoFraTil
   }
 }
-
-data class SamvaersklassePeriode(
-    val samvaersklasseDatoFraTil: Periode,
-    val samvaersklasse: String) : PeriodisertGrunnlag {
-  constructor(samvaersklassePeriode: SamvaersklassePeriode)
-      : this(samvaersklassePeriode.samvaersklasseDatoFraTil.justerDatoer(),
-      samvaersklassePeriode.samvaersklasse)
-  override fun getDatoFraTil(): Periode {
-    return samvaersklasseDatoFraTil
-  }
-}
+//
+//data class SamvaersklassePeriode(
+//    val samvaersklasseDatoFraTil: Periode,
+//    val samvaersklasse: String) : PeriodisertGrunnlag {
+//  constructor(samvaersklassePeriode: SamvaersklassePeriode)
+//      : this(samvaersklassePeriode.samvaersklasseDatoFraTil.justerDatoer(),
+//      samvaersklassePeriode.samvaersklasse)
+//  override fun getDatoFraTil(): Periode {
+//    return samvaersklasseDatoFraTil
+//  }
+//}

@@ -12,11 +12,10 @@ import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
-import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersklassePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.UnderholdskostnadPeriode;
 
-public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidragPeriode {
-  public KostnadsberegnetBidragPeriodeImpl(
+public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
+  public BarnebidragPeriodeImpl(
       BarnebidragBeregning kostnadsberegnetBidragberegning) {
     this.barnebidragBeregning = barnebidragBeregning;
   }
@@ -69,13 +68,13 @@ public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidrag
     }
     avvikListe.addAll(validerInput("nettoBarnetilsynPeriodeListe", bPsAndelUnderholdskostnadPeriodeListe, true, true, true));
 
-    // Sjekk perioder for samværsklasse
+  /*  // Sjekk perioder for samværsklasse
     var samvaersklassePeriodeListe = new ArrayList<Periode>();
     for (SamvaersklassePeriode samvaersklassePeriode : beregnBarnebidragGrunnlag.getSamvaersklassePeriodeListe()) {
       samvaersklassePeriodeListe.add(samvaersklassePeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("forpleiningUtgiftPeriodeListe", samvaersklassePeriodeListe, true, true, true));
-
+    avvikListe.addAll(validerInput("samværsklassePeriodeListe", samvaersklassePeriodeListe, true, true, true));
+*/
     // Sjekk beregn dato fra/til
     avvikListe.addAll(validerBeregnPeriodeInput(beregnBarnebidragGrunnlag.getBeregnDatoFra(), beregnBarnebidragGrunnlag
         .getBeregnDatoTil()));

@@ -22,7 +22,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     double belopFradrag = 0.0d;
 
-    if (beregnBarnebidragGrunnlagPeriodisert.getSamvaersklasse()!= null) {
+/*    if (beregnBarnebidragGrunnlagPeriodisert.getSamvaersklasse()!= null) {
       sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
           beregnBarnebidragGrunnlagPeriodisert.getSamvaersklasse()));
       belopFradrag = SjablonUtil
@@ -35,7 +35,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     } else {
       belopFradrag = 0.0d;
-    }
+    }*/
 
     BigDecimal resultat = (BigDecimal.valueOf(
         beregnBarnebidragGrunnlagPeriodisert.getUnderholdskostnadBelop())

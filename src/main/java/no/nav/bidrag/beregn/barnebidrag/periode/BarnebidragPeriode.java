@@ -7,14 +7,14 @@ import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
 
-public interface KostnadsberegnetBidragPeriode {
+public interface BarnebidragPeriode {
   BeregnBarnebidragResultat beregnPerioder(
       BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag);
 
   List<Avvik> validerInput(BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag);
 
-  static KostnadsberegnetBidragPeriode getInstance() {
-    return new KostnadsberegnetBidragPeriodeImpl(BarnebidragBeregning.getInstance());
+  static BarnebidragPeriode getInstance() {
+    return new BarnebidragPeriodeImpl(BarnebidragBeregning.getInstance());
   }
 
   Integer beregnSoknadbarnAlder(

@@ -10,10 +10,11 @@ import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlagPeriodisert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Test av beregning kostnadsberegnet bidrag uten samværsfradrag")
+@DisplayName("Test av beregning av barnebidrag")
 public class BarnebidragBeregningTest {
 
   private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+/*
 
   @DisplayName("Test av beregning av kostnadsberegnetBidrag")
   @Test
@@ -75,6 +76,7 @@ public class BarnebidragBeregningTest {
         kostnadsberegnetBidragBeregning.beregn(beregnBarnebidragGrunnlagPeriodisert)
             .getResultatBarnebidragBelop());
   }
+*/
 
 }
 
