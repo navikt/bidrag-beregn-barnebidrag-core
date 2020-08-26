@@ -1,7 +1,5 @@
 package no.nav.bidrag.beregn.samvaersfradrag.beregning;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
@@ -20,6 +18,8 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
   public ResultatBeregning beregn(
       BeregnSamvaersfradragGrunnlagPeriodisert beregnSamvaersfradragGrunnlagPeriodisert) {
 
+    List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
+
     double belopFradrag = 0.0d;
 
     sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
@@ -31,16 +31,6 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
     System.out.println("Samværsfradrag: " + belopFradrag);
     System.out.println("Alder: " + beregnSamvaersfradragGrunnlagPeriodisert.getSoknadBarnAlder());
-
-//    BigDecimal resultat = (BigDecimal.valueOf(
-//        beregnSamvaersfradragGrunnlagPeriodisert.getUnderholdskostnadBelop())
-//        .subtract(BigDecimal.valueOf(
-//        beregnSamvaersfradragGrunnlagPeriodisert.getUnderholdskostnadBelop())
-//        .multiply(BigDecimal.valueOf(
-//            beregnSamvaersfradragGrunnlagPeriodisert.getBPsAndelUnderholdskostnadProsent()/100)))
-//        .subtract(BigDecimal.valueOf(belopFradrag)));
-
-//    resultat = resultat.setScale(-1, RoundingMode.HALF_UP);
 
     return new ResultatBeregning(belopFradrag);
 
