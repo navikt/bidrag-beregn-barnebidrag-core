@@ -87,7 +87,8 @@ public class SamvaersfradragPeriodeTest {
       printGrunnlagResultat(resultat);
     }
 
-  @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
+  @DisplayName("Test at det opprettes ny periode ved flere perioder med samværsklasse i input, også ny periode ved barnets bursdag."
+      + "Tester også at riktig verdi fpr samværsfradrag brukes når barnets alder passerer en av grensene for alder")
   @Test
   void testFlereSamvaersklasser() {
     System.out.println("Starter test");
