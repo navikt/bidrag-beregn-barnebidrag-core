@@ -1,6 +1,5 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -8,15 +7,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
+import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
@@ -29,9 +30,9 @@ public class SamvaersfradragPeriodeTest {
 
     private SamvaersfradragPeriode samvaersfradragPeriode = SamvaersfradragPeriode.getInstance();
 
+    @Test
     @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene, "
         + "det skal lages brudd på søknadsbarnets fødselsmåned")
-    @Test
     void testToPerioder() {
       System.out.println("Starter test");
       var beregnDatoFra = LocalDate.parse("2019-07-01");
@@ -87,9 +88,9 @@ public class SamvaersfradragPeriodeTest {
       printGrunnlagResultat(resultat);
     }
 
+  @Test
   @DisplayName("Test at det opprettes ny periode ved flere perioder med samværsklasse i input, også ny periode ved barnets bursdag."
       + "Tester også at riktig verdi fpr samværsfradrag brukes når barnets alder passerer en av grensene for alder")
-  @Test
   void testFlereSamvaersklasser() {
     System.out.println("Starter test");
     var beregnDatoFra = LocalDate.parse("2018-07-01");
@@ -172,7 +173,61 @@ public class SamvaersfradragPeriodeTest {
     printGrunnlagResultat(resultat);
   }
 
+  @Test
+  @DisplayName("Test med feil i grunnlag som skal resultere i avvik")
+  void testGrunnlagMedAvvik() {
+    var beregnDatoFra = LocalDate.parse("2018-07-01");
+    var beregnDatoTil = LocalDate.parse("2021-01-01");
+    var soknadsbarnFodselsdato = LocalDate.parse("2014-03-17");
 
+    // Lag samværsinfo
+    var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriode>();
+    samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
+        new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-07-01")),
+        "02"));
+
+    // Lag sjabloner
+    var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
+
+    sjablonPeriodeListe.add(new SjablonPeriode(
+        new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-06-30")),
+        new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
+            Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
+                new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "5")),
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 727d)))));
+    sjablonPeriodeListe.add(new SjablonPeriode(
+        new Periode(LocalDate.parse("2018-07-01"), null),
+        new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
+            Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
+                new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "10")),
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
+
+    BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
+            samvaersklassePeriodeListe, sjablonPeriodeListe);
+
+    var avvikListe = samvaersfradragPeriode.validerInput(beregnSamvaersfradragGrunnlag);
+
+
+    assertAll(
+        () -> assertThat(avvikListe).isNotEmpty(),
+        () -> assertThat(avvikListe).hasSize(2),
+
+        () -> assertThat(avvikListe.get(0).getAvvikTekst())
+            .isEqualTo("Første dato i samvaersklassePeriodeListe (2019-01-01) er etter beregnDatoFra (2018-07-01)"),
+        () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
+
+        () -> assertThat(avvikListe.get(1).getAvvikTekst())
+            .isEqualTo("Siste dato i samvaersklassePeriodeListe (2020-07-01) er før beregnDatoTil (2021-01-01)"),
+        () -> assertThat(avvikListe.get(1).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
+    );
+
+    printAvvikListe(avvikListe);
+  }
 
 
   private void printGrunnlagResultat(
@@ -184,4 +239,9 @@ public class SamvaersfradragPeriodeTest {
                   + sortedPR.getResultatDatoFraTil().getDatoTil()
                   + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultatBeregning().getResultatSamvaersfradragBelop()));
     }
+
+  private void printAvvikListe(List<Avvik> avvikListe) {
+    avvikListe.forEach(avvik -> System.out.println("Avvik tekst: " + avvik.getAvvikTekst() + "; " + "Avvik type: " + avvik.getAvvikType()));
+  }
+
 }
