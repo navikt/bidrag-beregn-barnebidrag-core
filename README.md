@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.4.3   | Endret       | Forbedret input-kontroll på datoer for samværsfradrag og barnebidrag
 0.4.2   | Endret       | Forbedret input-kontroll på datoer
 0.4.1   | Endret       | Beregning av samværsfradrag lagt til
 0.4.0   | Endret       | Endring for Beregn-til-dato lagt inn for alle beregninger. Beregning av BPs andel av underholdskostnad lagt til.
