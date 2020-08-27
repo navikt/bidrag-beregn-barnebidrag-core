@@ -35,6 +35,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     } else {
       belopFradrag = 0.0d;
+
     }
 
     BigDecimal resultat = (BigDecimal.valueOf(
