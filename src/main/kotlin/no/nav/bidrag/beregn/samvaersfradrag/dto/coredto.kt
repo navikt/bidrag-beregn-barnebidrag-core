@@ -1,7 +1,5 @@
 package no.nav.bidrag.beregn.samvaersfradrag.dto
 
-import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
@@ -14,7 +12,7 @@ data class BeregnSamvaersfradragGrunnlagCore(
     val beregnDatoTil: LocalDate,
     val soknadsbarnFodselsdato: LocalDate,
     val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
-    val sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class SamvaersklassePeriodeCore(
