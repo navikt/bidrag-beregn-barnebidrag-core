@@ -1,83 +1,130 @@
-package no.nav.bidrag.beregn.barnebidrag.periode;
+package no.nav.bidrag.beregn.kostnadsberegnetbidrag.periode;
+
+import static java.util.stream.Collectors.toCollection;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.AvvikType;
-import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
-import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
-import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;
-import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
-import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersklassePeriode;
-import no.nav.bidrag.beregn.barnebidrag.bo.UnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.felles.periode.Periodiserer;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning.KostnadsberegnetBidragBeregning;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BPsAndelUnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragGrunnlag;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragResultat;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.SamvaersfradragPeriode;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.UnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatPeriode;
 
 public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidragPeriode {
   public KostnadsberegnetBidragPeriodeImpl(
-      BarnebidragBeregning kostnadsberegnetBidragberegning) {
-    this.barnebidragBeregning = barnebidragBeregning;
+      KostnadsberegnetBidragBeregning kostnadsberegnetBidragBeregning) {
+    this.kostnadsberegnetBidragBeregning = kostnadsberegnetBidragBeregning;
   }
 
-  private BarnebidragBeregning barnebidragBeregning;
+  private KostnadsberegnetBidragBeregning kostnadsberegnetBidragBeregning;
 
-  public BeregnBarnebidragResultat beregnPerioder(
-      BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag) {
+  public BeregnKostnadsberegnetBidragResultat beregnPerioder(
+      BeregnKostnadsberegnetBidragGrunnlag beregnKostnadsberegnetBidragGrunnlag) {
 
-    return null;
+    var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    var justertUnderholdskostnadPeriodeListe = beregnKostnadsberegnetBidragGrunnlag.getUnderholdskostnadPeriodeListe()
+        .stream()
+        .map(UnderholdskostnadPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
+    var justertBPsAndelUnderholdskostnadPeriodeListe = beregnKostnadsberegnetBidragGrunnlag.getBPsAndelUnderholdskostnadPeriodeListe()
+        .stream()
+        .map(BPsAndelUnderholdskostnadPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
+    var justertSamvaersfradragPeriodeListe = beregnKostnadsberegnetBidragGrunnlag.getSamvaersfradragPeriodeListe()
+        .stream()
+        .map(SamvaersfradragPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
+    // Bygger opp liste over perioder
+    List<Periode> perioder = new Periodiserer()
+        .addBruddpunkt(beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
+        .addBruddpunkter(justertUnderholdskostnadPeriodeListe)
+        .addBruddpunkter(justertBPsAndelUnderholdskostnadPeriodeListe)
+        .addBruddpunkter(justertSamvaersfradragPeriodeListe)
+        .addBruddpunkt(beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
+        .finnPerioder(beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoFra(),
+            beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoTil());
+
+    // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
+    if (perioder.size() > 1) {
+      if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoTil())) &&
+          (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
+        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
+        perioder.remove(perioder.size() - 1);
+        perioder.remove(perioder.size() - 1);
+        perioder.add(nyPeriode);
+      }
+    }
+
+    // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
+    for (Periode beregningsperiode : perioder) {
+
+      var underholdskostnadBelop = justertUnderholdskostnadPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(UnderholdskostnadPeriode::getUnderholdskostnadBelop).findFirst().orElse(null);
+
+      var bPsAndelUnderholdskostnadProsent = justertBPsAndelUnderholdskostnadPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(BPsAndelUnderholdskostnadPeriode::getBPsAndelUnderholdskostnadProsent).findFirst().orElse(null);
+
+      var samvaersfradragBelop = justertSamvaersfradragPeriodeListe.stream().filter(i ->
+          i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(SamvaersfradragPeriode::getSamvaersfradrag).findFirst().orElse(null);
+
+      System.out.println("Samværsfradrag: " + samvaersfradragBelop);
+
+      // Kaller beregningsmodulen for hver beregningsperiode
+      var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
+          underholdskostnadBelop, bPsAndelUnderholdskostnadProsent, samvaersfradragBelop);
+
+      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+          kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert),
+          grunnlagBeregningPeriodisert));
+    }
+
+    return new BeregnKostnadsberegnetBidragResultat(resultatPeriodeListe);
   }
-
-  @Override
-  public Integer beregnSoknadbarnAlder(
-      BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag,
-      LocalDate beregnDatoFra) {
-
-    LocalDate tempSoknadbarnFodselsdato = beregnBarnebidragGrunnlag.getSoknadsbarnFodselsdato();
-    Integer beregnetAlder = Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
-
-    return beregnetAlder;
-  }
-
-
 
   // Validerer at input-verdier til underholdskostnadsberegning er gyldige
-  public List<Avvik> validerInput(BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag) {
+  public List<Avvik> validerInput(
+      BeregnKostnadsberegnetBidragGrunnlag beregnKostnadsberegnetBidragGrunnlag) {
     var avvikListe = new ArrayList<Avvik>();
-
-    // Sjekk perioder for sjablonliste
-    var sjablonPeriodeListe = new ArrayList<Periode>();
-    for (SjablonPeriode sjablonPeriode : beregnBarnebidragGrunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
-    }
-    avvikListe.addAll(validerInput("sjablonPeriodeListe", sjablonPeriodeListe, false, false, false));
 
     // Sjekk perioder for underholdskostnad
     var underholdskostnadPeriodeListe = new ArrayList<Periode>();
-    for (UnderholdskostnadPeriode underholdskostnadPeriode : beregnBarnebidragGrunnlag.getUnderholdskostnadPeriodeListe()) {
+    for (UnderholdskostnadPeriode underholdskostnadPeriode : beregnKostnadsberegnetBidragGrunnlag.getUnderholdskostnadPeriodeListe()) {
       underholdskostnadPeriodeListe.add(underholdskostnadPeriode.getDatoFraTil());
     }
     avvikListe.addAll(validerInput("underholdskostnadListe", underholdskostnadPeriodeListe, true, true, true));
 
     // Sjekk perioder for BPs andel av underholdskostnad
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<Periode>();
-    for (BPsAndelUnderholdskostnadPeriode bPsAndelUnderholdskostnadPeriode : beregnBarnebidragGrunnlag
+    for (BPsAndelUnderholdskostnadPeriode bPsAndelUnderholdskostnadPeriode : beregnKostnadsberegnetBidragGrunnlag
         .getBPsAndelUnderholdskostnadPeriodeListe()) {
       bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("nettoBarnetilsynPeriodeListe", bPsAndelUnderholdskostnadPeriodeListe, true, true, true));
+    avvikListe.addAll(validerInput("bPsAndelUnderholdskostnadPeriodeListe", bPsAndelUnderholdskostnadPeriodeListe, true, true, true));
 
-    // Sjekk perioder for samværsklasse
-    var samvaersklassePeriodeListe = new ArrayList<Periode>();
-    for (SamvaersklassePeriode samvaersklassePeriode : beregnBarnebidragGrunnlag.getSamvaersklassePeriodeListe()) {
-      samvaersklassePeriodeListe.add(samvaersklassePeriode.getDatoFraTil());
+    // Sjekk perioder for samværsfradrag
+    var samvaersfradragPeriodeListe = new ArrayList<Periode>();
+    for (SamvaersfradragPeriode samvaersfradragPeriode : beregnKostnadsberegnetBidragGrunnlag.getSamvaersfradragPeriodeListe()) {
+      samvaersfradragPeriodeListe.add(samvaersfradragPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(validerInput("forpleiningUtgiftPeriodeListe", samvaersklassePeriodeListe, true, true, true));
+    avvikListe.addAll(validerInput("samvaersfradragPeriodeListe", samvaersfradragPeriodeListe, true, true, true));
 
     // Sjekk beregn dato fra/til
-    avvikListe.addAll(validerBeregnPeriodeInput(beregnBarnebidragGrunnlag.getBeregnDatoFra(), beregnBarnebidragGrunnlag
+    avvikListe.addAll(validerBeregnPeriodeInput(beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoFra(), beregnKostnadsberegnetBidragGrunnlag
         .getBeregnDatoTil()));
 
     return avvikListe;

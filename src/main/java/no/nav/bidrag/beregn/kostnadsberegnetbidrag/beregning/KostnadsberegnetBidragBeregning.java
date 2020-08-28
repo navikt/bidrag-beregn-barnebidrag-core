@@ -1,15 +1,16 @@
-package no.nav.bidrag.beregn.barnebidrag.beregning;
+package no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning;
 
-import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
 
-public interface BarnebidragBeregning {
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatBeregning;
+
+public interface KostnadsberegnetBidragBeregning {
 
   ResultatBeregning beregn(
-      BeregnBarnebidragGrunnlagPeriodisert beregnBarnebidragGrunnlagPeriodisert);
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
-  static BarnebidragBeregning getInstance(){
-    return new BarnebidragBeregningImpl();
+  static KostnadsberegnetBidragBeregning getInstance(){
+    return new KostnadsberegnetBidragBeregningImpl();
   }
 
 }

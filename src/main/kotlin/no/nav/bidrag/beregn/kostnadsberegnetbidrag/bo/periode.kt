@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.barnebidrag.bo
+package no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
@@ -25,13 +25,13 @@ data class BPsAndelUnderholdskostnadPeriode(
   }
 }
 
-data class SamvaersklassePeriode(
-    val samvaersklasseDatoFraTil: Periode,
-    val samvaersklasse: String) : PeriodisertGrunnlag {
-  constructor(samvaersklassePeriode: SamvaersklassePeriode)
-      : this(samvaersklassePeriode.samvaersklasseDatoFraTil.justerDatoer(),
-      samvaersklassePeriode.samvaersklasse)
+data class SamvaersfradragPeriode(
+    val samvaersfradragDatoFraTil: Periode,
+    val samvaersfradrag: Double?) : PeriodisertGrunnlag {
+  constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
+      : this(samvaersfradragPeriode.samvaersfradragDatoFraTil.justerDatoer(),
+      samvaersfradragPeriode.samvaersfradrag)
   override fun getDatoFraTil(): Periode {
-    return samvaersklasseDatoFraTil
+    return samvaersfradragDatoFraTil
   }
 }

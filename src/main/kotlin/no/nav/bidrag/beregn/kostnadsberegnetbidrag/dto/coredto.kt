@@ -1,57 +1,51 @@
-package no.nav.bidrag.beregn.barnebidrag.dto
+package no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto
 
-import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
+import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.beregn.underholdskostnad.dto.ResultatGrunnlagCore
 import java.time.LocalDate
 
 // Grunnlag periode
-data class BeregnBarnebidragGrunnlagCore(
+data class BeregnKostnadsberegnetBidragGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadsbarnFodselsdato: LocalDate,
     val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriodeCore>,
     val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriodeCore>,
-    val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
-    val sjablonPeriodeListe: List<SjablonPeriodeCore>
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>?
 )
 
 data class UnderholdskostnadPeriodeCore(
-    val underholdskostnadDatoFraTil: PeriodeCore,
+    val underholdskostnadPeriodeDatoFraTil: PeriodeCore,
     val underholdskostnadBelop: Double
 )
 
 data class BPsAndelUnderholdskostnadPeriodeCore(
-    val bPsAndelUnderholdskostnadDatoFraTil: PeriodeCore,
+    val bPsAndelUnderholdskostnadPeriodeDatoFraTil: PeriodeCore,
     val bPsAndelUnderholdskostnadProsent: Double
 )
 
-data class SamvaersklassePeriodeCore(
-    val samvaersklasseDatoFraTil: PeriodeCore,
-    val samvaersklasse: String
+data class SamvaersfradragPeriodeCore(
+    val samvaersfradragDatoPeriodeFraTil: PeriodeCore,
+    val samvaersfradrag: Double
 )
 
 // Resultatperiode
-data class BeregnBarnebidragResultatCore(
-    val resultatPeriodeListe: List<ResultatPeriodeCore>
+data class BeregnKostnadsberegnetBidragResultatCore(
+    val resultatPeriodeListe: MutableList<ResultatPeriodeCore>,
+    val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: Periode,
+    val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore
 )
 
 data class ResultatBeregningCore(
-    val resultatBarnebidragBelop: Double
+    val resultatKostnadsberegnetBidragBelop: Double
 )
 
 // Grunnlag beregning
 data class ResultatGrunnlagCore(
-    val soknadBarnAlder: Int,
     val underholdskostnadBelop: Double,
     val bPsAndelUnderholdskostnadProsent: Double,
-    val samvaersklasse: String,
-    val sjablonListe: List<Sjablon>)
+    val samvaersfradrag: Double?)

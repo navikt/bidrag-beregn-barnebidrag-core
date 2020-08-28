@@ -1,51 +1,28 @@
-package no.nav.bidrag.beregn.barnebidrag.beregning;
+package no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
-import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
-import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
-import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatBeregning;
 
-public class BarnebidragBeregningImpl implements BarnebidragBeregning {
-
-  private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
+public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidragBeregning {
 
   @Override
   public ResultatBeregning beregn(
-      BeregnBarnebidragGrunnlagPeriodisert beregnBarnebidragGrunnlagPeriodisert) {
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     double belopFradrag = 0.0d;
 
-    if (beregnBarnebidragGrunnlagPeriodisert.getSamvaersklasse()!= null) {
-      sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
-          beregnBarnebidragGrunnlagPeriodisert.getSamvaersklasse()));
-      belopFradrag = SjablonUtil
-          .hentSjablonverdi(beregnBarnebidragGrunnlagPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
-              sjablonNokkelListe, SjablonNokkelNavn.ALDER_TOM, beregnBarnebidragGrunnlagPeriodisert.getSoknadBarnAlder(),
-              SjablonInnholdNavn.FRADRAG_BELOP);
-
-      System.out.println("Samværsfradrag: " + belopFradrag);
-      System.out.println("Alder: " + beregnBarnebidragGrunnlagPeriodisert.getSoknadBarnAlder());
-
-    } else {
-      belopFradrag = 0.0d;
-
-    }
+    belopFradrag = grunnlagBeregningPeriodisert.getSamvaersfradrag();
 
     BigDecimal resultat = (BigDecimal.valueOf(
-        beregnBarnebidragGrunnlagPeriodisert.getUnderholdskostnadBelop())
-        .subtract(BigDecimal.valueOf(
-        beregnBarnebidragGrunnlagPeriodisert.getUnderholdskostnadBelop())
+        grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
         .multiply(BigDecimal.valueOf(
-            beregnBarnebidragGrunnlagPeriodisert.getBPsAndelUnderholdskostnadProsent()/100)))
+            grunnlagBeregningPeriodisert.getBPsAndelUnderholdskostnadProsent()))
+        .divide(BigDecimal.valueOf(100))
         .subtract(BigDecimal.valueOf(belopFradrag)));
 
+    System.out.println("Resultat: " + resultat);
     resultat = resultat.setScale(-1, RoundingMode.HALF_UP);
 
     return new ResultatBeregning(resultat.doubleValue());

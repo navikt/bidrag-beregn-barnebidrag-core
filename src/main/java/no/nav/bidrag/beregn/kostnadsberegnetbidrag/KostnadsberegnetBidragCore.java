@@ -1,16 +1,15 @@
-package no.nav.bidrag.beregn.underholdskostnad;
+package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
-import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnUnderholdskostnadGrunnlag;
-import no.nav.bidrag.beregn.underholdskostnad.dto.BeregnUnderholdskostnadGrunnlagCore;
-import no.nav.bidrag.beregn.underholdskostnad.dto.BeregnUnderholdskostnadResultatCore;
-import no.nav.bidrag.beregn.underholdskostnad.periode.UnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BeregnKostnadsberegnetBidragGrunnlagCore;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BeregnKostnadsberegnetBidragResultatCore;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.periode.KostnadsberegnetBidragPeriode;
 
-public interface UnderholdskostnadCore {
+public interface KostnadsberegnetBidragCore {
 
-  BeregnUnderholdskostnadResultatCore beregnUnderholdskostnad (
-      BeregnUnderholdskostnadGrunnlagCore beregnUnderholdskostnadGrunnlagCore);
+  BeregnKostnadsberegnetBidragResultatCore beregnKostnadsberegnetBidrag (
+      BeregnKostnadsberegnetBidragGrunnlagCore beregnKostnadsberegnetBidragGrunnlagCore);
 
-  static UnderholdskostnadCore getInstance() {
-    return new UnderholdskostnadCoreImpl(UnderholdskostnadPeriode.getInstance());
+  static KostnadsberegnetBidragCore getInstance() {
+    return new KostnadsberegnetBidragCoreImpl(KostnadsberegnetBidragPeriode.getInstance());
   }
 }
