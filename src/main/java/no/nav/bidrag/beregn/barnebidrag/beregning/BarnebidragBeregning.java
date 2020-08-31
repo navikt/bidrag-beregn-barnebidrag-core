@@ -1,3 +1,4 @@
+
 package no.nav.bidrag.beregn.barnebidrag.beregning;
 
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlagPeriodisert;
@@ -13,5 +14,3 @@ public interface BarnebidragBeregning {
   }
 
 }
-
-

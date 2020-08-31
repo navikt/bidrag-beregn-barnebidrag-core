@@ -1,4 +1,4 @@
-# bidrag-beregn-felles
+# bidrag-beregn-barnebidrag-core
 ![](https://github.com/navikt/bidrag-beregn-barnebidrag-core/workflows/maven%20deploy/badge.svg)
 
 Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.6.0   | Endret       | Beregning av samværsfradrag lagt til
 0.5.0   | Endret       | Endret sjablonPeriodeListe i DTO for samværsfradrag fra val til var for å få tilgang til setter
 0.4.3   | Endret       | Forbedret input-kontroll på datoer for samværsfradrag og barnebidrag
 0.4.2   | Endret       | Forbedret input-kontroll på datoer
