@@ -1,4 +1,4 @@
-# bidrag-beregn-felles
+# bidrag-beregn-barnebidrag-core
 ![](https://github.com/navikt/bidrag-beregn-barnebidrag-core/workflows/maven%20deploy/badge.svg)
 
 Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
