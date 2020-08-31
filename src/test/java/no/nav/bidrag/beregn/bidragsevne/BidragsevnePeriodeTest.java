@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.bidragsevne;
+package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,14 +10,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneGrunnlagAlt;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneResultat;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BostatusPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.InntektPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.SaerfradragPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.SkatteklassePeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.periode.BidragsevnePeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagAlt;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.InntektPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.SkatteklassePeriode;
+import no.nav.bidrag.beregn.bidragsevne.periode.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -58,35 +58,36 @@ class BidragsevnePeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopEvne()).isEqualTo(3749),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatEvneBelop()).isEqualTo(3749),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(444000),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopEvne()).isEqualTo(15604),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getBostatusKode()).isEqualTo(BostatusKode.ALENE),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatEvneBelop()).isEqualTo(15604),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getBostatusKode()).isEqualTo(
+            BostatusKode.ALENE),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopEvne()).isEqualTo(20536),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatEvneBelop()).isEqualTo(20536),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-04-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-05-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatBelopEvne()).isEqualTo(20536),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatEvneBelop()).isEqualTo(20536),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatGrunnlag().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(666001),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-05-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatBeregning().getResultatBelopEvne()).isEqualTo(20536),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatBeregning().getResultatEvneBelop()).isEqualTo(20536),
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlag().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(666001),
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlag().getInntektListe().get(1).getInntektBelop()).isEqualTo(2),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregning().getResultatBelopEvne()).isEqualTo(20063),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregning().getResultatEvneBelop()).isEqualTo(20063),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlag().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(666001),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlag().getInntektListe().get(1).getInntektBelop()).isEqualTo(2),
@@ -416,25 +417,29 @@ class BidragsevnePeriodeTest {
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
-        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
+        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
+            SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 9303d),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 8657d)))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
-        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
+        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
+            SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 5698d),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 7330d)))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
-        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
+        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
+            SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 9591d),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 8925d)))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
-        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
+        new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
+            SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 5875d),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 7557d)))));
 
@@ -448,7 +453,7 @@ class BidragsevnePeriodeTest {
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
                 + sortedPR.getResultatDatoFraTil().getDatoTil()
-                + "; " + "Beløp: " + sortedPR.getResultatBeregning().getResultatBelopEvne()));
+                + "; " + "Beløp: " + sortedPR.getResultatBeregning().getResultatEvneBelop()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.bidragsevne.bo
+package no.nav.bidrag.beregn.bidragsevne.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
@@ -49,5 +49,6 @@ data class Inntekt(
 )
 
 data class ResultatBeregning(
-    val resultatBelopEvne: Double
+    val resultatEvneBelop: Double,
+    val resultat25ProsentInntekt: Double
 )

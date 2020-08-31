@@ -1,12 +1,12 @@
-package no.nav.bidrag.beregn.felles.bidragsevne;
+package no.nav.bidrag.beregn.bidragsevne;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.TestUtil;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.Inntekt;
+import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;

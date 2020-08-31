@@ -1,41 +1,41 @@
-package no.nav.bidrag.beregn.felles.bidragsevne;
+package no.nav.bidrag.beregn.bidragsevne;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagAlt;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
+import no.nav.bidrag.beregn.bidragsevne.bo.InntektPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.SkatteklassePeriode;
+import no.nav.bidrag.beregn.bidragsevne.dto.AntallBarnIEgetHusholdPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneGrunnlagAltCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneResultatCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BostatusPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.InntektCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.InntektPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.ResultatBeregningCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.ResultatGrunnlagCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.ResultatPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.SaerfradragPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.SkatteklassePeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.periode.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneGrunnlagAlt;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneResultat;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BostatusPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.Inntekt;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.InntektPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.ResultatPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.SaerfradragPeriode;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.SkatteklassePeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.AntallBarnIEgetHusholdPeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.AvvikCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.BeregnBidragsevneGrunnlagAltCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.BeregnBidragsevneResultatCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.BostatusPeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.InntektCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.InntektPeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.ResultatBeregningCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.ResultatGrunnlagCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.ResultatPeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.SaerfradragPeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.SkatteklassePeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.periode.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
+import no.nav.bidrag.beregn.felles.dto.AvvikCore;
+import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
@@ -173,7 +173,7 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
       var bidragsevneResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(bidragsevneResultat.getResultatBelopEvne()),
+          new ResultatBeregningCore(bidragsevneResultat.getResultatEvneBelop(), bidragsevneResultat.getResultat25ProsentInntekt()),
           new ResultatGrunnlagCore(mapResultatGrunnlagInntekt(bidragsevneResultatGrunnlag.getInntektListe()),
               bidragsevneResultatGrunnlag.getSkatteklasse(),
               bidragsevneResultatGrunnlag.getBostatusKode().toString(),

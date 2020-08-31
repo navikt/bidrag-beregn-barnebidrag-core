@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.bidragsevne.dto
+package no.nav.bidrag.beregn.bidragsevne.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
@@ -58,7 +58,8 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatEvne: Double
+    val resultatEvneBelop: Double,
+    val resultat25ProsentInntekt: Double
 )
 
 data class ResultatGrunnlagCore(

@@ -1,11 +1,13 @@
-package no.nav.bidrag.beregn.felles.bidragsevne.beregning;
+package no.nav.bidrag.beregn.bidragsevne.beregning;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.Inntekt;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.bidragsevne.beregning.Bidragsevneberegning;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
+import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
@@ -36,6 +38,10 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
         .reduce(Double.valueOf(0), Double::sum);
 
     System.out.println("Samlede inntekter: " + inntekt);
+
+    // finner 25% av inntekt
+    Double TjuefemProsentInntekt = Double.valueOf((inntekt / 4 * 100) / 100 );
+    System.out.println("25% av inntekt: " + TjuefemProsentInntekt);
 
     // finner personfradragklasse ut fra angitt skatteklasse
     Double personfradrag = 0.0;
@@ -173,7 +179,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     }
     System.out.println("------------------------------------------------------");
 
-    return new ResultatBeregning(maanedligBidragsevne);
+    return new ResultatBeregning(maanedligBidragsevne, TjuefemProsentInntekt);
 
   }
 

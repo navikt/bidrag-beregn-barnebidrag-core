@@ -1,7 +1,8 @@
-package no.nav.bidrag.beregn.felles.bidragsevne.beregning;
+package no.nav.bidrag.beregn.bidragsevne.beregning;
 
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.bidragsevne.beregning.BidragsevneberegningImpl;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 
 public interface Bidragsevneberegning {
     ResultatBeregning beregn(

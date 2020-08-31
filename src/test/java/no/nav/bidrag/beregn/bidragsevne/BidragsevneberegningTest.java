@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.bidragsevne;
+package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,10 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import no.nav.bidrag.beregn.felles.TestUtil;
-import no.nav.bidrag.beregn.felles.bidragsevne.beregning.BidragsevneberegningImpl;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.Inntekt;
+import no.nav.bidrag.beregn.TestUtil;
+import no.nav.bidrag.beregn.bidragsevne.beregning.BidragsevneberegningImpl;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
@@ -39,21 +39,23 @@ class BidragsevneberegningTest {
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(33050),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert).getResultatEvneBelop());
 
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(520000)));
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert2
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(9767),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert2).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert2).getResultatEvneBelop());
+    assertEquals(Double.valueOf(130000),
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert2).getResultat25ProsentInntekt());
 
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert3
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(10410),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert3).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert3).getResultatEvneBelop());
 
     // Test på at beregnet bidragsevne blir satt til 0 når evne er negativ
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(100000)));
@@ -61,7 +63,7 @@ class BidragsevneberegningTest {
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 1,
         SaerfradragKode.HELT, sjablonListe);
     assertEquals(Double.valueOf(0),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert4).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert4).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 ikke legges til beregnet evne når skatteklasse = 1
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
@@ -72,7 +74,7 @@ class BidragsevneberegningTest {
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(10410),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert5).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert5).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
@@ -83,7 +85,7 @@ class BidragsevneberegningTest {
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(11410),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert6).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert6).getResultatEvneBelop());
 
     // Test at personfradrag skatteklasse 2 brukes hvis skatteklasse 2 er angitt
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
@@ -96,7 +98,7 @@ class BidragsevneberegningTest {
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(9814),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert7).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert7).getResultatEvneBelop());
 
 
     // Test av halvt særfradrag
@@ -104,14 +106,14 @@ class BidragsevneberegningTest {
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.HALVT, sjablonListe);
     assertEquals(Double.valueOf(10951),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert8).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert8).getResultatEvneBelop());
 
     // Test av bostatus MED_FLERE
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert9
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 3,
         SaerfradragKode.HALVT, sjablonListe);
     assertEquals(Double.valueOf(16035),
-        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert9).getResultatBelopEvne());
+        bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert9).getResultatEvneBelop());
 
   }
 

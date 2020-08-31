@@ -1,4 +1,4 @@
-package no.nav.bidrag.beregn.felles.bidragsevne;
+package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,25 +10,25 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
+import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.bidragsevne.dto.AntallBarnIEgetHusholdPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneGrunnlagAltCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BostatusPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.InntektPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.SaerfradragPeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.SkatteklassePeriodeCore;
+import no.nav.bidrag.beregn.bidragsevne.periode.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.BeregnBidragsevneResultat;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.Inntekt;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.felles.bidragsevne.bo.ResultatPeriode;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.AntallBarnIEgetHusholdPeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.BeregnBidragsevneGrunnlagAltCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.BostatusPeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.InntektPeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.SaerfradragPeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.dto.SkatteklassePeriodeCore;
-import no.nav.bidrag.beregn.felles.bidragsevne.periode.BidragsevnePeriode;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
+import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
@@ -80,7 +80,7 @@ public class BidragsevneCoreTest {
             .isEqualTo(LocalDate.parse("2017-01-01")),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatEvne())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatEvneBelop())
             .isEqualTo(Double.valueOf(666)),
 
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getInntektListe().size())
@@ -96,14 +96,14 @@ public class BidragsevneCoreTest {
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatEvne())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatEvneBelop())
             .isEqualTo(Double.valueOf(667)),
 
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatEvne())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatEvneBelop())
             .isEqualTo(Double.valueOf(668)),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
             .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
@@ -176,7 +176,7 @@ public class BidragsevneCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(Double.valueOf(666)),
+        new ResultatBeregning(Double.valueOf(666), Double.valueOf(166500)),
         new BeregnBidragsevneGrunnlagPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
@@ -184,7 +184,7 @@ public class BidragsevneCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(Double.valueOf(667)),
+        new ResultatBeregning(Double.valueOf(667), Double.valueOf(166500)),
         new BeregnBidragsevneGrunnlagPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
@@ -192,7 +192,7 @@ public class BidragsevneCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(Double.valueOf(668)),
+        new ResultatBeregning(Double.valueOf(668), Double.valueOf(166500)),
         new BeregnBidragsevneGrunnlagPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
