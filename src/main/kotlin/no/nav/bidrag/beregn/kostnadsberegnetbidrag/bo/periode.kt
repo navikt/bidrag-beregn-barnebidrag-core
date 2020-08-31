@@ -35,3 +35,4 @@ data class SamvaersfradragPeriode(
     return samvaersfradragDatoFraTil
   }
 }
+
