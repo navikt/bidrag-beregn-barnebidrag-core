@@ -1,10 +1,10 @@
 package no.nav.bidrag.beregn.bidragsevne.beregning;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.bidragsevne.beregning.Bidragsevneberegning;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
@@ -26,8 +26,6 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
   public ResultatBeregning beregn(
       BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert) {
 
-    //  Preconditions.checkNotNull(beregnBidragsevneGrunnlagPeriodisert, "Grunnlag kan ikke være null");
-
     System.out.println("Start beregning av bidragsevne");
 
     Double minstefradrag = beregnMinstefradrag(beregnBidragsevneGrunnlagPeriodisert);
@@ -39,9 +37,14 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     System.out.println("Samlede inntekter: " + inntekt);
 
-    // finner 25% av inntekt
-    Double TjuefemProsentInntekt = Double.valueOf((inntekt / 4 * 100) / 100 );
-    System.out.println("25% av inntekt: " + TjuefemProsentInntekt);
+    // finner 25% av inntekt og omregner til månedlig beløp
+    BigDecimal tjuefemProsentInntekt = (BigDecimal.valueOf(inntekt)
+        .divide(BigDecimal.valueOf(4))
+        .divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP));
+
+//    tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
+
+    System.out.println("25% av inntekt: " + tjuefemProsentInntekt);
 
     // finner personfradragklasse ut fra angitt skatteklasse
     Double personfradrag = 0.0;
@@ -179,7 +182,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     }
     System.out.println("------------------------------------------------------");
 
-    return new ResultatBeregning(maanedligBidragsevne, TjuefemProsentInntekt);
+    return new ResultatBeregning(maanedligBidragsevne, tjuefemProsentInntekt.doubleValue());
 
   }
 
