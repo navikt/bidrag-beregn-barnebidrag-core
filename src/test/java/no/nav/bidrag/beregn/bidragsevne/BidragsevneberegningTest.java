@@ -38,23 +38,23 @@ class BidragsevneberegningTest {
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(33050),
+    assertEquals(Double.valueOf(33050d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert).getResultatEvneBelop());
 
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(520000)));
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert2
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(9767),
+    assertEquals(Double.valueOf(9767d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert2).getResultatEvneBelop());
-    assertEquals(Double.valueOf(130000),
+    assertEquals(Double.valueOf(10833d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert2).getResultat25ProsentInntekt());
 
     inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert3
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(10410),
+    assertEquals(Double.valueOf(10410d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert3).getResultatEvneBelop());
 
     // Test på at beregnet bidragsevne blir satt til 0 når evne er negativ
@@ -62,7 +62,7 @@ class BidragsevneberegningTest {
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert4
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    assertEquals(Double.valueOf(0),
+    assertEquals(Double.valueOf(0d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert4).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 ikke legges til beregnet evne når skatteklasse = 1
@@ -73,7 +73,7 @@ class BidragsevneberegningTest {
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert5
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(10410),
+    assertEquals(Double.valueOf(10410d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert5).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
@@ -84,7 +84,7 @@ class BidragsevneberegningTest {
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert6
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(11410),
+    assertEquals(Double.valueOf(11410d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert6).getResultatEvneBelop());
 
     // Test at personfradrag skatteklasse 2 brukes hvis skatteklasse 2 er angitt
@@ -97,7 +97,7 @@ class BidragsevneberegningTest {
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert7
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(9814),
+    assertEquals(Double.valueOf(9814d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert7).getResultatEvneBelop());
 
 
@@ -105,14 +105,14 @@ class BidragsevneberegningTest {
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert8
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.HALVT, sjablonListe);
-    assertEquals(Double.valueOf(10951),
+    assertEquals(Double.valueOf(10951d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert8).getResultatEvneBelop());
 
     // Test av bostatus MED_FLERE
     BeregnBidragsevneGrunnlagPeriodisert beregnBidragsevneGrunnlagPeriodisert9
         = new BeregnBidragsevneGrunnlagPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 3,
         SaerfradragKode.HALVT, sjablonListe);
-    assertEquals(Double.valueOf(16035),
+    assertEquals(Double.valueOf(16035d),
         bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert9).getResultatEvneBelop());
 
   }
