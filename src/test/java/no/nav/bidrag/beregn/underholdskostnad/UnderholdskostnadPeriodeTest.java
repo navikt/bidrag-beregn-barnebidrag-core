@@ -139,25 +139,28 @@ public class UnderholdskostnadPeriodeTest {
   }
 
   @Test
-  @DisplayName("Test brudd ved regelendring")
-  void testPeriodiseringVedRegelendring() {
+  @DisplayName("Test at barnetrygd ikke trekkes fra i barnets fødselsmåned, "
+      + "tester også at barnetrygd trekkes fra i påfølgende periode som normalt")
+  void testAtBarnetrygdIkkeTrekkesFraIFodselsmaaned() {
 
-    var beregnDatoFra = LocalDate.parse("2018-07-01");
+    var beregnDatoFra = LocalDate.parse("2019-07-01");
     var beregnDatoTil = LocalDate.parse("2020-07-01");
-    var soknadsbarnFodselsdato = LocalDate.parse("2019-01-29");
+    var soknadsbarnFodselsdato = LocalDate.parse("2019-07-29");
 
+//    var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriode>(Collections.emptyList());
     var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriode>();
     barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
         new Periode(LocalDate.parse("2019-03-01"), null),
         "DU", "64"));
 
+//    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>(Collections.emptyList());
     var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
     nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-        new Periode(LocalDate.parse("2018-04-01"), null), 1777d));
+        new Periode(LocalDate.parse("2018-04-01"), null), 2000d));
 
     var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriode>();
     forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-        new Periode(LocalDate.parse("2018-02-01"), LocalDate.parse("2020-10-01")), 1345d));
+        new Periode(LocalDate.parse("2018-02-01"), LocalDate.parse("2020-10-01")), 0d));
 
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
     sjablonPeriodeListe.add(new SjablonPeriode(
@@ -171,18 +174,74 @@ public class UnderholdskostnadPeriodeTest {
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                 1354d)))));
 
-    // Forbruksutgifter
+    grunnlag = new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil,
+        soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
+        forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
+
+    var resultat = underholdskostnadPeriode.beregnPerioder(grunnlag);
+
+    assertThat(resultat).isNotNull();
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
+
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
+            .isEqualTo(LocalDate.parse("2019-07-01")),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
+            .isEqualTo(LocalDate.parse("2019-08-01")),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
+            .isEqualTo(2000d),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
+            .isEqualTo(LocalDate.parse("2019-08-01")),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
+            .isNull(),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
+            .isEqualTo(2000d - 1054d)
+
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+
+  @Test
+  @DisplayName("Test det trekkes fra forhøyet barnetrygd for barn under seks år ")
+  void testForhoyetBarneTrygd() {
+
+    var beregnDatoFra = LocalDate.parse("2021-03-01");
+    var beregnDatoTil = LocalDate.parse("2022-07-01");
+    var soknadsbarnFodselsdato = LocalDate.parse("2015-10-29");
+
+    var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriode>();
+    barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
+        new Periode(LocalDate.parse("2019-03-01"), null),
+        "DU", "64"));
+
+    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
+    nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
+        new Periode(LocalDate.parse("2018-04-01"), null), 2000d));
+
+    var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriode>();
+    forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
+        new Periode(LocalDate.parse("2018-02-01"), null), 0d));
+
+    var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), null),
-        new Sjablon(SjablonNavn.FORBRUKSUTGIFTER.getNavn(), Collections
-            .singletonList(new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "10")),
-            Collections.singletonList(
-                new SjablonInnhold(SjablonInnholdNavn.FORBRUK_TOTAL_BELOP.getNavn(), 5113d)))));
-
+        new Sjablon(SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP.getNavn(), emptyList(),
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                1054d)))));
     sjablonPeriodeListe.add(new SjablonPeriode(
-        new Periode(LocalDate.parse("2017-07-01"), null),
-        new Sjablon(SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 2775d)))));
+        new Periode(LocalDate.parse("2021-07-01"), null),
+        new Sjablon(SjablonTallNavn.FORHOYET_BARNETRYGD_BELOP.getNavn(), emptyList(),
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                1354d)))));
 
     grunnlag = new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil,
         soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
@@ -193,30 +252,35 @@ public class UnderholdskostnadPeriodeTest {
     assertThat(resultat).isNotNull();
 
     assertAll(
-        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
+//        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
 
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
-            .isEqualTo(LocalDate.parse("2018-07-01")),
+            .isEqualTo(LocalDate.parse("2021-03-01")),
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
-            .isEqualTo(LocalDate.parse("2019-01-01")),
+            .isEqualTo(LocalDate.parse("2021-07-01")),
         () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSoknadBarnAlder())
-            .isEqualTo(4),
+            resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
+            .isEqualTo(2000d - 1054d),
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
-            .isEqualTo(LocalDate.parse("2019-01-01")),
+            .isEqualTo(LocalDate.parse("2021-07-01")),
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
-            .isEqualTo(LocalDate.parse("2019-07-01")),
+            .isEqualTo(LocalDate.parse("2021-11-01")),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
+            .isEqualTo(2000d - 1354d),
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
-            .isEqualTo(LocalDate.parse("2019-07-01")),
+            .isEqualTo(LocalDate.parse("2021-11-01")),
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
-            .isNull()
-
+            .isNull(),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad())
+            .isEqualTo(2000d - 1054d)
 
     );
 

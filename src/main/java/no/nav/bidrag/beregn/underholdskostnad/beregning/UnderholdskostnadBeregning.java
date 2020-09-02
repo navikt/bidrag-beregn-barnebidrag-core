@@ -8,10 +8,10 @@ public interface UnderholdskostnadBeregning {
   ResultatBeregning beregnUtenBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 
-  ResultatBeregning beregnMedKunOrdinaerBarnetrygd(
+  ResultatBeregning beregnOrdinaerBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 
-  ResultatBeregning beregn(
+  ResultatBeregning beregnForhoyetBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 
   Double beregnBarnetilsynMedStonad(

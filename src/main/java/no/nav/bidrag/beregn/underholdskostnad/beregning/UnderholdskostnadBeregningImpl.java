@@ -44,7 +44,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
         beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
 
     // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
-    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0){
+    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0) {
       tempBeregnetUnderholdskostnad = Double.valueOf(0.0);
     }
 
@@ -53,7 +53,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
 
   // Denne metoden beregner for perioder frem til 01.07.2021
   @Override
-  public ResultatBeregning beregnMedKunOrdinaerBarnetrygd(
+  public ResultatBeregning beregnOrdinaerBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
@@ -87,7 +87,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
         beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
 
     // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
-    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0){
+    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0) {
       tempBeregnetUnderholdskostnad = Double.valueOf(0.0);
     }
 
@@ -96,7 +96,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
 
   // Denne metoden beregner for perioder fra 01.07.2021 og fremover, inkluderer både ordinær og forhøyet barnetrygd
   @Override
-  public ResultatBeregning beregn(
+  public ResultatBeregning beregnForhoyetBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
@@ -120,25 +120,17 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
     tempBeregnetUnderholdskostnad +=
         beregnUnderholdskostnadGrunnlagPeriodisert.getNettoBarnetilsynBelop();
 
-    // Trekker fra barnetrygd
-    if(beregnUnderholdskostnadGrunnlagPeriodisert.getSoknadBarnAlder() > 5) {
-      // Ordinær barnetrygd skal brukes
-      tempBeregnetUnderholdskostnad -=
-          SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
-              SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP);
-    } else {
-      // Forhøyet barnetrygd skal brukes
-      tempBeregnetUnderholdskostnad -=
-          SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
-              SjablonTallNavn.FORHOYET_BARNETRYGD_BELOP);
-    }
+    // Trekker fra forhøyet barnetrygd
+    tempBeregnetUnderholdskostnad -=
+        SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+            SjablonTallNavn.FORHOYET_BARNETRYGD_BELOP);
 
     // Trekker fra forpleiningsutgifter
     tempBeregnetUnderholdskostnad -=
         beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
 
     // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
-    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0){
+    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0) {
       tempBeregnetUnderholdskostnad = Double.valueOf(0.0);
     }
 
@@ -150,7 +142,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
   public Double beregnBarnetilsynMedStonad(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
-    if (beregnUnderholdskostnadGrunnlagPeriodisert.getBarnetilsynMedStonad()!= null) {
+    if (beregnUnderholdskostnadGrunnlagPeriodisert.getBarnetilsynMedStonad() != null) {
 //        .getBarnetilsynMedStonadTilsynType() != null) {
       List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
       sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.TILSYN_TYPE.getNavn(),
@@ -165,7 +157,8 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
               SjablonNavn.BARNETILSYN, sjablonNokkelListe, SjablonInnholdNavn.BARNETILSYN_BELOP);
 
       return tempBarnetilsynBelop;
-    } else
+    } else {
       return 0.0d;
+    }
   }
 }
