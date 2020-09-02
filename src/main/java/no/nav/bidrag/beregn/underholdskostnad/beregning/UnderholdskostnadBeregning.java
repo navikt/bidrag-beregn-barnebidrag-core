@@ -5,6 +5,12 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatBeregning;
 
 public interface UnderholdskostnadBeregning {
 
+  ResultatBeregning beregnUtenBarnetrygd(
+      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
+
+  ResultatBeregning beregnMedKunOrdinaerBarnetrygd(
+      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
+
   ResultatBeregning beregn(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert);
 

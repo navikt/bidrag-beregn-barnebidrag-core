@@ -13,11 +13,50 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatBeregning;
 
 public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregning {
 
-  private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
-
+  // Denne metoden blir kun kallt for å beregne for barnets fødselsmåned
   @Override
-  public ResultatBeregning beregn(
+  public ResultatBeregning beregnUtenBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
+
+    List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
+
+    // Legger til sjablonverdi for forbruksutgifter basert på barnets alder
+    Double tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
+        beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+        SjablonNavn.FORBRUKSUTGIFTER,
+        beregnUnderholdskostnadGrunnlagPeriodisert.getSoknadBarnAlder());
+
+    // Sjablonverdi for boutgifter legges til
+    tempBeregnetUnderholdskostnad +=
+        SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+            SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP);
+
+    // Legger til eventuell støtte til barnetilsyn
+    tempBeregnetUnderholdskostnad +=
+        beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert);
+
+    // Legger til eventuelt netto barnetilsyn
+    tempBeregnetUnderholdskostnad +=
+        beregnUnderholdskostnadGrunnlagPeriodisert.getNettoBarnetilsynBelop();
+
+    // Trekker fra forpleiningsutgifter
+    tempBeregnetUnderholdskostnad -=
+        beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
+
+    // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
+    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0){
+      tempBeregnetUnderholdskostnad = Double.valueOf(0.0);
+    }
+
+    return new ResultatBeregning(tempBeregnetUnderholdskostnad);
+  }
+
+  // Denne metoden beregner for perioder frem til 01.07.2021
+  @Override
+  public ResultatBeregning beregnMedKunOrdinaerBarnetrygd(
+      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
+
+    List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
     // Legger til sjablonverdi for forbruksutgifter basert på barnets alder
     Double tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
@@ -55,12 +94,64 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
     return new ResultatBeregning(tempBeregnetUnderholdskostnad);
   }
 
+  // Denne metoden beregner for perioder fra 01.07.2021 og fremover, inkluderer både ordinær og forhøyet barnetrygd
+  @Override
+  public ResultatBeregning beregn(
+      BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
+
+    List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
+
+    // Legger til sjablonverdi for forbruksutgifter basert på barnets alder
+    Double tempBeregnetUnderholdskostnad = SjablonUtil.hentSjablonverdi(
+        beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+        SjablonNavn.FORBRUKSUTGIFTER,
+        beregnUnderholdskostnadGrunnlagPeriodisert.getSoknadBarnAlder());
+
+    // Sjablonverdi for boutgifter legges til
+    tempBeregnetUnderholdskostnad +=
+        SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+            SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP);
+
+    // Legger til eventuell støtte til barnetilsyn
+    tempBeregnetUnderholdskostnad +=
+        beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert);
+
+    // Legger til eventuelt netto barnetilsyn
+    tempBeregnetUnderholdskostnad +=
+        beregnUnderholdskostnadGrunnlagPeriodisert.getNettoBarnetilsynBelop();
+
+    // Trekker fra barnetrygd
+    if(beregnUnderholdskostnadGrunnlagPeriodisert.getSoknadBarnAlder() > 5) {
+      // Ordinær barnetrygd skal brukes
+      tempBeregnetUnderholdskostnad -=
+          SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+              SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP);
+    } else {
+      // Forhøyet barnetrygd skal brukes
+      tempBeregnetUnderholdskostnad -=
+          SjablonUtil.hentSjablonverdi(beregnUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+              SjablonTallNavn.FORHOYET_BARNETRYGD_BELOP);
+    }
+
+    // Trekker fra forpleiningsutgifter
+    tempBeregnetUnderholdskostnad -=
+        beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop();
+
+    // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
+    if (tempBeregnetUnderholdskostnad.compareTo(0.0) < 0){
+      tempBeregnetUnderholdskostnad = Double.valueOf(0.0);
+    }
+
+    return new ResultatBeregning(tempBeregnetUnderholdskostnad);
+  }
+
+
   @Override
   public Double beregnBarnetilsynMedStonad(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
-    if (beregnUnderholdskostnadGrunnlagPeriodisert.getBarnetilsynMedStonad()
-        .getBarnetilsynMedStonadTilsynType() != null) {
+    if (beregnUnderholdskostnadGrunnlagPeriodisert.getBarnetilsynMedStonad()!= null) {
+//        .getBarnetilsynMedStonadTilsynType() != null) {
       List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
       sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.TILSYN_TYPE.getNavn(),
           beregnUnderholdskostnadGrunnlagPeriodisert.getBarnetilsynMedStonad()

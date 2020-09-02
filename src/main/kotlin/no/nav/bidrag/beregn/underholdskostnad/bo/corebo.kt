@@ -39,7 +39,7 @@ data class ResultatBeregning(
 // Grunnlag beregning
 data class BeregnUnderholdskostnadGrunnlagPeriodisert(
     val soknadBarnAlder: Int,
-    val barnetilsynMedStonad: BarnetilsynMedStonad,
+    val barnetilsynMedStonad: BarnetilsynMedStonad?,
     val nettoBarnetilsynBelop: Double,
     val forpleiningUtgiftBelop: Double,
     val sjablonListe: List<Sjablon>)
