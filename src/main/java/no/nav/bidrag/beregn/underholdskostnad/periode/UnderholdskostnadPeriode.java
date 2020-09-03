@@ -17,7 +17,11 @@ public interface UnderholdskostnadPeriode {
     return new UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning.getInstance());
   }
 
-  Integer beregnSoknadbarnAlder(
+  Integer beregnSoknadbarnAlderOverstyrt(
+      BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag,
+      LocalDate beregnDatoFra);
+
+  Integer beregnSoknadbarnAlderReell(
       BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag,
       LocalDate beregnDatoFra);
 

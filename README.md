@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.7.1   | Endret       | Logikk for å beregne underholdskostnad med forhøyet barnetrygd for barn < 6 år lagt til fra 01.07.2021
 0.7.0   | Endret       | Beregning av bidragsevne flyttet fra bidrag-beregn-felles, 25% av inntekt lagt til i output fra bidragsevne
 0.6.0   | Endret       | Beregning av kostnadsberegnet bidrag lagt til
 0.5.0   | Endret       | Endret sjablonPeriodeListe i DTO for samværsfradrag fra val til var for å få tilgang til setter

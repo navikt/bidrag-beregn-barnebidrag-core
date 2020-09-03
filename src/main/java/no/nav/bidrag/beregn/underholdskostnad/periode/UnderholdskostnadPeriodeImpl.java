@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.underholdskostnad.periode;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -25,26 +26,29 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.ResultatPeriode;
 
 public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
 
-  public UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning underholdskostnadberegning) {
-    this.underholdskostnadberegning = underholdskostnadberegning;
+  public UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning underholdskostnadBeregning) {
+    this.underholdskostnadBeregning = underholdskostnadBeregning;
   }
 
-  private UnderholdskostnadBeregning underholdskostnadberegning;
+  private UnderholdskostnadBeregning underholdskostnadBeregning;
 
   public BeregnUnderholdskostnadResultat beregnPerioder(
       BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
-    var justertBarnetilsynMedStonadPeriodeListe = beregnUnderholdskostnadGrunnlag.getBarnetilsynMedStonadPeriodeListe()
+    var justertBarnetilsynMedStonadPeriodeListe = beregnUnderholdskostnadGrunnlag
+        .getBarnetilsynMedStonadPeriodeListe()
         .stream()
         .map(BarnetilsynMedStonadPeriode::new)
         .collect(toCollection(ArrayList::new));
-    var justertNettoBarnetilsynPeriodeListe = beregnUnderholdskostnadGrunnlag.getNettoBarnetilsynPeriodeListe()
+    var justertNettoBarnetilsynPeriodeListe = beregnUnderholdskostnadGrunnlag
+        .getNettoBarnetilsynPeriodeListe()
         .stream()
         .map(NettoBarnetilsynPeriode::new)
         .collect(toCollection(ArrayList::new));
-    var justertForpleiningUtgiftPeriodeListe = beregnUnderholdskostnadGrunnlag.getForpleiningUtgiftPeriodeListe()
+    var justertForpleiningUtgiftPeriodeListe = beregnUnderholdskostnadGrunnlag
+        .getForpleiningUtgiftPeriodeListe()
         .stream()
         .map(ForpleiningUtgiftPeriode::new)
         .collect(toCollection(ArrayList::new));
@@ -52,6 +56,38 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
         .stream()
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
+
+    // Barnetrygd skal ikke trekkes fra i barnets fødselsmåned, må derfor lage denne måneden som egen periode
+    Periode soknadsbarnFodselsmaaned = new Periode(
+        beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().withDayOfMonth(01),
+        beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().withDayOfMonth(01)
+            .plusMonths(1));
+
+    // Ny sjablon forhøyet barnetrygd for barn til og med fem år inntrer fra 01.07.2021
+    // Det må derfor legges til brudd på denne datoen
+    Periode datoRegelendringer = new Periode(LocalDate.parse("2021-07-01"),
+        LocalDate.parse("2021-07-01"));
+
+    // Hvis barnet er født den første dagen i måneden legges seks år til fødselsdatoen, hvis ikke så brukes
+    // påfølgende måned etter at barnet fyller seks år.
+    // Datoen brukes til å skape brudd på seksårsdag, og til å sjekke om ordinær eller forhøyet barnetrygd
+    // skal brukes.
+    LocalDate seksaarsbruddato;
+    if (beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().getDayOfMonth() == 1) {
+      seksaarsbruddato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
+          .plusYears(6);
+    } else {
+      seksaarsbruddato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
+          .plusYears(6)
+          .plusMonths(1)
+          .withDayOfMonth(1);
+    }
+
+    Periode maanedEtterSeksaarsdag = new Periode(seksaarsbruddato, seksaarsbruddato);
+
+    System.out.println(
+        "Seksårsdagperiode" + maanedEtterSeksaarsdag.getDatoFra() + maanedEtterSeksaarsdag
+            .getDatoTil());
 
     // Barnets fødselsdag og måned skal overstyres til 01.07. Lager liste for å sikre brudd ved ny
     // alder fra 01.07 hvert år i beregningsperioden
@@ -63,24 +99,32 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
     while (tellerAar <= beregnUnderholdskostnadGrunnlag.getBeregnDatoTil().getYear()
         && beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()
         .isAfter(LocalDate.of(tellerAar, 7, 1))) {
-      bruddlisteBarnAlder.add(new Periode(LocalDate.of(tellerAar, 7, 1), LocalDate.of(tellerAar, 7, 1)));
+      bruddlisteBarnAlder
+          .add(new Periode(LocalDate.of(tellerAar, 7, 1), LocalDate.of(tellerAar, 7, 1)));
       tellerAar++;
     }
 
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
-        .addBruddpunkt(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
+        .addBruddpunkt(beregnUnderholdskostnadGrunnlag
+            .getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkter(justertBarnetilsynMedStonadPeriodeListe)
         .addBruddpunkter(justertNettoBarnetilsynPeriodeListe)
         .addBruddpunkter(justertForpleiningUtgiftPeriodeListe)
+        .addBruddpunkter(soknadsbarnFodselsmaaned)
+        .addBruddpunkter(maanedEtterSeksaarsdag)
+        .addBruddpunkter(datoRegelendringer)
         .addBruddpunkter(bruddlisteBarnAlder)
-        .addBruddpunkt(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
-        .finnPerioder(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnUnderholdskostnadGrunnlag.getBeregnDatoTil());
+        .addBruddpunkt(beregnUnderholdskostnadGrunnlag
+            .getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
+        .finnPerioder(beregnUnderholdskostnadGrunnlag.getBeregnDatoFra(),
+            beregnUnderholdskostnadGrunnlag.getBeregnDatoTil());
 
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
     if (perioder.size() > 1) {
-      if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil())) &&
+      if ((perioder.get(perioder.size() - 2).getDatoTil()
+          .equals(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil())) &&
           (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
         var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
         perioder.remove(perioder.size() - 1);
@@ -92,45 +136,99 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
-      var BarnetilsynMedStonad = justertBarnetilsynMedStonadPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(barnetilsynMedStonadPeriode -> new BarnetilsynMedStonad(barnetilsynMedStonadPeriode.getBarnetilsynMedStonadTilsynType(),
+      var BarnetilsynMedStonad = justertBarnetilsynMedStonadPeriodeListe.stream()
+          .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(barnetilsynMedStonadPeriode -> new BarnetilsynMedStonad(
+              barnetilsynMedStonadPeriode.getBarnetilsynMedStonadTilsynType(),
               barnetilsynMedStonadPeriode.getBarnetilsynStonadType())).findFirst().orElse(null);
 
-      var nettoBarnetilsynBelop = justertNettoBarnetilsynPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+      var nettoBarnetilsynBelop = justertNettoBarnetilsynPeriodeListe.stream()
+          .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(NettoBarnetilsynPeriode::getNettoBarnetilsynBelop).findFirst().orElse(null);
 
-      var forpleiningUtgiftBelop = justertForpleiningUtgiftPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+      var forpleiningUtgiftBelop = justertForpleiningUtgiftPeriodeListe.stream()
+          .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(ForpleiningUtgiftPeriode::getForpleiningUtgiftBelop).findFirst().orElse(null);
 
-      var alderBarn = beregnSoknadbarnAlder(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFra());
+      var alderBarn = beregnSoknadbarnAlderOverstyrt(beregnUnderholdskostnadGrunnlag,
+          beregningsperiode.getDatoFra());
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+      var sjablonliste = justertSjablonPeriodeListe.stream()
+          .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
               sjablonPeriode.getSjablon().getSjablonNokkelListe(),
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnUnderholdskostnadGrunnlagPeriodisert = new BeregnUnderholdskostnadGrunnlagPeriodisert(
-          alderBarn, BarnetilsynMedStonad, nettoBarnetilsynBelop, forpleiningUtgiftBelop, sjablonliste);
+          alderBarn, BarnetilsynMedStonad, nettoBarnetilsynBelop, forpleiningUtgiftBelop,
+          sjablonliste);
 
-      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, underholdskostnadberegning.beregn(beregnUnderholdskostnadGrunnlagPeriodisert),
-          beregnUnderholdskostnadGrunnlagPeriodisert));
+      // Velger mellom 3 metoder for å beregne:
+      // 1. beregnUtenBarnetrygd - Barnetrygd skal ikke trekkes fra i barnets fødselsmåned
+      // 2. beregnOrdinaerBarnetrygd - Beregning med ordinær barnetrygd
+      // 3. beregnForhoyetBarnetrygd - Beregner med forhøyet barnetrygd
+
+      if (beregningsperiode.getDatoFra().equals(soknadsbarnFodselsmaaned.getDatoFra())) {
+        System.out.println(
+            "Barnets fødselsmåned, beregner uten barnetrygd: "
+                + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, underholdskostnadBeregning
+            .beregnUtenBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+            beregnUnderholdskostnadGrunnlagPeriodisert));
+      } else {
+        if (beregningsperiode.getDatoFra().isBefore(datoRegelendringer.getDatoFra())) {
+          System.out.println(
+              "Periode er før innføring av forhøyet barnetrygd, beregner med ordinær barnetrygd "
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+          resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, underholdskostnadBeregning
+              .beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+              beregnUnderholdskostnadGrunnlagPeriodisert));
+        } else {
+          if (beregningsperiode.getDatoFra()
+              .isAfter(datoRegelendringer.getDatoFra().minusDays(1))) {
+            if (beregningsperiode.getDatoFra().isBefore(seksaarsbruddato)) {
+              System.out.println("Beregner med forhøyet barnetrygd"
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+              resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+                  underholdskostnadBeregning
+                      .beregnMedForhoyetBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+                  beregnUnderholdskostnadGrunnlagPeriodisert));
+            } else {
+              System.out.println("Barnet har fyllt seks år og vi beregner med ordinær barnetrygd "
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+              resultatPeriodeListe
+                  .add(new ResultatPeriode(beregningsperiode, underholdskostnadBeregning
+                      .beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+                      beregnUnderholdskostnadGrunnlagPeriodisert));
+            }
+          }
+        }
+      }
     }
-
-    //Slår sammen perioder med samme resultat
     return new BeregnUnderholdskostnadResultat(resultatPeriodeListe);
   }
 
   @Override
-  public Integer beregnSoknadbarnAlder(
+  public Integer beregnSoknadbarnAlderOverstyrt(
       BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag,
       LocalDate beregnDatoFra) {
 
-    LocalDate tempSoknadbarnFodselsdato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
+    LocalDate tempSoknadbarnFodselsdato = beregnUnderholdskostnadGrunnlag
+        .getSoknadsbarnFodselsdato()
         .withDayOfMonth(1)
         .withMonth(7);
 
     return Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
+  }
+
+  @Override
+  public Integer beregnSoknadbarnAlderReell(
+      BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag,
+      LocalDate beregnDatoFra) {
+
+    return Period.between(beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato(),
+        beregnDatoFra).getYears();
   }
 
 
@@ -143,32 +241,41 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
       sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
     }
     var avvikListe = new ArrayList<>(
-        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe",
+        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+            "sjablonPeriodeListe",
             sjablonPeriodeListe, false, false, false, false));
 
     // Sjekk perioder for barnetilsynMedStonad
     var barnetilsynMedStonadPeriodeListe = new ArrayList<Periode>();
-    for (BarnetilsynMedStonadPeriode barnetilsynMedStonadPeriode : grunnlag.getBarnetilsynMedStonadPeriodeListe()) {
+    for (BarnetilsynMedStonadPeriode barnetilsynMedStonadPeriode : grunnlag
+        .getBarnetilsynMedStonadPeriodeListe()) {
       barnetilsynMedStonadPeriodeListe.add(barnetilsynMedStonadPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "barnetilsynMedStonadPeriodeListe",
-        barnetilsynMedStonadPeriodeListe, true, true, true, true));
+    avvikListe.addAll(PeriodeUtil
+        .validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+            "barnetilsynMedStonadPeriodeListe",
+            barnetilsynMedStonadPeriodeListe, true, true, true, true));
 
     // Sjekk perioder for netto barnetilsyn
     var nettoBarnetilsynPeriodeListe = new ArrayList<Periode>();
-    for (NettoBarnetilsynPeriode nettoBarnetilsynPeriode : grunnlag.getNettoBarnetilsynPeriodeListe()) {
+    for (NettoBarnetilsynPeriode nettoBarnetilsynPeriode : grunnlag
+        .getNettoBarnetilsynPeriodeListe()) {
       nettoBarnetilsynPeriodeListe.add(nettoBarnetilsynPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "nettoBarnetilsynPeriodeListe", nettoBarnetilsynPeriodeListe, true, true, true, true));
+    avvikListe.addAll(
+        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+            "nettoBarnetilsynPeriodeListe", nettoBarnetilsynPeriodeListe, true, true, true, true));
 
     // Sjekk perioder for forpleiningsutgifter
     var forpleiningUtgiftPeriodeListe = new ArrayList<Periode>();
-    for (ForpleiningUtgiftPeriode forpleiningUtgiftPeriode : grunnlag.getForpleiningUtgiftPeriodeListe()) {
+    for (ForpleiningUtgiftPeriode forpleiningUtgiftPeriode : grunnlag
+        .getForpleiningUtgiftPeriodeListe()) {
       forpleiningUtgiftPeriodeListe.add(forpleiningUtgiftPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "forpleiningUtgiftPeriodeListe", forpleiningUtgiftPeriodeListe, true, true, true, true));
+    avvikListe.addAll(
+        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+            "forpleiningUtgiftPeriodeListe", forpleiningUtgiftPeriodeListe, true, true, true,
+            true));
 
     return avvikListe;
   }
