@@ -203,7 +203,6 @@ public class UnderholdskostnadPeriodeTest {
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(2000d - 1054d)
-
     );
 
     printGrunnlagResultat(resultat);
@@ -211,7 +210,7 @@ public class UnderholdskostnadPeriodeTest {
 
 
   @Test
-  @DisplayName("Test det trekkes fra forhøyet barnetrygd for barn under seks år ")
+  @DisplayName("Test det trekkes fra forhøyet barnetrygd for barn under seks år etter 01.07.2021")
   void testForhoyetBarneTrygd() {
 
     var beregnDatoFra = LocalDate.parse("2021-03-01");
@@ -252,8 +251,8 @@ public class UnderholdskostnadPeriodeTest {
     assertThat(resultat).isNotNull();
 
     assertAll(
-//        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
-
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
+        // Første periode er før innføring av forhøyet barnetrygd
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2021-03-01")),
@@ -263,6 +262,7 @@ public class UnderholdskostnadPeriodeTest {
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(2000d - 1054d),
+        // Forhøyet barnetrygd er innført, barnet er under seks år -> forhøyet barnetrygd brukes
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2021-07-01")),
@@ -272,6 +272,7 @@ public class UnderholdskostnadPeriodeTest {
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(2000d - 1354d),
+        // Forhøyet barnetrygd er innført, barnet har fyllt seks år -> ordinær barnetrygd brukes
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2021-11-01")),
@@ -281,7 +282,6 @@ public class UnderholdskostnadPeriodeTest {
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(2000d - 1054d)
-
     );
 
     printGrunnlagResultat(resultat);
@@ -298,25 +298,21 @@ public class UnderholdskostnadPeriodeTest {
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
         () -> assertThat(avvikListe).hasSize(4),
-
         () -> assertThat(avvikListe.get(0).getAvvikTekst())
             .isEqualTo(
                 "Første dato i barnetilsynMedStonadPeriodeListe (2018-01-01) er etter beregnDatoFra (2015-01-01)"),
         () -> assertThat(avvikListe.get(0).getAvvikType())
             .isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
-
         () -> assertThat(avvikListe.get(1).getAvvikTekst())
             .isEqualTo(
                 "Siste dato i barnetilsynMedStonadPeriodeListe (2020-12-01) er før beregnDatoTil (2021-01-01)"),
         () -> assertThat(avvikListe.get(1).getAvvikType())
             .isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
-
         () -> assertThat(avvikListe.get(2).getAvvikTekst())
             .isEqualTo(
                 "Første dato i nettoBarnetilsynPeriodeListe (2016-01-01) er etter beregnDatoFra (2015-01-01)"),
         () -> assertThat(avvikListe.get(2).getAvvikType())
             .isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
-
         () -> assertThat(avvikListe.get(3).getAvvikTekst())
             .isEqualTo(
                 "Siste dato i forpleiningUtgiftPeriodeListe (2020-01-01) er før beregnDatoTil (2021-01-01)"),

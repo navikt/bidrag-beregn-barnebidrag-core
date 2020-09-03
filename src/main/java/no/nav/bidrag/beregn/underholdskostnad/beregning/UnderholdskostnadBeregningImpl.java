@@ -53,7 +53,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
 
   // Denne metoden beregner for perioder frem til 01.07.2021
   @Override
-  public ResultatBeregning beregnOrdinaerBarnetrygd(
+  public ResultatBeregning beregnMedOrdinaerBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
@@ -96,7 +96,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
 
   // Denne metoden beregner for perioder fra 01.07.2021 og fremover, inkluderer både ordinær og forhøyet barnetrygd
   @Override
-  public ResultatBeregning beregnForhoyetBarnetrygd(
+  public ResultatBeregning beregnMedForhoyetBarnetrygd(
       BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert) {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();

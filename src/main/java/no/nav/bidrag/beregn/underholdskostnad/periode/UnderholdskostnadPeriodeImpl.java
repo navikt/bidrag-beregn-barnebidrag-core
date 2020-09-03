@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.underholdskostnad.periode;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -67,13 +68,26 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
     Periode datoRegelendringer = new Periode(LocalDate.parse("2021-07-01"),
         LocalDate.parse("2021-07-01"));
 
-    // Lager bruddperiode i påfølgende måned etter at barnet fyller seks år,
-    // forhøyet barnetrygd skal da erstattes med ordinær barnetrygd (fra 01.07.2021)
-    LocalDate seksaarsbruddato = beregnUnderholdskostnadGrunnlag
-        .getSoknadsbarnFodselsdato().plusYears(6).plusMonths(01).withDayOfMonth(01);
+    // Hvis barnet er født den første dagen i måneden legges seks år til fødselsdatoen, hvis ikke så brukes
+    // påfølgende måned etter at barnet fyller seks år.
+    // Datoen brukes til å skape brudd på seksårsdag, og til å sjekke om ordinær eller forhøyet barnetrygd
+    // skal brukes.
+    LocalDate seksaarsbruddato;
+    if (beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().getDayOfMonth() == 1) {
+      seksaarsbruddato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
+          .plusYears(6);
+    } else {
+      seksaarsbruddato = beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato()
+          .plusYears(6)
+          .plusMonths(1)
+          .withDayOfMonth(1);
+    }
+
     Periode maanedEtterSeksaarsdag = new Periode(seksaarsbruddato, seksaarsbruddato);
 
-    System.out.println("Seksårsdagperiode" + maanedEtterSeksaarsdag.getDatoFra() + maanedEtterSeksaarsdag.getDatoTil());
+    System.out.println(
+        "Seksårsdagperiode" + maanedEtterSeksaarsdag.getDatoFra() + maanedEtterSeksaarsdag
+            .getDatoTil());
 
     // Barnets fødselsdag og måned skal overstyres til 01.07. Lager liste for å sikre brudd ved ny
     // alder fra 01.07 hvert år i beregningsperioden
@@ -163,43 +177,31 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
             .beregnUtenBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
             beregnUnderholdskostnadGrunnlagPeriodisert));
       } else {
-        if (beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()
-            .isBefore(datoRegelendringer.getDatoFra().plusDays(1))) {
+        if (beregningsperiode.getDatoFra().isBefore(datoRegelendringer.getDatoFra())) {
           System.out.println(
-              "Periode er før innføring av forhøyet barnetrygd, beregner kun med ordinær barnetrygd "
+              "Periode er før innføring av forhøyet barnetrygd, beregner med ordinær barnetrygd "
                   + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
-
           resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, underholdskostnadBeregning
-              .beregnOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+              .beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
               beregnUnderholdskostnadGrunnlagPeriodisert));
         } else {
-          // BeregnDatoTil er etter dato for innføring av forhøyet barnetrygd, 01.07.2021
-          if (beregningsperiode.getDatoFraTil() == null) {
-            // Siste periode som skal beregnes, vil her alltid være > dato for innføring av forhøyet barnetrygd
-            System.out.println("Beregner med ordinær og forhøyet barnetrygd1 "
-                + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
-            resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-                underholdskostnadBeregning.beregnForhoyetBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
-                beregnUnderholdskostnadGrunnlagPeriodisert));
-          } else if (beregningsperiode.getDatoFra()
-              .isAfter(datoRegelendringer.getDatoFra().minusDays(01))) {
-            // Perioden er etter dato for innføring av forhøyet barnetrygd
-            System.out.println("Beregner med ordinær og forhøyet barnetrygd2 "
-                + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
-
-            resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-                underholdskostnadBeregning.beregnForhoyetBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
-                beregnUnderholdskostnadGrunnlagPeriodisert));
-          } else {
-            // Perioden er før dato for innføring av forhøyet barnetrygd
-            System.out.println(
-                "Periode er før innføring av forhøyet barnetrygd, beregner kun med ordinær barnetrygd "
-                    + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
-
-            resultatPeriodeListe
-                .add(new ResultatPeriode(beregningsperiode, underholdskostnadBeregning
-                    .beregnOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
-                    beregnUnderholdskostnadGrunnlagPeriodisert));
+          if (beregningsperiode.getDatoFra()
+              .isAfter(datoRegelendringer.getDatoFra().minusDays(1))) {
+            if (beregningsperiode.getDatoFra().isBefore(seksaarsbruddato)) {
+              System.out.println("Beregner med forhøyet barnetrygd"
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+              resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+                  underholdskostnadBeregning
+                      .beregnMedForhoyetBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+                  beregnUnderholdskostnadGrunnlagPeriodisert));
+            } else {
+              System.out.println("Barnet har fyllt seks år og vi beregner med ordinær barnetrygd "
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+              resultatPeriodeListe
+                  .add(new ResultatPeriode(beregningsperiode, underholdskostnadBeregning
+                      .beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
+                      beregnUnderholdskostnadGrunnlagPeriodisert));
+            }
           }
         }
       }
