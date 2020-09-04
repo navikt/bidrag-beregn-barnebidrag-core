@@ -10,9 +10,12 @@ data class BeregnBarnebidragGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadsbarnFodselsdato: LocalDate,
-    val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriode>,
-    val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
-//    val samvaersklassePeriodeListe: List<SamvaersklassePeriode>?,
+    val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
+    val kostnadsberegnetBidragPeriodeListe: List<KostnadsberegnetBidragPeriode>,
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
+    val barnetilleggBPPeriodeListe: List<BarnetilleggBPPeriode>,
+    val barnetilleggBMPeriodeListe: List<BarnetilleggBMPeriode>,
+    val barnetilleggForsvaretBPPeriodeListe: List<BarnetilleggForsvaretBPPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
@@ -24,7 +27,7 @@ data class BeregnBarnebidragResultat(
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlag: BeregnBarnebidragGrunnlagPeriodisert
+    val resultatGrunnlag: GrunnlagBeregningPeriodisert
 )
 
 data class ResultatBeregning(
@@ -32,9 +35,22 @@ data class ResultatBeregning(
 )
 
 // Grunnlag beregning
-data class BeregnBarnebidragGrunnlagPeriodisert(
+data class GrunnlagBeregningPeriodisert(
     val soknadBarnAlder: Int,
-    val underholdskostnadBelop: Double,
-    val bPsAndelUnderholdskostnadProsent: Double,
-//    val samvaersklasse: String?,
+    val bidragsevneBelop: Double,
+    val kostnadsberegnetBidragBelop: Double,
+    val samvaersfradrag: Double,
+    val barnetilleggBP: BarnetilleggBP,
+    val barnetilleggBM: BarnetilleggBM,
+    val barnetilleggForsvaretBPJaNei: Boolean,
     val sjablonListe: List<Sjablon>)
+
+data class BarnetilleggBP(
+    val barnetilleggBPBelop: Double,
+    val barnetilleggBPSkattProsent: Double
+)
+
+data class BarnetilleggBM(
+    val barnetilleggBMBelop: Double,
+    val barnetilleggBMSkattProsent: Double
+)

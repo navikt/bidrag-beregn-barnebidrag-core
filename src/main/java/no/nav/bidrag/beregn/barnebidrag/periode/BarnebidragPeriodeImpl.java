@@ -5,7 +5,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
-import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
+import no.nav.bidrag.beregn.barnebidrag.bo.KostnadsberegnetBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
 import no.nav.bidrag.beregn.barnebidrag.bo.UnderholdskostnadPeriode;
@@ -63,8 +63,8 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
 
     // Sjekk perioder for BPs andel av underholdskostnad
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<Periode>();
-    for (BPsAndelUnderholdskostnadPeriode bPsAndelUnderholdskostnadPeriode : grunnlag
-        .getBPsAndelUnderholdskostnadPeriodeListe()) {
+    for (KostnadsberegnetBidragPeriode bPsAndelUnderholdskostnadPeriode : grunnlag
+        .getKostnadsberegnetBidragPeriodeListe()) {
       bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode.getDatoFraTil());
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"nettoBarnetilsynPeriodeListe",
