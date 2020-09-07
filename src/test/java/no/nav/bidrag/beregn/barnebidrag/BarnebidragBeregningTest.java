@@ -6,7 +6,7 @@ import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregningImpl;
-import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

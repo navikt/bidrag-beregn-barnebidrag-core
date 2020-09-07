@@ -17,8 +17,4 @@ public interface BarnebidragPeriode {
     return new BarnebidragPeriodeImpl(BarnebidragBeregning.getInstance());
   }
 
-  Integer beregnSoknadbarnAlder(
-      BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag,
-      LocalDate beregnDatoFra);
-
 }
