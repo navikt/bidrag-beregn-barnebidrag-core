@@ -62,15 +62,15 @@ data class BarnetilleggBMPeriode(
   }
 }
 
-data class BarnetilleggForsvaretBPPeriode(
-    val barnetilleggForsvaretBPDatoFraTil: Periode,
+data class BarnetilleggForsvaretPeriode(
+    val barnetilleggForsvaretDatoFraTil: Periode,
     val barnetilleggForsvaretAntallBarn: Int,
     val barnetilleggForsvaretIPeriode: Boolean) : PeriodisertGrunnlag {
-  constructor(barnetilleggForsvaretBPPeriode: BarnetilleggForsvaretBPPeriode)
-      : this(barnetilleggForsvaretBPPeriode.barnetilleggForsvaretBPDatoFraTil.justerDatoer(),
-      barnetilleggForsvaretBPPeriode.barnetilleggForsvaretAntallBarn,
-      barnetilleggForsvaretBPPeriode.barnetilleggForsvaretIPeriode)
+  constructor(barnetilleggForsvaretPeriode: BarnetilleggForsvaretPeriode)
+      : this(barnetilleggForsvaretPeriode.barnetilleggForsvaretDatoFraTil.justerDatoer(),
+      barnetilleggForsvaretPeriode.barnetilleggForsvaretAntallBarn,
+      barnetilleggForsvaretPeriode.barnetilleggForsvaretIPeriode)
   override fun getDatoFraTil(): Periode {
-    return barnetilleggForsvaretBPDatoFraTil
+    return barnetilleggForsvaretDatoFraTil
   }
 }

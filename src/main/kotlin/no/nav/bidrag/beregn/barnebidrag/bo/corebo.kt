@@ -15,7 +15,7 @@ data class BeregnBarnebidragGrunnlag(
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
     val barnetilleggBPPeriodeListe: List<BarnetilleggBPPeriode>,
     val barnetilleggBMPeriodeListe: List<BarnetilleggBMPeriode>,
-    val barnetilleggForsvaretBPPeriodeListe: List<BarnetilleggForsvaretBPPeriode>,
+    val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
