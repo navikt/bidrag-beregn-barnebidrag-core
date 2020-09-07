@@ -56,6 +56,6 @@ data class BarnetilleggBM(
 )
 
 data class BarnetilleggForsvaret(
-    val barnetilleggForsvaretBPJaNei: Boolean,
+    val barnetilleggForsvaretJaNei: Boolean,
     val antallBarn: Int
 )
