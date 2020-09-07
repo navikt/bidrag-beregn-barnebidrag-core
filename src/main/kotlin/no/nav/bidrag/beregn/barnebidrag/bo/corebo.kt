@@ -42,7 +42,7 @@ data class GrunnlagBeregningPeriodisert(
     val samvaersfradrag: Double,
     val barnetilleggBP: BarnetilleggBP,
     val barnetilleggBM: BarnetilleggBM,
-    val barnetilleggForsvaretBPJaNei: Boolean,
+    val barnetilleggForsvaret: BarnetilleggForsvaret,
     val sjablonListe: List<Sjablon>)
 
 data class BarnetilleggBP(
@@ -53,4 +53,9 @@ data class BarnetilleggBP(
 data class BarnetilleggBM(
     val barnetilleggBMBelop: Double,
     val barnetilleggBMSkattProsent: Double
+)
+
+data class BarnetilleggForsvaret(
+    val barnetilleggForsvaretBPJaNei: Boolean,
+    val antallBarn: Int
 )

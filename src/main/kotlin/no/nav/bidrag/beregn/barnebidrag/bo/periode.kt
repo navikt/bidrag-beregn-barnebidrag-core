@@ -64,10 +64,12 @@ data class BarnetilleggBMPeriode(
 
 data class BarnetilleggForsvaretBPPeriode(
     val barnetilleggForsvaretBPDatoFraTil: Periode,
-    val barnetilleggIPeriode: Boolean) : PeriodisertGrunnlag {
+    val barnetilleggForsvaretAntallBarn: Int,
+    val barnetilleggForsvaretIPeriode: Boolean) : PeriodisertGrunnlag {
   constructor(barnetilleggForsvaretBPPeriode: BarnetilleggForsvaretBPPeriode)
       : this(barnetilleggForsvaretBPPeriode.barnetilleggForsvaretBPDatoFraTil.justerDatoer(),
-      barnetilleggForsvaretBPPeriode.barnetilleggIPeriode)
+      barnetilleggForsvaretBPPeriode.barnetilleggForsvaretAntallBarn,
+      barnetilleggForsvaretBPPeriode.barnetilleggForsvaretIPeriode)
   override fun getDatoFraTil(): Periode {
     return barnetilleggForsvaretBPDatoFraTil
   }
