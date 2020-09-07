@@ -9,7 +9,6 @@ import java.time.LocalDate
 data class BeregnBarnebidragGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val soknadsbarnFodselsdato: LocalDate,
     val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
     val kostnadsberegnetBidragPeriodeListe: List<KostnadsberegnetBidragPeriode>,
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
@@ -36,7 +35,6 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
-    val soknadBarnAlder: Int,
     val bidragsevneBelop: Double,
     val kostnadsberegnetBidragBelop: Double,
     val samvaersfradrag: Double,
