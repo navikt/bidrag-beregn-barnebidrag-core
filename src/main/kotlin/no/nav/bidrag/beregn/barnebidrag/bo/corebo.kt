@@ -36,7 +36,7 @@ data class ResultatBeregning(
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
     val bidragsevneBelop: Double,
-    val kostnadsberegnetBidragBelop: Double,
+    val kostnadsberegnetBidrag: Double,
     val samvaersfradrag: Double,
     val barnetilleggBP: BarnetilleggBP,
     val barnetilleggBM: BarnetilleggBM,

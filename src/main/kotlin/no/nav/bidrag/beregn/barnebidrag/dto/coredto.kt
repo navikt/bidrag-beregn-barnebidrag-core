@@ -76,7 +76,7 @@ data class ResultatBeregningCore(
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
     val bidragsevneBelop: Double,
-    val kostnadsberegnetBidragBelop: Double,
+    val kostnadsberegnetBidrag: Double,
     val samvaersfradrag: Double,
     val barnetilleggBP: BarnetilleggBPCore,
     val barnetilleggBM: BarnetilleggBMCore,
