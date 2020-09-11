@@ -19,7 +19,6 @@ import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.KostnadsberegnetBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersfradragPeriode;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekter;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -46,7 +45,8 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         .map(BidragsevnePeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    var justertKostnadsberegnetBidragPeriodeListe = beregnBarnebidragGrunnlag.getKostnadsberegnetBidragPeriodeListe()
+    var justertKostnadsberegnetBidragPeriodeListe = beregnBarnebidragGrunnlag.getGrunnlagPerBarnPeriodeListe()
+         .getKostnadsberegnetBidragPeriodeListe()
         .stream()
         .map(KostnadsberegnetBidragPeriode::new)
         .collect(toCollection(ArrayList::new));

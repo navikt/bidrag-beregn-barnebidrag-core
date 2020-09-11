@@ -21,6 +21,12 @@ data class InntekterPeriodeCore(
     val inntektBB: Double
 )
 
+data class ResultatGrunnlagCore(
+    val inntektBP: Double,
+    val inntektBM: Double,
+    val inntektBB: Double,
+    val sjablonListe: List<SjablonCore>
+)
 
 // Resultat
 data class BeregnBPsAndelUnderholdskostnadResultatCore(
@@ -35,12 +41,6 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatAndelProsent: Double
-)
-
-data class ResultatGrunnlagCore(
-    val inntektBP: Double,
-    val inntektBM: Double,
-    val inntektBB: Double,
-    val sjablonListe: List<SjablonCore>
+    val resultatAndelProsent: Double,
+    val resultatAndelBelop: Double
 )
