@@ -6,6 +6,7 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -21,7 +22,7 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
 
 data class InntektPeriodeCore(
     val inntektPeriodeDatoFraTil: PeriodeCore,
-    val inntektType: Double,
+    val inntektType: InntektType,
     val inntektBelop: Double
 )
 
