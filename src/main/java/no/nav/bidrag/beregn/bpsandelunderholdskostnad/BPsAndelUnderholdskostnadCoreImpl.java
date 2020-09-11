@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadResultat;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntekterPeriode;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.BeregnBPsAndelUnderholdskostnadGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.BeregnBPsAndelUnderholdskostnadResultatCore;
@@ -80,10 +80,10 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     return sjablonPeriodeListe;
   }
 
-  private List<InntekterPeriode> mapInntekterPeriodeListe(List<InntekterPeriodeCore> inntekterPeriodeListeCore) {
-    var inntekterPeriodeListe = new ArrayList<InntekterPeriode>();
+  private List<InntektPeriode> mapInntekterPeriodeListe(List<InntekterPeriodeCore> inntekterPeriodeListeCore) {
+    var inntekterPeriodeListe = new ArrayList<InntektPeriode>();
     for (InntekterPeriodeCore inntekterPeriodeCore : inntekterPeriodeListeCore) {
-      inntekterPeriodeListe.add(new InntekterPeriode(
+      inntekterPeriodeListe.add(new InntektPeriode(
           new Periode(inntekterPeriodeCore.getInntekterPeriodeDatoFraTil().getPeriodeDatoFra(),
               inntekterPeriodeCore.getInntekterPeriodeDatoFraTil().getPeriodeDatoTil()),
           inntekterPeriodeCore.getInntektBP(),

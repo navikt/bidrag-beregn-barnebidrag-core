@@ -11,7 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadResultat;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntekterPeriode;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.periode.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -66,11 +66,11 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2009-07-01");
 
     // Lag inntekter
-    var inntekterPeriodeListe = new ArrayList<InntekterPeriode>();
-    inntekterPeriodeListe.add(new InntekterPeriode(
+    var inntekterPeriodeListe = new ArrayList<InntektPeriode>();
+    inntekterPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
         300000, 400000, 40000));
-    inntekterPeriodeListe.add(new InntekterPeriode(
+    inntekterPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
         3000, 400000, 4000000));
 
@@ -147,8 +147,8 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
   private void lagGrunnlag(String beregnDatoFra, String beregnDatoTil) {
 
     // Lag inntekter
-    var inntekterPeriodeListe = new ArrayList<InntekterPeriode>();
-    inntekterPeriodeListe.add(new InntekterPeriode(
+    var inntekterPeriodeListe = new ArrayList<InntektPeriode>();
+    inntekterPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
         217666, 400000, 40000));
 

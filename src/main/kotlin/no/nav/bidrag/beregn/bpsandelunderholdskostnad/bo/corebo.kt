@@ -3,25 +3,32 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.time.LocalDate
 
 // Grunnlag periode
 data class BeregnBPsAndelUnderholdskostnadGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val inntekterPeriodeListe: List<InntekterPeriode>,
+    val underholdskostnadListe: List<UnderholdskostnadPeriode>,
+    val inntektBPPeriodeListe: List<InntektPeriode>,
+    val inntektBMPeriodeListe: List<InntektPeriode>,
+    val inntektBBPeriodeListe: List<InntektPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
 // Grunnlag beregning
 data class BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
-    val inntekter: Inntekter,
+    val underholdskostnadBelop: Double,
+    val inntektBP: List<Inntekt>,
+    val inntektBM: List<Inntekt>,
+    val inntektBB: List<Inntekt>,
     val sjablonListe: List<Sjablon>)
 
-data class Inntekter(
-    val inntektBP: Double,
-    val inntektBM: Double,
-    val inntektBB: Double)
+data class Inntekt(
+    val inntektType: InntektType,
+    val inntektBelop: Double
+)
 
 
 // Resultatperiode

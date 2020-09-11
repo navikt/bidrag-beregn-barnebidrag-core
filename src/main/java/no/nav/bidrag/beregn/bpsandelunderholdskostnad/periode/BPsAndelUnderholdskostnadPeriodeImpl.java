@@ -6,13 +6,15 @@ import static java.util.stream.Collectors.toList;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import no.nav.bidrag.beregn.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.beregning.BPsAndelUnderholdskostnadBeregning;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadResultat;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekter;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntekterPeriode;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.UnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -34,9 +36,24 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
-    var justertInntekterPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getInntekterPeriodeListe()
+    var justertUnderholdskostnadPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getUnderholdskostnadListe()
         .stream()
-        .map(InntekterPeriode::new)
+        .map(UnderholdskostnadPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
+    var justertInntektBPPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getInntektBPPeriodeListe()
+        .stream()
+        .map(InntektPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
+    var justertInntektBMPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getInntektBMPeriodeListe()
+        .stream()
+        .map(InntektPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
+    var justertInntektBBPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getInntektBBPeriodeListe()
+        .stream()
+        .map(InntektPeriode::new)
         .collect(toCollection(ArrayList::new));
 
     var justertSjablonPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getSjablonPeriodeListe()
@@ -54,7 +71,10 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
         .addBruddpunkt(beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkter(datoRegelendringer)
-        .addBruddpunkter(justertInntekterPeriodeListe)
+        .addBruddpunkter(justertUnderholdskostnadPeriodeListe)
+        .addBruddpunkter(justertInntektBPPeriodeListe)
+        .addBruddpunkter(justertInntektBMPeriodeListe)
+        .addBruddpunkter(justertInntektBBPeriodeListe)
         .addBruddpunkt(beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoFra(), beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoTil());
 
@@ -72,9 +92,24 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
-      var inntekter = justertInntekterPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(inntekterPeriode -> new Inntekter(inntekterPeriode.getInntektBP(), inntekterPeriode.getInntektBM(),
-              inntekterPeriode.getInntektBB())).findFirst().orElse(null);
+      var underholdskostnad = justertUnderholdskostnadPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(UnderholdskostnadPeriode::getUnderholdskostnadBelop).findFirst().orElse(null);
+
+      var inntektBP = justertInntektBPPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
+              inntektPeriode.getInntektBelop())).collect(toList());
+
+      var inntektBM = justertInntektBMPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
+              inntektPeriode.getInntektBelop())).collect(toList());
+
+      var inntektBB = justertInntektBBPeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
+              inntektPeriode.getInntektBelop())).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
@@ -83,7 +118,7 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert = new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
-          inntekter, sjablonliste);
+          underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonliste);
 
       // Beregner med gamle regler hvis periodens beregntilogmeddato er 01.01.2009 eller tidligere
       if (beregningsperiode.getDatoTil() == null ||
@@ -117,13 +152,29 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe",
             sjablonPeriodeListe, false, false, false, false));
 
-    // Sjekk perioder for barnetilsynMedStonad
-    var inntekterPeriodeListe = new ArrayList<Periode>();
-    for (InntekterPeriode inntekterPeriode : grunnlag.getInntekterPeriodeListe()) {
-      inntekterPeriodeListe.add(inntekterPeriode.getDatoFraTil());
+    // Sjekk perioder for inntektBP
+    var inntektBPPeriodeListe = new ArrayList<Periode>();
+    for (InntektPeriode inntektBPPeriode : grunnlag.getInntektBPPeriodeListe()) {
+      inntektBPPeriodeListe.add(inntektBPPeriode.getDatoFraTil());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "inntektPeriodeListe",
-        inntekterPeriodeListe, false, true, false, true));
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "inntektBPPeriodeListe",
+        inntektBPPeriodeListe, false, true, false, true));
+
+    // Sjekk perioder for inntektBM
+    var inntektBMPeriodeListe = new ArrayList<Periode>();
+    for (InntektPeriode inntektBMPeriode : grunnlag.getInntektBMPeriodeListe()) {
+      inntektBPPeriodeListe.add(inntektBMPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "inntektBMPeriodeListe",
+        inntektBMPeriodeListe, false, true, false, true));
+
+    // Sjekk perioder for inntektBB
+    var inntektBBPeriodeListe = new ArrayList<Periode>();
+    for (InntektPeriode inntektBBPeriode : grunnlag.getInntektBBPeriodeListe()) {
+      inntektBBPeriodeListe.add(inntektBBPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "inntektBBPeriodeListe",
+        inntektBPPeriodeListe, false, true, false, true));
 
     return avvikListe;
   }

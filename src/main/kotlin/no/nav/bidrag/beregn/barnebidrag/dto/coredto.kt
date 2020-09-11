@@ -55,9 +55,9 @@ data class BarnetilleggForsvaretPeriodeCore(
 )
 
 data class BPsAndelUnderholdskostnadPeriodeCore(
-    val kostnadsberegnetBidragDatoFraTil: Periode,
+    val bPsAndelUnderholdskostnadDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
-    val kostnadsberegnetBidragBelop: Double
+    val bPsAndelUnderholdskostnadBelop: Double
 )
 
 data class KostnadsberegnetBidragPeriodeCore(
