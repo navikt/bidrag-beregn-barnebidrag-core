@@ -84,7 +84,7 @@ data class BeregnBarnebidragResultat(
 
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: ResultatBeregning,
+    val resultatBeregning: List<ResultatBeregning>,
     val resultatGrunnlag: GrunnlagBeregningPeriodisert
 )
 
