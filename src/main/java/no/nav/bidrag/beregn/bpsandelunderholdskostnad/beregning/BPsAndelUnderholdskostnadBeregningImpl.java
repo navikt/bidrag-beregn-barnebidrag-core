@@ -21,7 +21,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert) {
 
     BigDecimal andelProsent;
-    BigDecimal andelBelop;
+    BigDecimal andelBelop = BigDecimal.valueOf(0);
 
     // Legger sammen inntektene
     var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBP()
@@ -58,9 +58,18 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         andelProsent = BigDecimal.valueOf(83.3);
       }
 
+      andelBelop =
+          BigDecimal.valueOf(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getUnderholdskostnadBelop())
+          .multiply(andelProsent).divide(BigDecimal.valueOf(100));
+
+      System.out.println("Andel Beløp før avrunding : " + andelBelop);
+
+      andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
+      System.out.println("Andel Beløp etter avrunding : " + andelBelop);
+
     }
 
-    return new ResultatBeregning(andelProsent.doubleValue(), 0d);
+    return new ResultatBeregning(andelProsent.doubleValue(), andelBelop.doubleValue());
 
   }
 
@@ -69,7 +78,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert) {
 
     BigDecimal andelProsent;
-    BigDecimal andelBelop;
+    BigDecimal andelBelop = BigDecimal.valueOf(0);
 
     // Legger sammen inntektene
     var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBP()
@@ -119,9 +128,18 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       if (andelProsent.compareTo(BigDecimal.valueOf(83.3)) > 0) {
         andelProsent = BigDecimal.valueOf(83.3);
       }
+      andelBelop =
+          BigDecimal.valueOf(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getUnderholdskostnadBelop())
+              .multiply(andelProsent).divide(BigDecimal.valueOf(100));
+
+      System.out.println("Andel Beløp før avrunding : " + andelBelop);
+
+      andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
+      System.out.println("Andel Beløp etter avrunding : " + andelBelop);
+
     }
 
-    return new ResultatBeregning(andelProsent.doubleValue(), 0d);
+    return new ResultatBeregning(andelProsent.doubleValue(), andelBelop.doubleValue());
 
     }
 
