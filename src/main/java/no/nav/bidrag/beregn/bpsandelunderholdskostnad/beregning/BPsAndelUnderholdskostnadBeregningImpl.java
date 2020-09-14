@@ -62,10 +62,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
           BigDecimal.valueOf(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getUnderholdskostnadBelop())
           .multiply(andelProsent).divide(BigDecimal.valueOf(100));
 
-      System.out.println("Andel Beløp før avrunding : " + andelBelop);
-
       andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
-      System.out.println("Andel Beløp etter avrunding : " + andelBelop);
 
     }
 
@@ -132,10 +129,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
           BigDecimal.valueOf(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getUnderholdskostnadBelop())
               .multiply(andelProsent).divide(BigDecimal.valueOf(100));
 
-      System.out.println("Andel Beløp før avrunding : " + andelBelop);
-
       andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
-      System.out.println("Andel Beløp etter avrunding : " + andelBelop);
 
     }
 
