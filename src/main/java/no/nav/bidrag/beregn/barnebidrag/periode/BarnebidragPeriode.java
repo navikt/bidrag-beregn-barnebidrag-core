@@ -1,6 +1,6 @@
+/*
 package no.nav.bidrag.beregn.barnebidrag.periode;
 
-import java.time.LocalDate;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
@@ -17,8 +17,5 @@ public interface BarnebidragPeriode {
     return new BarnebidragPeriodeImpl(BarnebidragBeregning.getInstance());
   }
 
-  Integer beregnSoknadbarnAlder(
-      BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag,
-      LocalDate beregnDatoFra);
-
 }
+*/

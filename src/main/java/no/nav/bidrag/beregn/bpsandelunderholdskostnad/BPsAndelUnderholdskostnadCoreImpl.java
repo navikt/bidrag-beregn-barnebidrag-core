@@ -5,14 +5,17 @@ import java.util.Collections;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadResultat;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntekterPeriode;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.UnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.BeregnBPsAndelUnderholdskostnadGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.BeregnBPsAndelUnderholdskostnadResultatCore;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.InntekterPeriodeCore;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.InntektPeriodeCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.ResultatBeregningCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.ResultatPeriodeCore;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.UnderholdskostnadPeriodeCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.periode.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -36,11 +39,9 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
 
   private BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode;
 
-
   @Override
   public BeregnBPsAndelUnderholdskostnadResultatCore beregnBPsAndelUnderholdskostnad(
       BeregnBPsAndelUnderholdskostnadGrunnlagCore beregnBPsAndelUnderholdskostnadGrunnlagCore) {
-
 
     var beregnBPsAndelUnderholdskostnadGrunnlag = mapTilBusinessObject(beregnBPsAndelUnderholdskostnadGrunnlagCore);
     var beregnBPsAndelUnderholdskostnadResultat = new BeregnBPsAndelUnderholdskostnadResultat(Collections.emptyList());
@@ -56,9 +57,14 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var beregnDatoFra = beregnBPsAndelUnderholdskostnadGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnBPsAndelUnderholdskostnadGrunnlagCore.getBeregnDatoTil();
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getSjablonPeriodeListe());
-    var inntekterPeriodeListe = mapInntekterPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getInntekterPeriodeListe());
+    var underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore
+        .getUnderholdskostnadPeriodeListe());
+    var inntektBPPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getInntektBPPeriodeListe());
+    var inntektBMPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getInntektBMPeriodeListe());
+    var inntektBBPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getInntektBBPeriodeListe());
 
-    return new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, inntekterPeriodeListe, sjablonPeriodeListe);
+    return new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, underholdskostnadPeriodeListe,
+        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
@@ -80,19 +86,28 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     return sjablonPeriodeListe;
   }
 
-  private List<InntekterPeriode> mapInntekterPeriodeListe(List<InntekterPeriodeCore> inntekterPeriodeListeCore) {
-    var inntekterPeriodeListe = new ArrayList<InntekterPeriode>();
-    for (InntekterPeriodeCore inntekterPeriodeCore : inntekterPeriodeListeCore) {
-      inntekterPeriodeListe.add(new InntekterPeriode(
-          new Periode(inntekterPeriodeCore.getInntekterPeriodeDatoFraTil().getPeriodeDatoFra(),
-              inntekterPeriodeCore.getInntekterPeriodeDatoFraTil().getPeriodeDatoTil()),
-          inntekterPeriodeCore.getInntektBP(),
-          inntekterPeriodeCore.getInntektBM(),
-          inntekterPeriodeCore.getInntektBB()));
+  private List<InntektPeriode> mapInntektPeriodeListe(List<InntektPeriodeCore> inntekterPeriodeListeCore) {
+    var inntekterPeriodeListe = new ArrayList<InntektPeriode>();
+    for (InntektPeriodeCore inntekterPeriodeCore : inntekterPeriodeListeCore) {
+      inntekterPeriodeListe.add(new InntektPeriode(
+          new Periode(inntekterPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoFra(),
+              inntekterPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Inntekt(inntekterPeriodeCore.getInntektType(),
+          inntekterPeriodeCore.getInntektBelop())));
     }
     return inntekterPeriodeListe;
   }
 
+  private List<UnderholdskostnadPeriode> mapUnderholdskostnadPeriodeListe(List<UnderholdskostnadPeriodeCore> underholdskostnadPeriodeListeCore) {
+    var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
+    for (UnderholdskostnadPeriodeCore underholdskostnadPeriodeCore : underholdskostnadPeriodeListeCore) {
+      underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
+          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getPeriodeDatoFra(),
+              underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getPeriodeDatoTil()),
+          underholdskostnadPeriodeCore.getUnderholdskostnadBelop()));
+    }
+    return underholdskostnadPeriodeListe;
+  }
 
 
   private BeregnBPsAndelUnderholdskostnadResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnBPsAndelUnderholdskostnadResultat resultat) {
@@ -114,10 +129,12 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
       var bPsAndelunderholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent()),
-          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getInntekter().getInntektBP(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntekter().getInntektBM(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntekter().getInntektBB(),
+          new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent(),
+              bPsAndelunderholdskostnadResultat.getResultatAndelBelop()),
+          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBP(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBB(),
               mapResultatGrunnlagSjabloner(bPsAndelunderholdskostnadResultatGrunnlag.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;

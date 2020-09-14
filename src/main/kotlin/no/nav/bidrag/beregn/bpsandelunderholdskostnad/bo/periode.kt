@@ -3,17 +3,24 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 
-data class InntekterPeriode(
-    val inntekterDatoFraTil: Periode,
-    val inntektBP: Double,
-    val inntektBM: Double,
-    val inntektBB: Double) : PeriodisertGrunnlag {
-  constructor(inntekterPeriode: InntekterPeriode)
-      : this(inntekterPeriode.inntekterDatoFraTil.justerDatoer(),
-      inntekterPeriode.inntektBP,
-      inntekterPeriode.inntektBM,
-      inntekterPeriode.inntektBB)
+data class InntektPeriode(
+    val inntektDatoFraTil: Periode,
+    val inntekt: Inntekt) : PeriodisertGrunnlag {
+  constructor(inntektPeriode: InntektPeriode)
+      : this(inntektPeriode.inntektDatoFraTil.justerDatoer(),
+      inntektPeriode.inntekt)
   override fun getDatoFraTil(): Periode {
-    return inntekterDatoFraTil
+    return inntektDatoFraTil
+  }
+}
+
+data class UnderholdskostnadPeriode(
+    val underholdskostnadDatoFraTil: Periode,
+    val underholdskostnadBelop: Double) : PeriodisertGrunnlag {
+  constructor(underholdskostnadPeriode: UnderholdskostnadPeriode)
+      : this(underholdskostnadPeriode.underholdskostnadDatoFraTil.justerDatoer(),
+      underholdskostnadPeriode.underholdskostnadBelop)
+  override fun getDatoFraTil(): Periode {
+    return underholdskostnadDatoFraTil
   }
 }
