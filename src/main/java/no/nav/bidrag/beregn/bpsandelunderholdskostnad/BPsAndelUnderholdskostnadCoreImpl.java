@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadResultat;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.UnderholdskostnadPeriode;
@@ -38,11 +39,9 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
 
   private BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode;
 
-
   @Override
   public BeregnBPsAndelUnderholdskostnadResultatCore beregnBPsAndelUnderholdskostnad(
       BeregnBPsAndelUnderholdskostnadGrunnlagCore beregnBPsAndelUnderholdskostnadGrunnlagCore) {
-
 
     var beregnBPsAndelUnderholdskostnadGrunnlag = mapTilBusinessObject(beregnBPsAndelUnderholdskostnadGrunnlagCore);
     var beregnBPsAndelUnderholdskostnadResultat = new BeregnBPsAndelUnderholdskostnadResultat(Collections.emptyList());
@@ -93,8 +92,8 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
       inntekterPeriodeListe.add(new InntektPeriode(
           new Periode(inntekterPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoFra(),
               inntekterPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoTil()),
-          inntekterPeriodeCore.getInntektType(),
-          inntekterPeriodeCore.getInntektBelop()));
+          new Inntekt(inntekterPeriodeCore.getInntektType(),
+          inntekterPeriodeCore.getInntektBelop())));
     }
     return inntekterPeriodeListe;
   }
@@ -103,8 +102,8 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
     for (UnderholdskostnadPeriodeCore underholdskostnadPeriodeCore : underholdskostnadPeriodeListeCore) {
       underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
-          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getDatoFra(),
-              underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getDatoTil()),
+          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getPeriodeDatoFra(),
+              underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getPeriodeDatoTil()),
           underholdskostnadPeriodeCore.getUnderholdskostnadBelop()));
     }
     return underholdskostnadPeriodeListe;

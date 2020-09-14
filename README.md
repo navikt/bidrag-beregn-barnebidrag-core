@@ -7,7 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
-0.7.2   | Endret       | Beregning av barnebidrag lagt til
+0.7.2   | Endret       | Beregning av barnebidrag lagt til. Inntekter inn til beregning av BPs andel av U er nå lister. Beløp for U også lagt til i input
 0.7.1   | Endret       | Logikk for å beregne underholdskostnad med forhøyet barnetrygd for barn < 6 år lagt til fra 01.07.2021
 0.7.0   | Endret       | Beregning av bidragsevne flyttet fra bidrag-beregn-felles, 25% av inntekt lagt til i output fra bidragsevne
 0.6.0   | Endret       | Beregning av kostnadsberegnet bidrag lagt til

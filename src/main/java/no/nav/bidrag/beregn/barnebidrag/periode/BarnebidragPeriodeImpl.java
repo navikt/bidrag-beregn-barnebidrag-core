@@ -1,3 +1,4 @@
+/*
 package no.nav.bidrag.beregn.barnebidrag.periode;
 
 import static java.util.stream.Collectors.toCollection;
@@ -217,3 +218,4 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     return avvikListe;
   }
 }
+*/

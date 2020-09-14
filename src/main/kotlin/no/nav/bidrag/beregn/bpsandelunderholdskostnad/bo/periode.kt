@@ -2,16 +2,13 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.beregn.felles.enums.InntektType
 
 data class InntektPeriode(
     val inntektDatoFraTil: Periode,
-    val inntektType: InntektType,
-    val inntektBelop: Double) : PeriodisertGrunnlag {
+    val inntekt: Inntekt) : PeriodisertGrunnlag {
   constructor(inntektPeriode: InntektPeriode)
       : this(inntektPeriode.inntektDatoFraTil.justerDatoer(),
-      inntektPeriode.inntektType,
-      inntektPeriode.inntektBelop)
+      inntektPeriode.inntekt)
   override fun getDatoFraTil(): Periode {
     return inntektDatoFraTil
   }

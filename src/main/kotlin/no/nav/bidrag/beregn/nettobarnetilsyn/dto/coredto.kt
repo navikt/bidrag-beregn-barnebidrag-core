@@ -10,7 +10,7 @@ import java.time.LocalDate
 data class BeregnNettoBarnetilsynGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
-    val faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriodeCore>,
+    var faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriodeCore>,
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 

@@ -28,7 +28,7 @@ data class InntektPeriodeCore(
 )
 
 data class UnderholdskostnadPeriodeCore(
-    val underholdskostnadDatoFraTil: Periode,
+    val underholdskostnadDatoFraTil: PeriodeCore,
     val underholdskostnadBelop: Double
 )
 

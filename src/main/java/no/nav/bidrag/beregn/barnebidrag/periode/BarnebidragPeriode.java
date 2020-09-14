@@ -1,3 +1,4 @@
+/*
 package no.nav.bidrag.beregn.barnebidrag.periode;
 
 import java.util.List;
@@ -17,3 +18,4 @@ public interface BarnebidragPeriode {
   }
 
 }
+*/

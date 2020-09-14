@@ -217,7 +217,7 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02))
         ;
   }
-}
+
 
   @DisplayName("Test summering på søknadsbarns personid")
   @Test
