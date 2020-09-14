@@ -1,5 +1,6 @@
 package no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto
 
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
@@ -33,9 +34,9 @@ data class UnderholdskostnadPeriodeCore(
 
 data class ResultatGrunnlagCore(
     val underholdskostnadBelop: Double,
-    val inntektBP: Double,
-    val inntektBM: Double,
-    val inntektBB: Double,
+    val inntektBP: List<Inntekt>,
+    val inntektBM: List<Inntekt>,
+    val inntektBB: List<Inntekt>,
     val sjablonListe: List<SjablonCore>
 )
 

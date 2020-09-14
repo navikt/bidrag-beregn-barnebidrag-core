@@ -132,9 +132,10 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent(),
               bPsAndelunderholdskostnadResultat.getResultatAndelBelop()),
-          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getInntekter().getInntektBP(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntekter().getInntektBM(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntekter().getInntektBB(),
+          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBP(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBB(),
               mapResultatGrunnlagSjabloner(bPsAndelunderholdskostnadResultatGrunnlag.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
