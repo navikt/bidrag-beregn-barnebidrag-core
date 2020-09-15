@@ -15,43 +15,20 @@ data class BeregnBarnebidragGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val bidragsevnePeriodeListe: List<BidragsevnePeriodeCore>,
-    val barnetilleggBPPeriodeListe: List<BarnetilleggBPPeriodeCore>,
-    val barnetilleggBMPeriodeListe: List<BarnetilleggBMPeriodeCore>,
-    val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriodeCore>,
-    val grunnlagPerBarnPeriodeListe: List<GrunnlagPerBarnCore>,
-    val sjablonPeriodeListe: List<SjablonPeriodeCore>
-)
-
-// Del av grunnlaget som angis per barn i søknaden
-data class GrunnlagPerBarnCore(
     val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriodeCore>,
     val kostnadsberegnetBidragPeriodeListe: List<KostnadsberegnetBidragPeriodeCore>,
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
-    val deltBostedPeriodeListe: List<DeltBostedPeriodeCore>
+    val deltBostedPeriodeListe: List<DeltBostedPeriodeCore>,
+    val barnetilleggBPPeriodeListe: List<BarnetilleggBPPeriodeCore>,
+    val barnetilleggBMPeriodeListe: List<BarnetilleggBMPeriodeCore>,
+    val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriodeCore>,
+    val sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class BidragsevnePeriodeCore(
     val bidragsevneDatoFraTil: Periode,
     val bidragsevneBelop: Double,
     val tjuefemProsentInntekt: Double
-)
-
-data class BarnetilleggBPPeriodeCore(
-    val barnetilleggBPDatoFraTil: Periode,
-    val barnetilleggBPBelop: Double,
-    val barnetilleggBPSkattProsent: Double
-)
-
-data class BarnetilleggBMPeriodeCore(
-    val barnetilleggBMDatoFraTil: Periode,
-    val barnetilleggBMBelop: Double,
-    val barnetilleggBMSkattProsent: Double
-)
-
-data class BarnetilleggForsvaretPeriodeCore(
-    val barnetilleggForsvaretDatoFraTil: Periode,
-    val barnetilleggForsvaretAntallBarn: Int,
-    val barnetilleggForsvaretIPeriode: Boolean
 )
 
 data class BPsAndelUnderholdskostnadPeriodeCore(
@@ -78,6 +55,24 @@ data class DeltBostedPeriodeCore(
     val deltBostedPeriodeCore: Boolean
 )
 
+data class BarnetilleggBPPeriodeCore(
+    val barnetilleggBPDatoFraTil: Periode,
+    val barnetilleggBPBelop: Double,
+    val barnetilleggBPSkattProsent: Double
+)
+
+data class BarnetilleggBMPeriodeCore(
+    val barnetilleggBMDatoFraTil: Periode,
+    val barnetilleggBMBelop: Double,
+    val barnetilleggBMSkattProsent: Double
+)
+
+data class BarnetilleggForsvaretPeriodeCore(
+    val barnetilleggForsvaretDatoFraTil: Periode,
+    val barnetilleggForsvaretAntallBarn: Int,
+    val barnetilleggForsvaretIPeriode: Boolean
+)
+
 
 
 // Resultatperiode
@@ -101,13 +96,13 @@ data class ResultatBeregningCore(
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
     val bidragsevneBelop: Double,
-    val barnetilleggBP: BarnetilleggBPCore,
-    val barnetilleggBM: BarnetilleggBMCore,
-    val barnetilleggForsvaret: BarnetilleggForsvaretCore,
     val bPsAndelUnderholdskostnad: List<BPsAndelUnderholdskostnadCore>,
     val kostnadsberegnetBidrag: List<KostnadsberegnetBidragCore>,
     val samvaersfradrag: List<SamvaersfradragCore>,
     val deltBosted: List<DeltBostedCore>,
+    val barnetilleggBP: List<BarnetilleggBPCore>,
+    val barnetilleggBM: List<BarnetilleggBMCore>,
+    val barnetilleggForsvaret: List<BarnetilleggForsvaretCore>,
     val sjablonListe: List<Sjablon>
 )
 
@@ -133,16 +128,19 @@ data class DeltBostedCore(
 )
 
 data class BarnetilleggBPCore(
+    val soknadsbarnPersonId: Int,
     val barnetilleggBPBelop: Double,
     val barnetilleggBPSkattProsent: Double
 )
 
 data class BarnetilleggBMCore(
+    val soknadsbarnPersonId: Int,
     val barnetilleggBMBelop: Double,
     val barnetilleggBMSkattProsent: Double
 )
 
 data class BarnetilleggForsvaretCore(
+    val soknadsbarnPersonId: Int,
     val barnetilleggForsvaretJaNei: Boolean,
     val antallBarn: Int
 )

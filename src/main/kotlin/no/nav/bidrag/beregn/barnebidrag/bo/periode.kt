@@ -16,24 +16,6 @@ data class BidragsevnePeriode(
   }
 }
 
-// Del av grunnlaget som angis per barn i søknaden
-  data class GrunnlagPerBarnPeriode(
-    val grunnlagPerBarnPeriodeDatoFraTil: Periode,
-    val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
-    val kostnadsberegnetBidragPeriodeListe: List<KostnadsberegnetBidragPeriode>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
-    val deltBostedPeriodeListe: List<DeltBostedPeriode>) : PeriodisertGrunnlag {
-  constructor(grunnlagPerBarnPeriode: GrunnlagPerBarnPeriode)
-      : this(grunnlagPerBarnPeriode.grunnlagPerBarnPeriodeDatoFraTil.justerDatoer(),
-      grunnlagPerBarnPeriode.bPsAndelUnderholdskostnadPeriodeListe,
-      grunnlagPerBarnPeriode.kostnadsberegnetBidragPeriodeListe,
-      grunnlagPerBarnPeriode.samvaersfradragPeriodeListe,
-      grunnlagPerBarnPeriode.deltBostedPeriodeListe)
-  override fun getDatoFraTil(): Periode {
-    return grunnlagPerBarnPeriodeDatoFraTil
-  }
-}
-
 data class BPsAndelUnderholdskostnadPeriode(
     val bPsAndelUnderholdskostnadDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
