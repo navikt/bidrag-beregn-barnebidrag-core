@@ -147,7 +147,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBB = new ArrayList<Inntekt>();
 
     inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 502000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 50000));
+    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000));
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
