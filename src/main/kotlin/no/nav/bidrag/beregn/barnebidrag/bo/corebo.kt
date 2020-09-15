@@ -24,13 +24,13 @@ data class BeregnBarnebidragGrunnlag(
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
     val bidragsevneBelop: Double,
-    val bPsAndelUnderholdskostnad: List<BPsAndelUnderholdskostnad>,
+    val bPsAndelUnderholdskostnadListe: List<BPsAndelUnderholdskostnad>,
     val kostnadsberegnetBidragListe: List<KostnadsberegnetBidrag>,
-    val samvaersfradrag: List<Samvaersfradrag>,
-    val deltBosted: List<DeltBosted>,
-    val barnetilleggBP: List<BarnetilleggBP>,
-    val barnetilleggBM: List<BarnetilleggBM>,
-    val barnetilleggForsvaret: List<BarnetilleggForsvaret>,
+    val samvaersfradragListe: List<Samvaersfradrag>,
+    val deltBostedListe: List<DeltBosted>,
+    val barnetilleggBPListe: List<BarnetilleggBP>,
+    val barnetilleggBMListe: List<BarnetilleggBM>,
+    val barnetilleggForsvaretListe: List<BarnetilleggForsvaret>,
     val sjablonListe: List<Sjablon>
 )
 

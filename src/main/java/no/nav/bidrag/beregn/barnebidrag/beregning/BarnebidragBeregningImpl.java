@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
+import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
@@ -20,10 +21,10 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   public ResultatBeregning beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    double belopFradrag = 0.0d;
+    double barnebidragBelop = 8000.0d;
 
 
-    return null;
+    return new ResultatBeregning(1, barnebidragBelop, ResultatKode.KOSTNADSBEREGNET_BIDRAG);
 
   }
 
