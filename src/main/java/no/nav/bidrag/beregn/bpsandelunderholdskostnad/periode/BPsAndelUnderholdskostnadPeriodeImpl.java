@@ -34,6 +34,7 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
       BeregnBPsAndelUnderholdskostnadGrunnlag beregnBPsAndelUnderholdskostnadGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
+    var soknadsbarnPersonId = beregnBPsAndelUnderholdskostnadGrunnlag.getSoknadsbarnPersonId();
 
     var justertUnderholdskostnadPeriodeListe = beregnBPsAndelUnderholdskostnadGrunnlag.getUnderholdskostnadListe()
         .stream()
@@ -97,18 +98,18 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
 
       var inntektBP = justertInntektBPPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntekt().getInntektType(),
-              inntektPeriode.getInntekt().getInntektBelop())).collect(toList());
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
+              inntektPeriode.getInntektBelop())).collect(toList());
 
       var inntektBM = justertInntektBMPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntekt().getInntektType(),
-              inntektPeriode.getInntekt().getInntektBelop())).collect(toList());
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
+              inntektPeriode.getInntektBelop())).collect(toList());
 
       var inntektBB = justertInntektBBPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntekt().getInntektType(),
-              inntektPeriode.getInntekt().getInntektBelop())).collect(toList());
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getInntektType(),
+              inntektPeriode.getInntektBelop())).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(
           i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -118,7 +119,7 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert = new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
-          underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonliste);
+          soknadsbarnPersonId, underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonliste);
 
       // Beregner med gamle regler hvis periodens beregntilogmeddato er 01.01.2009 eller tidligere
       if (beregningsperiode.getDatoTil() == null ||

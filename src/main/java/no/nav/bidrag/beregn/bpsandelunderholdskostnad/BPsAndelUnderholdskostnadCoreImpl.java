@@ -11,6 +11,7 @@ import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.UnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.BeregnBPsAndelUnderholdskostnadGrunnlagCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.BeregnBPsAndelUnderholdskostnadResultatCore;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.InntektCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.InntektPeriodeCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.ResultatBeregningCore;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto.ResultatGrunnlagCore;
@@ -29,6 +30,7 @@ import no.nav.bidrag.beregn.felles.dto.SjablonCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
+import no.nav.bidrag.beregn.felles.enums.InntektType;
 
 public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskostnadCore{
 
@@ -56,6 +58,7 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
       BeregnBPsAndelUnderholdskostnadGrunnlagCore beregnBPsAndelUnderholdskostnadGrunnlagCore) {
     var beregnDatoFra = beregnBPsAndelUnderholdskostnadGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnBPsAndelUnderholdskostnadGrunnlagCore.getBeregnDatoTil();
+    var soknadsbarnPersonId = beregnBPsAndelUnderholdskostnadGrunnlagCore.getSoknadsbarnPersonId();
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getSjablonPeriodeListe());
     var underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore
         .getUnderholdskostnadPeriodeListe());
@@ -63,8 +66,9 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var inntektBMPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getInntektBMPeriodeListe());
     var inntektBBPeriodeListe = mapInntektPeriodeListe(beregnBPsAndelUnderholdskostnadGrunnlagCore.getInntektBBPeriodeListe());
 
-    return new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, underholdskostnadPeriodeListe,
-        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, sjablonPeriodeListe);
+    return new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
+        underholdskostnadPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
+        inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
@@ -88,12 +92,12 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
 
   private List<InntektPeriode> mapInntektPeriodeListe(List<InntektPeriodeCore> inntekterPeriodeListeCore) {
     var inntekterPeriodeListe = new ArrayList<InntektPeriode>();
-    for (InntektPeriodeCore inntekterPeriodeCore : inntekterPeriodeListeCore) {
+    for (InntektPeriodeCore inntektPeriodeCore : inntekterPeriodeListeCore) {
       inntekterPeriodeListe.add(new InntektPeriode(
-          new Periode(inntekterPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoFra(),
-              inntekterPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoTil()),
-          new Inntekt(inntekterPeriodeCore.getInntektType(),
-          inntekterPeriodeCore.getInntektBelop())));
+          new Periode(inntektPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoFra(),
+              inntektPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoTil()),
+              InntektType.valueOf(inntektPeriodeCore.getInntektType()),
+              inntektPeriodeCore.getInntektBelop()));
     }
     return inntekterPeriodeListe;
   }
@@ -131,13 +135,24 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent(),
               bPsAndelunderholdskostnadResultat.getResultatAndelBelop()),
-          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBP(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getInntektBB(),
+          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getSoknadsbarnPersonId(),
+              bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
+              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBP()),
+              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM()),
+              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM()),
               mapResultatGrunnlagSjabloner(bPsAndelunderholdskostnadResultatGrunnlag.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
+  }
+
+
+  private List<InntektCore> mapResultatGrunnlagInntekt(List<Inntekt> resultatGrunnlagInntektListe) {
+    var resultatGrunnlagInntektListeCore = new ArrayList<InntektCore>();
+    for (Inntekt resultatGrunnlagInntekt : resultatGrunnlagInntektListe) {
+      resultatGrunnlagInntektListeCore
+          .add(new InntektCore(resultatGrunnlagInntekt.getInntektType().toString(), resultatGrunnlagInntekt.getInntektBelop()));
+    }
+    return resultatGrunnlagInntektListeCore;
   }
 
   private List<SjablonCore> mapResultatGrunnlagSjabloner(List<Sjablon> resultatGrunnlagSjablonListe) {

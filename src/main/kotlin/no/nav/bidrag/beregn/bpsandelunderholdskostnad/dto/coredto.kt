@@ -1,8 +1,6 @@
 package no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto
 
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt
-import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
@@ -14,6 +12,7 @@ import java.time.LocalDate
 data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
+    val soknadsbarnPersonId: Int,
     val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriodeCore>,
     val inntektBPPeriodeListe: List<InntektPeriodeCore>,
     val inntektBMPeriodeListe: List<InntektPeriodeCore>,
@@ -23,7 +22,7 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
 
 data class InntektPeriodeCore(
     val inntektPeriodeDatoFraTil: PeriodeCore,
-    val inntektType: InntektType,
+    val inntektType: String,
     val inntektBelop: Double
 )
 
@@ -33,11 +32,17 @@ data class UnderholdskostnadPeriodeCore(
 )
 
 data class ResultatGrunnlagCore(
+    val soknadsbarnPersonId: Int,
     val underholdskostnadBelop: Double,
-    val inntektBP: List<Inntekt>,
-    val inntektBM: List<Inntekt>,
-    val inntektBB: List<Inntekt>,
+    val inntektBP: List<InntektCore>,
+    val inntektBM: List<InntektCore>,
+    val inntektBB: List<InntektCore>,
     val sjablonListe: List<SjablonCore>
+)
+
+data class InntektCore(
+    val inntektType: String,
+    val inntektBelop: Double
 )
 
 // Resultat
