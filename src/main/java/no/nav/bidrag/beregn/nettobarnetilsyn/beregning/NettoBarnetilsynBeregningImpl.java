@@ -106,7 +106,12 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     System.out.println("Maks fradragsbeløp beregnet vha sjabloner: " + maksFradragsbelop);
     System.out.println("Endelig fradragsbeløp: " + fradragsbelop);
 
-    var fradragsbelopPerBarn = fradragsbelop / antallBarnMedTilsynsutgift;
+    var fradragsbelopPerBarn = 0d;
+
+    if (antallBarnMedTilsynsutgift > 0){
+      fradragsbelopPerBarn = fradragsbelop / antallBarnMedTilsynsutgift;
+    }
+
     System.out.println("Fradragsbeløp fordelt per barn: " + fradragsbelopPerBarn);
 
     return fradragsbelopPerBarn;
