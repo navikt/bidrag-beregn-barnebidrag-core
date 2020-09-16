@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(1),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(1978.13)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(1978d)
     );
   }
 
@@ -54,8 +55,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2082.54),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4582.54)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2083d),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4583d)
     );
   }
 
@@ -78,8 +79,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2082.54),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4582.54)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2083d),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4583d)
     );
   }
 
@@ -109,8 +110,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(5258.84),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2015.24)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(5259d),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2015d)
     );
   }
 
@@ -141,9 +142,9 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(4211.82),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02),
-        () -> assertThat(resultat.get(2).getResultatBelop()).isEqualTo(1455.12)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(4212d),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374d),
+        () -> assertThat(resultat.get(2).getResultatBelop()).isEqualTo(1455d)
     );
   }
 
@@ -167,7 +168,7 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(1),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(749.5)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(750d)
     );
   }
 
@@ -214,33 +215,25 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
         () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02))
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374d))
         ;
   }
 
 
-  @DisplayName("Test summering på søknadsbarns personid")
+  @DisplayName("Test eksempler fra John")
   @Test
   void testEksemplerFraJohn() {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
     var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
 
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02))
-    ;
+    assertEquals(2478d,
+        nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert).get(0).getResultatBelop());
+
   }
 }

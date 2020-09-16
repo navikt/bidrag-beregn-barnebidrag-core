@@ -11,7 +11,7 @@ public interface NettoBarnetilsynBeregning {
 
   Double beregnFradragsbelopPerBarn(
       BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert,
-      int antallBarn,
+      int antallBarn, int antallBarnMedTilsynsutgift,
       double tilsynsbelop);
 
   static NettoBarnetilsynBeregning getInstance(){
