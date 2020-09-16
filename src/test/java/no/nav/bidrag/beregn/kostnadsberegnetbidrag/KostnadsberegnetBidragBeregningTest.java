@@ -20,7 +20,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningUtenSamvaer() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(10000, 20d,
+        = new GrunnlagBeregningPeriodisert(1, 10000, 20d,
         0d);
 
     assertEquals(2000d,
@@ -34,7 +34,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningMedSamvaer() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(10000, 20,
+        = new GrunnlagBeregningPeriodisert(1, 10000, 20,
         100.0
     );
 
@@ -48,7 +48,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesOpp() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(666, 91d,
+        = new GrunnlagBeregningPeriodisert(1, 666, 91d,
         0d
     );
 
@@ -62,7 +62,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesNed() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(1000, 17.2,
+        = new GrunnlagBeregningPeriodisert(1, 1000, 17.2,
         100d
     );
 

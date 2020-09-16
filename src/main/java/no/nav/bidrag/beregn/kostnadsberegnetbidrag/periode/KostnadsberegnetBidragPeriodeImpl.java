@@ -30,6 +30,7 @@ public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidrag
       BeregnKostnadsberegnetBidragGrunnlag beregnKostnadsberegnetBidragGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
+    var soknadsbarnPersonId = beregnKostnadsberegnetBidragGrunnlag.getSoknadsbarnPersonId();
 
     var justertUnderholdskostnadPeriodeListe = beregnKostnadsberegnetBidragGrunnlag.getUnderholdskostnadPeriodeListe()
         .stream()
@@ -86,7 +87,7 @@ public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidrag
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
-          underholdskostnadBelop, bPsAndelUnderholdskostnadProsent, samvaersfradragBelop);
+          soknadsbarnPersonId, underholdskostnadBelop, bPsAndelUnderholdskostnadProsent, samvaersfradragBelop);
 
       resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
           kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert),

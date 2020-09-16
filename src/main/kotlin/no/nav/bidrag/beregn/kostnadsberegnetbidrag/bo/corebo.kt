@@ -7,6 +7,7 @@ import java.time.LocalDate
 data class BeregnKostnadsberegnetBidragGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
+    val soknadsbarnPersonId: Int,
     val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriode>,
     val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>?
@@ -29,6 +30,7 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
+    val soknadsbarnPersonId: Int,
     val underholdskostnadBelop: Double,
     val bPsAndelUnderholdskostnadProsent: Double,
     val samvaersfradrag: Double?)

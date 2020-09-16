@@ -10,6 +10,7 @@ import java.time.LocalDate
 data class BeregnBPsAndelUnderholdskostnadGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
+    val soknadsbarnPersonId: Int,
     val underholdskostnadListe: List<UnderholdskostnadPeriode>,
     val inntektBPPeriodeListe: List<InntektPeriode>,
     val inntektBMPeriodeListe: List<InntektPeriode>,
@@ -19,6 +20,7 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlag(
 
 // Grunnlag beregning
 data class BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
+    val soknadsbarnPersonId: Int,
     val underholdskostnadBelop: Double,
     val inntektBP: List<Inntekt>,
     val inntektBM: List<Inntekt>,

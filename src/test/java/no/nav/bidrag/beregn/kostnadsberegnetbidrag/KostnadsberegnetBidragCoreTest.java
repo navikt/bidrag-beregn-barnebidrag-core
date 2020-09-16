@@ -129,7 +129,7 @@ public class KostnadsberegnetBidragCoreTest {
     samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
 
     beregnKostnadsberegnetBidragGrunnlagCore = new BeregnKostnadsberegnetBidragGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        underholdskostnadPeriodeListe, bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe);
+        1, underholdskostnadPeriodeListe, bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe);
   }
 
   private void byggKostnadsberegnetBidragPeriodeResultat() {
@@ -138,19 +138,19 @@ public class KostnadsberegnetBidragCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(Double.valueOf(666)),
-        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
+        new GrunnlagBeregningPeriodisert(1, 10000d, 20d, 100d
         )));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(Double.valueOf(667)),
-        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
+        new GrunnlagBeregningPeriodisert(1, 10000d, 20d, 100d
         )));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(Double.valueOf(668)),
-        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
+        new GrunnlagBeregningPeriodisert(1, 10000d, 20d, 100d
         )));
 
     kostnadsberegnetBidragPeriodeResultat = new BeregnKostnadsberegnetBidragResultat(periodeResultatListe);

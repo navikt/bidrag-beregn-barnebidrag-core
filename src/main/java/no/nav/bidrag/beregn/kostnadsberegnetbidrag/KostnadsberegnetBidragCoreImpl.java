@@ -45,6 +45,7 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
   private BeregnKostnadsberegnetBidragGrunnlag mapTilBusinessObject(BeregnKostnadsberegnetBidragGrunnlagCore beregnKostnadsberegnetBidragGrunnlagCore) {
     var beregnDatoFra = beregnKostnadsberegnetBidragGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnKostnadsberegnetBidragGrunnlagCore.getBeregnDatoTil();
+    var soknadsbarnPersonId = beregnKostnadsberegnetBidragGrunnlagCore.getSoknadsbarnPersonId();
     var underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(
         beregnKostnadsberegnetBidragGrunnlagCore.getUnderholdskostnadPeriodeListe());
     var bPsAndelUnderholdskostnadPeriodeListe = mapBPsAndelUnderholdskostnadPeriodeListe(
@@ -52,8 +53,8 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var samvaersfradragPeriodeListe = mapSamvaersfradragPeriodeListe(
         beregnKostnadsberegnetBidragGrunnlagCore.getSamvaersfradragPeriodeListe());
 
-    return new BeregnKostnadsberegnetBidragGrunnlag(beregnDatoFra, beregnDatoTil, underholdskostnadPeriodeListe, bPsAndelUnderholdskostnadPeriodeListe,
-        samvaersfradragPeriodeListe);
+    return new BeregnKostnadsberegnetBidragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId, underholdskostnadPeriodeListe,
+        bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe);
   }
 
   private List<UnderholdskostnadPeriode> mapUnderholdskostnadPeriodeListe(List<UnderholdskostnadPeriodeCore> underholdskostnadPeriodeListeCore) {
@@ -110,7 +111,8 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(kostnadsberegnetBidragResultat.getResultatkostnadsberegnetbidragBelop()),
-          new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
+          new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getSoknadsbarnPersonId(),
+              kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
               kostnadsberegnetBidragResultatGrunnlag.getBPsAndelUnderholdskostnadProsent(),
               kostnadsberegnetBidragResultatGrunnlag.getSamvaersfradrag()
           )));

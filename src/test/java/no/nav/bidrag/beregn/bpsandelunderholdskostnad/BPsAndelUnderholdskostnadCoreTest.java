@@ -128,13 +128,13 @@ public class BPsAndelUnderholdskostnadCoreTest {
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1000d);
 
     var inntektBPPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT, 111d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT.toString(), 111d);
 
     var inntektBMPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT, 222d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT.toString(), 222d);
 
     var inntektBBPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT, 333d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT.toString(), 333d);
 
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriodeCore>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriodeCore>();
@@ -152,8 +152,9 @@ public class BPsAndelUnderholdskostnadCoreTest {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
-    beregnBPsAndelUnderholdskostnadGrunnlagCore = new BeregnBPsAndelUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        underholdskostnadPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, sjablonPeriodeListe);
+    beregnBPsAndelUnderholdskostnadGrunnlagCore = new BeregnBPsAndelUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"), 1,
+        underholdskostnadPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
+        inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 
   private void byggBPsAndelUnderholdskostnadPeriodeResultat() {
@@ -170,21 +171,21 @@ public class BPsAndelUnderholdskostnadCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(10d, 100d),
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1,1000d, inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(20d, 200d),
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1,1000d, inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1640d)))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(30d, 300d),
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1,1000d, inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1680d)))))));
 
