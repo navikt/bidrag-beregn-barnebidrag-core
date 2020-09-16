@@ -76,7 +76,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
       // Filtrerer vekk forekomster for barn som har fyllt 12 år i tillegg til der innsendt beløp ikke er større enn 0
       var faktiskUtgiftListe = justertFaktiskUtgiftPeriodeListe.stream()
           .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .filter(i -> Double.compare(i.getFaktiskUtgiftBelop(), 0.0) > 0)
+//          .filter(i -> Double.compare(i.getFaktiskUtgiftBelop(), 0.0) > 0)
           .filter(i -> beregnSoknadbarn12aarsdag(i.getFaktiskUtgiftSoknadsbarnFodselsdato())
               .compareTo(beregningsperiode.getDatoTil()) >= 0)
           .map(faktiskUtgiftPeriode -> new FaktiskUtgift(faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnFodselsdato(),

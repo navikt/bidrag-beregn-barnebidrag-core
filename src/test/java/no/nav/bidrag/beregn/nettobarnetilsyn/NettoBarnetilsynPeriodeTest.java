@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,8 +21,11 @@ import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.nettobarnetilsyn.beregning.NettoBarnetilsynBeregningImpl;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
 import org.junit.jupiter.api.DisplayName;
@@ -369,6 +373,40 @@ public class NettoBarnetilsynPeriodeTest {
     );
 
     printAvvikListe(avvikListe);
+  }
+
+  @DisplayName("Test eksempler fra John")
+  @Test
+  void testEksemplerFraJohn() {
+
+    var beregnDatoFra = LocalDate.parse("2019-07-01");
+    var beregnDatoTil = LocalDate.parse("2020-01-01");
+
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
+        LocalDate.parse("2010-03-17"), 1, 3000d));
+/*    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
+        LocalDate.parse("2011-03-18"), 2, 2000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
+        LocalDate.parse("2012-03-18"), 3, 2000d));*/
+
+    BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
+            lagSjablonGrunnlag());
+
+    var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(2478d)
+//        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(2249d)
+    );
+
+    printGrunnlagResultat(resultat);
+
+
   }
 
 

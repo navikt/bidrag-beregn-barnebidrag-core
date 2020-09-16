@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -219,28 +220,20 @@ class NettoBarnetilsynBeregningTest {
   }
 
 
-  @DisplayName("Test summering på søknadsbarns personid")
+  @DisplayName("Test eksempler fra John")
   @Test
   void testEksemplerFraJohn() {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
     var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
 
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374.02))
-    ;
+    assertEquals(2478d,
+        nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert).get(0).getResultatBelop());
+
   }
 }
