@@ -25,7 +25,7 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatSoknadsbarnPersonId: Int,
+    val soknadsbarnPersonId: Int,
     val resultatBelop: Double
 )
 
@@ -35,6 +35,6 @@ data class BeregnNettoBarnetilsynGrunnlagPeriodisert(
     val sjablonListe: List<Sjablon>)
 
 data class FaktiskUtgift(
-    val soknadsbarnFodselsdato: LocalDate,
     val soknadsbarnPersonId: Int,
+    val soknadsbarnFodselsdato: LocalDate,
     val faktiskUtgiftBelop: Double)

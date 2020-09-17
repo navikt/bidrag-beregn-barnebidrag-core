@@ -26,7 +26,7 @@ class NettoBarnetilsynBeregningTest {
   void testEttBarnEttBelopUnderMaksTilsynsbelop() {
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),2500d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -45,8 +45,8 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),2500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),5000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -66,11 +66,11 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),2000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -91,8 +91,8 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 7000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2011-01-01"), 2, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 7000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2011-01-01"), 3000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -122,9 +122,9 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2012-05-15"), 2, 3000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2017-03-17"), 3, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2012-05-15"), 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, LocalDate.parse("2017-03-17"), 2000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -154,7 +154,7 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 1000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -178,9 +178,9 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, LocalDate.parse("2010-01-01"), 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2010-01-01"), 3000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -189,9 +189,9 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3));
+        () -> assertThat(resultat.get(0).getSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.get(1).getSoknadsbarnPersonId()).isEqualTo(2),
+        () -> assertThat(resultat.get(2).getSoknadsbarnPersonId()).isEqualTo(3));
   }
 
   @DisplayName("Test summering på søknadsbarns personid")
@@ -200,10 +200,10 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2010-01-01"), 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, LocalDate.parse("2010-01-01"), 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2010-01-01"), 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 5000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -212,9 +212,9 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
+        () -> assertThat(resultat.get(0).getSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.get(1).getSoknadsbarnPersonId()).isEqualTo(2),
+        () -> assertThat(resultat.get(2).getSoknadsbarnPersonId()).isEqualTo(3),
         () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374d))
         ;
   }
@@ -226,7 +226,7 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),3000d));
 
     var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
 

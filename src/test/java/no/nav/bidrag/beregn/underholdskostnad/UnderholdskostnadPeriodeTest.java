@@ -174,7 +174,7 @@ public class UnderholdskostnadPeriodeTest {
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                 1354d)))));
 
-    grunnlag = new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil,
+    grunnlag = new BeregnUnderholdskostnadGrunnlag(1, beregnDatoFra, beregnDatoTil,
         soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
         forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
 
@@ -242,7 +242,7 @@ public class UnderholdskostnadPeriodeTest {
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
                 1354d)))));
 
-    grunnlag = new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil,
+    grunnlag = new BeregnUnderholdskostnadGrunnlag(1, beregnDatoFra, beregnDatoTil,
         soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
         forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
 
@@ -325,7 +325,7 @@ public class UnderholdskostnadPeriodeTest {
   private void lagGrunnlag(String beregnDatoFra, String beregnDatoTil) {
     var soknadsbarnFodselsdato = LocalDate.parse("2008-01-29");
 
-    grunnlag = new BeregnUnderholdskostnadGrunnlag(LocalDate.parse(beregnDatoFra),
+    grunnlag = new BeregnUnderholdskostnadGrunnlag(1, LocalDate.parse(beregnDatoFra),
         LocalDate.parse(beregnDatoTil), soknadsbarnFodselsdato,
         lagBarnetilsynMedStonadGrunnlag(), lagNettoBarnetilsynGrunnlag(),
         lagForpleiningUtgiftGrunnlag(), lagSjablonGrunnlag());

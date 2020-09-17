@@ -106,9 +106,9 @@ public class NettoBarnetilsynCoreTest {
 
   private void byggNettoBarnetilsynPeriodeGrunnlagCore() {
 
-    var faktiskUtgiftPeriode = new FaktiskUtgiftPeriodeCore(
+    var faktiskUtgiftPeriode = new FaktiskUtgiftPeriodeCore(1,
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), LocalDate.parse("2010-01-01"),
-        1, 2);
+        1000d);
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriodeCore>();
     faktiskUtgiftPeriodeListe.add(faktiskUtgiftPeriode);
 
@@ -129,7 +129,7 @@ public class NettoBarnetilsynCoreTest {
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         Arrays.asList(new ResultatBeregning(1, 1)),
         new BeregnNettoBarnetilsynGrunnlagPeriodisert(
-            Arrays.asList(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3)),
+            Arrays.asList(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 300d)),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 

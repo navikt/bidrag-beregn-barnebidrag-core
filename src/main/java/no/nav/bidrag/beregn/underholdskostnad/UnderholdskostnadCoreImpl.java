@@ -50,6 +50,7 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
   }
 
   private BeregnUnderholdskostnadGrunnlag mapTilBusinessObject(BeregnUnderholdskostnadGrunnlagCore beregnUnderholdskostnadGrunnlagCore) {
+    var soknadsbarnPersonId = beregnUnderholdskostnadGrunnlagCore.getSoknadsbarnPersonId();
     var beregnDatoFra = beregnUnderholdskostnadGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnUnderholdskostnadGrunnlagCore.getBeregnDatoTil();
     var soknadsbarnFodselsdato = beregnUnderholdskostnadGrunnlagCore.getSoknadBarnFodselsdato();
@@ -58,7 +59,8 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     var forpleiningUtgiftPeriodeListe = mapForpleiningUtgiftPeriodeListe(beregnUnderholdskostnadGrunnlagCore.getForpleiningUtgiftPeriodeListe());
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnUnderholdskostnadGrunnlagCore.getSjablonPeriodeListe());
 
-    return new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
+    return new BeregnUnderholdskostnadGrunnlag(soknadsbarnPersonId,beregnDatoFra, beregnDatoTil,
+        soknadsbarnFodselsdato, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe,
         forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
   }
 
@@ -133,6 +135,7 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
       var underholdskostnadResultat = periodeResultat.getResultatBeregning();
       var underholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+          periodeResultat.getSoknadsbarnPersonId(),
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(underholdskostnadResultat.getResultatBelopUnderholdskostnad()),
           new ResultatGrunnlagCore(underholdskostnadResultatGrunnlag.getSoknadBarnAlder(),

@@ -151,14 +151,16 @@ public class UnderholdskostnadCoreTest {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
-    beregnUnderholdskostnadGrunnlagCore = new BeregnUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        LocalDate.parse("2017-01-01"), barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe, forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
+    beregnUnderholdskostnadGrunnlagCore = new BeregnUnderholdskostnadGrunnlagCore(1,
+        LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
+        LocalDate.parse("2017-01-01"), barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe, forpleiningUtgiftPeriodeListe,
+        sjablonPeriodeListe);
   }
 
   private void byggUnderholdskostnadPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(Double.valueOf(666)),
         new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
@@ -167,7 +169,7 @@ public class UnderholdskostnadCoreTest {
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(Double.valueOf(667)),
         new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
@@ -176,7 +178,7 @@ public class UnderholdskostnadCoreTest {
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(Double.valueOf(668)),
         new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),

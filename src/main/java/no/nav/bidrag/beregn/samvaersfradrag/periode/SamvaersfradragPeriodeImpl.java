@@ -111,7 +111,9 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
       var beregnSamvaersfradragGrunnlagPeriodisert = new BeregnSamvaersfradragGrunnlagPeriodisert(alderBarn,
           samvaersklasse, sjablonliste);
 
-      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+      resultatPeriodeListe.add(new ResultatPeriode(
+          beregnSamvaersfradragGrunnlag.getSoknadsbarnPersonId(),
+          beregningsperiode,
           samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert),
           beregnSamvaersfradragGrunnlagPeriodisert));
 
@@ -119,7 +121,6 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
 
     //Slår sammen perioder med samme resultat
     return new BeregnSamvaersfradragResultat(resultatPeriodeListe);
-
 
   }
 

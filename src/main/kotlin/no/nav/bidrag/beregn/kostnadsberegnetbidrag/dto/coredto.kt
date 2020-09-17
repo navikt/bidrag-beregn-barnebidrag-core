@@ -36,6 +36,7 @@ data class BeregnKostnadsberegnetBidragResultatCore(
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore
@@ -47,7 +48,6 @@ data class ResultatBeregningCore(
 
 // Grunnlag beregning
 data class ResultatGrunnlagCore(
-    val soknadsbarnPersonId: Int,
     val underholdskostnadBelop: Double,
     val bPsAndelUnderholdskostnadProsent: Double,
     val samvaersfradrag: Double?)

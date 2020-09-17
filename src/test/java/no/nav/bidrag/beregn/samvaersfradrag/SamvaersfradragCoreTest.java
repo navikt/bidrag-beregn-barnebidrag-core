@@ -133,27 +133,27 @@ public class SamvaersfradragCoreTest {
     sjablonPeriodeListe.add(sjablonPeriode);
 
     beregnSamvaersfradragGrunnlagCore = new BeregnSamvaersfradragGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
-        LocalDate.parse("2017-08-17"), samvaersklassePeriodeListe, sjablonPeriodeListe);
+        1, LocalDate.parse("2017-08-17"), samvaersklassePeriodeListe, sjablonPeriodeListe);
   }
 
   private void byggSamvaersfradragPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(Double.valueOf(666)),
         new BeregnSamvaersfradragGrunnlagPeriodisert(4, "03",
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(Double.valueOf(667)),
         new BeregnSamvaersfradragGrunnlagPeriodisert(4, "03",
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1640d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(Double.valueOf(668)),
         new BeregnSamvaersfradragGrunnlagPeriodisert(4, "03",

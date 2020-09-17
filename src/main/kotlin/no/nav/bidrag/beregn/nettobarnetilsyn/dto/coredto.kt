@@ -15,9 +15,9 @@ data class BeregnNettoBarnetilsynGrunnlagCore(
 )
 
 data class FaktiskUtgiftPeriodeCore(
+    val faktiskUtgiftSoknadsbarnPersonId: Int,
     val faktiskUtgiftPeriodeDatoFraTil: PeriodeCore,
     val faktiskUtgiftSoknadsbarnFodselsdato: LocalDate,
-    val faktiskUtgiftSoknadsbarnPersonId: Int,
     val faktiskUtgiftBelop: Double
 )
 
@@ -34,7 +34,7 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatSoknadsbarnPersonId: Int,
+    val soknadsbarnPersonId: Int,
     val resultatBelop: Double
 )
 
@@ -44,7 +44,7 @@ data class ResultatGrunnlagCore(
 )
 
 data class FaktiskUtgiftCore(
-    val soknadsbarnFodselsdato: LocalDate,
     val soknadsbarnPersonId: Int,
+    val soknadsbarnFodselsdato: LocalDate,
     val faktiskUtgiftBelop: Double
 )

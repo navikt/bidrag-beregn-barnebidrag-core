@@ -79,8 +79,9 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
 //          .filter(i -> Double.compare(i.getFaktiskUtgiftBelop(), 0.0) > 0)
           .filter(i -> beregnSoknadbarn12aarsdag(i.getFaktiskUtgiftSoknadsbarnFodselsdato())
               .compareTo(beregningsperiode.getDatoTil()) >= 0)
-          .map(faktiskUtgiftPeriode -> new FaktiskUtgift(faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnFodselsdato(),
+          .map(faktiskUtgiftPeriode -> new FaktiskUtgift(
               faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnPersonId(),
+              faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnFodselsdato(),
               faktiskUtgiftPeriode.getFaktiskUtgiftBelop())).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))

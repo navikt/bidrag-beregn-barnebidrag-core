@@ -49,13 +49,14 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
   }
 
   private BeregnSamvaersfradragGrunnlag mapTilBusinessObject(BeregnSamvaersfradragGrunnlagCore beregnSamvaersfradragGrunnlagCore) {
+    var soknadsbarnPersonId = beregnSamvaersfradragGrunnlagCore.getSoknadsbarnPersonId();
     var beregnDatoFra = beregnSamvaersfradragGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnSamvaersfradragGrunnlagCore.getBeregnDatoTil();
     var soknadsbarnFodselsdato = beregnSamvaersfradragGrunnlagCore.getSoknadsbarnFodselsdato();
     var samvaersklassePeriodeListe = mapSamvaersklassePeriodeListe(beregnSamvaersfradragGrunnlagCore.getSamvaersklassePeriodeListe());
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnSamvaersfradragGrunnlagCore.getSjablonPeriodeListe());
 
-    return new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
+    return new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId, soknadsbarnFodselsdato,
         samvaersklassePeriodeListe, sjablonPeriodeListe);
   }
 
@@ -107,7 +108,7 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
       var samvaersfradragResultat = resultatPeriode.getResultatBeregning();
       var samvaersfradragResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
-      resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+      resultatPeriodeCoreListe.add(new ResultatPeriodeCore(resultatPeriode.getSoknadsbarnPersonId(),
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(samvaersfradragResultat.getResultatSamvaersfradragBelop()),
           new ResultatGrunnlagCore(samvaersfradragResultatGrunnlag.getSoknadBarnAlder(),
