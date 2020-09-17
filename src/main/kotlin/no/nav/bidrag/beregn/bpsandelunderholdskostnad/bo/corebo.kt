@@ -20,11 +20,10 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlag(
 
 // Grunnlag beregning
 data class BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
-    val soknadsbarnPersonId: Int,
     val underholdskostnadBelop: Double,
-    val inntektBP: List<Inntekt>,
-    val inntektBM: List<Inntekt>,
-    val inntektBB: List<Inntekt>,
+    val inntektBPListe: List<Inntekt>,
+    val inntektBMListe: List<Inntekt>,
+    val inntektBBListe: List<Inntekt>,
     val sjablonListe: List<Sjablon>)
 
 data class Inntekt(
@@ -39,6 +38,7 @@ data class BeregnBPsAndelUnderholdskostnadResultat(
 )
 
 data class ResultatPeriode(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
     val resultatGrunnlag: BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert

@@ -24,19 +24,19 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
     BigDecimal andelBelop = BigDecimal.valueOf(0);
 
     // Legger sammen inntektene
-    var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBP()
+    var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBM = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBM()
+    var inntektBM = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBB = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBB()
+    var inntektBB = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
@@ -78,19 +78,19 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
     BigDecimal andelBelop = BigDecimal.valueOf(0);
 
     // Legger sammen inntektene
-    var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBP()
+    var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBM = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBM()
+    var inntektBM = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBB = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBB()
+    var inntektBB = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);

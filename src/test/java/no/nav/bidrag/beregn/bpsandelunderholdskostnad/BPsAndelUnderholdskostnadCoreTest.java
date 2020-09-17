@@ -168,24 +168,24 @@ public class BPsAndelUnderholdskostnadCoreTest {
     inntektBMListe.add(new Inntekt(InntektType.LØNNSINNTEKT,222d));
     inntektBBListe.add(new Inntekt(InntektType.LØNNSINNTEKT,333d));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(10d, 100d),
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1,1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(20d, 200d),
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1,1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1640d)))))));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(30d, 300d),
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1,1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1680d)))))));
 

@@ -119,18 +119,21 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert = new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
-          soknadsbarnPersonId, underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonliste);
+          underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonliste);
 
       // Beregner med gamle regler hvis periodens beregntilogmeddato er 01.01.2009 eller tidligere
       if (beregningsperiode.getDatoTil() == null ||
           beregningsperiode.getDatoFraTil().getDatoTil().isAfter(LocalDate.parse("2009-01-01"))) {
         System.out.println("Beregner med nye regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
-        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-            bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
+        resultatPeriodeListe.add(new ResultatPeriode(
+            beregnBPsAndelUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
+            beregningsperiode, bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
             beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert));
       } else {
         System.out.println("Beregner med gamle regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
-        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+        resultatPeriodeListe.add(new ResultatPeriode(
+            beregnBPsAndelUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
+            beregningsperiode,
             bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
             beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert));
       }
