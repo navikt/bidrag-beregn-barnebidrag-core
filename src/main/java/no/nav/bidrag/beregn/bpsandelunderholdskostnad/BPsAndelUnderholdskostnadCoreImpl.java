@@ -132,14 +132,14 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
       var bPsAndelunderholdskostnadResultat = periodeResultat.getResultatBeregning();
       var bPsAndelunderholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+          periodeResultat.getSoknadsbarnPersonId(),
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent(),
               bPsAndelunderholdskostnadResultat.getResultatAndelBelop()),
-          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getSoknadsbarnPersonId(),
-              bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
-              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBP()),
-              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM()),
-              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBM()),
+          new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
+              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBPListe()),
+              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBMListe()),
+              mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBMListe()),
               mapResultatGrunnlagSjabloner(bPsAndelunderholdskostnadResultatGrunnlag.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;

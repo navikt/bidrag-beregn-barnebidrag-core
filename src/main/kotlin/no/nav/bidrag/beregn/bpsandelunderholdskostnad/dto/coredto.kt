@@ -31,15 +31,6 @@ data class UnderholdskostnadPeriodeCore(
     val underholdskostnadBelop: Double
 )
 
-data class ResultatGrunnlagCore(
-    val soknadsbarnPersonId: Int,
-    val underholdskostnadBelop: Double,
-    val inntektBP: List<InntektCore>,
-    val inntektBM: List<InntektCore>,
-    val inntektBB: List<InntektCore>,
-    val sjablonListe: List<SjablonCore>
-)
-
 data class InntektCore(
     val inntektType: String,
     val inntektBelop: Double
@@ -52,6 +43,7 @@ data class BeregnBPsAndelUnderholdskostnadResultatCore(
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore
@@ -60,4 +52,12 @@ data class ResultatPeriodeCore(
 data class ResultatBeregningCore(
     val resultatAndelProsent: Double,
     val resultatAndelBelop: Double
+)
+
+data class ResultatGrunnlagCore(
+    val underholdskostnadBelop: Double,
+    val inntektBPListe: List<InntektCore>,
+    val inntektBMListe: List<InntektCore>,
+    val inntektBBListe: List<InntektCore>,
+    val sjablonListe: List<SjablonCore>,
 )

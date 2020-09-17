@@ -1,12 +1,9 @@
 package no.nav.bidrag.beregn.barnebidrag.dto
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
-import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
 //import no.nav.bidrag.beregn.underholdskostnad.dto.ResultatGrunnlagCore
 import java.time.LocalDate
 
@@ -90,7 +87,7 @@ data class ResultatPeriodeCore(
 data class ResultatBeregningCore(
     val soknadsbarnPersonId: Int,
     val resultatBarnebidragBelop: Double,
-    val resultatkode: ResultatKode
+    val resultatkode: String
 )
 
 // Grunnlag beregning
