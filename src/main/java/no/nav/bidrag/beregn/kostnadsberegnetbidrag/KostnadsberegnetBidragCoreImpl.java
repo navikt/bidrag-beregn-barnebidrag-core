@@ -114,7 +114,7 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
           new ResultatBeregningCore(kostnadsberegnetBidragResultat.getResultatkostnadsberegnetbidragBelop()),
           new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
               kostnadsberegnetBidragResultatGrunnlag.getBPsAndelUnderholdskostnadProsent(),
-              kostnadsberegnetBidragResultatGrunnlag.getSamvaersfradrag()
+              kostnadsberegnetBidragResultatGrunnlag.getSamvaersfradragBelop()
           )));
     }
     return resultatPeriodeCoreListe;

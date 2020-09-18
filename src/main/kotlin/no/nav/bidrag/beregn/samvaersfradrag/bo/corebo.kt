@@ -24,7 +24,7 @@ data class ResultatPeriode(
     val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlag: BeregnSamvaersfradragGrunnlagPeriodisert
+    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
 )
 
 data class ResultatBeregning(
@@ -32,7 +32,7 @@ data class ResultatBeregning(
 )
 
 // Grunnlag beregning
-data class BeregnSamvaersfradragGrunnlagPeriodisert(
+data class GrunnlagBeregningPeriodisert(
     val soknadBarnAlder: Int,
     val samvaersklasse: String,
     val sjablonListe: List<Sjablon>)

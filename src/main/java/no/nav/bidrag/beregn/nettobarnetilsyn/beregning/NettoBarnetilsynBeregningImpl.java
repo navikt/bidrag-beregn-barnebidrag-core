@@ -10,24 +10,24 @@ import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
 
 public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning {
 
   @Override
-  public List<ResultatBeregning> beregn(BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert) {
+  public List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
     Double tempResultatBelop = 0.0;
     Double fradragsbelopPerBarn = 0.0;
     BigDecimal resultatBelop = BigDecimal.valueOf(0);
 
-    var faktiskUtgiftListeSummertPerBarn = beregnNettoBarnetilsynGrunnlagPeriodisert
+    var faktiskUtgiftListeSummertPerBarn = grunnlagBeregningPeriodisert
         .getFaktiskUtgiftListe()
         .stream()
-        .collect(groupingBy(FaktiskUtgift::getSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
+        .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
 
     var antallBarnIPerioden = faktiskUtgiftListeSummertPerBarn.size();
     System.out.println("Antall barn i perioden: " + antallBarnIPerioden);
@@ -40,7 +40,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     }
     System.out.println("Antall barn med tilsynsutgifter i perioden: " + antallBarnMedTilsynsutgift);
 
-    var maksTilsynsbelop = SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(), SjablonNavn.MAKS_TILSYN,
+    var maksTilsynsbelop = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.MAKS_TILSYN,
         antallBarnIPerioden);
     System.out.println("Maks tilsynsbeløp: " + maksTilsynsbelop);
 
@@ -48,10 +48,10 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     System.out.println("Samlet beløp for faktisk utgift: " + samletFaktiskUtgiftBelop);
 
     if (samletFaktiskUtgiftBelop > maksTilsynsbelop) {
-      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(beregnNettoBarnetilsynGrunnlagPeriodisert,
+      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(grunnlagBeregningPeriodisert,
           antallBarnIPerioden, antallBarnMedTilsynsutgift, maksTilsynsbelop);
     } else {
-      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(beregnNettoBarnetilsynGrunnlagPeriodisert,
+      fradragsbelopPerBarn = beregnFradragsbelopPerBarn(grunnlagBeregningPeriodisert,
           antallBarnIPerioden, antallBarnMedTilsynsutgift, samletFaktiskUtgiftBelop);
     }
 
@@ -59,7 +59,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
       if (samletFaktiskUtgiftBelop > maksTilsynsbelop) {
         // Finner prosentandel av totalbeløp og beregner så andel av maks tilsynsbeløp
         tempResultatBelop = (faktiskUtgift.getValue() / samletFaktiskUtgiftBelop) *
-            SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(), SjablonNavn.MAKS_TILSYN, antallBarnIPerioden);
+            SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.MAKS_TILSYN, antallBarnIPerioden);
       } else {
         tempResultatBelop = faktiskUtgift.getValue();
       }
@@ -83,12 +83,12 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
   }
 
   @Override
-  public Double beregnFradragsbelopPerBarn(BeregnNettoBarnetilsynGrunnlagPeriodisert beregnNettoBarnetilsynGrunnlagPeriodisert, int antallBarn,
+  public Double beregnFradragsbelopPerBarn(GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert, int antallBarn,
       int antallBarnMedTilsynsutgift, double tilsynsbelop) {
 
-    var skattAlminneligInntektProsent = SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(),
+    var skattAlminneligInntektProsent = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
         SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT);
-    var maksFradrag = SjablonUtil.hentSjablonverdi(beregnNettoBarnetilsynGrunnlagPeriodisert.getSjablonListe(), SjablonNavn.MAKS_FRADRAG, antallBarn);
+    var maksFradrag = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.MAKS_FRADRAG, antallBarn);
 
     System.out.println("Tilsynsbeløp: " + tilsynsbelop);
     System.out.println("Skattesats: " + skattAlminneligInntektProsent);

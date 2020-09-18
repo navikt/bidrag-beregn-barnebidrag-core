@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.barnebidrag.dto
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
@@ -84,25 +83,20 @@ data class BeregnBarnebidragResultatCore(
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: List<ResultatBeregningCore>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
+    val resultatBeregning: ResultatBeregningCore,
+    val resultatGrunnlag: ResultatGrunnlagCore
 )
 
 data class ResultatBeregningCore(
-    val soknadsbarnPersonId: Int,
     val resultatBarnebidragBelop: Double,
     val resultatkode: String
 )
 
 // Grunnlag beregning
-data class GrunnlagBeregningPeriodisertCore(
+data class ResultatGrunnlagCore(
     val bidragsevneBelop: Double,
-    val GrunnlagPerBarnListe: List<GrunnlagBeregningPeriodisertPerBarnCore>,
-    val sjablonListe: List<SjablonCore>
-)
-
-data class GrunnlagBeregningPeriodisertPerBarnCore(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnadCore,
     val kostnadsberegnetBidrag: Double,
@@ -110,8 +104,10 @@ data class GrunnlagBeregningPeriodisertPerBarnCore(
     val deltBosted: Boolean,
     val barnetilleggBP: Double,
     val barnetilleggBM: Double,
-    val barnetilleggForsvaret: Double
+    val barnetilleggForsvaret: Double,
+    val sjablonListe: List<SjablonCore>
 )
+
 
 data class BPsAndelUnderholdskostnadCore(
     val bPsAndelUnderholdskostnadProsent: Double,

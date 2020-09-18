@@ -18,7 +18,6 @@ import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.dto.BeregnSamvaersfradragGrunnlagCore;
@@ -107,7 +106,7 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
       var samvaersfradragResultat = resultatPeriode.getResultatBeregning();
-      var samvaersfradragResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
+      var samvaersfradragResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(resultatPeriode.getSoknadsbarnPersonId(),
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(samvaersfradragResultat.getResultatSamvaersfradragBelop()),

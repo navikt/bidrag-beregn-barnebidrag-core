@@ -33,4 +33,4 @@ data class ResultatBeregning(
 data class GrunnlagBeregningPeriodisert(
     val underholdskostnadBelop: Double,
     val bPsAndelUnderholdskostnadProsent: Double,
-    val samvaersfradrag: Double?)
+    val samvaersfradragBelop: Double?)

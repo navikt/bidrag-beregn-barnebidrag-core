@@ -18,19 +18,10 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlag(
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
-// Grunnlag beregning
-data class BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(
-    val underholdskostnadBelop: Double,
-    val inntektBPListe: List<Inntekt>,
-    val inntektBMListe: List<Inntekt>,
-    val inntektBBListe: List<Inntekt>,
-    val sjablonListe: List<Sjablon>)
-
 data class Inntekt(
     val inntektType: InntektType,
     val inntektBelop: Double
 )
-
 
 // Resultatperiode
 data class BeregnBPsAndelUnderholdskostnadResultat(
@@ -41,10 +32,19 @@ data class ResultatPeriode(
     val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlag: BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert
+    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
 )
 
 data class ResultatBeregning(
     val resultatAndelProsent: Double,
     val resultatAndelBelop: Double
+)
+
+// Grunnlag beregning
+data class GrunnlagBeregningPeriodisert(
+    val underholdskostnadBelop: Double,
+    val inntektBPListe: List<Inntekt>,
+    val inntektBMListe: List<Inntekt>,
+    val inntektBBListe: List<Inntekt>,
+    val sjablonListe: List<Sjablon>
 )

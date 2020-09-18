@@ -1,15 +1,15 @@
 package no.nav.bidrag.beregn.bpsandelunderholdskostnad.beregning;
 
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatBeregning;
 
 public interface BPsAndelUnderholdskostnadBeregning {
 
   ResultatBeregning beregn(
-      BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
   ResultatBeregning beregnMedGamleRegler(
-      BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
   static BPsAndelUnderholdskostnadBeregning getInstance(){
     return new BPsAndelUnderholdskostnadBeregningImpl();

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
-import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagAlt;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
@@ -13,7 +13,7 @@ import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.SkatteklassePeriode;
 import no.nav.bidrag.beregn.bidragsevne.dto.AntallBarnIEgetHusholdPeriodeCore;
-import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneGrunnlagAltCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneGrunnlagCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneResultatCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.BostatusPeriodeCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.InntektCore;
@@ -50,8 +50,9 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
 
   private BidragsevnePeriode bidragsevnePeriode;
 
-  public BeregnBidragsevneResultatCore beregnBidragsevne(BeregnBidragsevneGrunnlagAltCore beregnBidragsevneGrunnlagAltCore) {
-    var beregnBidragsevneGrunnlag = mapTilBusinessObject(beregnBidragsevneGrunnlagAltCore);
+  public BeregnBidragsevneResultatCore beregnBidragsevne(
+      BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
+    var beregnBidragsevneGrunnlag = mapTilBusinessObject(beregnBidragsevneGrunnlagCore);
     var beregnBidragsevneResultat = new BeregnBidragsevneResultat(Collections.emptyList());
     var avvikListe = bidragsevnePeriode.validerInput(beregnBidragsevneGrunnlag);
     if (avvikListe.isEmpty()) {
@@ -60,18 +61,19 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     return mapFraBusinessObject(avvikListe, beregnBidragsevneResultat);
   }
 
-  private BeregnBidragsevneGrunnlagAlt mapTilBusinessObject(BeregnBidragsevneGrunnlagAltCore beregnBidragsevneGrunnlagAltCore) {
-    var beregnDatoFra = beregnBidragsevneGrunnlagAltCore.getBeregnDatoFra();
-    var beregnDatoTil = beregnBidragsevneGrunnlagAltCore.getBeregnDatoTil();
-    var inntektPeriodeListe = mapInntektPeriodeListe(beregnBidragsevneGrunnlagAltCore.getInntektPeriodeListe());
-    var skatteklassePeriodeListe = mapSkatteklassePeriodeListe(beregnBidragsevneGrunnlagAltCore.getSkatteklassePeriodeListe());
-    var bostatusPeriodeListe = mapBostatusPeriodeListe(beregnBidragsevneGrunnlagAltCore.getBostatusPeriodeListe());
+  private BeregnBidragsevneGrunnlag mapTilBusinessObject(
+      BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
+    var beregnDatoFra = beregnBidragsevneGrunnlagCore.getBeregnDatoFra();
+    var beregnDatoTil = beregnBidragsevneGrunnlagCore.getBeregnDatoTil();
+    var inntektPeriodeListe = mapInntektPeriodeListe(beregnBidragsevneGrunnlagCore.getInntektPeriodeListe());
+    var skatteklassePeriodeListe = mapSkatteklassePeriodeListe(beregnBidragsevneGrunnlagCore.getSkatteklassePeriodeListe());
+    var bostatusPeriodeListe = mapBostatusPeriodeListe(beregnBidragsevneGrunnlagCore.getBostatusPeriodeListe());
     var antallBarnIEgetHusholdPeriodeListe = mapAntallBarnIEgetHusholdPeriodeListe(
-        beregnBidragsevneGrunnlagAltCore.getAntallBarnIEgetHusholdPeriodeListe());
-    var saerfradragPeriodeListe = mapSaerfradragPeriodeListe(beregnBidragsevneGrunnlagAltCore.getSaerfradragPeriodeListe());
+        beregnBidragsevneGrunnlagCore.getAntallBarnIEgetHusholdPeriodeListe());
+    var saerfradragPeriodeListe = mapSaerfradragPeriodeListe(beregnBidragsevneGrunnlagCore.getSaerfradragPeriodeListe());
 //    var sjablonPeriodeListeOld = mapSjablonPeriodeListe(beregnBidragsevneGrunnlagAltCore.getSjablonPeriodeListeOld());
-    var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBidragsevneGrunnlagAltCore.getSjablonPeriodeListe());
-    return new BeregnBidragsevneGrunnlagAlt(beregnDatoFra, beregnDatoTil, inntektPeriodeListe, skatteklassePeriodeListe,
+    var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBidragsevneGrunnlagCore.getSjablonPeriodeListe());
+    return new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, inntektPeriodeListe, skatteklassePeriodeListe,
         bostatusPeriodeListe, antallBarnIEgetHusholdPeriodeListe, saerfradragPeriodeListe, sjablonPeriodeListe);
   }
 
@@ -170,7 +172,7 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode periodeResultat : periodeResultatListe) {
       var bidragsevneResultat = periodeResultat.getResultatBeregning();
-      var bidragsevneResultatGrunnlag = periodeResultat.getResultatGrunnlag();
+      var bidragsevneResultatGrunnlag = periodeResultat.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bidragsevneResultat.getResultatEvneBelop(), bidragsevneResultat.getResultat25ProsentInntekt()),

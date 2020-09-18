@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
@@ -18,32 +18,32 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
   @Override
   public ResultatBeregning beregn(
-      BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert) {
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     BigDecimal andelProsent;
     BigDecimal andelBelop = BigDecimal.valueOf(0);
 
     // Legger sammen inntektene
-    var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBPListe()
+    var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBM = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBMListe()
+    var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBB = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBBListe()
+    var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
     if (inntektBB > SjablonUtil
-        .hentSjablonverdi(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getSjablonListe(),
+        .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
             SjablonTallNavn.FORSKUDDSSATS_BELOP) * 100) {
       andelProsent = BigDecimal.valueOf(0.0);
     } else {
@@ -59,7 +59,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       }
 
       andelBelop =
-          BigDecimal.valueOf(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getUnderholdskostnadBelop())
+          BigDecimal.valueOf(grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
           .multiply(andelProsent).divide(BigDecimal.valueOf(100));
 
       andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
@@ -72,31 +72,31 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
   @Override
   public ResultatBeregning beregnMedGamleRegler(
-      BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert) {
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     BigDecimal andelProsent;
     BigDecimal andelBelop = BigDecimal.valueOf(0);
 
     // Legger sammen inntektene
-    var inntektBP = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBPListe()
+    var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBM = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBMListe()
+    var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Legger sammen inntektene
-    var inntektBB = beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getInntektBBListe()
+    var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
-    if ((inntektBB > SjablonUtil.hentSjablonverdi(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert
+    if ((inntektBB > SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert
             .getSjablonListe(),
             SjablonTallNavn.FORSKUDDSSATS_BELOP) * 100)) {
       andelProsent = BigDecimal.valueOf(0.0);
@@ -126,7 +126,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         andelProsent = BigDecimal.valueOf(83.3);
       }
       andelBelop =
-          BigDecimal.valueOf(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert.getUnderholdskostnadBelop())
+          BigDecimal.valueOf(grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
               .multiply(andelProsent).divide(BigDecimal.valueOf(100));
 
       andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);

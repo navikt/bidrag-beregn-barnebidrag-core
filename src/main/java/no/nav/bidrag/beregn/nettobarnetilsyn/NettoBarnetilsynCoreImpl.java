@@ -105,7 +105,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
+      var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
@@ -119,7 +119,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     var resultatBeregningListeCore = new ArrayList<ResultatBeregningCore>();
     for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
       resultatBeregningListeCore
-          .add(new ResultatBeregningCore(resultatBeregning.getSoknadsbarnPersonId(),
+          .add(new ResultatBeregningCore(resultatBeregning.getResultatSoknadsbarnPersonId(),
               resultatBeregning.getResultatBelop()));
     }
     return resultatBeregningListeCore;
@@ -129,8 +129,8 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     var faktiskUtgiftListeCore = new ArrayList<FaktiskUtgiftCore>();
     for (FaktiskUtgift faktiskUtgift : faktiskUtgiftListe) {
       faktiskUtgiftListeCore.add(new FaktiskUtgiftCore(
-          faktiskUtgift.getSoknadsbarnPersonId(),
-          faktiskUtgift.getSoknadsbarnFodselsdato(),
+          faktiskUtgift.getFaktiskUtgiftSoknadsbarnPersonId(),
+          faktiskUtgift.getFaktiskUtgiftSoknadsbarnFodselsdato(),
           faktiskUtgift.getFaktiskUtgiftBelop()));
     }
     return faktiskUtgiftListeCore;

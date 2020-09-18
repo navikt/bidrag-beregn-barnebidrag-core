@@ -7,7 +7,7 @@ import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.time.LocalDate
 
 // Grunnlag periode
-data class BeregnBidragsevneGrunnlagAltCore(
+data class BeregnBidragsevneGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val inntektPeriodeListe: List<InntektPeriodeCore>,

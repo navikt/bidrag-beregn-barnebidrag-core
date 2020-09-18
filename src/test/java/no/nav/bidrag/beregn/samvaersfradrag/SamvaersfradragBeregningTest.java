@@ -6,7 +6,7 @@ import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregningImpl;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -19,13 +19,13 @@ public class SamvaersfradragBeregningTest {
   @Test
   void testFireAar() {
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
-    BeregnSamvaersfradragGrunnlagPeriodisert beregnSamvaersfradragGrunnlagPeriodisert
-        = new BeregnSamvaersfradragGrunnlagPeriodisert(4, "03",
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
+        = new GrunnlagBeregningPeriodisert(4, "03",
         sjablonListe
     );
 
     assertEquals(2082d,
-        samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert)
+        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatSamvaersfradragBelop());
   }
 
@@ -33,13 +33,13 @@ public class SamvaersfradragBeregningTest {
   @Test
   void testSeksAar() {
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
-    BeregnSamvaersfradragGrunnlagPeriodisert beregnSamvaersfradragGrunnlagPeriodisert
-        = new BeregnSamvaersfradragGrunnlagPeriodisert(6, "04",
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
+        = new GrunnlagBeregningPeriodisert(6, "04",
         sjablonListe
     );
 
     assertEquals(3184d,
-        samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert)
+        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatSamvaersfradragBelop());
   }
 

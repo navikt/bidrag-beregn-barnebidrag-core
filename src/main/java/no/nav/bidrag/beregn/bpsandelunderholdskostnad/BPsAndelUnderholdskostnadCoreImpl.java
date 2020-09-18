@@ -130,7 +130,7 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode periodeResultat : periodeResultatListe) {
       var bPsAndelunderholdskostnadResultat = periodeResultat.getResultatBeregning();
-      var bPsAndelunderholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlag();
+      var bPsAndelunderholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           periodeResultat.getSoknadsbarnPersonId(),
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),

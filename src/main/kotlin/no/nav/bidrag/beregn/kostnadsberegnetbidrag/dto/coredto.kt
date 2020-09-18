@@ -31,7 +31,7 @@ data class SamvaersfradragPeriodeCore(
 
 // Resultatperiode
 data class BeregnKostnadsberegnetBidragResultatCore(
-    val resultatPeriodeListe: MutableList<ResultatPeriodeCore>,
+    val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
 )
 
@@ -50,4 +50,4 @@ data class ResultatBeregningCore(
 data class ResultatGrunnlagCore(
     val underholdskostnadBelop: Double,
     val bPsAndelUnderholdskostnadProsent: Double,
-    val samvaersfradrag: Double?)
+    val samvaersfradragBelop: Double?)

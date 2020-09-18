@@ -15,7 +15,7 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
@@ -108,7 +108,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnSamvaersfradragGrunnlagPeriodisert = new BeregnSamvaersfradragGrunnlagPeriodisert(alderBarn,
+      var beregnSamvaersfradragGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(alderBarn,
           samvaersklasse, sjablonliste);
 
       resultatPeriodeListe.add(new ResultatPeriode(
