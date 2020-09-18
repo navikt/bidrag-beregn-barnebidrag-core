@@ -20,9 +20,9 @@ import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.dto.BeregnNettoBarnetilsynGrunnlagCore;
@@ -128,8 +128,8 @@ public class NettoBarnetilsynCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         Arrays.asList(new ResultatBeregning(1, 1)),
-        new BeregnNettoBarnetilsynGrunnlagPeriodisert(
-            Arrays.asList(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3)),
+        new GrunnlagBeregningPeriodisert(
+            Arrays.asList(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),3)),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 

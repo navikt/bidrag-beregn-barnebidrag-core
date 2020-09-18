@@ -19,6 +19,7 @@ data class BeregnKostnadsberegnetBidragResultat(
 )
 
 data class ResultatPeriode(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
     val resultatGrunnlag: GrunnlagBeregningPeriodisert
@@ -30,7 +31,6 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
-    val soknadsbarnPersonId: Int,
     val underholdskostnadBelop: Double,
     val bPsAndelUnderholdskostnadProsent: Double,
-    val samvaersfradrag: Double?)
+    val samvaersfradragBelop: Double?)

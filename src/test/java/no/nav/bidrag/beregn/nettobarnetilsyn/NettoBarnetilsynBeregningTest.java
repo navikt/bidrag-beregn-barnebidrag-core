@@ -10,7 +10,7 @@ import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.nettobarnetilsyn.beregning.NettoBarnetilsynBeregningImpl;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,11 +26,11 @@ class NettoBarnetilsynBeregningTest {
   void testEttBarnEttBelopUnderMaksTilsynsbelop() {
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),2500d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
@@ -45,12 +45,12 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),2500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"), 5000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
@@ -66,15 +66,15 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2015-05-17"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),  2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),  1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),  500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2015-05-17"),  2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),  2000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
@@ -91,12 +91,12 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 7000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2011-01-01"), 2, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),7000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2011-01-01"),3000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     /*
     Utregning: For to barn er maks tilsynsbeløp 8109.- og innsendte faktiske utgifter på 7000 + 3000 reduseres heretter.
@@ -122,13 +122,13 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2012-05-15"), 2, 3000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2017-03-17"), 3, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2012-05-15"), 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, LocalDate.parse("2017-03-17"), 2000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     /*
     Utregning: For tre barn er maks tilsynsbeløp 9189.- og innsendte faktiske utgifter på 5000 + 3000 + 2000 reduseres heretter.
@@ -154,11 +154,11 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),1000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     /*
     Utregning: For ett barn er maks tilsynsbeløp 6214.-, innsendt beløp 1000 er lavere og dette brukes videre.
@@ -178,13 +178,13 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, LocalDate.parse("2010-01-01"), 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2010-01-01"), 3000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
@@ -200,14 +200,14 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 3, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 2, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2010-01-01"), 1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, LocalDate.parse("2010-01-01"), 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2010-01-01"), 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"), 5000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
@@ -216,7 +216,7 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
         () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
         () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374d))
-        ;
+    ;
   }
 
 
@@ -226,14 +226,14 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(LocalDate.parse("2010-01-01"), 1, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),3000d));
 
-    var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(faktiskUtgiftListe, sjablonListe);
+    var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
-    var resultat = nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert);
+    var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertEquals(2478d,
-        nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert).get(0).getResultatBelop());
+        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop());
 
   }
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate
 data class BeregnSamvaersfradragGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
+    val soknadsbarnPersonId: Int,
     val soknadsbarnFodselsdato: LocalDate,
     val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
@@ -27,6 +28,7 @@ data class BeregnSamvaersfradragResultatCore(
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore

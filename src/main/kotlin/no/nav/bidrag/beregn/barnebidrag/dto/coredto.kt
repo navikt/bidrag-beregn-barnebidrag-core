@@ -1,8 +1,9 @@
 package no.nav.bidrag.beregn.barnebidrag.dto
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
+import no.nav.bidrag.beregn.felles.dto.PeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 //import no.nav.bidrag.beregn.underholdskostnad.dto.ResultatGrunnlagCore
 import java.time.LocalDate
@@ -23,49 +24,52 @@ data class BeregnBarnebidragGrunnlagCore(
 )
 
 data class BidragsevnePeriodeCore(
-    val bidragsevneDatoFraTil: Periode,
+    val bidragsevneDatoFraTil: PeriodeCore,
     val bidragsevneBelop: Double,
     val tjuefemProsentInntekt: Double
 )
 
 data class BPsAndelUnderholdskostnadPeriodeCore(
-    val bPsAndelUnderholdskostnadDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
+    val bPsAndelUnderholdskostnadDatoFraTil: PeriodeCore,
     val bPsAndelUnderholdskostnadBelop: Double
 )
 
 data class KostnadsberegnetBidragPeriodeCore(
-    val kostnadsberegnetBidragDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
+    val kostnadsberegnetBidragDatoFraTil: PeriodeCore,
     val kostnadsberegnetBidragBelop: Double
 )
 
 data class SamvaersfradragPeriodeCore(
-    val samvaersfradragDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
+    val samvaersfradragDatoFraTil: PeriodeCore,
     val samvaersfradrag: Double?
 )
 
 data class DeltBostedPeriodeCore(
-    val deltBostedDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
+    val deltBostedDatoFraTil: PeriodeCore,
     val deltBostedPeriodeCore: Boolean
 )
 
 data class BarnetilleggBPPeriodeCore(
-    val barnetilleggBPDatoFraTil: Periode,
+    val soknadsbarnPersonId: Int,
+    val barnetilleggBPDatoFraTil: PeriodeCore,
     val barnetilleggBPBelop: Double,
     val barnetilleggBPSkattProsent: Double
 )
 
 data class BarnetilleggBMPeriodeCore(
-    val barnetilleggBMDatoFraTil: Periode,
+    val soknadsbarnPersonId: Int,
+    val barnetilleggBMDatoFraTil: PeriodeCore,
     val barnetilleggBMBelop: Double,
     val barnetilleggBMSkattProsent: Double
 )
 
 data class BarnetilleggForsvaretPeriodeCore(
-    val barnetilleggForsvaretDatoFraTil: Periode,
+    val soknadsbarnPersonId: Int,
+    val barnetilleggForsvaretDatoFraTil: PeriodeCore,
     val barnetilleggForsvaretAntallBarn: Int,
     val barnetilleggForsvaretIPeriode: Boolean
 )
@@ -79,65 +83,33 @@ data class BeregnBarnebidragResultatCore(
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: List<ResultatBeregningCore>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
+    val resultatBeregning: ResultatBeregningCore,
+    val resultatGrunnlag: ResultatGrunnlagCore
 )
 
 data class ResultatBeregningCore(
-    val soknadsbarnPersonId: Int,
     val resultatBarnebidragBelop: Double,
     val resultatkode: String
 )
 
 // Grunnlag beregning
-data class GrunnlagBeregningPeriodisertCore(
+data class ResultatGrunnlagCore(
     val bidragsevneBelop: Double,
-    val bPsAndelUnderholdskostnad: List<BPsAndelUnderholdskostnadCore>,
-    val kostnadsberegnetBidrag: List<KostnadsberegnetBidragCore>,
-    val samvaersfradrag: List<SamvaersfradragCore>,
-    val deltBosted: List<DeltBostedCore>,
-    val barnetilleggBP: List<BarnetilleggBPCore>,
-    val barnetilleggBM: List<BarnetilleggBMCore>,
-    val barnetilleggForsvaret: List<BarnetilleggForsvaretCore>,
-    val sjablonListe: List<Sjablon>
+    val soknadsbarnPersonId: Int,
+    val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnadCore,
+    val kostnadsberegnetBidrag: Double,
+    val samvaersfradrag: Double,
+    val deltBosted: Boolean,
+    val barnetilleggBP: Double,
+    val barnetilleggBM: Double,
+    val barnetilleggForsvaret: Double,
+    val sjablonListe: List<SjablonCore>
 )
+
 
 data class BPsAndelUnderholdskostnadCore(
-    val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnadProsent: Double,
     val bPsAndelUnderholdskostnadBelop: Double
-)
-
-data class KostnadsberegnetBidragCore(
-    val soknadsbarnPersonId: Int,
-    val kostnadsberegnetBidragBelop: Double
-)
-
-data class SamvaersfradragCore(
-    val soknadsbarnPersonId: Int,
-    val samvaersfradragBelop: Double
-)
-
-data class DeltBostedCore(
-    val soknadsbarnPersonId: Int,
-    val deltBosted: Boolean
-)
-
-data class BarnetilleggBPCore(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggBPBelop: Double,
-    val barnetilleggBPSkattProsent: Double
-)
-
-data class BarnetilleggBMCore(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggBMBelop: Double,
-    val barnetilleggBMSkattProsent: Double
-)
-
-data class BarnetilleggForsvaretCore(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggForsvaretJaNei: Boolean,
-    val antallBarn: Int
 )

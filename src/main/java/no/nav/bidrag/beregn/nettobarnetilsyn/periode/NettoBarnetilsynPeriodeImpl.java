@@ -15,10 +15,10 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 import no.nav.bidrag.beregn.nettobarnetilsyn.beregning.NettoBarnetilsynBeregning;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 
 public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
@@ -79,8 +79,8 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
 //          .filter(i -> Double.compare(i.getFaktiskUtgiftBelop(), 0.0) > 0)
           .filter(i -> beregnSoknadbarn12aarsdag(i.getFaktiskUtgiftSoknadsbarnFodselsdato())
               .compareTo(beregningsperiode.getDatoTil()) >= 0)
-          .map(faktiskUtgiftPeriode -> new FaktiskUtgift(faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnFodselsdato(),
-              faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnPersonId(),
+          .map(faktiskUtgiftPeriode -> new FaktiskUtgift(faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnPersonId(),
+              faktiskUtgiftPeriode.getFaktiskUtgiftSoknadsbarnFodselsdato(),
               faktiskUtgiftPeriode.getFaktiskUtgiftBelop())).collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -89,11 +89,11 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnNettoBarnetilsynGrunnlagPeriodisert = new BeregnNettoBarnetilsynGrunnlagPeriodisert(
+      var beregnNettoBarnetilsynGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(
           faktiskUtgiftListe, sjablonliste);
 
       resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-              nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert),
+          nettoBarnetilsynBeregning.beregn(beregnNettoBarnetilsynGrunnlagPeriodisert),
           beregnNettoBarnetilsynGrunnlagPeriodisert));
     }
 

@@ -1,11 +1,9 @@
 package no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto
 
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.time.LocalDate
 
 // Grunnlag periode

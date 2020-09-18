@@ -9,6 +9,7 @@ import java.time.LocalDate
 
 // Grunnlag periode
 data class BeregnUnderholdskostnadGrunnlagCore(
+    val soknadsbarnPersonId: Int,
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val soknadBarnFodselsdato: LocalDate,
@@ -42,6 +43,7 @@ data class BeregnUnderholdskostnadResultatCore(
 )
 
 data class ResultatPeriodeCore(
+    val soknadsbarnPersonId: Int,
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregning: ResultatBeregningCore,
     val resultatGrunnlag: ResultatGrunnlagCore

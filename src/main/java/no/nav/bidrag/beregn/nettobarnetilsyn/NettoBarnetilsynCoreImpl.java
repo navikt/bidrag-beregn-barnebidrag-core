@@ -81,10 +81,10 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     var faktiskUtgiftBarnetilsynPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
     for (FaktiskUtgiftPeriodeCore faktiskUtgiftPeriodeCore : faktiskUtgiftBarnetilsynPeriodeListeCore) {
       faktiskUtgiftBarnetilsynPeriodeListe.add(new FaktiskUtgiftPeriode(
+          faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnPersonId(),
           new Periode(faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getPeriodeDatoFra(),
               faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getPeriodeDatoTil()),
           faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnFodselsdato(),
-          faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnPersonId(),
           faktiskUtgiftPeriodeCore.getFaktiskUtgiftBelop()));
     }
     return faktiskUtgiftBarnetilsynPeriodeListe;
@@ -105,7 +105,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
+      var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
@@ -129,8 +129,8 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     var faktiskUtgiftListeCore = new ArrayList<FaktiskUtgiftCore>();
     for (FaktiskUtgift faktiskUtgift : faktiskUtgiftListe) {
       faktiskUtgiftListeCore.add(new FaktiskUtgiftCore(
-          faktiskUtgift.getSoknadsbarnFodselsdato(),
-          faktiskUtgift.getSoknadsbarnPersonId(),
+          faktiskUtgift.getFaktiskUtgiftSoknadsbarnPersonId(),
+          faktiskUtgift.getFaktiskUtgiftSoknadsbarnFodselsdato(),
           faktiskUtgift.getFaktiskUtgiftBelop()));
     }
     return faktiskUtgiftListeCore;

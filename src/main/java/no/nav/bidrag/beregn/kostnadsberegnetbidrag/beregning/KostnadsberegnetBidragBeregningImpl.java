@@ -13,7 +13,7 @@ public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidr
 
     double belopFradrag = 0.0d;
 
-    belopFradrag = grunnlagBeregningPeriodisert.getSamvaersfradrag();
+    belopFradrag = grunnlagBeregningPeriodisert.getSamvaersfradragBelop();
 
     BigDecimal resultat = (BigDecimal.valueOf(
         grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())

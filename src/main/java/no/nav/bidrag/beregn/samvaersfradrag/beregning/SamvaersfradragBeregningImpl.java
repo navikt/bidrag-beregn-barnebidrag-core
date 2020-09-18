@@ -7,7 +7,7 @@ import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning;
 
 public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
@@ -16,21 +16,21 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
   @Override
   public ResultatBeregning beregn(
-      BeregnSamvaersfradragGrunnlagPeriodisert beregnSamvaersfradragGrunnlagPeriodisert) {
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
     double belopFradrag = 0.0d;
 
     sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
-          beregnSamvaersfradragGrunnlagPeriodisert.getSamvaersklasse()));
+          grunnlagBeregningPeriodisert.getSamvaersklasse()));
     belopFradrag = SjablonUtil
-        .hentSjablonverdi(beregnSamvaersfradragGrunnlagPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
-              sjablonNokkelListe, SjablonNokkelNavn.ALDER_TOM, beregnSamvaersfradragGrunnlagPeriodisert.getSoknadBarnAlder(),
+        .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
+              sjablonNokkelListe, SjablonNokkelNavn.ALDER_TOM, grunnlagBeregningPeriodisert.getSoknadBarnAlder(),
               SjablonInnholdNavn.FRADRAG_BELOP);
 
     System.out.println("Samværsfradrag: " + belopFradrag);
-    System.out.println("Alder: " + beregnSamvaersfradragGrunnlagPeriodisert.getSoknadBarnAlder());
+    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
 
     return new ResultatBeregning(belopFradrag);
 

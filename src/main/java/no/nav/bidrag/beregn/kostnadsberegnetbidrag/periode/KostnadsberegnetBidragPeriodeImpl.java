@@ -87,9 +87,11 @@ public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidrag
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
-          soknadsbarnPersonId, underholdskostnadBelop, bPsAndelUnderholdskostnadProsent, samvaersfradragBelop);
+          underholdskostnadBelop, bPsAndelUnderholdskostnadProsent, samvaersfradragBelop);
 
-      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+      resultatPeriodeListe.add(new ResultatPeriode(
+          beregnKostnadsberegnetBidragGrunnlag.getSoknadsbarnPersonId(),
+          beregningsperiode,
           kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert),
           grunnlagBeregningPeriodisert));
     }

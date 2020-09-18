@@ -21,11 +21,8 @@ import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
-import no.nav.bidrag.beregn.nettobarnetilsyn.beregning.NettoBarnetilsynBeregningImpl;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlagPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynResultat;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
 import org.junit.jupiter.api.DisplayName;
@@ -42,15 +39,15 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 1000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 1000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-08-01")),
-        LocalDate.parse("2008-03-17"), 1, 2000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 2000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 5000d));
+        LocalDate.parse("2008-03-17"), 5000d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -65,15 +62,18 @@ public class NettoBarnetilsynPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(1000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(750d)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(2000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(1499d)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(5000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(4478d))
@@ -90,18 +90,18 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 1000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 1000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-08-01")),
-        LocalDate.parse("2008-03-17"), 1, 2000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 2000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-08-01")),
-        LocalDate.parse("2012-02-18"), 2, 2000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2012-02-18"), 2000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 5000d));
+        LocalDate.parse("2008-03-17"), 5000d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -116,21 +116,24 @@ public class NettoBarnetilsynPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(1000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(750d)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(2000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(1583d)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getFaktiskUtgiftListe().get(1).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(1).getFaktiskUtgiftBelop())
             .isEqualTo(2000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBelop())
             .isEqualTo(Double.valueOf(1583d)),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
             .getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlag().getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop())
             .isEqualTo(5000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatBelop())
             .isEqualTo(Double.valueOf(4478d))
@@ -147,9 +150,9 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2005-03-17"), 1, 1000d));
+        LocalDate.parse("2005-03-17"), 1000d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -178,9 +181,9 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2015-03-17"), 1, 0d));
+        LocalDate.parse("2015-03-17"), 0d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -209,15 +212,15 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2015-03-17"), 1, 200d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2015-03-17"), 200d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2015-03-17"), 2, 0d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2015-03-17"), 0d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(3,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2015-03-17"), 3, 800d));
+        LocalDate.parse("2015-03-17"), 800d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -232,7 +235,7 @@ public class NettoBarnetilsynPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getFaktiskUtgiftListe().size()).isEqualTo(3)
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getFaktiskUtgiftListe().size()).isEqualTo(3)
 
     );
 
@@ -247,18 +250,18 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-02-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(4,
         new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2019-12-01")),
-        LocalDate.parse("2015-03-17"), 4, 200d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2015-03-17"), 200d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(3,
         new Periode(LocalDate.parse("2018-11-01"), LocalDate.parse("2018-12-01")),
-        LocalDate.parse("2014-04-17"), 3, 800d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2014-04-17"), 800d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-02-01"), LocalDate.parse("2019-04-01")),
-        LocalDate.parse("2012-05-17"), 1, 800d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2012-05-17"), 800d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-09-01")),
-        LocalDate.parse("2013-03-17"), 2, 200d));
+        LocalDate.parse("2013-03-17"), 200d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -309,12 +312,12 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 1000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 1000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2012-02-18"), 2, 2000d));
+        LocalDate.parse("2012-02-18"), 2000d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -343,15 +346,15 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2021-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 1000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 1000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-08-01")),
-        LocalDate.parse("2008-03-17"), 1, 2000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+        LocalDate.parse("2008-03-17"), 2000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2008-03-17"), 1, 5000d));
+        LocalDate.parse("2008-03-17"), 5000d));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -383,9 +386,9 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2010-03-17"), 1, 3000d));
+        LocalDate.parse("2010-03-17"), 3000d));
 /*    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
         LocalDate.parse("2011-03-18"), 2, 2000d));

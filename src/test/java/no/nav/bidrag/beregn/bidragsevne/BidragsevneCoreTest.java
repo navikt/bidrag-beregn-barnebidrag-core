@@ -10,13 +10,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bidragsevne.dto.AntallBarnIEgetHusholdPeriodeCore;
-import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneGrunnlagAltCore;
+import no.nav.bidrag.beregn.bidragsevne.dto.BeregnBidragsevneGrunnlagCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.BostatusPeriodeCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.InntektPeriodeCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.SaerfradragPeriodeCore;
@@ -50,7 +50,7 @@ public class BidragsevneCoreTest {
   @Mock
   private BidragsevnePeriode bidragsevnePeriodeMock;
 
-  private BeregnBidragsevneGrunnlagAltCore beregnBidragsevneGrunnlagCore;
+  private BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore;
   private BeregnBidragsevneResultat bidragsevnePeriodeResultat;
   private List<Avvik> avvikListe;
 
@@ -166,7 +166,7 @@ public class BidragsevneCoreTest {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
-    beregnBidragsevneGrunnlagCore = new BeregnBidragsevneGrunnlagAltCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
+    beregnBidragsevneGrunnlagCore = new BeregnBidragsevneGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
         inntektPeriodeListe, skatteklassePeriodeListe, bostatusPeriodeListe, antallEgneBarnIHusstandPeriodeListe,
         saerfradragPeriodeListe, sjablonPeriodeListe);
   }
@@ -177,7 +177,7 @@ public class BidragsevneCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(Double.valueOf(666), Double.valueOf(166500)),
-        new BeregnBidragsevneGrunnlagPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
@@ -185,7 +185,7 @@ public class BidragsevneCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(Double.valueOf(667), Double.valueOf(166500)),
-        new BeregnBidragsevneGrunnlagPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
@@ -193,7 +193,7 @@ public class BidragsevneCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(Double.valueOf(668), Double.valueOf(166500)),
-        new BeregnBidragsevneGrunnlagPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));

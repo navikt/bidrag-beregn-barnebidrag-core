@@ -8,9 +8,8 @@ import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import java.time.LocalDate
 
-
 // Grunnlag periode
-data class BeregnBidragsevneGrunnlagAlt(
+data class BeregnBidragsevneGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val inntektPeriodeListe: List<InntektPeriode>,
@@ -29,26 +28,26 @@ data class BeregnBidragsevneResultat(
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
     val resultatBeregning: ResultatBeregning,
-    val resultatGrunnlag: BeregnBidragsevneGrunnlagPeriodisert
-)
-
-
-// Grunnlag beregning
-data class BeregnBidragsevneGrunnlagPeriodisert(
-    val inntektListe: List<Inntekt>,
-    val skatteklasse: Int,
-    val bostatusKode: BostatusKode,
-    val antallEgneBarnIHusstand: Int,
-    val saerfradragkode: SaerfradragKode,
-    val sjablonListe: List<Sjablon>)
-
-
-data class Inntekt(
-    val inntektType: InntektType,
-    val inntektBelop: Double
+    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
 )
 
 data class ResultatBeregning(
     val resultatEvneBelop: Double,
     val resultat25ProsentInntekt: Double
 )
+
+// Grunnlag beregning
+data class GrunnlagBeregningPeriodisert(
+    val inntektListe: List<Inntekt>,
+    val skatteklasse: Int,
+    val bostatusKode: BostatusKode,
+    val antallEgneBarnIHusstand: Int,
+    val saerfradragkode: SaerfradragKode,
+    val sjablonListe: List<Sjablon>
+)
+
+data class Inntekt(
+    val inntektType: InntektType,
+    val inntektBelop: Double
+)
+

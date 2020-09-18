@@ -135,22 +135,22 @@ public class KostnadsberegnetBidragCoreTest {
   private void byggKostnadsberegnetBidragPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(Double.valueOf(666)),
-        new GrunnlagBeregningPeriodisert(1, 10000d, 20d, 100d
+        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
         )));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(Double.valueOf(667)),
-        new GrunnlagBeregningPeriodisert(1, 10000d, 20d, 100d
+        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
         )));
 
-    periodeResultatListe.add(new ResultatPeriode(
+    periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(Double.valueOf(668)),
-        new GrunnlagBeregningPeriodisert(1, 10000d, 20d, 100d
+        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
         )));
 
     kostnadsberegnetBidragPeriodeResultat = new BeregnKostnadsberegnetBidragResultat(periodeResultatListe);

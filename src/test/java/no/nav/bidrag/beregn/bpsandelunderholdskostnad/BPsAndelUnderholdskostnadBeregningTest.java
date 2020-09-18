@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.beregning.BPsAndelUnderholdskostnadBeregningImpl;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert;
+import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -40,7 +40,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
       inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 40000));
 
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-          new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+          new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
       ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -72,7 +72,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 10000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -98,7 +98,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 400000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -126,7 +126,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3%)
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -152,7 +152,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -177,7 +177,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -202,7 +202,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 1000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
@@ -227,7 +227,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 1000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
-        new BeregnBPsAndelUnderholdskostnadGrunnlagPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
     ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 

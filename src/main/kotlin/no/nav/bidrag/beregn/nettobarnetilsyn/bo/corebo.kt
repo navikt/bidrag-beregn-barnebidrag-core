@@ -21,7 +21,7 @@ data class BeregnNettoBarnetilsynResultat(
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
     val resultatBeregningListe: List<ResultatBeregning>,
-    val resultatGrunnlag: BeregnNettoBarnetilsynGrunnlagPeriodisert
+    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
 )
 
 data class ResultatBeregning(
@@ -30,11 +30,12 @@ data class ResultatBeregning(
 )
 
 // Grunnlag beregning
-data class BeregnNettoBarnetilsynGrunnlagPeriodisert(
+data class GrunnlagBeregningPeriodisert(
     val faktiskUtgiftListe: List<FaktiskUtgift>,
     val sjablonListe: List<Sjablon>)
 
 data class FaktiskUtgift(
-    val soknadsbarnFodselsdato: LocalDate,
-    val soknadsbarnPersonId: Int,
-    val faktiskUtgiftBelop: Double)
+    val faktiskUtgiftSoknadsbarnPersonId: Int,
+    val faktiskUtgiftSoknadsbarnFodselsdato: LocalDate,
+    val faktiskUtgiftBelop: Double
+)

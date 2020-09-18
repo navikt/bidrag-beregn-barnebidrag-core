@@ -66,7 +66,7 @@ public class SamvaersfradragPeriodeTest {
                   new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
 
       BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
+          new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
               samvaersklassePeriodeListe, sjablonPeriodeListe);
 
       var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
@@ -143,7 +143,7 @@ public class SamvaersfradragPeriodeTest {
                 new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
             samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var resultat = samvaersfradragPeriode.beregnPerioder(beregnSamvaersfradragGrunnlag);
@@ -207,7 +207,7 @@ public class SamvaersfradragPeriodeTest {
                 new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
-        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnFodselsdato,
+        new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
             samvaersklassePeriodeListe, sjablonPeriodeListe);
 
     var avvikListe = samvaersfradragPeriode.validerInput(beregnSamvaersfradragGrunnlag);

@@ -109,12 +109,12 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
       var kostnadsberegnetBidragResultat = periodeResultat.getResultatBeregning();
       var kostnadsberegnetBidragResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+          periodeResultat.getSoknadsbarnPersonId(),
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(kostnadsberegnetBidragResultat.getResultatkostnadsberegnetbidragBelop()),
-          new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getSoknadsbarnPersonId(),
-              kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
+          new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
               kostnadsberegnetBidragResultatGrunnlag.getBPsAndelUnderholdskostnadProsent(),
-              kostnadsberegnetBidragResultatGrunnlag.getSamvaersfradrag()
+              kostnadsberegnetBidragResultatGrunnlag.getSamvaersfradragBelop()
           )));
     }
     return resultatPeriodeCoreListe;
