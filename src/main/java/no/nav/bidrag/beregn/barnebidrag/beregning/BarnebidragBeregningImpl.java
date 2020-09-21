@@ -15,6 +15,8 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   public ResultatBeregning beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
+    var bidragsevne = grunnlagBeregningPeriodisert.getBidragsevneBelop();
+
     double barnebidragBelop = 8000.0d;
 
 
