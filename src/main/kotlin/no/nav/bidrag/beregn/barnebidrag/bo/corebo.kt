@@ -62,7 +62,6 @@ data class BPsAndelUnderholdskostnad(
 )
 
 data class Barnetillegg(
-    val soknadsbarnPersonId: Int,
     val barnetilleggBelop: Double,
     val barnetilleggSkattProsent: Double
 )

@@ -66,7 +66,6 @@ data class BarnetilleggForsvaretPeriodeCore(
     val barnetilleggForsvaretIPeriode: Boolean
 )
 
-
 // Resultatperiode
 data class BeregnBarnebidragResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
@@ -84,12 +83,14 @@ data class ResultatBeregningCore(
     val resultatBarnebidragBelop: Double,
     val resultatkode: String
 )
+
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
     val bidragsevneBelop: Double,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarnCore>,
     val sjablonListe: List<SjablonCore>
 )
+
 data class GrunnlagBeregningPerBarnCore(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnadCore,

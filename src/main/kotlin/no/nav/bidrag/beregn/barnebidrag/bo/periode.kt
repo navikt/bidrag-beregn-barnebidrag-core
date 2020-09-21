@@ -47,7 +47,7 @@ data class KostnadsberegnetBidragPeriode(
 data class SamvaersfradragPeriode(
     val soknadsbarnPersonId: Int,
     val samvaersfradragDatoFraTil: Periode,
-    val samvaersfradragBelop: Double?) : PeriodisertGrunnlag {
+    val samvaersfradragBelop: Double) : PeriodisertGrunnlag {
   constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
       : this(samvaersfradragPeriode.soknadsbarnPersonId,
       samvaersfradragPeriode.samvaersfradragDatoFraTil.justerDatoer(),
