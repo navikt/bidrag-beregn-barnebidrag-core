@@ -17,13 +17,13 @@ data class BidragsevnePeriode(
 }
 
 data class BPsAndelUnderholdskostnadPeriode(
-    val bPsAndelUnderholdskostnadDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
+    val bPsAndelUnderholdskostnadDatoFraTil: Periode,
     val bPsAndelUnderholdskostnadProsent: Double,
     val bPsAndelUnderholdskostnadBelop: Double) : PeriodisertGrunnlag {
   constructor(bPsAndelUnderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode)
-      : this(bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadDatoFraTil.justerDatoer(),
-      bPsAndelUnderholdskostnadPeriode.soknadsbarnPersonId,
+      : this(bPsAndelUnderholdskostnadPeriode.soknadsbarnPersonId,
+      bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadDatoFraTil.justerDatoer(),
       bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadProsent,
       bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadBelop)
   override fun getDatoFraTil(): Periode {
@@ -32,12 +32,12 @@ data class BPsAndelUnderholdskostnadPeriode(
 }
 
 data class KostnadsberegnetBidragPeriode(
-    val kostnadsberegnetBidragDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
+    val kostnadsberegnetBidragDatoFraTil: Periode,
     val kostnadsberegnetBidragBelop: Double) : PeriodisertGrunnlag {
   constructor(kostnadsberegnetBidragPeriode: KostnadsberegnetBidragPeriode)
-      : this(kostnadsberegnetBidragPeriode.kostnadsberegnetBidragDatoFraTil.justerDatoer(),
-      kostnadsberegnetBidragPeriode.soknadsbarnPersonId,
+      : this(kostnadsberegnetBidragPeriode.soknadsbarnPersonId,
+      kostnadsberegnetBidragPeriode.kostnadsberegnetBidragDatoFraTil.justerDatoer(),
       kostnadsberegnetBidragPeriode.kostnadsberegnetBidragBelop)
   override fun getDatoFraTil(): Periode {
     return kostnadsberegnetBidragDatoFraTil
@@ -45,62 +45,49 @@ data class KostnadsberegnetBidragPeriode(
 }
 
 data class SamvaersfradragPeriode(
-    val samvaersfradragDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
-    val samvaersfradrag: Double?) : PeriodisertGrunnlag {
+    val samvaersfradragDatoFraTil: Periode,
+    val samvaersfradragBelop: Double?) : PeriodisertGrunnlag {
   constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
-      : this(samvaersfradragPeriode.samvaersfradragDatoFraTil.justerDatoer(),
-      samvaersfradragPeriode.soknadsbarnPersonId,
-      samvaersfradragPeriode.samvaersfradrag)
+      : this(samvaersfradragPeriode.soknadsbarnPersonId,
+      samvaersfradragPeriode.samvaersfradragDatoFraTil.justerDatoer(),
+      samvaersfradragPeriode.samvaersfradragBelop)
   override fun getDatoFraTil(): Periode {
     return samvaersfradragDatoFraTil
   }
 }
 
 data class DeltBostedPeriode(
-    val deltBostedDatoFraTil: Periode,
     val soknadsbarnPersonId: Int,
-    val deltBosted: Boolean) : PeriodisertGrunnlag {
+    val deltBostedDatoFraTil: Periode,
+    val deltBostedIPeriode: Boolean) : PeriodisertGrunnlag {
   constructor(deltBostedPeriode: DeltBostedPeriode)
-      : this(deltBostedPeriode.deltBostedDatoFraTil.justerDatoer(),
-      deltBostedPeriode.soknadsbarnPersonId,
-      deltBostedPeriode.deltBosted)
+      : this(deltBostedPeriode.soknadsbarnPersonId,
+      deltBostedPeriode.deltBostedDatoFraTil.justerDatoer(),
+      deltBostedPeriode.deltBostedIPeriode)
   override fun getDatoFraTil(): Periode {
     return deltBostedDatoFraTil
   }
 }
 
-data class BarnetilleggBPPeriode(
-    val barnetilleggBPDatoFraTil: Periode,
-    val barnetilleggBPBelop: Double,
-    val barnetilleggBPSkattProsent: Double) : PeriodisertGrunnlag {
-  constructor(barnetilleggBPPeriode: BarnetilleggBPPeriode)
-      : this(barnetilleggBPPeriode.barnetilleggBPDatoFraTil.justerDatoer(),
-      barnetilleggBPPeriode.barnetilleggBPBelop, barnetilleggBPPeriode.barnetilleggBPSkattProsent)
+data class BarnetilleggPeriode(
+    val soknadsbarnPersonId: Int,
+    val barnetilleggDatoFraTil: Periode,
+    val barnetilleggBelop: Double,
+    val barnetilleggSkattProsent: Double) : PeriodisertGrunnlag {
+  constructor(barnetilleggPeriode: BarnetilleggPeriode)
+      : this(barnetilleggPeriode.soknadsbarnPersonId, barnetilleggPeriode.barnetilleggDatoFraTil.justerDatoer(),
+      barnetilleggPeriode.barnetilleggBelop, barnetilleggPeriode.barnetilleggSkattProsent)
   override fun getDatoFraTil(): Periode {
-    return barnetilleggBPDatoFraTil
-  }
-}
-
-data class BarnetilleggBMPeriode(
-    val barnetilleggBMDatoFraTil: Periode,
-    val barnetilleggBMBelop: Double,
-    val barnetilleggBMSkattProsent: Double) : PeriodisertGrunnlag {
-  constructor(barnetilleggBMPeriode: BarnetilleggBMPeriode)
-      : this(barnetilleggBMPeriode.barnetilleggBMDatoFraTil.justerDatoer(),
-      barnetilleggBMPeriode.barnetilleggBMBelop, barnetilleggBMPeriode.barnetilleggBMSkattProsent)
-  override fun getDatoFraTil(): Periode {
-    return barnetilleggBMDatoFraTil
+    return barnetilleggDatoFraTil
   }
 }
 
 data class BarnetilleggForsvaretPeriode(
     val barnetilleggForsvaretDatoFraTil: Periode,
-    val barnetilleggForsvaretAntallBarn: Int,
     val barnetilleggForsvaretIPeriode: Boolean) : PeriodisertGrunnlag {
   constructor(barnetilleggForsvaretPeriode: BarnetilleggForsvaretPeriode)
       : this(barnetilleggForsvaretPeriode.barnetilleggForsvaretDatoFraTil.justerDatoer(),
-      barnetilleggForsvaretPeriode.barnetilleggForsvaretAntallBarn,
       barnetilleggForsvaretPeriode.barnetilleggForsvaretIPeriode)
   override fun getDatoFraTil(): Periode {
     return barnetilleggForsvaretDatoFraTil
