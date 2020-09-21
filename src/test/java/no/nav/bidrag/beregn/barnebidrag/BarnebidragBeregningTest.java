@@ -28,8 +28,8 @@ public class BarnebidragBeregningTest {
 
     double bidragsevne = 10000d;
     var bPsAndelUnderholdskostnad = new BPsAndelUnderholdskostnad(1d, 1d);
-    var barnetilleggBP            = new Barnetillegg(1, 1d, 1d);
-    var barnetilleggBM            = new Barnetillegg(1, 1d, 1d);
+    var barnetilleggBP            = new Barnetillegg(1d, 1d);
+    var barnetilleggBM            = new Barnetillegg(1d, 1d);
 
     var grunnlagPerBarnListe      = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagPerBarnListe.add(new GrunnlagBeregningPerBarn(1, bPsAndelUnderholdskostnad,
