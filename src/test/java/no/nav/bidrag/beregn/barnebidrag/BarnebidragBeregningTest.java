@@ -26,17 +26,18 @@ public class BarnebidragBeregningTest {
   void testBeregning() {
     BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
+    var grunnlagBeregningPerBarnListe      = new ArrayList<GrunnlagBeregningPerBarn>();
+
     double bidragsevne = 10000d;
-    var bPsAndelUnderholdskostnad = new BPsAndelUnderholdskostnad(1d, 1d);
+    var bPsAndelUnderholdskostnad = new BPsAndelUnderholdskostnad(100d, 8000d);
     var barnetilleggBP            = new Barnetillegg(1d, 1d);
     var barnetilleggBM            = new Barnetillegg(1d, 1d);
 
-    var grunnlagPerBarnListe      = new ArrayList<GrunnlagBeregningPerBarn>();
-    grunnlagPerBarnListe.add(new GrunnlagBeregningPerBarn(1, bPsAndelUnderholdskostnad,
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1, bPsAndelUnderholdskostnad,
         1d, 1d, false, barnetilleggBP, barnetilleggBM, false));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
 
     ResultatBeregning resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 

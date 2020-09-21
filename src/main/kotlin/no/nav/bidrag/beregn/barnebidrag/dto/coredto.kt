@@ -73,7 +73,7 @@ data class BeregnBarnebidragResultatCore(
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: Periode,
+    val resultatDatoFraTil: PeriodeCore,
     val resultatBeregningListe: List<ResultatBeregningCore>,
     val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
 )
