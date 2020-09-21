@@ -15,62 +15,10 @@ data class BeregnBarnebidragGrunnlag(
     val kostnadsberegnetBidragPeriodeListe: List<KostnadsberegnetBidragPeriode>,
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>,
     val deltBostedPeriodeListe: List<DeltBostedPeriode>,
-    val barnetilleggBPPeriodeListe: List<BarnetilleggBPPeriode>,
-    val barnetilleggBMPeriodeListe: List<BarnetilleggBMPeriode>,
+    val barnetilleggBPPeriodeListe: List<BarnetilleggPeriode>,
+    val barnetilleggBMPeriodeListe: List<BarnetilleggPeriode>,
     val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
-)
-
-// Grunnlag beregning
-data class GrunnlagBeregningPeriodisert(
-    val bidragsevneBelop: Double,
-    val bPsAndelUnderholdskostnadListe: List<BPsAndelUnderholdskostnad>,
-    val kostnadsberegnetBidragListe: List<KostnadsberegnetBidrag>,
-    val samvaersfradragListe: List<Samvaersfradrag>,
-    val deltBostedListe: List<DeltBosted>,
-    val barnetilleggBPListe: List<BarnetilleggBP>,
-    val barnetilleggBMListe: List<BarnetilleggBM>,
-    val barnetilleggForsvaretListe: List<BarnetilleggForsvaret>,
-    val sjablonListe: List<Sjablon>
-)
-
-data class BPsAndelUnderholdskostnad(
-    val soknadsbarnPersonId: Int,
-    val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double
-)
-
-data class KostnadsberegnetBidrag(
-    val soknadsbarnPersonId: Int,
-    val kostnadsberegnetBidragBelop: Double
-)
-
-data class Samvaersfradrag(
-    val soknadsbarnPersonId: Int,
-    val samvaersfradragBelop: Double
-)
-
-data class DeltBosted(
-    val soknadsbarnPersonId: Int,
-    val deltBosted: Boolean
-)
-
-data class BarnetilleggBP(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggBPBelop: Double,
-    val barnetilleggBPSkattProsent: Double
-)
-
-data class BarnetilleggBM(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggBMBelop: Double,
-    val barnetilleggBMSkattProsent: Double
-)
-
-data class BarnetilleggForsvaret(
-    val soknadsbarnPersonId: Int,
-    val barnetilleggForsvaretJaNei: Boolean,
-    val antallBarn: Int
 )
 
 // Resultatperiode
@@ -80,7 +28,7 @@ data class BeregnBarnebidragResultat(
 
 data class ResultatPeriode(
     val resultatDatoFraTil: Periode,
-    val resultatBeregning: List<ResultatBeregning>,
+    val resultatBeregningListe: List<ResultatBeregning>,
     val resultatGrunnlag: GrunnlagBeregningPeriodisert
 )
 
@@ -88,4 +36,33 @@ data class ResultatBeregning(
     val soknadsbarnPersonId: Int,
     val resultatBarnebidragBelop: Double,
     val resultatkode: ResultatKode
+)
+
+
+// Grunnlag beregning
+data class GrunnlagBeregningPeriodisert(
+    val bidragsevneBelop: Double,
+    val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarn>,
+    val sjablonListe: List<Sjablon>
+)
+data class GrunnlagBeregningPerBarn(
+    val soknadsbarnPersonId: Int,
+    val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
+    val kostnadsberegnetBidrag: Double,
+    val samvaersfradrag: Double,
+    val deltBosted: Boolean,
+    val barnetilleggBP: Barnetillegg,
+    val barnetilleggBM: Barnetillegg,
+    val barnetilleggForsvaret: Boolean
+)
+
+data class BPsAndelUnderholdskostnad(
+    val bPsAndelUnderholdskostnadProsent: Double,
+    val bPsAndelUnderholdskostnadBelop: Double
+)
+
+data class Barnetillegg(
+    val soknadsbarnPersonId: Int,
+    val barnetilleggBelop: Double,
+    val barnetilleggSkattProsent: Double
 )
