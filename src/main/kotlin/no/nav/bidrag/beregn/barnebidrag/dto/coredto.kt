@@ -86,9 +86,14 @@ data class ResultatBeregningCore(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
-    val bidragsevneBelop: Double,
+    val bidragsevne: BidragsevneCore,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarnCore>,
     val sjablonListe: List<SjablonCore>
+)
+
+data class BidragsevneCore(
+    val bidragsevneBelop: Double,
+    val tjuefemProsentInntekt: Double
 )
 
 data class GrunnlagBeregningPerBarnCore(

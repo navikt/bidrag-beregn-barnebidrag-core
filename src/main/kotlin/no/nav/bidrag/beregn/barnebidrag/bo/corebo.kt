@@ -41,10 +41,16 @@ data class ResultatBeregning(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
-    val bidragsevneBelop: Double,
+    val bidragsevne: Bidragsevne,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarn>,
     val sjablonListe: List<Sjablon>
 )
+
+data class Bidragsevne(
+    val bidragsevneBelop: Double,
+    val tjuefemProsentInntekt: Double
+)
+
 data class GrunnlagBeregningPerBarn(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
