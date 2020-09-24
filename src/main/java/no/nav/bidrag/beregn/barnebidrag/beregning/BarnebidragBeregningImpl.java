@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.underholdskostnad.bo.ForpleiningUtgiftPeriode;
 
 public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
@@ -21,48 +19,56 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   public List<ResultatBeregning> beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-
-//    double maksBidragsbelop = 0d;
-//    Double tjuefemProsentInntekt = grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt();
-    BigDecimal tempBarnebidrag = BigDecimal.valueOf(0);
+//    BigDecimal tempBarnebidrag = BigDecimal.valueOf(0);
     ResultatKode resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
 
-/*    double totaltBelopUnderholdskostnad = grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe().stream()
-        .map(GrunnlagBeregningPerBarn::getBPsAndelUnderholdskostnad).sum;*/
+    double totaltBelopUnderholdskostnad = grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()
+        .stream()
+        .map(GrunnlagBeregningPerBarn::getBPsAndelUnderholdskostnad)
+        .mapToDouble(BPsAndelUnderholdskostnad::getBPsAndelUnderholdskostnadBelop).sum();
 
-/*    var totaltBelopUnderholdskostnad = grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe().stream()
-        .mapToDouble(BPsAndelUnderholdskostnad::getBPsAndelUnderholdskostnadBelop)
-//        .map(BPsAndelUnderholdskostnad::getBPsAndelUnderholdskostnadBelop)
-        .reduce(Double.valueOf(0), Double::sum);*/
-
-/*    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad);
+    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad);
 
     var maksBidragsbelop = 0d;
 
     if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop() <
         grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt()) {
       maksBidragsbelop = grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop();
+      resultatkode = ResultatKode.BIDRAG_REDUSERT_AV_EVNE;
     } else {
       maksBidragsbelop = grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt();
+      resultatkode = ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT;
     }
 
-    if (maksBidragsbelop < totaltBelopUnderholdskostnad) {
 
-
-
-    }*/
 
 
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
-      tempBarnebidrag = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
-          .getBPsAndelUnderholdskostnadBelop());
+
+      BigDecimal tempBarnebidrag = BigDecimal.valueOf(0);
 
       var nettoBarnetilleggBP = grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop() -
           (grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop() *
               grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggSkattProsent() / 100);
 
-      System.out.println("nettoBarnetilleggBP: " + nettoBarnetilleggBP);
+      var nettoBarnetilleggBM = grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggBelop() -
+          (grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggBelop() *
+              grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggSkattProsent() / 100);
+
+      if (maksBidragsbelop < totaltBelopUnderholdskostnad) {
+        // Bidraget skal begrenses forholdsmessig pga manglende evne/25%-regel
+        var andelProsent = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
+        .getBPsAndelUnderholdskostnadBelop()).divide(BigDecimal.valueOf(totaltBelopUnderholdskostnad));
+        System.out.println("Andel av evne: " + andelProsent);
+        tempBarnebidrag = BigDecimal.valueOf(maksBidragsbelop).multiply(andelProsent);
+      } else {
+        tempBarnebidrag = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
+            .getBPsAndelUnderholdskostnadBelop());
+      }
+
+
+
 
       if (tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0) {
         tempBarnebidrag = BigDecimal.valueOf(nettoBarnetilleggBP);
