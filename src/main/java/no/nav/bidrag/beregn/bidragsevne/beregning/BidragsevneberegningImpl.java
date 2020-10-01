@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.bidragsevne.beregning;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,10 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     // finner 25% av inntekt og omregner til månedlig beløp
     BigDecimal tjuefemProsentInntekt = (BigDecimal.valueOf(inntekt)
-        .divide(BigDecimal.valueOf(4))
-        .divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP));
+        .divide(BigDecimal.valueOf(4), new MathContext(10, RoundingMode.HALF_UP))
+        .divide(BigDecimal.valueOf(12), new MathContext(10, RoundingMode.HALF_UP)));
+
+     tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
 
 //    tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
 

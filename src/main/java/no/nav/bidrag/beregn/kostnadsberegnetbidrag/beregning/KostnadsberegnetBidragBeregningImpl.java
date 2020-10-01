@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatBeregning;
@@ -19,7 +20,7 @@ public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidr
         grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
         .multiply(BigDecimal.valueOf(
             grunnlagBeregningPeriodisert.getBPsAndelUnderholdskostnadProsent()))
-        .divide(BigDecimal.valueOf(100))
+        .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP))
         .subtract(BigDecimal.valueOf(belopFradrag)));
 
     System.out.println("Resultat: " + resultat);
