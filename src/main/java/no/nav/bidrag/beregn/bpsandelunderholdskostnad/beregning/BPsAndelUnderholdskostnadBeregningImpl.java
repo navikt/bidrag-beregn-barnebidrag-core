@@ -30,17 +30,21 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
+    System.out.println("BP: " + inntektBP);
+
     // Legger sammen inntektene
     var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
+    System.out.println("BM: " + inntektBM);
 
     // Legger sammen inntektene
     var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
+    System.out.println("BB: " + inntektBB);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
     if (inntektBB > SjablonUtil
@@ -52,6 +56,9 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
           inntektBP / (inntektBP + inntektBM + inntektBB)).multiply(BigDecimal.valueOf(100));
 
       andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
+
+      System.out.println("andelProsent: " + andelProsent);
+
 
       // Utregnet andel skal ikke være større en 5/6
 

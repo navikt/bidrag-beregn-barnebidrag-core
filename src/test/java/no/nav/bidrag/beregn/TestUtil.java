@@ -21,7 +21,6 @@ public class TestUtil {
 
     // Barnetilsyn
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe.add(new Sjablon(SjablonNavn.BARNETILSYN.getNavn(),
         Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.STONAD_TYPE.getNavn(), "64"),
             new SjablonNokkel(SjablonNokkelNavn.TILSYN_TYPE.getNavn(), "DO")),
@@ -41,7 +40,6 @@ public class TestUtil {
 
     // Bidragsevne
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe
         .add(new Sjablon(
             SjablonNavn.BIDRAGSEVNE.getNavn(), Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
@@ -78,7 +76,6 @@ public class TestUtil {
 
     // Maks fradrag
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe
         .add(new Sjablon(
             SjablonNavn.MAKS_FRADRAG.getNavn(), Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "1")),
@@ -118,7 +115,6 @@ public class TestUtil {
 
     // Maks tilsyn
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe
         .add(new Sjablon(
             SjablonNavn.MAKS_TILSYN.getNavn(), Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "1")),
@@ -134,7 +130,6 @@ public class TestUtil {
 
     // Samvaersfradrag
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe.add(new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
         Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "00"),
             new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "99")),
@@ -264,7 +259,6 @@ public class TestUtil {
 
     // Sjablontall
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe.add(new Sjablon(SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP.getNavn(), emptyList(),
         Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1054d))));
     sjablonListe.add(new Sjablon(SjablonTallNavn.ORDINAER_SMAABARNSTILLEGG_BELOP.getNavn(), emptyList(),
@@ -303,7 +297,6 @@ public class TestUtil {
 
     // Trinnvis skattesats
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020
-
     sjablonListe.add(new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
         Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 999550d),
             new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 16.2d))));

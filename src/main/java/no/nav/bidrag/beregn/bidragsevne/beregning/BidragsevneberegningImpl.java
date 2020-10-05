@@ -237,11 +237,16 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
           samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
               (inntekt - sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) *
                   (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
         } else {
           samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
               (sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense() -
                   sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) * (
                   sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
         }
       }
       indeks = indeks + 1;
@@ -251,6 +256,9 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
       samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
           (inntekt - sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
               * (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+      System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
     }
 
 

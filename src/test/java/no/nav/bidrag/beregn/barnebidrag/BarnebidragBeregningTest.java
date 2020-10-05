@@ -520,11 +520,11 @@ public class BarnebidragBeregningTest {
   void testerFraJohn() {
     BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(10000d, 10000d);
+    var bidragsevne = new Bidragsevne(0d, 6250d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(66.7d, 3590d),
-        0d, 0d, false,
+        new BPsAndelUnderholdskostnad(62.5d, 4238.5d),
+        0d, 256d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d),
         false));
@@ -533,8 +533,8 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(5667d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
+    assertEquals(0d, resultat.get(0).getResultatBarnebidragBelop());
+    assertEquals(ResultatKode.INGEN_EVNE, resultat.get(0).getResultatkode());
 
   }
 

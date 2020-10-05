@@ -86,7 +86,8 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       // Sjekker mot særregler for barnetillegg BP/BM
       // Dersom beregnet bidrag etter samværsfradrag er lavere enn eventuelt barnetillegg for BP
       // så skal bidraget settes likt barnetillegget
-      if (tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0) {
+      if (tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0
+          && nettoBarnetilleggBP > 0d) {
         tempBarnebidrag = BigDecimal.valueOf(nettoBarnetilleggBP);
         resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP;
       } else {
@@ -103,6 +104,10 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       // Beløp for bidrag settes til 0 hvis bidraget er utregnet til negativt beløp etter samværsfradrag
       if (tempBarnebidrag.compareTo(BigDecimal.valueOf(0)) <= 0) {
         tempBarnebidrag = BigDecimal.valueOf(0);
+      }
+
+      if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop() == 0d) {
+        resultatkode = ResultatKode.INGEN_EVNE;
       }
 
       // Bidrag skal avrundes til nærmeste tier

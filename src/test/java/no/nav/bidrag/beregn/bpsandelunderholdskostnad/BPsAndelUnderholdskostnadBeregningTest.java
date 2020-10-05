@@ -242,24 +242,24 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testFraJohn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(5382);
+    Double underholdskostnad = Double.valueOf(5999);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 300000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
+    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000d));
+    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 300000d));
+    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0d));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
-    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(667d),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(66.7)
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(3749.4d),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(62.5d)
     );
   }
 

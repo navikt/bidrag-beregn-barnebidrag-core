@@ -33,7 +33,7 @@ class BidragsevneberegningGrunnlagTest {
         .hentTrinnvisSkattesats(sjablonListe, SjablonNavn.TRINNVIS_SKATTESATS);
 
     assertThat(sortertTrinnvisSkattesatsListe.size()).isEqualTo(4);
-    assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense()).isEqualTo(174500d);
+    assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense()).isEqualTo(180800d);
     assertThat(sortertTrinnvisSkattesatsListe.get(0).getSats()).isEqualTo(1.9d);
 
   }
