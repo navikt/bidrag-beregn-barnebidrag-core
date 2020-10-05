@@ -66,7 +66,7 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(1700d-(1700d*10d/100), resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBP, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP, resultat.get(0).getResultatkode());
   }
 
   @DisplayName("Beregner ved full evne, to barn")
@@ -266,7 +266,7 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(100d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBM, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM, resultat.get(0).getResultatkode());
 
 
   }
@@ -292,7 +292,7 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(450d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBP, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP, resultat.get(0).getResultatkode());
 
   }
   @DisplayName("Beregner at bidrag settes likt BPs andel av underholdskostnad minus samværsfradrag")
@@ -350,10 +350,10 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(450d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBP, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP, resultat.get(0).getResultatkode());
 
     assertEquals(210d, resultat.get(1).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBM, resultat.get(1).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM, resultat.get(1).getResultatkode());
 
     assertEquals(160d, resultat.get(2).getResultatBarnebidragBelop());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(2).getResultatkode());
@@ -379,7 +379,7 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
     assertEquals(5667d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGFORSVARET, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
 
@@ -417,7 +417,7 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
     assertEquals(2667d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGFORSVARET, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
 
@@ -511,11 +511,32 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
     assertEquals(727d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGFORSVARET, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
 
+  @DisplayName("Tester fra John")
+  @Test
+  void testerFraJohn() {
+    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
+    var bidragsevne = new Bidragsevne(10000d, 10000d);
+
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
+        new BPsAndelUnderholdskostnad(66.7d, 3590d),
+        0d, 0d, false,
+        new Barnetillegg(0d, 0d),
+        new Barnetillegg(0d, 0d),
+        false));
+
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+
+    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    assertEquals(5667d, resultat.get(0).getResultatBarnebidragBelop());
+    assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
+
+  }
 
 /*  @DisplayName("Beregner der delt bosted er satt. BPs andel av underholdskostnad skal da reduseres med 50%")
   @Test

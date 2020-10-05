@@ -7,11 +7,7 @@ import static java.util.stream.Collectors.toList;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
-import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggBM;
-import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggBMPeriode;
-import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggBP;
-import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggBPPeriode;
-import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaret;
+
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaretPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;

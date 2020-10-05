@@ -160,4 +160,22 @@ class UnderholdskostnadBeregningTest {
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
+
+    BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
+        = new BeregnUnderholdskostnadGrunnlagPeriodisert(5,
+        new BarnetilsynMedStonad("Ingen", "Ingen"),
+        3000.0d,
+        0.0d,
+        sjablonListe
+    );
+
+    assertEquals(8382d,
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+  }
+
 }

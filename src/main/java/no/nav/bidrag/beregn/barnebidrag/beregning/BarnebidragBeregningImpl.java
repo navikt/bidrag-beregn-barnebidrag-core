@@ -23,18 +23,14 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   public List<ResultatBeregning> beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-//    BigDecimal totaltBelopUnderholdskostnad = finnTotalUnderholdskostnad(grunnlagBeregningPeriodisert);
-
-//    BigDecimal tempBarnebidrag = BigDecimal.valueOf(0);
     boolean bidragRedusertAvBidragsevne = false;
-//    boolean bidragRedusertAv25ProsentAvInntekt = false;
 
     BigDecimal totaltBelopUnderholdskostnad = BigDecimal.valueOf(grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()
         .stream()
         .map(GrunnlagBeregningPerBarn::getBPsAndelUnderholdskostnad)
         .mapToDouble(BPsAndelUnderholdskostnad::getBPsAndelUnderholdskostnadBelop).sum());
 
-    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad.toString());
+//    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad.toString());
 
     BigDecimal maksBidragsbelop = BigDecimal.valueOf(0);
 
@@ -44,15 +40,12 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       bidragRedusertAvBidragsevne = true;
     } else {
       maksBidragsbelop = BigDecimal.valueOf(grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt());
-//      bidragRedusertAv25ProsentAvInntekt = true;
     }
     System.out.println("maksBidragsbelop: " + maksBidragsbelop);
 
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
 
-//      boolean bidragSattTilBarnetilleggBP = false;
-//      boolean bidragSattTilBarnetilleggBM = false;
       ResultatKode resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
 
       BigDecimal tempBarnebidrag = BigDecimal.valueOf(0);
@@ -84,7 +77,6 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       } else {
         tempBarnebidrag = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
             .getBPsAndelUnderholdskostnadBelop());
-//        resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
       }
 
       // Trekker fra samværsfradrag
@@ -96,8 +88,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       // så skal bidraget settes likt barnetillegget
       if (tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0) {
         tempBarnebidrag = BigDecimal.valueOf(nettoBarnetilleggBP);
-//        bidragSattTilBarnetilleggBP = true;
-        resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBP;
+        resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP;
       } else {
         // Regel for barnetilleggBP har ikke slått til. Sjekk om eventuelt barnetillegg for BM skal benyttes
         if (tempBarnebidrag.compareTo(
@@ -105,8 +96,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
             .subtract(BigDecimal.valueOf(nettoBarnetilleggBM))) > 0) {
           tempBarnebidrag = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop())
               .subtract(BigDecimal.valueOf(nettoBarnetilleggBM));
-//          bidragSattTilBarnetilleggBM = true;
-          resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGBM;
+          resultatkode = ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM;
         }
       }
 
@@ -162,7 +152,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
 
-      ResultatKode resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGGFORSVARET;
+      ResultatKode resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET;
 
       resultatBeregningListe.add(new ResultatBeregning(
           grunnlagBeregningPerBarn.getSoknadsbarnPersonId(),

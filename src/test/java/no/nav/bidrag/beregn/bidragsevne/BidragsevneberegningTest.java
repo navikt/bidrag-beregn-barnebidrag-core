@@ -172,4 +172,21 @@ class BidragsevneberegningTest {
     assertTrue((bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert3))
         .equals(Double.valueOf(1352+183)));
   }
+
+  @Test
+  void TestFraJohn() {
+
+    ArrayList<Inntekt> inntekter = new ArrayList<>();
+
+    BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
+
+    // Tester beregning med ulike inntekter
+    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000)));
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
+        = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 0,
+        SaerfradragKode.INGEN, sjablonListe);
+    assertEquals(Double.valueOf(17244d),
+        bidragsevneberegning.beregn(grunnlagBeregningPeriodisert).getResultatEvneBelop());
+
+  }
 }

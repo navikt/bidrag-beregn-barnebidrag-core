@@ -237,5 +237,30 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     );
   }
 
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+
+    Double underholdskostnad = Double.valueOf(5382);
+    var inntektBP = new ArrayList<Inntekt>();
+    var inntektBM = new ArrayList<Inntekt>();
+    var inntektBB = new ArrayList<Inntekt>();
+
+    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000));
+    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 300000));
+    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
+
+    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+
+    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregnMedGamleRegler(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(667d),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(66.7)
+    );
+  }
 
 }
