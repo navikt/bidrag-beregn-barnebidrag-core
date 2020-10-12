@@ -226,14 +226,17 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2015-02-01"),3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2006-01-01"),0d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2012-01-01"),2500d));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
     var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
-    assertEquals(2478d,
+    assertEquals(0d,
         nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop());
+    assertEquals(1874d,
+        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop());
 
   }
 }

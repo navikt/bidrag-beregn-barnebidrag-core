@@ -167,14 +167,14 @@ class UnderholdskostnadBeregningTest {
     UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
 
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
-        = new BeregnUnderholdskostnadGrunnlagPeriodisert(5,
+        = new BeregnUnderholdskostnadGrunnlagPeriodisert(12,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        2478.0d,
+        0.0d,
         0.0d,
         sjablonListe
     );
 
-    assertEquals(8477d,
+    assertEquals(9355d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 

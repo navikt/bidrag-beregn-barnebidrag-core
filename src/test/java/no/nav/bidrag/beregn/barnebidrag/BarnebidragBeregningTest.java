@@ -23,7 +23,6 @@ public class BarnebidragBeregningTest {
   private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
   private List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe  = new ArrayList<>();
 
-
   @DisplayName("Beregner ved full evne, ett barn, ingen barnetillegg")
   @Test
   void testBeregningEttBarnMedFullEvneIngenBarnetillegg() {
@@ -33,13 +32,12 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(8000d, resultat.get(0).getResultatBarnebidragBelop());
@@ -56,13 +54,12 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 1000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(1700d, 10d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(1700d-(1700d*10d/100), resultat.get(0).getResultatBarnebidragBelop());
@@ -78,20 +75,18 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 7000d),
-        0d, 0d, false,
+        0d,false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(8000d, resultat.get(0).getResultatBarnebidragBelop());
@@ -109,27 +104,24 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 5000d),
-        0d, 0d, false,
+        0d,false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 3000d),
-        0d, 0d, false,
+        0d,false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(80d, 2000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4000d, resultat.get(0).getResultatBarnebidragBelop());
@@ -152,13 +144,12 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 0d, false,
+        0d,false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(1000d, resultat.get(0).getResultatBarnebidragBelop());
@@ -175,20 +166,18 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 7000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(5330d, resultat.get(0).getResultatBarnebidragBelop());
@@ -208,27 +197,24 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 5000d),
-        0d, 0d, false,
+        0d,false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 3000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(80d, 2000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(4000d, resultat.get(0).getResultatBarnebidragBelop());
@@ -255,14 +241,13 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 1000d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(1000d, 10d),
-        false));
+        new Barnetillegg(1000d, 10d)));
 
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(100d, resultat.get(0).getResultatBarnebidragBelop());
@@ -281,14 +266,13 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 200d),
-        0d, 0d, false,
+        0d,false,
         new Barnetillegg(500d, 10d),
-        new Barnetillegg(1000d, 10d),
-        false));
+        new Barnetillegg(1000d, 10d)));
 
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(450d, resultat.get(0).getResultatBarnebidragBelop());
@@ -304,13 +288,12 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 2000d),
-        0d, 200d, false,
+        200d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(1800d, resultat.get(0).getResultatBarnebidragBelop());
@@ -326,27 +309,24 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 500d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(500d, 10d),
-        new Barnetillegg(400d, 10d),
-        false));
+        new Barnetillegg(400d, 10d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 300d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(100d, 10d),
-        false));
+        new Barnetillegg(100d, 10d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(80d, 200d),
-        0d, 0d, false,
+        0d, false,
         new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     assertEquals(450d, resultat.get(0).getResultatBarnebidragBelop());
@@ -369,13 +349,12 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
     assertEquals(5667d, resultat.get(0).getResultatBarnebidragBelop());
@@ -393,27 +372,24 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
     assertEquals(2667d, resultat.get(0).getResultatBarnebidragBelop());
@@ -430,84 +406,73 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(4,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(5,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(6,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(7,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(8,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(9,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(10,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(11,
         new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, 1000d, true,
+        1000d, true,
         new Barnetillegg(10000d, 0d),
-        new Barnetillegg(0d, 0d),
-        true));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
     assertEquals(727d, resultat.get(0).getResultatBarnebidragBelop());
@@ -520,21 +485,28 @@ public class BarnebidragBeregningTest {
   void testerFraJohn() {
     BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(0d, 6250d);
+    var bidragsevne = new Bidragsevne(16536d, 12500d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(62.5d, 4238.5d),
-        0d, 256d, false,
+        new BPsAndelUnderholdskostnad(83.3d, 7234d),
+        1513d, false,
         new Barnetillegg(0d, 0d),
+        new Barnetillegg(0d, 0d)));
+
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
+        new BPsAndelUnderholdskostnad(83.3d, 7793d),
+        1167d, false,
         new Barnetillegg(0d, 0d),
-        false));
+        new Barnetillegg(0d, 0d)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(0d, resultat.get(0).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.INGEN_EVNE, resultat.get(0).getResultatkode());
+    assertEquals(4500d, resultat.get(0).getResultatBarnebidragBelop());
+    assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(0).getResultatkode());
+    assertEquals(5320d, resultat.get(1).getResultatBarnebidragBelop());
+    assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(1).getResultatkode());
 
   }
 

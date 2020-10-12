@@ -30,7 +30,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
         .map(GrunnlagBeregningPerBarn::getBPsAndelUnderholdskostnad)
         .mapToDouble(BPsAndelUnderholdskostnad::getBPsAndelUnderholdskostnadBelop).sum());
 
-//    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad.toString());
+//    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad);
 
     BigDecimal maksBidragsbelop = BigDecimal.valueOf(0);
 

@@ -31,19 +31,6 @@ data class BPsAndelUnderholdskostnadPeriode(
   }
 }
 
-data class KostnadsberegnetBidragPeriode(
-    val soknadsbarnPersonId: Int,
-    val kostnadsberegnetBidragDatoFraTil: Periode,
-    val kostnadsberegnetBidragBelop: Double) : PeriodisertGrunnlag {
-  constructor(kostnadsberegnetBidragPeriode: KostnadsberegnetBidragPeriode)
-      : this(kostnadsberegnetBidragPeriode.soknadsbarnPersonId,
-      kostnadsberegnetBidragPeriode.kostnadsberegnetBidragDatoFraTil.justerDatoer(),
-      kostnadsberegnetBidragPeriode.kostnadsberegnetBidragBelop)
-  override fun getDatoFraTil(): Periode {
-    return kostnadsberegnetBidragDatoFraTil
-  }
-}
-
 data class SamvaersfradragPeriode(
     val soknadsbarnPersonId: Int,
     val samvaersfradragDatoFraTil: Periode,

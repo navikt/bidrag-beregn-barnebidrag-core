@@ -43,5 +43,20 @@ public class SamvaersfradragBeregningTest {
             .getResultatSamvaersfradragBelop());
   }
 
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
+        = new GrunnlagBeregningPeriodisert(8, "02",
+        sjablonListe
+    );
+
+    assertEquals(1167d,
+        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
+            .getResultatSamvaersfradragBelop());
+  }
+
+
 }
 

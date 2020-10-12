@@ -71,7 +71,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
           .multiply(andelProsent).divide(BigDecimal.valueOf(100),
               new MathContext(10, RoundingMode.HALF_UP));
 
-      andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
+      andelBelop = andelBelop.setScale(0, RoundingMode.HALF_UP);
 
     }
 

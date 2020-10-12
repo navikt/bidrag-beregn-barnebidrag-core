@@ -1,4 +1,3 @@
-/*
 package no.nav.bidrag.beregn.barnebidrag;
 
 import no.nav.bidrag.beregn.barnebidrag.dto.BeregnBarnebidragGrunnlagCore;
@@ -11,9 +10,8 @@ public interface BarnebidragCore {
   BeregnBarnebidragResultatCore beregnBarnebidrag(
       BeregnBarnebidragGrunnlagCore beregnBarnebidragGrunnlagCore);
 
-  static BarnebidragCore getInstance() { return new BarnebidragCoreImpl(
-      BarnebidragPeriode.getInstance());
+  static BarnebidragCore getInstance() {
+    return new BarnebidragCoreImpl(BarnebidragPeriode.getInstance());
   }
 }
 
-*/

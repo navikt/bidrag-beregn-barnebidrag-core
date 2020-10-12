@@ -181,11 +181,11 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000)));
+    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(600000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 0,
+        = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 2,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(16357d),
+    assertEquals(Double.valueOf(8854d),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert).getResultatEvneBelop());
 
   }

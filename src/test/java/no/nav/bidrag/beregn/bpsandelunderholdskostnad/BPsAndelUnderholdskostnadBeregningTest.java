@@ -242,13 +242,13 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testFraJohn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(5999);
+    Double underholdskostnad = Double.valueOf(9355);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000d));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 300000d));
+    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 600000d));
+    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 100000d));
     inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0d));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
@@ -258,8 +258,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(3749.4d),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(62.5d)
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(7237d),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(85.7d)
     );
   }
 
