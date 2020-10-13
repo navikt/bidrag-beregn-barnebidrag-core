@@ -16,14 +16,17 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
 public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
-  private List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
+//  private List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
   private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
+
 
   @Override
   public List<ResultatBeregning> beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     boolean bidragRedusertAvBidragsevne = false;
+
+    List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
 
     BigDecimal totaltBelopUnderholdskostnad = BigDecimal.valueOf(grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()
         .stream()
@@ -126,6 +129,8 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   @Override
   public List<ResultatBeregning> beregnVedBarnetilleggForsvaret(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+
+    List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
 
     BigDecimal barnetilleggForsvaretForsteBarn = BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(
         grunnlagBeregningPeriodisert.getSjablonListe(),

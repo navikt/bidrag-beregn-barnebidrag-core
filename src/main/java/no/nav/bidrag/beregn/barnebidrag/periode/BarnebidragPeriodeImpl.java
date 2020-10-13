@@ -28,8 +28,6 @@ import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnNettoBarnetilsynGrunnlag;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
 
 
 public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
@@ -170,13 +168,21 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
               sjablonPeriode.getSjablon().getSjablonNokkelListe(),
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
-
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
           bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, sjablonliste);
 
-      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-          barnebidragBeregning.beregn(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
+      if (barnetilleggForsvaret) {
+        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+            barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
+
+      } else {
+        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
+            barnebidragBeregning.beregn(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
+
+      }
+
+
     }
 
     return new BeregnBarnebidragResultat(resultatPeriodeListe);
