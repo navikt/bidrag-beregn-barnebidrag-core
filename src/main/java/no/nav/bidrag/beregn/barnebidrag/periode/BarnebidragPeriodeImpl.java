@@ -244,6 +244,15 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
         bidragsevnePeriodeListe, true, true, true, true));
 
+    // Sjekk perioder for BPs andel av underholdskostnad
+    var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<Periode>();
+    for (BPsAndelUnderholdskostnadPeriode bPsAndelUnderholdskostnadPeriode : grunnlag.getBPsAndelUnderholdskostnadPeriodeListe()) {
+      bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+        "bPsAndelUnderholdskostnadPeriodeListe",
+        bidragsevnePeriodeListe, true, true, true, true));
+
     // Sjekk perioder for samværsfradrag
     var samvaersfradragPeriodeListe = new ArrayList<Periode>();
     for (SamvaersfradragPeriode samvaersfradragPeriode : grunnlag.getSamvaersfradragPeriodeListe()) {
@@ -251,6 +260,15 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "samvaersfradragPeriodeListe",
+        bidragsevnePeriodeListe, true, true, true, true));
+
+    // Sjekk perioder for delt bosted
+    var deltBostedPeriodeListe = new ArrayList<Periode>();
+    for (DeltBostedPeriode deltBostedPeriode : grunnlag.getDeltBostedPeriodeListe()) {
+      deltBostedPeriodeListe.add(deltBostedPeriode.getDatoFraTil());
+    }
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
+        "deltBostedPeriodeListe",
         bidragsevnePeriodeListe, true, true, true, true));
 
     // Sjekk perioder for barnetillegg BP

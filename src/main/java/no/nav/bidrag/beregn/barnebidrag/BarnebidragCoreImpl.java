@@ -11,7 +11,6 @@ import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
 import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.DeltBostedPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersfradragPeriode;
