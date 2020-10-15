@@ -258,8 +258,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(7237d),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(85.7d)
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(7793d),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3d)
     );
   }
 

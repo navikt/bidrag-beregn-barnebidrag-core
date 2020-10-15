@@ -174,7 +174,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(9355d,
+    assertEquals(8684d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 

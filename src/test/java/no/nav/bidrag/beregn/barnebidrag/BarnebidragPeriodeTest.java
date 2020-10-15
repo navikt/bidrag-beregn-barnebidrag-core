@@ -229,7 +229,7 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()).isEqualTo(8000d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
             ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()).isEqualTo(4001d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()).isEqualTo(3001d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()).isEqualTo(4001d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
             ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
@@ -359,18 +359,60 @@ public class BarnebidragPeriodeTest {
   void testGrunnlagMedAvvik() {
 
 //    lagGrunnlag("2016-01-01", "2021-01-01");
-    var avvikListe = barnebidragPeriode.validerInput(grunnlag);
+    LocalDate beregnDatoFra = LocalDate.parse("2016-08-01");
+    LocalDate beregnDatoTil = LocalDate.parse("2022-01-01");
+
+    lagSjablonliste();
+
+    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
+    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
+    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
+    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
+    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
+    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
+    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+
+    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
+        15000d, 16000d));
+    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
+        new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")),
+        17000d, 16000d));
+    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        80d, 16000d));
+    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        0d));
+    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        false));
+    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        0d, 0d));
+    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        0d, 0d));
+    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        false));
+    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
+        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
+            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            sjablonPeriodeListe);
+
+    var avvikListe = barnebidragPeriode.validerInput(beregnBarnebidragGrunnlag);
 
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
-        () -> assertThat(avvikListe).hasSize(6),
 
         () -> assertThat(avvikListe.get(0).getAvvikTekst())
-            .isEqualTo("Første dato i inntektBPPeriodeListe (2018-01-01) er etter beregnDatoFra (2016-01-01)"),
+            .isEqualTo("Første dato i bidragsevnePeriodeListe (2019-08-01) er etter beregnDatoFra (2016-08-01)"),
         () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
 
         () -> assertThat(avvikListe.get(1).getAvvikTekst())
-            .isEqualTo("Siste dato i inntektBPPeriodeListe (2020-08-01) er før beregnDatoTil (2021-01-01)"),
+            .isEqualTo("Siste dato i bidragsevnePeriodeListe (2020-01-01) er før beregnDatoTil (2022-01-01)"),
         () -> assertThat(avvikListe.get(1).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
     );
 

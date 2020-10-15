@@ -357,7 +357,7 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
-    assertEquals(5667d, resultat.get(0).getResultatBarnebidragBelop());
+    assertEquals(4667d, resultat.get(0).getResultatBarnebidragBelop());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
