@@ -3,6 +3,9 @@ package no.nav.bidrag.beregn.barnebidrag.periode;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -109,7 +112,6 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
       }
     }
 
-
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
@@ -158,9 +160,32 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
             .map(barnetilleggBMPeriode -> new Barnetillegg(barnetilleggBMPeriode.getBarnetilleggBelop(),
                 barnetilleggBMPeriode.getBarnetilleggSkattProsent())).findFirst().orElse(null);
 
-        grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId,
-            bPsAndelUnderholdskostnad, samvaersfradrag, deltBosted, barnetilleggBP, barnetilleggBM));
+        // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50%
+        // så skal ikke bidrag beregnes
+        var andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent();
+        var andelBelop = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop() ;
 
+        if (deltBosted) {
+          if (bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent() > 50d) {
+            andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent() - 50d;
+
+            BigDecimal omregnetAndelBelop =
+                BigDecimal.valueOf(bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop() /
+                    bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent())
+                    .multiply(BigDecimal.valueOf(100));
+
+            omregnetAndelBelop = omregnetAndelBelop.multiply(BigDecimal.valueOf(andelProsent)
+                .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP)));
+            andelBelop = omregnetAndelBelop.doubleValue();
+          } else {
+            andelProsent = 0d;
+            andelBelop = 0d;
+          }
+        }
+
+        grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId,
+            new BPsAndelUnderholdskostnad(andelProsent, andelBelop), samvaersfradrag, deltBosted,
+            barnetilleggBP, barnetilleggBM));
       }
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
@@ -175,13 +200,11 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
       if (barnetilleggForsvaret) {
         resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
             barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
-
       } else {
         resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
             barnebidragBeregning.beregn(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
 
       }
-
 
     }
 
@@ -242,7 +265,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
       bidragsevnePeriodeListe.add(bidragsevnePeriode.getDatoFraTil());
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for BPs andel av underholdskostnad
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<Periode>();
@@ -251,7 +274,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "bPsAndelUnderholdskostnadPeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for samværsfradrag
     var samvaersfradragPeriodeListe = new ArrayList<Periode>();
@@ -260,7 +283,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "samvaersfradragPeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for delt bosted
     var deltBostedPeriodeListe = new ArrayList<Periode>();
@@ -269,7 +292,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "deltBostedPeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg BP
     var barnetilleggBPPeriodeListe = new ArrayList<Periode>();
@@ -278,7 +301,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnetilleggBPPeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg BM
     var barnetilleggBMPeriodeListe = new ArrayList<Periode>();
@@ -287,7 +310,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnetilleggBMPeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg fra forsvaret
     var barnetilleggForsvaretPeriodeListe = new ArrayList<Periode>();
@@ -296,7 +319,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnetilleggForsvaretPeriodeListe",
-        bidragsevnePeriodeListe, true, true, true, true));
+        bidragsevnePeriodeListe, false, false, true, true));
 
     return avvikListe;
   }

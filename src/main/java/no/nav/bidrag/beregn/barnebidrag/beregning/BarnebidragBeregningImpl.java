@@ -16,9 +16,7 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
 public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
-//  private List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
   private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
-
 
   @Override
   public List<ResultatBeregning> beregn(
@@ -57,12 +55,10 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       var nettoBarnetilleggBP = grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop() -
           (grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop() *
               grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggSkattProsent() / 100);
-//      System.out.println("nettobarnetilleggBP: " + nettoBarnetilleggBP);
 
       var nettoBarnetilleggBM = grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggBelop() -
           (grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggBelop() *
               grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggSkattProsent() / 100);
-//      System.out.println("nettobarnetilleggBM: " + nettoBarnetilleggBM);
 
       // Sjekker om totalt bidragsbeløp er større enn bidragsevne eller 25% av månedsinntekt
       if (maksBidragsbelop.compareTo(totaltBelopUnderholdskostnad) < 0) {
@@ -84,12 +80,13 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
       // Trekker fra samværsfradrag
       tempBarnebidrag = tempBarnebidrag.subtract(BigDecimal.valueOf(grunnlagBeregningPerBarn.getSamvaersfradrag()));
-//      System.out.println("Bidrag etter samværsfradrag/kostnadsbasert bidrag: " + tempBarnebidrag);
+      //      System.out.println("Bidrag etter samværsfradrag/kostnadsbasert bidrag: " + tempBarnebidrag);
 
       // Sjekker mot særregler for barnetillegg BP/BM
       // Dersom beregnet bidrag etter samværsfradrag er lavere enn eventuelt barnetillegg for BP
-      // så skal bidraget settes likt barnetillegget
-      if (tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0
+      // så skal bidraget settes likt barnetillegget. BarnetilleggBP skal ikke taes hensyn til ved delt bosted
+      if (!grunnlagBeregningPerBarn.getDeltBosted() &&
+          tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0
           && nettoBarnetilleggBP > 0d) {
         tempBarnebidrag = BigDecimal.valueOf(nettoBarnetilleggBP);
         resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP;
@@ -112,6 +109,11 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop() == 0d) {
         resultatkode = ResultatKode.INGEN_EVNE;
       }
+
+      if (grunnlagBeregningPerBarn.getDeltBosted()) {
+        resultatkode = ResultatKode.DELT_BOSTED;
+      }
+
 
       // Bidrag skal avrundes til nærmeste tier
       tempBarnebidrag = tempBarnebidrag.setScale(-1, RoundingMode.HALF_UP);
@@ -162,11 +164,14 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
 
+      var barnebidragEtterSamvaersfradrag =
+          barnetilleggForsvaretPerBarn.subtract(BigDecimal.valueOf(grunnlagBeregningPerBarn.getSamvaersfradrag()));
+
       ResultatKode resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET;
 
       resultatBeregningListe.add(new ResultatBeregning(
           grunnlagBeregningPerBarn.getSoknadsbarnPersonId(),
-          barnetilleggForsvaretPerBarn.doubleValue(), resultatkode));
+          barnebidragEtterSamvaersfradrag.doubleValue(), resultatkode));
     }
     return resultatBeregningListe;
   }
