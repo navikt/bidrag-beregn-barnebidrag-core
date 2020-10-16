@@ -274,7 +274,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "bPsAndelUnderholdskostnadPeriodeListe",
-        bidragsevnePeriodeListe, false, false, true, true));
+        bPsAndelUnderholdskostnadPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for samværsfradrag
     var samvaersfradragPeriodeListe = new ArrayList<Periode>();
@@ -283,7 +283,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "samvaersfradragPeriodeListe",
-        bidragsevnePeriodeListe, false, false, true, true));
+        samvaersfradragPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for delt bosted
     var deltBostedPeriodeListe = new ArrayList<Periode>();
@@ -292,7 +292,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "deltBostedPeriodeListe",
-        bidragsevnePeriodeListe, false, false, true, true));
+        deltBostedPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg BP
     var barnetilleggBPPeriodeListe = new ArrayList<Periode>();
@@ -301,7 +301,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnetilleggBPPeriodeListe",
-        bidragsevnePeriodeListe, false, false, true, true));
+        barnetilleggBPPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg BM
     var barnetilleggBMPeriodeListe = new ArrayList<Periode>();
@@ -310,7 +310,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnetilleggBMPeriodeListe",
-        bidragsevnePeriodeListe, false, false, true, true));
+        barnetilleggBMPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg fra forsvaret
     var barnetilleggForsvaretPeriodeListe = new ArrayList<Periode>();
@@ -319,7 +319,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnetilleggForsvaretPeriodeListe",
-        bidragsevnePeriodeListe, false, false, true, true));
+        barnetilleggForsvaretPeriodeListe, false, false, true, true));
 
     return avvikListe;
   }
