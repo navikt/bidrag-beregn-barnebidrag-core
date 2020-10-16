@@ -62,8 +62,8 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
       // Utregnet andel skal ikke være større en 5/6
 
-      if (andelProsent.compareTo(BigDecimal.valueOf(83.3)) > 0) {
-        andelProsent = BigDecimal.valueOf(83.3);
+      if (andelProsent.compareTo(BigDecimal.valueOf(83.3333333333)) > 0) {
+        andelProsent = BigDecimal.valueOf(83.3333333333);
       }
 
       andelBelop =
