@@ -109,7 +109,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   }
 
 
-  @DisplayName("Test at beregnet andel ikke settes høyere enn 5/6 (83,3)")
+  @DisplayName("Test at beregnet andel ikke settes høyere enn 5/6 (83,3333333333). Legger inn 10 desimaler "
+      + "etter ønske fra John for å få likt resultat som i Bidragskalkulator")
   @Test
   void testAtMaksAndelSettes() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
@@ -124,7 +125,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, 40000));
 
 
-    // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3%)
+    // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
 
@@ -132,7 +133,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3333333333)
     );
   }
 
