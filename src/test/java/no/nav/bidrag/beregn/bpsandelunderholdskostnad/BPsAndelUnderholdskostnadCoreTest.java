@@ -128,13 +128,13 @@ public class BPsAndelUnderholdskostnadCoreTest {
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1000d);
 
     var inntektBPPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT.toString(), 111d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), 111d);
 
     var inntektBMPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT.toString(), 222d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), 222d);
 
     var inntektBBPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT.toString(), 333d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), 333d);
 
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriodeCore>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriodeCore>();
@@ -164,9 +164,9 @@ public class BPsAndelUnderholdskostnadCoreTest {
     var inntektBMListe = new ArrayList<Inntekt>();
     var inntektBBListe = new ArrayList<Inntekt>();
 
-    inntektBPListe.add(new Inntekt(InntektType.LØNNSINNTEKT,111d));
-    inntektBMListe.add(new Inntekt(InntektType.LØNNSINNTEKT,222d));
-    inntektBBListe.add(new Inntekt(InntektType.LØNNSINNTEKT,333d));
+    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE,111d));
+    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE,222d));
+    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE,333d));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),

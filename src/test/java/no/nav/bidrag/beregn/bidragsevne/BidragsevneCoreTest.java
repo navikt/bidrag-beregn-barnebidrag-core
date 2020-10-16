@@ -87,7 +87,7 @@ public class BidragsevneCoreTest {
             .isEqualTo(1),
         () -> assertThat(
             beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getInntektListe().get(0).getInntektType())
-            .isEqualTo(InntektType.LØNNSINNTEKT.toString()),
+            .isEqualTo(InntektType.LONN_SKE.toString()),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getInntektListe().get(0)
             .getInntektBelop()).isEqualTo(Double.valueOf(666000)),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBostatusKode()).isEqualTo("MED_ANDRE"),
@@ -136,7 +136,7 @@ public class BidragsevneCoreTest {
   private void byggBidragsevnePeriodeGrunnlagCore() {
 
     var inntektPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LØNNSINNTEKT.toString(), Double.valueOf(666000));
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LONN_SKE.toString(), Double.valueOf(666000));
     var inntektPeriodeListe = new ArrayList<InntektPeriodeCore>();
     inntektPeriodeListe.add(inntektPeriode);
 
@@ -177,7 +177,7 @@ public class BidragsevneCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         new ResultatBeregning(Double.valueOf(666), Double.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
@@ -185,7 +185,7 @@ public class BidragsevneCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
         new ResultatBeregning(Double.valueOf(667), Double.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
@@ -193,7 +193,7 @@ public class BidragsevneCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
         new ResultatBeregning(Double.valueOf(668), Double.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));

@@ -34,14 +34,14 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(1000000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(1000000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
     assertEquals(Double.valueOf(31858d),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert).getResultatEvneBelop());
 
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(520000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(520000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
@@ -50,7 +50,7 @@ class BidragsevneberegningTest {
     assertEquals(Double.valueOf(10833d),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert2).getResultat25ProsentInntekt());
 
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert3
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
@@ -58,7 +58,7 @@ class BidragsevneberegningTest {
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert3).getResultatEvneBelop());
 
     // Test på at beregnet bidragsevne blir satt til 0 når evne er negativ
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(100000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(100000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert4
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 1,
         SaerfradragKode.HELT, sjablonListe);
@@ -66,7 +66,7 @@ class BidragsevneberegningTest {
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert4).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 ikke legges til beregnet evne når skatteklasse = 1
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
         Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 12000d))));
 
@@ -77,7 +77,7 @@ class BidragsevneberegningTest {
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert5).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
         Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 12000d))));
 
@@ -121,7 +121,7 @@ class BidragsevneberegningTest {
   void beregnMinstefradrag() {
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(200000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(200000)));
 
 //    beregnBidragsevneGrunnlagPeriodisert.setSjablonPeriodeListe(sjabloner);
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
@@ -133,7 +133,7 @@ class BidragsevneberegningTest {
     assertTrue((bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert))
         .equals(Double.valueOf(62000)));
 
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(1000000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(1000000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
@@ -149,7 +149,7 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(666000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
@@ -158,14 +158,14 @@ class BidragsevneberegningTest {
     assertTrue((bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert))
         .equals(Double.valueOf(1400+16181+3465+0)));
 
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(174600)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(174600)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
     assertTrue((bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert2))
         .equals(Double.valueOf(0)));
 
-    inntekter.set(0, new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(250000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(250000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert3
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
@@ -181,7 +181,7 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(600000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(600000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 2,
         SaerfradragKode.INGEN, sjablonListe);

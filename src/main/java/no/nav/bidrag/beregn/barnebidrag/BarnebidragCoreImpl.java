@@ -2,7 +2,9 @@ package no.nav.bidrag.beregn.barnebidrag;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaretPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggPeriode;
@@ -100,7 +102,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
           bidragsevnePeriodeCore.getBidragsevneBelop(),
           bidragsevnePeriodeCore.getTjuefemProsentInntekt()));
     }
-    return bidragsevnePeriodeListe;
+    return bidragsevnePeriodeListe.stream()
+        .sorted(Comparator.comparing(bidragsevnePeriode -> bidragsevnePeriode
+            .getBidragsevneDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<BPsAndelUnderholdskostnadPeriode> mapBPsAndelUnderholdskostnadPeriodeListe(
@@ -114,7 +118,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
           bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadProsent(),
           bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadBelop()));
     }
-    return bPsAndelUnderholdskostnadPeriodeListe;
+    return bPsAndelUnderholdskostnadPeriodeListe.stream()
+        .sorted(Comparator.comparing(bPsAndelUnderholdskostnadPeriode -> bPsAndelUnderholdskostnadPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<SamvaersfradragPeriode> mapSamvaersfradragPeriodeListe(
@@ -127,7 +133,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
               samvaersfradragPeriodeCore.getSamvaersfradragDatoFraTil().getPeriodeDatoTil()),
           samvaersfradragPeriodeCore.getSamvaersfradragBelop()));
     }
-    return samvaersfradragPeriodeListe;
+    return samvaersfradragPeriodeListe.stream()
+        .sorted(Comparator.comparing(samvaersfradragPeriode -> samvaersfradragPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<DeltBostedPeriode> mapDeltBostedPeriodeListe(
@@ -140,7 +148,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
               deltBostedPeriodeCore.getDeltBostedDatoFraTil().getPeriodeDatoTil()),
           deltBostedPeriodeCore.getDeltBostedIPeriode()));
     }
-    return deltBostedPeriodeListe;
+    return deltBostedPeriodeListe.stream()
+        .sorted(Comparator.comparing(deltBostedPeriode -> deltBostedPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<BarnetilleggPeriode> mapBarnetilleggBPPeriodeListe(
@@ -154,7 +164,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
           barnetilleggBPPeriodeCore.getBarnetilleggBelop(),
           barnetilleggBPPeriodeCore.getBarnetilleggSkattProsent()));
     }
-    return barnetilleggBPPeriodeListe;
+    return barnetilleggBPPeriodeListe.stream()
+        .sorted(Comparator.comparing(barnetilleggBPPeriode -> barnetilleggBPPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<BarnetilleggPeriode> mapBarnetilleggBMPeriodeListe(
@@ -168,7 +180,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
           barnetilleggBMPeriodeCore.getBarnetilleggBelop(),
           barnetilleggBMPeriodeCore.getBarnetilleggSkattProsent()));
     }
-    return barnetilleggBMPeriodeListe;
+    return barnetilleggBMPeriodeListe.stream()
+        .sorted(Comparator.comparing(barnetilleggBMPeriode -> barnetilleggBMPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<BarnetilleggForsvaretPeriode> mapBarnetilleggForsvaretPeriodeListe(
@@ -180,7 +194,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
               barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretDatoFraTil().getPeriodeDatoTil()),
           barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretIPeriode()));
     }
-    return barnetilleggForsvaretPeriodeListe;
+    return barnetilleggForsvaretPeriodeListe.stream()
+        .sorted(Comparator.comparing(barnetilleggForsvaretPeriode -> barnetilleggForsvaretPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {

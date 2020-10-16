@@ -23,7 +23,7 @@ class BidragsevneberegningGrunnlagTest {
   void hentSjablon() {
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LØNNSINNTEKT, Double.valueOf(1000000)));
+    inntekter.add(new Inntekt(InntektType.LONN_TREKK, Double.valueOf(1000000)));
 
     var sjablonVerdi =
         SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT);
