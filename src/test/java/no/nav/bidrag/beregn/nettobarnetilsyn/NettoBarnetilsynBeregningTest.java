@@ -110,8 +110,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(5259d),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2015d)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(5367d),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2062d)
     );
   }
 
@@ -142,9 +142,9 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(4212d),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374d),
-        () -> assertThat(resultat.get(2).getResultatBelop()).isEqualTo(1455d)
+        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(4299d),
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2427d),
+        () -> assertThat(resultat.get(2).getResultatBelop()).isEqualTo(1490d)
     );
   }
 
@@ -215,7 +215,7 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
         () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2374d))
+        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2427d))
     ;
   }
 
@@ -226,14 +226,17 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2010-01-01"),3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, LocalDate.parse("2006-01-01"),0d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, LocalDate.parse("2012-01-01"),2500d));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
     var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
-    assertEquals(2478d,
+    assertEquals(0d,
         nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop());
+    assertEquals(1874d,
+        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop());
 
   }
 }

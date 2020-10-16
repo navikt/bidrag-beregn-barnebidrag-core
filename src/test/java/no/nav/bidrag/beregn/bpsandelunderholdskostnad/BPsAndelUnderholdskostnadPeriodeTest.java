@@ -82,15 +82,15 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
-        InntektType.LØNNSINNTEKT, 300000d));
+        InntektType.LONN_SKE, 300000d));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
-        InntektType.LØNNSINNTEKT, 400000d));
+        InntektType.LONN_SKE, 400000d));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
-        InntektType.LØNNSINNTEKT, 40000d));
+        InntektType.LONN_SKE, 40000d));
 
 
     underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
@@ -99,15 +99,15 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LØNNSINNTEKT, 3000d));
+        InntektType.LONN_SKE, 3000d));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LØNNSINNTEKT, 400000d));
+        InntektType.LONN_SKE, 400000d));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LØNNSINNTEKT, 4000000d));
+        InntektType.LONN_SKE, 4000000d));
 
     // Lag sjabloner
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -194,15 +194,15 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LØNNSINNTEKT, 217666d));
+        InntektType.LONN_SKE, 217666d));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LØNNSINNTEKT, 400000d));
+        InntektType.LONN_SKE, 400000d));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LØNNSINNTEKT, 40000d));
+        InntektType.LONN_SKE, 40000d));
 
     // Lag sjabloner
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();

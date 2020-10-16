@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.8.0   | Endret       | Totalberegning av barnebidrag lagt til
 0.7.7   | Endret       | Feilfiks i coredto: Periode -> PeriodeCore
 0.7.6   | Endret       | Endringer i input og output beregning av barnebidrag
 0.7.5   | Endret       | Endret til å ha samme navn på grunnlagsklasser, samt noen feilfikser og tilpasninger

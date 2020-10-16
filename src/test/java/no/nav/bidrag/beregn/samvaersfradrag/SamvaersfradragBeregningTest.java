@@ -24,7 +24,7 @@ public class SamvaersfradragBeregningTest {
         sjablonListe
     );
 
-    assertEquals(2082d,
+    assertEquals(2272d,
         samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatSamvaersfradragBelop());
   }
@@ -34,14 +34,29 @@ public class SamvaersfradragBeregningTest {
   void testSeksAar() {
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(6, "04",
+        = new GrunnlagBeregningPeriodisert(6, "03",
         sjablonListe
     );
 
-    assertEquals(3184d,
+    assertEquals(2716d,
         samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatSamvaersfradragBelop());
   }
+
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+    SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
+        = new GrunnlagBeregningPeriodisert(8, "02",
+        sjablonListe
+    );
+
+    assertEquals(1167d,
+        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
+            .getResultatSamvaersfradragBelop());
+  }
+
 
 }
 

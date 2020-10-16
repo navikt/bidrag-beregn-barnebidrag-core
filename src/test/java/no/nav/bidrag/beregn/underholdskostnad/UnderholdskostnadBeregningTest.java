@@ -30,7 +30,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(5382d,
+    assertEquals(5999,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
@@ -48,7 +48,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(6834d,
+    assertEquals(7481d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
@@ -66,7 +66,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(6834d,
+    assertEquals(7481d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
@@ -84,7 +84,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(7820d,
+    assertEquals(8684d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
@@ -103,7 +103,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(258d,
+    assertEquals(257d,
         underholdskostnadberegning.beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert));
   }
 
@@ -120,7 +120,7 @@ class UnderholdskostnadBeregningTest {
         0.0d,
         sjablonListe
     );
-    assertEquals((6099d + 2775d + 258d - 1054d),
+    assertEquals((6913d + 2825d + 257d - 1054d),
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
@@ -138,7 +138,7 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(7820d + 666d,
+    assertEquals(8684d + 666d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 
@@ -156,7 +156,25 @@ class UnderholdskostnadBeregningTest {
         sjablonListe
     );
 
-    assertEquals(7820d - 17d,
+    assertEquals(8684d - 17d,
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+  }
+
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+
+    UnderholdskostnadBeregningImpl underholdskostnadberegning = new UnderholdskostnadBeregningImpl();
+
+    BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
+        = new BeregnUnderholdskostnadGrunnlagPeriodisert(12,
+        new BarnetilsynMedStonad("Ingen", "Ingen"),
+        0.0d,
+        0.0d,
+        sjablonListe
+    );
+
+    assertEquals(8684d,
         underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
   }
 

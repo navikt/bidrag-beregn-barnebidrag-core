@@ -160,19 +160,19 @@ class BidragsevnePeriodeTest {
     var inntektPeriodeListe = new ArrayList<InntektPeriode>();
 
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2004-01-01")), InntektType.LØNNSINNTEKT, 666000d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2004-01-01")), InntektType.LONN_SKE, 666000d));
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2004-01-01"), LocalDate.parse("2016-01-01")), InntektType.LØNNSINNTEKT, 555000d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2004-01-01"), LocalDate.parse("2016-01-01")), InntektType.LONN_SKE, 555000d));
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2016-01-01"), LocalDate.parse("2019-01-01")), InntektType.LØNNSINNTEKT, 444000d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2016-01-01"), LocalDate.parse("2019-01-01")), InntektType.LONN_SKE, 444000d));
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-04-01")), InntektType.LØNNSINNTEKT, 666000d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-04-01")), InntektType.LONN_SKE, 666000d));
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-04-01"), LocalDate.parse("2020-01-01")), InntektType.LØNNSINNTEKT, 666001d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-04-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE, 666001d));
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-05-01"), LocalDate.parse("2020-01-01")), InntektType.BARNETRYGD, 2d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-05-01"), LocalDate.parse("2020-01-01")), InntektType.FOEDSEL_ADOPSJON, 2d));
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")), InntektType.KONTANTSTØTTE, 3d));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")), InntektType.KONTANTSTOTTE, 3d));
 
     return inntektPeriodeListe;
   }

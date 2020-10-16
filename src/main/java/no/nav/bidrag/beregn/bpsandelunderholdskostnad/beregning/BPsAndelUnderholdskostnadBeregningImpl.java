@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.bpsandelunderholdskostnad.beregning;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -29,17 +30,21 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
 
+    System.out.println("BP: " + inntektBP);
+
     // Legger sammen inntektene
     var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
+    System.out.println("BM: " + inntektBM);
 
     // Legger sammen inntektene
     var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(Double.valueOf(0), Double::sum);
+    System.out.println("BB: " + inntektBB);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
     if (inntektBB > SjablonUtil
@@ -52,6 +57,9 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
       andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
 
+      System.out.println("andelProsent: " + andelProsent);
+
+
       // Utregnet andel skal ikke være større en 5/6
 
       if (andelProsent.compareTo(BigDecimal.valueOf(83.3)) > 0) {
@@ -60,9 +68,10 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
       andelBelop =
           BigDecimal.valueOf(grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
-          .multiply(andelProsent).divide(BigDecimal.valueOf(100));
+          .multiply(andelProsent).divide(BigDecimal.valueOf(100),
+              new MathContext(10, RoundingMode.HALF_UP));
 
-      andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
+      andelBelop = andelBelop.setScale(0, RoundingMode.HALF_UP);
 
     }
 
@@ -127,7 +136,8 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       }
       andelBelop =
           BigDecimal.valueOf(grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
-              .multiply(andelProsent).divide(BigDecimal.valueOf(100));
+              .multiply(andelProsent).divide(BigDecimal.valueOf(100),
+              new MathContext(10, RoundingMode.HALF_UP));
 
       andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
 

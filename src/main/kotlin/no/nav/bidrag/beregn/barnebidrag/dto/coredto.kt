@@ -1,11 +1,9 @@
 package no.nav.bidrag.beregn.barnebidrag.dto
 
-import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-//import no.nav.bidrag.beregn.underholdskostnad.dto.ResultatGrunnlagCore
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -14,7 +12,6 @@ data class BeregnBarnebidragGrunnlagCore(
     val beregnDatoTil: LocalDate,
     val bidragsevnePeriodeListe: List<BidragsevnePeriodeCore>,
     val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriodeCore>,
-    val kostnadsberegnetBidragPeriodeListe: List<KostnadsberegnetBidragPeriodeCore>,
     val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
     val deltBostedPeriodeListe: List<DeltBostedPeriodeCore>,
     val barnetilleggBPPeriodeListe: List<BarnetilleggPeriodeCore>,
@@ -34,12 +31,6 @@ data class BPsAndelUnderholdskostnadPeriodeCore(
     val bPsAndelUnderholdskostnadDatoFraTil: PeriodeCore,
     val bPsAndelUnderholdskostnadProsent: Double,
     val bPsAndelUnderholdskostnadBelop: Double
-)
-
-data class KostnadsberegnetBidragPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val kostnadsberegnetBidragDatoFraTil: PeriodeCore,
-    val kostnadsberegnetBidragBelop: Double
 )
 
 data class SamvaersfradragPeriodeCore(
@@ -86,20 +77,24 @@ data class ResultatBeregningCore(
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
-    val bidragsevneBelop: Double,
+    val bidragsevne: BidragsevneCore,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarnCore>,
+    val barnetilleggForsvaret: Boolean,
     val sjablonListe: List<SjablonCore>
+)
+
+data class BidragsevneCore(
+    val bidragsevneBelop: Double,
+    val tjuefemProsentInntekt: Double
 )
 
 data class GrunnlagBeregningPerBarnCore(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnadCore,
-    val kostnadsberegnetBidrag: Double,
     val samvaersfradrag: Double,
     val deltBosted: Boolean,
     val barnetilleggBP: BarnetilleggCore,
     val barnetilleggBM: BarnetilleggCore,
-    val barnetilleggForsvaret: Boolean
 )
 
 data class BPsAndelUnderholdskostnadCore(

@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.bidragsevne.beregning;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,10 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     // finner 25% av inntekt og omregner til månedlig beløp
     BigDecimal tjuefemProsentInntekt = (BigDecimal.valueOf(inntekt)
-        .divide(BigDecimal.valueOf(4))
-        .divide(BigDecimal.valueOf(12), 0, RoundingMode.HALF_UP));
+        .divide(BigDecimal.valueOf(4), new MathContext(10, RoundingMode.HALF_UP))
+        .divide(BigDecimal.valueOf(12), new MathContext(10, RoundingMode.HALF_UP)));
+
+     tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
 
 //    tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
 
@@ -234,11 +237,16 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
           samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
               (inntekt - sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) *
                   (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
         } else {
           samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
               (sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense() -
                   sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) * (
                   sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
         }
       }
       indeks = indeks + 1;
@@ -248,6 +256,9 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
       samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
           (inntekt - sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
               * (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+      System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
     }
 
 

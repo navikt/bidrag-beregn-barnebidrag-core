@@ -35,9 +35,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
 
-      inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 217666));
-      inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 400000));
-      inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 40000));
+      inntektBP.add(new Inntekt(InntektType.LONN_SKE, 217666));
+      inntektBM.add(new Inntekt(InntektType.LONN_SKE, 400000));
+      inntektBB.add(new Inntekt(InntektType.LONN_SKE, 40000));
 
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
           new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -61,15 +61,15 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 200000));
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 17666));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 100000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 200000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 100000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 10000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 10000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 10000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 10000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 200000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 17666));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 100000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 200000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 100000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -93,9 +93,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 217666));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 400000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 400000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 217666));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 400000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 400000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -119,9 +119,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 1000000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 40000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 40000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 1000000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 40000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 40000));
 
 
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3%)
@@ -147,9 +147,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 502000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 502000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 500000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 0));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -172,9 +172,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 502000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 0));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 502000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 500000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 0));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -197,9 +197,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 2000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 500000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 1000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 2000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 500000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 1000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -222,9 +222,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LØNNSINNTEKT, 2000000));
-    inntektBM.add(new Inntekt(InntektType.LØNNSINNTEKT, 2000));
-    inntektBB.add(new Inntekt(InntektType.LØNNSINNTEKT, 1000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 2000000));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 2000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 1000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -237,5 +237,30 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     );
   }
 
+  @DisplayName("Test fra John")
+  @Test
+  void testFraJohn() {
+    var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
+
+    Double underholdskostnad = Double.valueOf(9355);
+    var inntektBP = new ArrayList<Inntekt>();
+    var inntektBM = new ArrayList<Inntekt>();
+    var inntektBB = new ArrayList<Inntekt>();
+
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 600000d));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 100000d));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 0d));
+
+    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
+        new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
+
+    ResultatBeregning resultat = bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert);
+
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(7793d),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3d)
+    );
+  }
 
 }
