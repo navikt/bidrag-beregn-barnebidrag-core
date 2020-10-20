@@ -60,6 +60,20 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
           (grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggBelop() *
               grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggSkattProsent() / 100);
 
+      // Regner ut underholdskostnad ut fra andelsprosent og beløp. Skal ikke gjøres hvis disse er lik 0
+      BigDecimal underholdskostnad = BigDecimal.valueOf(0);
+      if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent() > 0 &&
+          grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop()   > 0) {
+        underholdskostnad =
+            BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
+                .getBPsAndelUnderholdskostnadBelop()).divide(BigDecimal.valueOf(
+                grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent()),
+                new MathContext(10, RoundingMode.HALF_UP))
+                .multiply(BigDecimal.valueOf(100));
+        underholdskostnad = underholdskostnad.setScale(0, RoundingMode.HALF_UP);
+//        System.out.println("U: " + underholdskostnad);
+      }
+
       // Sjekker om totalt bidragsbeløp er større enn bidragsevne eller 25% av månedsinntekt
       if (maksBidragsbelop.compareTo(totaltBelopUnderholdskostnad) < 0) {
         // Bidraget skal begrenses forholdsmessig pga manglende evne/25%-regel
@@ -80,7 +94,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
       // Trekker fra samværsfradrag
       tempBarnebidrag = tempBarnebidrag.subtract(BigDecimal.valueOf(grunnlagBeregningPerBarn.getSamvaersfradrag()));
-      //      System.out.println("Bidrag etter samværsfradrag/kostnadsbasert bidrag: " + tempBarnebidrag);
+      //      System.out.println("Bidrag etter samværsfradrag: " + tempBarnebidrag);
 
       // Sjekker mot særregler for barnetillegg BP/BM
       // Dersom beregnet bidrag etter samværsfradrag er lavere enn eventuelt barnetillegg for BP
@@ -88,15 +102,15 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       if (!grunnlagBeregningPerBarn.getDeltBosted() &&
           tempBarnebidrag.compareTo(BigDecimal.valueOf(nettoBarnetilleggBP)) < 0
           && nettoBarnetilleggBP > 0d) {
-        tempBarnebidrag = BigDecimal.valueOf(nettoBarnetilleggBP);
+        tempBarnebidrag = BigDecimal.valueOf(nettoBarnetilleggBP - grunnlagBeregningPerBarn.getSamvaersfradrag());
         resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP;
       } else {
-        // Regel for barnetilleggBP har ikke slått til. Sjekk om eventuelt barnetillegg for BM skal benyttes
-        if (tempBarnebidrag.compareTo(
-            BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop())
-            .subtract(BigDecimal.valueOf(nettoBarnetilleggBM))) > 0) {
-          tempBarnebidrag = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop())
-              .subtract(BigDecimal.valueOf(nettoBarnetilleggBM));
+        // Regel for barnetilleggBP har ikke slått til. Sjekk om eventuelt barnetillegg for BM skal benyttes.
+        // Bidrag settes likt underholdskostnad minus netto barnetilleggBM når beregnet bidrag er høyere enn
+        // underholdskostnad minus netto barnetillegg for BM
+        if (tempBarnebidrag.compareTo(underholdskostnad.subtract(BigDecimal.valueOf(nettoBarnetilleggBM))) > 0) {
+          tempBarnebidrag = underholdskostnad.subtract(BigDecimal.valueOf(nettoBarnetilleggBM));
+          tempBarnebidrag = tempBarnebidrag.subtract(BigDecimal.valueOf(grunnlagBeregningPerBarn.getSamvaersfradrag()));
           resultatkode = ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM;
         }
       }
@@ -113,7 +127,6 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       if (grunnlagBeregningPerBarn.getDeltBosted()) {
         resultatkode = ResultatKode.DELT_BOSTED;
       }
-
 
       // Bidrag skal avrundes til nærmeste tier
       tempBarnebidrag = tempBarnebidrag.setScale(-1, RoundingMode.HALF_UP);

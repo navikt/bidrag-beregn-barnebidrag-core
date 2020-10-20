@@ -48,11 +48,11 @@ public class SamvaersfradragBeregningTest {
   void testFraJohn() {
     SamvaersfradragBeregningImpl samvaersfradragBeregning = new SamvaersfradragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(8, "02",
+        = new GrunnlagBeregningPeriodisert(14, "01",
         sjablonListe
     );
 
-    assertEquals(1167d,
+    assertEquals(457d,
         samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatSamvaersfradragBelop());
   }
