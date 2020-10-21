@@ -116,7 +116,8 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
           new Periode(bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadDatoFraTil().getPeriodeDatoFra(),
               bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadDatoFraTil().getPeriodeDatoTil()),
           bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadProsent(),
-          bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadBelop()));
+          bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadBelop(),
+          bPsAndelUnderholdskostnadPeriodeCore.getBarnetErSelvforsorget()));
     }
     return bPsAndelUnderholdskostnadPeriodeListe.stream()
         .sorted(Comparator.comparing(bPsAndelUnderholdskostnadPeriode -> bPsAndelUnderholdskostnadPeriode
@@ -263,8 +264,9 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
       grunnlagPerBarnListeCore.add(new GrunnlagBeregningPerBarnCore(
           grunnlagBeregningPerBarn.getSoknadsbarnPersonId(),
           new BPsAndelUnderholdskostnadCore(
-              grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop(),
-          grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent()),
+              grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent(),
+          grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop(),
+              grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBarnetErSelvforsorget()),
           grunnlagBeregningPerBarn.getSamvaersfradrag(),
           grunnlagBeregningPerBarn.getDeltBosted(),
           new BarnetilleggCore(grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop(),

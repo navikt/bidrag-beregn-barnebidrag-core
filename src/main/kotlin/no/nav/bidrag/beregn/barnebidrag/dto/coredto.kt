@@ -30,7 +30,8 @@ data class BPsAndelUnderholdskostnadPeriodeCore(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnadDatoFraTil: PeriodeCore,
     val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double
+    val bPsAndelUnderholdskostnadBelop: Double,
+    val barnetErSelvforsorget: Boolean
 )
 
 data class SamvaersfradragPeriodeCore(
@@ -99,7 +100,8 @@ data class GrunnlagBeregningPerBarnCore(
 
 data class BPsAndelUnderholdskostnadCore(
     val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double
+    val bPsAndelUnderholdskostnadBelop: Double,
+    val barnetErSelvforsorget: Boolean
 )
 
 data class BarnetilleggCore(

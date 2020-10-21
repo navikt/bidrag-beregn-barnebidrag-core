@@ -62,7 +62,8 @@ data class GrunnlagBeregningPerBarn(
 
 data class BPsAndelUnderholdskostnad(
     val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double
+    val bPsAndelUnderholdskostnadBelop: Double,
+    val barnetErSelvforsorget: Boolean
 )
 
 data class Barnetillegg(

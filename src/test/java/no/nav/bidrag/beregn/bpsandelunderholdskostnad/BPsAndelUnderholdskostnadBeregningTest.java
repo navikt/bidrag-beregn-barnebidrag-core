@@ -30,7 +30,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     void testBeregningMedInntekterForAlle() {
       var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-      Double underholdskostnad = Double.valueOf(1000);
+      Double underholdskostnad = Double.valueOf(10000);
       var inntektBP = new ArrayList<Inntekt>();
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
@@ -46,12 +46,13 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
       assertAll(
           () -> assertThat(resultat).isNotNull(),
-          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(33.1d),
-          () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(331d)
+          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(35.2d),
+          () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(3520d)
       );
     }
 
-  @DisplayName("Beregning med flere inntekter for alle parter")
+  @DisplayName("Beregning med flere inntekter for alle parter, tester også det kalkuleres"
+      + "riktig etter fratrekk av 30 * forhøyet forskudd på barnets inntekt")
   @Test
   void testBeregningMedFlereInntekterForAlle() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
@@ -70,6 +71,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
     inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -78,8 +81,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(33.1d),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(331d)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(34.7d),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(347d),
+        () -> assertThat(resultat.getBarnetErSelvforsorget()).isFalse()
     );
   }
 
@@ -104,7 +108,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(0.0)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(0.0),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(0.0),
+        () -> assertThat(resultat.getBarnetErSelvforsorget()).isTrue()
     );
   }
 

@@ -20,12 +20,16 @@ data class BPsAndelUnderholdskostnadPeriode(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnadDatoFraTil: Periode,
     val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double) : PeriodisertGrunnlag {
+    val bPsAndelUnderholdskostnadBelop: Double,
+    val barnetErSelvforsorget: Boolean) : PeriodisertGrunnlag {
   constructor(bPsAndelUnderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode)
-      : this(bPsAndelUnderholdskostnadPeriode.soknadsbarnPersonId,
+      : this(
+      bPsAndelUnderholdskostnadPeriode.soknadsbarnPersonId,
       bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadDatoFraTil.justerDatoer(),
       bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadProsent,
-      bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadBelop)
+      bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadBelop,
+      bPsAndelUnderholdskostnadPeriode.barnetErSelvforsorget,
+  )
   override fun getDatoFraTil(): Periode {
     return bPsAndelUnderholdskostnadDatoFraTil
   }

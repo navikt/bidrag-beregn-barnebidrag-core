@@ -37,7 +37,8 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatAndelProsent: Double,
-    val resultatAndelBelop: Double
+    val resultatAndelBelop: Double,
+    val barnetErSelvforsorget: Boolean
 )
 
 // Grunnlag beregning

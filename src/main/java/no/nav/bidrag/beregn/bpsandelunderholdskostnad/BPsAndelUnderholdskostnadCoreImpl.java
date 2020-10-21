@@ -113,7 +113,6 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     return underholdskostnadPeriodeListe;
   }
 
-
   private BeregnBPsAndelUnderholdskostnadResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnBPsAndelUnderholdskostnadResultat resultat) {
     return new BeregnBPsAndelUnderholdskostnadResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
@@ -135,7 +134,8 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
           periodeResultat.getSoknadsbarnPersonId(),
           new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent(),
-              bPsAndelunderholdskostnadResultat.getResultatAndelBelop()),
+              bPsAndelunderholdskostnadResultat.getResultatAndelBelop(),
+              bPsAndelunderholdskostnadResultat.getBarnetErSelvforsorget()),
           new ResultatGrunnlagCore(bPsAndelunderholdskostnadResultatGrunnlag.getUnderholdskostnadBelop(),
               mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBPListe()),
               mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBMListe()),
@@ -144,7 +144,6 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     }
     return resultatPeriodeCoreListe;
   }
-
 
   private List<InntektCore> mapResultatGrunnlagInntekt(List<Inntekt> resultatGrunnlagInntektListe) {
     var resultatGrunnlagInntektListeCore = new ArrayList<InntektCore>();

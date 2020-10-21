@@ -31,8 +31,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 10000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, false,
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
@@ -53,8 +53,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 10000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 1000d),
-        100d, false,
+        new BPsAndelUnderholdskostnad(80d, 1000d,
+       false),100d, false,
         new Barnetillegg(1700d, 10d),
         new Barnetillegg(0d, 0d)));
 
@@ -75,14 +75,14 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(20000d, 20000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
-        0d, false,
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 7000d),
-        0d,false,
+        new BPsAndelUnderholdskostnad(80d, 7000d,
+            false),0d,false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
@@ -104,19 +104,22 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(8000d, 12000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 5000d),
+        new BPsAndelUnderholdskostnad(80d, 5000d,
+        false),
         0d,false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 3000d),
+        new BPsAndelUnderholdskostnad(80d, 3000d,
+        false),
         0d,false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(80d, 2000d),
+        new BPsAndelUnderholdskostnad(80d, 2000d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -144,7 +147,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(1000d, 2000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d,false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -166,13 +170,15 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 20000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 7000d),
+        new BPsAndelUnderholdskostnad(80d, 7000d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -197,19 +203,22 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(12000d, 8000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 5000d),
+        new BPsAndelUnderholdskostnad(80d, 5000d,
+            false),
         0d,false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 3000d),
+        new BPsAndelUnderholdskostnad(80d, 3000d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(80d, 2000d),
+        new BPsAndelUnderholdskostnad(80d, 2000d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -242,7 +251,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(8000d, 12000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 1000d),
+        new BPsAndelUnderholdskostnad(80d, 1000d,
+            false),
         50d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(1000d, 10d)));
@@ -265,7 +275,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(8000d, 12000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 200d),
+        new BPsAndelUnderholdskostnad(80d, 200d,
+            false),
         0d,false,
         new Barnetillegg(500d, 10d),
         new Barnetillegg(1000d, 10d)));
@@ -287,7 +298,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(8000d, 12000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 2000d),
+        new BPsAndelUnderholdskostnad(80d, 2000d,
+            false),
         200d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -310,13 +322,15 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(12000d, 8000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 400d),
+        new BPsAndelUnderholdskostnad(80d, 400d,
+            false),
         0d, false,
         new Barnetillegg(500d, 10d),
         new Barnetillegg(400d, 10d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 300d),
+        new BPsAndelUnderholdskostnad(80d, 300d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(100d, 10d)));
@@ -342,7 +356,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 10000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         1000d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -365,19 +380,22 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 10000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -399,19 +417,22 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 10000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         1000d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -435,68 +456,79 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(10000d, 10000d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(4,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(5,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(6,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(7,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(8,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(9,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(10,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(11,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(10000d, 0d),
         new Barnetillegg(0d, 0d)));
@@ -518,13 +550,15 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(1000d, 1200d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(0d, 0d)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(80d, 8000d),
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
         0d, true,
         new Barnetillegg(5000d, 10d),
         new Barnetillegg(0d, 0d)));
@@ -541,6 +575,40 @@ public class BarnebidragBeregningTest {
 
   }
 
+  @DisplayName("Beregner med to barn der det ene er selvforsørget, dvs har inntekt over 100 * sjablon for forhøyet forskudd."
+      + "BPs andel skal da være 0, bidrag skal beregnes til 0 og resultatkode BARNET_ER_SELVFORSORGET skal angis")
+  @Test
+  void testBeregningSelvforsorgetBarn() {
+    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
+
+    var bidragsevne = new Bidragsevne(1000d, 1200d);
+
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
+        new BPsAndelUnderholdskostnad(80d, 8000d,
+            false),
+        0d, false,
+        new Barnetillegg(0d, 0d),
+        new Barnetillegg(0d, 0d)));
+
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
+        new BPsAndelUnderholdskostnad(0d, 0d,
+            true),
+        0d, true,
+        new Barnetillegg(5000d, 10d),
+        new Barnetillegg(0d, 0d)));
+
+    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
+        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+
+    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+
+    assertEquals(1000d, resultat.get(0).getResultatBarnebidragBelop());
+    assertEquals(0d, resultat.get(1).getResultatBarnebidragBelop());
+    assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(0).getResultatkode());
+    assertEquals(ResultatKode.BARNET_ER_SELVFORSORGET, resultat.get(1).getResultatkode());
+
+  }
+
   @DisplayName("Tester fra John")
   @Test
   void testerFraJohn() {
@@ -549,7 +617,8 @@ public class BarnebidragBeregningTest {
     var bidragsevne = new Bidragsevne(16536d, 12500d);
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(60d,5210d),
+        new BPsAndelUnderholdskostnad(60d,5210d,
+            false),
         457d, false,
         new Barnetillegg(0d, 0d),
         new Barnetillegg(4000d, 10d)));
