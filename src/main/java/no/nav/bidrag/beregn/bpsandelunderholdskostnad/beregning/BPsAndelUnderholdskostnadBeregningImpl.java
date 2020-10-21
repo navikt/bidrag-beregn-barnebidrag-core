@@ -23,6 +23,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     BigDecimal andelProsent;
     BigDecimal andelBelop = BigDecimal.valueOf(0);
+    boolean barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
@@ -51,12 +52,27 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
             SjablonTallNavn.FORSKUDDSSATS_BELOP) * 100) {
       andelProsent = BigDecimal.valueOf(0.0);
+      barnetErSelvforsorget = true;
     } else {
-      andelProsent = BigDecimal.valueOf(
-          inntektBP / (inntektBP + inntektBM + inntektBB)).multiply(BigDecimal.valueOf(100));
+      inntektBB = inntektBB - (SjablonUtil
+          .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+              SjablonTallNavn.FORSKUDDSSATS_BELOP) * 30);
+
+      System.out.println("30 * forhøyet forskudd: " + SjablonUtil
+          .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+              SjablonTallNavn.FORSKUDDSSATS_BELOP) * 30);
+      System.out.println("InntektBB etter fratrekk av 30 * forhøyet forskudd: " + inntektBB);
+
+      if (inntektBB < 0d) {
+        inntektBB = 0d;
+      }
+
+      andelProsent = BigDecimal.valueOf(inntektBP).divide((BigDecimal.valueOf(inntektBP))
+          .add(BigDecimal.valueOf(inntektBM))
+          .add(BigDecimal.valueOf(inntektBB)),
+          new MathContext(10, RoundingMode.HALF_UP)).multiply(BigDecimal.valueOf(100));
 
       andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
-
       System.out.println("andelProsent: " + andelProsent);
 
 
@@ -68,14 +84,14 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
       andelBelop =
           BigDecimal.valueOf(grunnlagBeregningPeriodisert.getUnderholdskostnadBelop())
-          .multiply(andelProsent).divide(BigDecimal.valueOf(100),
+              .multiply(andelProsent).divide(BigDecimal.valueOf(100),
               new MathContext(10, RoundingMode.HALF_UP));
 
       andelBelop = andelBelop.setScale(0, RoundingMode.HALF_UP);
 
     }
 
-    return new ResultatBeregning(andelProsent.doubleValue(), andelBelop.doubleValue());
+    return new ResultatBeregning(andelProsent.doubleValue(), andelBelop.doubleValue(), barnetErSelvforsorget);
 
   }
 
@@ -85,6 +101,8 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     BigDecimal andelProsent;
     BigDecimal andelBelop = BigDecimal.valueOf(0);
+    boolean barnetErSelvforsorget = false;
+
 
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
@@ -109,6 +127,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
             .getSjablonListe(),
             SjablonTallNavn.FORSKUDDSSATS_BELOP) * 100)) {
       andelProsent = BigDecimal.valueOf(0.0);
+      barnetErSelvforsorget = true;
     } else {
       andelProsent = BigDecimal.valueOf(
           inntektBP / (inntektBP + inntektBM + inntektBB)).multiply(BigDecimal.valueOf(100));
@@ -143,7 +162,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     }
 
-    return new ResultatBeregning(andelProsent.doubleValue(), andelBelop.doubleValue());
+    return new ResultatBeregning(andelProsent.doubleValue(), andelBelop.doubleValue(), barnetErSelvforsorget);
 
     }
 

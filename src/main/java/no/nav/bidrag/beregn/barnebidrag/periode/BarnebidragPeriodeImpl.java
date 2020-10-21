@@ -135,7 +135,8 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
             .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
             .map(bPsAndelUnderholdskostnadPeriode -> new BPsAndelUnderholdskostnad(
                 bPsAndelUnderholdskostnadPeriode.getBPsAndelUnderholdskostnadProsent(),
-                bPsAndelUnderholdskostnadPeriode.getBPsAndelUnderholdskostnadBelop()))
+                bPsAndelUnderholdskostnadPeriode.getBPsAndelUnderholdskostnadBelop(),
+                bPsAndelUnderholdskostnadPeriode.getBarnetErSelvforsorget()))
             .findFirst().orElse(null);
 
         var samvaersfradrag = justertSamvaersfradragPeriodeListe.stream().filter(i ->
@@ -164,6 +165,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         // så skal ikke bidrag beregnes
         var andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent();
         var andelBelop = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop() ;
+        var barnetErSelvforsorget = bPsAndelUnderholdskostnad.getBarnetErSelvforsorget() ;
 
         if (deltBosted) {
           if (bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent() > 50d) {
@@ -184,8 +186,8 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         }
 
         grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId,
-            new BPsAndelUnderholdskostnad(andelProsent, andelBelop), samvaersfradrag, deltBosted,
-            barnetilleggBP, barnetilleggBM));
+            new BPsAndelUnderholdskostnad(andelProsent, andelBelop, barnetErSelvforsorget),
+            samvaersfradrag, deltBosted, barnetilleggBP, barnetilleggBM));
       }
 
       var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))

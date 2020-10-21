@@ -128,6 +128,11 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
         resultatkode = ResultatKode.DELT_BOSTED;
       }
 
+      if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBarnetErSelvforsorget()) {
+        tempBarnebidrag = BigDecimal.valueOf(0);
+        resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
+      }
+
       // Bidrag skal avrundes til nærmeste tier
       tempBarnebidrag = tempBarnebidrag.setScale(-1, RoundingMode.HALF_UP);
 

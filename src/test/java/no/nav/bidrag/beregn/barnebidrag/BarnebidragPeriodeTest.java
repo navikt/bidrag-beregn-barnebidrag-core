@@ -64,7 +64,7 @@ public class BarnebidragPeriodeTest {
         17000d, 16000d));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        80d, 16000d));
+        80d, 16000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         0d));
@@ -137,7 +137,7 @@ public class BarnebidragPeriodeTest {
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        80d, 16000d));
+        80d, 16000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-09-01")),
         0d));
@@ -156,7 +156,7 @@ public class BarnebidragPeriodeTest {
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        80d, 16000d));
+        80d, 16000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
         0d));
@@ -172,7 +172,7 @@ public class BarnebidragPeriodeTest {
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        80d, 16000d));
+        80d, 16000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         0d));
@@ -264,10 +264,10 @@ public class BarnebidragPeriodeTest {
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")),
-        40d, 4000d));
+        40d, 4000d, false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
         new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")),
-        60d, 6000d));
+        60d, 6000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         0d));
@@ -283,10 +283,10 @@ public class BarnebidragPeriodeTest {
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")),
-        60d, 6000d));
+        60d, 6000d, false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
         new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")),
-        40d, 4000d));
+        40d, 4000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         0d));
@@ -380,7 +380,7 @@ public class BarnebidragPeriodeTest {
         17000d, 16000d));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        80d, 16000d));
+        80d, 16000d, false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         0d));

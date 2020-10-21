@@ -123,7 +123,7 @@ public class BarnebidragCoreTest {
 
     var bPsAndelUnderholdskostnadPeriode = new BPsAndelUnderholdskostnadPeriodeCore(
         1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        100000d, 20000d);
+        100000d, 20000d, false);
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriodeCore>();
     bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode);
 
@@ -177,7 +177,7 @@ public class BarnebidragCoreTest {
         Arrays.asList(new ResultatBeregning(1, 1, ResultatKode.KOSTNADSBEREGNET_BIDRAG)),
         new GrunnlagBeregningPeriodisert(new Bidragsevne(1000d, 12000d),
             Arrays.asList(new GrunnlagBeregningPerBarn(1, new BPsAndelUnderholdskostnad(
-                60d, 8000d), 100d, false,
+                60d, 8000d, false), 100d, false,
                 new Barnetillegg(100d, 10d),
                 new Barnetillegg(1000d, 10d))),
             false,

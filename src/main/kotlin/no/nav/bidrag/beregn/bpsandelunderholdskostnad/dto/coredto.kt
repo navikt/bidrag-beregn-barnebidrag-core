@@ -49,7 +49,8 @@ data class ResultatPeriodeCore(
 
 data class ResultatBeregningCore(
     val resultatAndelProsent: Double,
-    val resultatAndelBelop: Double
+    val resultatAndelBelop: Double,
+    val barnetErSelvforsorget: Boolean
 )
 
 data class ResultatGrunnlagCore(
