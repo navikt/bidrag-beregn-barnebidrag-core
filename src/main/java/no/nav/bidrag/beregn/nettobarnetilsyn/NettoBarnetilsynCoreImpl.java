@@ -130,7 +130,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     for (FaktiskUtgift faktiskUtgift : faktiskUtgiftListe) {
       faktiskUtgiftListeCore.add(new FaktiskUtgiftCore(
           faktiskUtgift.getFaktiskUtgiftSoknadsbarnPersonId(),
-          faktiskUtgift.getFaktiskUtgiftSoknadsbarnFodselsdato(),
+          faktiskUtgift.getSoknadsbarnAlder(),
           faktiskUtgift.getFaktiskUtgiftBelop()));
     }
     return faktiskUtgiftListeCore;

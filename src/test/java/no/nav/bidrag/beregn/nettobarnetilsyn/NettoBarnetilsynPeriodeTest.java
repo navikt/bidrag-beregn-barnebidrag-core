@@ -378,6 +378,46 @@ public class NettoBarnetilsynPeriodeTest {
     printAvvikListe(avvikListe);
   }
 
+
+  @Test
+  @DisplayName("Test at beregnet netto barnetilsyn for barn over 12 år settes til 0")
+  void testAtBeregnetBelopSettesLikNullForBarnOver12Aar() {
+    var beregnDatoFra = LocalDate.parse("2018-07-01");
+    var beregnDatoTil = LocalDate.parse("2019-02-01");
+
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
+        new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-02-01")),
+        LocalDate.parse("2007-03-17"), 1000d));
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
+        new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-02-01")),
+        LocalDate.parse("2006-02-18"), 2000d));
+
+    BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
+            lagSjablonGrunnlag());
+
+    var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(624d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(1624d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(750d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(0d)
+
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
   @DisplayName("Test eksempler fra John")
   @Test
   void testEksemplerFraJohn() {
