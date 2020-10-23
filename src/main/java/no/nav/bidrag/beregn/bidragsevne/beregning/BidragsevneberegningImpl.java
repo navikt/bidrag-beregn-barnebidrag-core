@@ -34,14 +34,14 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     // Legger sammen inntektene
     var inntekt = grunnlagBeregningPeriodisert.getInntektListe().stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(Double.valueOf(0), Double::sum);
+        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
 
     System.out.println("Samlede inntekter: " + inntekt);
 
     // finner 25% av inntekt og omregner til månedlig beløp
-    BigDecimal tjuefemProsentInntekt = (BigDecimal.valueOf(inntekt)
+    BigDecimal tjuefemProsentInntekt = inntekt
         .divide(BigDecimal.valueOf(4), new MathContext(10, RoundingMode.HALF_UP))
-        .divide(BigDecimal.valueOf(12), new MathContext(10, RoundingMode.HALF_UP)));
+        .divide(BigDecimal.valueOf(12), new MathContext(10, RoundingMode.HALF_UP));
 
      tjuefemProsentInntekt = tjuefemProsentInntekt.setScale(0, RoundingMode.HALF_UP);
 
@@ -63,26 +63,31 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     System.out.println("Beregnet personfradrag: " + personfradrag);
 
-    Double inntektMinusFradrag =
-        inntekt - minstefradrag - personfradrag;
+    BigDecimal inntektMinusFradrag =
+        inntekt.subtract(BigDecimal.valueOf(minstefradrag)).subtract(BigDecimal.valueOf(personfradrag));
+//        inntekt - minstefradrag - personfradrag;
 
     // Trekker fra skatt
-    Double forelopigBidragsevne = inntekt - (inntektMinusFradrag
-        * SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-        SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT) / 100);
+    BigDecimal forelopigBidragsevne = inntekt.subtract(inntektMinusFradrag.multiply(
+        BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+        SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT)).divide(BigDecimal.valueOf(100),
+            new MathContext(10, RoundingMode.HALF_UP))));
 
     System.out.println("Foreløpig evne etter fratrekk av ordinær skatt (totalt + månedlig beløp) : "
-        + forelopigBidragsevne + " " + (Double.valueOf(Math.round(forelopigBidragsevne / 12))));
+        + forelopigBidragsevne + " " + forelopigBidragsevne.divide(BigDecimal.valueOf(12),
+        new MathContext(10, RoundingMode.HALF_UP)));
 
     // Trekker fra trygdeavgift
-    System.out.println("Trygdeavgift: " + (Double.valueOf(Math.round(inntekt
-        * (SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-        SjablonTallNavn.TRYGDEAVGIFT_PROSENT) / 100)))));
+    System.out.println("Trygdeavgift: " + inntekt.multiply(BigDecimal.valueOf(
+        SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+        SjablonTallNavn.TRYGDEAVGIFT_PROSENT)).divide(BigDecimal.valueOf(100),
+        new MathContext(10, RoundingMode.HALF_UP))));
 
     forelopigBidragsevne =
-        (forelopigBidragsevne - (inntekt * (
+        (forelopigBidragsevne.subtract((inntekt.multiply(BigDecimal.valueOf(
             SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-                SjablonTallNavn.TRYGDEAVGIFT_PROSENT) / 100)));
+                SjablonTallNavn.TRYGDEAVGIFT_PROSENT)).divide(BigDecimal.valueOf(100),
+            new MathContext(10, RoundingMode.HALF_UP))))));
     System.out.println("Foreløpig evne etter fratrekk av trygdeavgift: " + forelopigBidragsevne);
 
     // Trekker fra trinnvis skatt
@@ -190,7 +195,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
   }
 
   @Override
-  public Double beregnMinstefradrag(
+  public BigDecimal beregnMinstefradrag(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     // Legger sammen inntektene
@@ -215,7 +220,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
   }
 
   @Override
-  public Double beregnSkattetrinnBelop(
+  public BigDecimal beregnSkattetrinnBelop(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     // Legger sammen inntektene
