@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingDouble;
+import static java.util.stream.Collectors.toCollection;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -29,8 +30,14 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         .stream()
         .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
 
-    var antallBarnIPerioden = faktiskUtgiftListeSummertPerBarn.size();
-    System.out.println("Antall barn i perioden: " + antallBarnIPerioden);
+    var listeMedBelopOver0 = grunnlagBeregningPeriodisert
+        .getFaktiskUtgiftListe()
+        .stream()
+        .filter(i-> i.getFaktiskUtgiftBelop() > 0d)
+        .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
+
+    var antallBarnIPerioden = listeMedBelopOver0.size();
+    System.out.println("Antall barn med utgifter i perioden: " + antallBarnIPerioden);
 
     int antallBarnMedTilsynsutgift = 0;
     for (var tempFaktiskUtgift : faktiskUtgiftListeSummertPerBarn.entrySet()) {

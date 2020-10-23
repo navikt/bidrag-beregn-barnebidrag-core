@@ -45,6 +45,6 @@ data class ResultatGrunnlagCore(
 
 data class FaktiskUtgiftCore(
     val faktiskUtgiftSoknadsbarnPersonId: Int,
-    val faktiskUtgiftSoknadsbarnFodselsdato: LocalDate,
+    val soknadsbarnAlder: Int,
     val faktiskUtgiftBelop: Double
 )

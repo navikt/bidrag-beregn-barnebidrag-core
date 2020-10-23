@@ -378,6 +378,86 @@ public class NettoBarnetilsynPeriodeTest {
     printAvvikListe(avvikListe);
   }
 
+  @Test
+  @DisplayName("Test at beregnet netto barnetilsyn for barn over 12 år settes til 0. Det dannes brudd i periode"
+      + "01.01 det året bidragsbarnet fyller 13 år. I denne testen er 13års-dagen satt til 01.01.2019. For første "
+      + "periode 2018-07-01 - 2019-01-01 beregnes da alder til 12 år. I neste periode 2019-01-01 - 2019-02-01"
+      + "er alder beregnet til 13 år og netto barnetilsyn skal settes til 0.")
+  void testAtBeregnetBelopSettesLikNullForBarnOver12Aar() {
+    var beregnDatoFra = LocalDate.parse("2018-07-01");
+    var beregnDatoTil = LocalDate.parse("2019-02-01");
+
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
+        new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-02-01")),
+        LocalDate.parse("2006-02-18"), 2000d));
+
+    BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
+            lagSjablonGrunnlag());
+
+    var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(1499d),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(0d)
+
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+  @Test
+  @DisplayName("Test at beregnet netto barnetilsyn for barn over 12 år settes til 0. Det dannes brudd i periode"
+      + "01.01 det året bidragsbarnet fyller 13 år. Tester også at barn under 13 beregnes som normalt.")
+  void testAtBeregnetBelopSettesLikNullForBarnOver12AarOgBeregningForAndreBarnFungerer() {
+    var beregnDatoFra = LocalDate.parse("2018-07-01");
+    var beregnDatoTil = LocalDate.parse("2019-02-01");
+
+    var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
+        new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-02-01")),
+        LocalDate.parse("2006-02-18"), 2000d));
+
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
+        new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-02-01")),
+        LocalDate.parse("2016-02-18"), 1000d));
+
+    BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
+            lagSjablonGrunnlag());
+
+    var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(1624d),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBelop()).isEqualTo(750d)
+
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+
   @DisplayName("Test eksempler fra John")
   @Test
   void testEksemplerFraJohn() {

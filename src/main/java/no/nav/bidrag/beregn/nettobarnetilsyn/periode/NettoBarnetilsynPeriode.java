@@ -19,9 +19,11 @@ public interface NettoBarnetilsynPeriode {
     return new NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning.getInstance());
   }
 
-  HashSet<Periode> beregnSoknadbarn12aarsdagListe(
+  HashSet<Periode> beregnSoknadbarn13aarsdagListe(
       BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag);
 
-  LocalDate beregnSoknadbarn12aarsdag(LocalDate fodselsdato);
+  Integer beregnSoknadbarnAlder(LocalDate fodselsdato, LocalDate beregnTil);
+
+  double finnEndeligFaktiskUtgiftBelop(int alder, double faktiskUtgift);
 
 }
