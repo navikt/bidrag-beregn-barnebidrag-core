@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
@@ -234,7 +233,7 @@ class NettoBarnetilsynBeregningTest {
 
     assertEquals(0d,
         nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop());
-    assertEquals(1874d,
+    assertEquals(1978d,
         nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop());
 
   }
