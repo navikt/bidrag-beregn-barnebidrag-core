@@ -30,14 +30,14 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         .stream()
         .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
 
-    var listeMedBelopOver0 = grunnlagBeregningPeriodisert
+    var listeMedBarnUnder13Aar = grunnlagBeregningPeriodisert
         .getFaktiskUtgiftListe()
         .stream()
-        .filter(i-> i.getFaktiskUtgiftBelop() > 0d)
+        .filter(i-> i.getSoknadsbarnAlder() < 13)
         .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
 
-    var antallBarnIPerioden = listeMedBelopOver0.size();
-    System.out.println("Antall barn med utgifter i perioden: " + antallBarnIPerioden);
+    var antallBarnIPerioden = listeMedBarnUnder13Aar.size();
+    System.out.println("Totalt antall barn under 13 år i perioden: " + antallBarnIPerioden);
 
     int antallBarnMedTilsynsutgift = 0;
     for (var tempFaktiskUtgift : faktiskUtgiftListeSummertPerBarn.entrySet()) {
