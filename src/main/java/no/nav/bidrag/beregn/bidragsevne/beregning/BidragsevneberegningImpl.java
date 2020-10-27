@@ -64,7 +64,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     System.out.println("Beregnet personfradrag: " + personfradrag);
 
     BigDecimal inntektMinusFradrag =
-        inntekt.subtract(BigDecimal.valueOf(minstefradrag)).subtract(BigDecimal.valueOf(personfradrag));
+        inntekt.subtract(minstefradrag).subtract(BigDecimal.valueOf(personfradrag));
 //        inntekt - minstefradrag - personfradrag;
 
     // Trekker fra skatt
