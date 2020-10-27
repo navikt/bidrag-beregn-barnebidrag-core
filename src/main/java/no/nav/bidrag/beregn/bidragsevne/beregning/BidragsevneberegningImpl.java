@@ -29,7 +29,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     System.out.println("Start beregning av bidragsevne");
 
-    Double minstefradrag = beregnMinstefradrag(grunnlagBeregningPeriodisert);
+    BigDecimal minstefradrag = beregnMinstefradrag(grunnlagBeregningPeriodisert);
 
     // Legger sammen inntektene
     var inntekt = grunnlagBeregningPeriodisert.getInntektListe().stream()
