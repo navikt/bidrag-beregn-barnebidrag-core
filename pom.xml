@@ -3,7 +3,7 @@
 
   <groupId>no.nav.bidrag</groupId>
   <artifactId>bidrag-beregn-barnebidrag-core</artifactId>
-  <version>0.8.5-SNAPSHOT</version>
+  <version>0.8.5</version>
   <packaging>jar</packaging>
   <name>bidrag-beregn-barnebidrag-core</name>
   <description>Repo for beregning av barnebidrag</description>
