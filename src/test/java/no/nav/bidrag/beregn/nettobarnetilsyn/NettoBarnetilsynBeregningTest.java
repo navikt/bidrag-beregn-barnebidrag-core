@@ -224,7 +224,7 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 14,0d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,0d));
     faktiskUtgiftListe.add(new FaktiskUtgift(2, 8,2500d));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
@@ -233,7 +233,7 @@ class NettoBarnetilsynBeregningTest {
 
     assertEquals(0d,
         nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop());
-    assertEquals(1978d,
+    assertEquals(1874d,
         nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop());
 
   }
