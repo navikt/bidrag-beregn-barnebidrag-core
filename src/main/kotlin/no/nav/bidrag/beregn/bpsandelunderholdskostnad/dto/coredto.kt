@@ -4,6 +4,7 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -21,17 +22,17 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
 data class InntektPeriodeCore(
     val inntektPeriodeDatoFraTil: PeriodeCore,
     val inntektType: String,
-    val inntektBelop: Double
+    val inntektBelop: BigDecimal
 )
 
 data class UnderholdskostnadPeriodeCore(
     val underholdskostnadDatoFraTil: PeriodeCore,
-    val underholdskostnadBelop: Double
+    val underholdskostnadBelop: BigDecimal
 )
 
 data class InntektCore(
     val inntektType: String,
-    val inntektBelop: Double
+    val inntektBelop: BigDecimal
 )
 
 // Resultat
@@ -48,13 +49,13 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatAndelProsent: Double,
-    val resultatAndelBelop: Double,
+    val resultatAndelProsent: BigDecimal,
+    val resultatAndelBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean
 )
 
 data class ResultatGrunnlagCore(
-    val underholdskostnadBelop: Double,
+    val underholdskostnadBelop: BigDecimal,
     val inntektBPListe: List<InntektCore>,
     val inntektBMListe: List<InntektCore>,
     val inntektBBListe: List<InntektCore>,
