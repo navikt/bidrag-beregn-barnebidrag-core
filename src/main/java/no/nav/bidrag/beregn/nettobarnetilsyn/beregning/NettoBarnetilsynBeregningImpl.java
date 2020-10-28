@@ -30,6 +30,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         .stream()
         .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId, summingDouble(FaktiskUtgift::getFaktiskUtgiftBelop)));
 
+    // Barn som er 13 år eller eldre skal ikke telles med ved henting av sjablon for maks tilsyn og fradrag
     var listeMedBarnUnder13Aar = grunnlagBeregningPeriodisert
         .getFaktiskUtgiftListe()
         .stream()
