@@ -6,6 +6,7 @@ import no.nav.bidrag.beregn.felles.enums.BostatusKode
 import no.nav.bidrag.beregn.felles.enums.InntektType
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -32,8 +33,8 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatEvneBelop: Double,
-    val resultat25ProsentInntekt: Double
+    val resultatEvneBelop: BigDecimal,
+    val resultat25ProsentInntekt: BigDecimal
 )
 
 // Grunnlag beregning
@@ -48,6 +49,6 @@ data class GrunnlagBeregningPeriodisert(
 
 data class Inntekt(
     val inntektType: InntektType,
-    val inntektBelop: Double
+    val inntektBelop: BigDecimal
 )
 

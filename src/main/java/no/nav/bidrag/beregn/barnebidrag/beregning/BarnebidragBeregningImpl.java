@@ -78,7 +78,8 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       if (maksBidragsbelop.compareTo(totaltBelopUnderholdskostnad) < 0) {
         // Bidraget skal begrenses forholdsmessig pga manglende evne/25%-regel
         var andelProsent = BigDecimal.valueOf(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
-            .getBPsAndelUnderholdskostnadBelop()).divide(totaltBelopUnderholdskostnad,
+            .getBPsAndelUnderholdskostnadBelop())
+            .divide(totaltBelopUnderholdskostnad,
         new MathContext(10, RoundingMode.HALF_UP));
         System.out.println("Andel av evne: " + andelProsent);
         tempBarnebidrag = maksBidragsbelop.multiply(andelProsent);

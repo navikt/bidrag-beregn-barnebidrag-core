@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.bidragsevne;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
@@ -23,7 +24,7 @@ class BidragsevneberegningGrunnlagTest {
   void hentSjablon() {
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LONN_TREKK, Double.valueOf(1000000)));
+    inntekter.add(new Inntekt(InntektType.LONN_TREKK, BigDecimal.valueOf(1000000)));
 
     var sjablonVerdi =
         SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT);

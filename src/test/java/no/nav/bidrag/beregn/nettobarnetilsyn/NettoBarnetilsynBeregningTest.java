@@ -226,6 +226,7 @@ class NettoBarnetilsynBeregningTest {
 
     faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,0d));
     faktiskUtgiftListe.add(new FaktiskUtgift(2, 8,2500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, 14,0d));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 

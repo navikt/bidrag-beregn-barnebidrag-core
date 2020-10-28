@@ -147,12 +147,12 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+            inntektPeriode.getInntektBelop()))
         .collect(toList()));
 
     return justertInntektPeriodeListe.stream()
         .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getInntektDatoFraTil(), inntektGrunnlag.getInntektType(),
-            inntektGrunnlag.getInntektBelop().doubleValue()))
+            inntektGrunnlag.getInntektBelop()))
         .sorted(comparing(inntektPeriode -> inntektPeriode.getInntektDatoFraTil().getDatoFra()))
         .collect(toList());
   }
@@ -213,7 +213,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
     // Valider inntekter
     var inntektGrunnlagListe = beregnBidragsevneGrunnlag.getInntektPeriodeListe().stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+            inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSPLIKTIG));
 

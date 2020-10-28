@@ -4,6 +4,7 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -21,7 +22,7 @@ data class BeregnBidragsevneGrunnlagCore(
 data class InntektPeriodeCore(
     val inntektPeriodeDatoFraTil: PeriodeCore,
     val inntektType: String,
-    val inntektBelop: Double
+    val inntektBelop: BigDecimal
 )
 
 data class SkatteklassePeriodeCore(
@@ -58,8 +59,8 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatEvneBelop: Double,
-    val resultat25ProsentInntekt: Double
+    val resultatEvneBelop: BigDecimal,
+    val resultat25ProsentInntekt: BigDecimal
 )
 
 data class ResultatGrunnlagCore(
@@ -73,7 +74,7 @@ data class ResultatGrunnlagCore(
 
 data class InntektCore(
     val inntektType: String,
-    val inntektBelop: Double
+    val inntektBelop: BigDecimal
 )
 
 
