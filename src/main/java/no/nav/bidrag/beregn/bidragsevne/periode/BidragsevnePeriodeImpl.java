@@ -1,26 +1,32 @@
 package no.nav.bidrag.beregn.bidragsevne.periode;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.bidragsevne.beregning.Bidragsevneberegning;
 import no.nav.bidrag.beregn.bidragsevne.bo.AntallBarnIEgetHusholdPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
-import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
+import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.SkatteklassePeriode;
+import no.nav.bidrag.beregn.felles.InntektUtil;
+import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
+import no.nav.bidrag.beregn.felles.enums.Rolle;
+import no.nav.bidrag.beregn.felles.enums.SoknadType;
+import no.nav.bidrag.beregn.felles.inntekt.InntektGrunnlag;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 
 
@@ -38,12 +44,13 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
     var justertSjablonPeriodeListe = beregnBidragsevneGrunnlag.getSjablonPeriodeListe()
         .stream()
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    var justertInntektPeriodeListe = beregnBidragsevneGrunnlag.getInntektPeriodeListe()
+    var justertInntektPeriodeListe = justerInntekter(beregnBidragsevneGrunnlag.getInntektPeriodeListe())
         .stream()
         .map(InntektPeriode::new)
         .collect(toCollection(ArrayList::new));
@@ -131,6 +138,21 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
   }
 
+  // Justerer inntekter basert på regler definert i InntektUtil (bidrag-beregn-felles)
+  private List<InntektPeriode> justerInntekter(List<InntektPeriode> inntektPeriodeListe) {
+
+    var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
+        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+        .collect(toList()));
+
+    return justertInntektPeriodeListe.stream()
+        .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getInntektDatoFraTil(), inntektGrunnlag.getInntektType(),
+            inntektGrunnlag.getInntektBelop().doubleValue()))
+        .sorted(comparing(inntektPeriode -> inntektPeriode.getInntektDatoFraTil().getDatoFra()))
+        .collect(toList());
+  }
+
 
   // Validerer at input-verdier til bidragsevneberegning er gyldige
   public List<Avvik> validerInput(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag) {
@@ -183,6 +205,13 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(),
         beregnBidragsevneGrunnlag.getBeregnDatoTil(), "saerfradragPeriodeListe", saerfradragPeriodeListe, true, true, true, true));
+
+    // Valider inntekter
+    var inntektGrunnlagListe = beregnBidragsevneGrunnlag.getInntektPeriodeListe().stream()
+        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+        .collect(toList());
+    avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSPLIKTIG));
 
     return avvikListe;
   }
