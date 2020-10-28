@@ -104,7 +104,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
           SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
               SjablonNavn.BIDRAGSEVNE,
               sjablonNokkelListe,
-              SjablonInnholdNavn.BOUTGIFT_BELOP))).multiply(BigDecimal.valueOf(12));
+              SjablonInnholdNavn.BOUTGIFT_BELOP)).multiply(BigDecimal.valueOf(12)));
 
       System.out.println(
           "Foreløpig evne etter fratrekk av boutgifter bor alene: " + forelopigBidragsevne);
@@ -113,7 +113,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
           SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
               SjablonNavn.BIDRAGSEVNE,
               sjablonNokkelListe,
-              SjablonInnholdNavn.UNDERHOLD_BELOP)).multiply(BigDecimal.valueOf(12));
+              SjablonInnholdNavn.UNDERHOLD_BELOP)).multiply(BigDecimal.valueOf(12)));
 
       System.out.println(
           "Foreløpig evne etter fratrekk av midler til eget underhold bor alene: "
@@ -127,7 +127,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
           SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
               SjablonNavn.BIDRAGSEVNE,
               sjablonNokkelListe,
-              SjablonInnholdNavn.BOUTGIFT_BELOP)).multiply(BigDecimal.valueOf(12));
+              SjablonInnholdNavn.BOUTGIFT_BELOP)).multiply(BigDecimal.valueOf(12)));
 
       System.out.println(
           "Foreløpig evne etter fratrekk av boutgifter gift/samboer: " + forelopigBidragsevne);
@@ -147,8 +147,8 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     forelopigBidragsevne = forelopigBidragsevne.subtract(
         BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
         SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP))
-            .multiply(BigDecimal.valueOf(grunnlagBeregningPeriodisert.getAntallEgneBarnIHusstand())
-                .multiply(BigDecimal.valueOf(12))));
+            .multiply(BigDecimal.valueOf(grunnlagBeregningPeriodisert.getAntallEgneBarnIHusstand()))
+            .multiply(BigDecimal.valueOf(12)));
     System.out.println("Foreløpig evne etter fratrekk av underhold for egne barn i egen husstand: "
         + forelopigBidragsevne);
 
@@ -181,7 +181,11 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     }
 
     // Finner månedlig beløp for bidragsevne
-    BigDecimal maanedligBidragsevne = forelopigBidragsevne.divide(BigDecimal.valueOf(12));
+    BigDecimal maanedligBidragsevne = forelopigBidragsevne.divide(BigDecimal.valueOf(12),
+        new MathContext(10, RoundingMode.HALF_UP));
+
+    maanedligBidragsevne = maanedligBidragsevne.setScale(0, RoundingMode.HALF_UP);
+
     System.out.println("Endelig beregnet bidragsevne: " + maanedligBidragsevne);
 
     if (maanedligBidragsevne.compareTo(BigDecimal.valueOf(0)) < 0){
@@ -200,23 +204,32 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     // Legger sammen inntektene
-    BigDecimal inntekt = grunnlagBeregningPeriodisert.getInntektListe().stream()
+    BigDecimal inntekt = grunnlagBeregningPeriodisert.getInntektListe()
+        .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.valueOf(0), BigDecimal::add);
 
     BigDecimal minstefradrag = inntekt.multiply(BigDecimal.valueOf(
         SjablonUtil.hentSjablonverdi(
             grunnlagBeregningPeriodisert.getSjablonListe(),
-            SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT)).divide(BigDecimal.valueOf(100));
+            SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT))
+        .divide(BigDecimal.valueOf(100),
+        new MathContext(2, RoundingMode.HALF_UP)));
+
+
+    System.out.println("Beregnet minstefradrag før sjekk mot minstefradrag: " + minstefradrag);
+
     if (minstefradrag.compareTo(BigDecimal.valueOf(
-        SjablonUtil.hentSjablonverdi(
-            grunnlagBeregningPeriodisert.getSjablonListe(),
+        SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
             SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP))) > 0) {
       minstefradrag = BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(
           grunnlagBeregningPeriodisert.getSjablonListe(),
           SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP));
     }
-    System.out.println("Beregnet minstefradrag: " + minstefradrag);
+
+    minstefradrag = minstefradrag.setScale(0, RoundingMode.HALF_UP);
+    System.out.println("Endelig beregnet minstefradrag: " + minstefradrag);
+
     return minstefradrag;
   }
 
@@ -225,7 +238,8 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     // Legger sammen inntektene
-    var inntekt = grunnlagBeregningPeriodisert.getInntektListe().stream()
+    var inntekt = grunnlagBeregningPeriodisert.getInntektListe()
+        .stream()
         .map(Inntekt::getInntektBelop)
         .reduce(BigDecimal.valueOf(0), BigDecimal::add);
 
@@ -241,10 +255,64 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
       if (inntekt.compareTo(BigDecimal.valueOf(
           sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())) > 0) {
         if (inntekt.compareTo(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense())) < 0) {
+          samletSkattetrinnBelop = samletSkattetrinnBelop.add(
+              inntekt.subtract(
+              BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()))
+                  .multiply(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()))
+                  .divide(BigDecimal.valueOf(100),
+                      new MathContext(10, RoundingMode.HALF_UP)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
+        } else {
+          samletSkattetrinnBelop = samletSkattetrinnBelop.add(BigDecimal.valueOf(
+              (sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense() -
+                  sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) * (
+                  sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()))
+              .divide(BigDecimal.valueOf(100),
+              new MathContext(10, RoundingMode.HALF_UP)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
+        }
+      }
+      indeks = indeks + 1;
+    }
+
+    /*// Beregn skattetrinnbeløp
+    while (indeks < sortertTrinnvisSkattesatsListe.size()) {
+
+      if (inntekt > sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) {
+
+        if (inntekt < sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()) {
+          samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
+              (inntekt - sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) *
+                  (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
+        } else {
+          samletSkattetrinnBelop = Math.round(samletSkattetrinnBelop + (
+              (sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense() -
+                  sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()) * (
+                  sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats() / 100)));
+
+          System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
+
+        }
+      }
+      indeks = indeks + 1;
+    }*/
+
+/*    // Beregn skattetrinnbeløp
+    while (indeks < sortertTrinnvisSkattesatsListe.size()) {
+      if (inntekt.compareTo(BigDecimal.valueOf(
+          sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())) > 0) {
+        if (inntekt.compareTo(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense())) < 0) {
           samletSkattetrinnBelop = samletSkattetrinnBelop.add(BigDecimal.valueOf(
               inntekt.subtract(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
                   .multiply(BigDecimal.valueOf(
-                  (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()))).divide(BigDecimal.valueOf(100),
+                      (sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()))).divide(BigDecimal.valueOf(100),
                       new MathContext(10, RoundingMode.HALF_UP)));
 
           System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
@@ -260,18 +328,20 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
         }
       }
       indeks = indeks + 1;
-    }
+    }*/
 
     if (inntekt.compareTo(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())) > 0) {
       samletSkattetrinnBelop = samletSkattetrinnBelop.add (
-          (inntekt.subtract(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
-              .multiply(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats())
-                  .divide(BigDecimal.valueOf(100))))));
+          (inntekt.subtract(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()))
+              .multiply(BigDecimal.valueOf(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()))
+              .divide(BigDecimal.valueOf(100),
+                  new MathContext(1, RoundingMode.HALF_UP))));
 
       System.out.println("samletSkattetrinnBelop: " + samletSkattetrinnBelop);
 
     }
 
+    samletSkattetrinnBelop = samletSkattetrinnBelop.setScale(0, RoundingMode.HALF_UP);
 
     System.out.println("Totalt skattetrinnbeløp: " + samletSkattetrinnBelop);
 

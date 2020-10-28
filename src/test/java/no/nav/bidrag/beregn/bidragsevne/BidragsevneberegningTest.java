@@ -4,6 +4,7 @@ import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,57 +35,57 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(1000000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(31858d),
+    assertEquals(BigDecimal.valueOf(31859),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert).getResultatEvneBelop());
 
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(520000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(520000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(8322d),
+    assertEquals(BigDecimal.valueOf(8322),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert2).getResultatEvneBelop());
-    assertEquals(Double.valueOf(10833d),
+    assertEquals(BigDecimal.valueOf(10833),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert2).getResultat25ProsentInntekt());
 
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert3
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(8424d),
+    assertEquals(BigDecimal.valueOf(8424),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert3).getResultatEvneBelop());
 
     // Test på at beregnet bidragsevne blir satt til 0 når evne er negativ
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(100000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert4
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    assertEquals(Double.valueOf(0d),
+    assertEquals(BigDecimal.valueOf(0),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert4).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 ikke legges til beregnet evne når skatteklasse = 1
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
         Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 12000d))));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert5
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(8424d),
+    assertEquals(BigDecimal.valueOf(8424),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert5).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
         Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 12000d))));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert6
         = new GrunnlagBeregningPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(9424d),
+    assertEquals(BigDecimal.valueOf(9424),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert6).getResultatEvneBelop());
 
     // Test at personfradrag skatteklasse 2 brukes hvis skatteklasse 2 er angitt
@@ -97,7 +98,7 @@ class BidragsevneberegningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert7
         = new GrunnlagBeregningPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
         SaerfradragKode.INGEN, sjablonListe);
-    assertEquals(Double.valueOf(7923d),
+    assertEquals(BigDecimal.valueOf(7923),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert7).getResultatEvneBelop());
 
 
@@ -105,14 +106,14 @@ class BidragsevneberegningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert8
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
         SaerfradragKode.HALVT, sjablonListe);
-    assertEquals(Double.valueOf(8965d),
+    assertEquals(BigDecimal.valueOf(8965),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert8).getResultatEvneBelop());
 
     // Test av bostatus MED_FLERE
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert9
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 3,
         SaerfradragKode.HALVT, sjablonListe);
-    assertEquals(Double.valueOf(14253d),
+    assertEquals(BigDecimal.valueOf(14253),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert9).getResultatEvneBelop());
 
   }
@@ -121,7 +122,7 @@ class BidragsevneberegningTest {
   void beregnMinstefradrag() {
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(200000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000)));
 
 //    beregnBidragsevneGrunnlagPeriodisert.setSjablonPeriodeListe(sjabloner);
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
@@ -130,16 +131,16 @@ class BidragsevneberegningTest {
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
     System.out.println(bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert));
-    assertTrue((bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert))
-        .equals(Double.valueOf(62000)));
+    assertEquals(BigDecimal.valueOf(62000),
+        bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert));
 
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(1000000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
     System.out.println(bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert2));
-    assertTrue((bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert2))
-        .equals(Double.valueOf(87450)));
+    assertEquals(BigDecimal.valueOf(87450),
+        bidragsevneberegning.beregnMinstefradrag(grunnlagBeregningPeriodisert2));
 
   }
 
@@ -149,28 +150,28 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
     //System.out.println(bidragsevneberegning.beregnSkattetrinnBelop(beregnBidragsevneGrunnlagPeriodisert));
-    assertTrue((bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert))
-        .equals(Double.valueOf(1400+16181+3465+0)));
+    assertEquals(BigDecimal.valueOf(1400+16181+3465+0),
+        bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert));
 
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(174600)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(174600)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    assertTrue((bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert2))
-        .equals(Double.valueOf(0)));
+    assertEquals(BigDecimal.valueOf(0),
+        bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert2));
 
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, Double.valueOf(250000)));
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(250000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert3
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    assertTrue((bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert3))
-        .equals(Double.valueOf(1315)));
+    assertEquals(BigDecimal.valueOf(1315),
+        bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert3));
   }
 
   @Test
@@ -181,11 +182,11 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, Double.valueOf(300000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(300000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 0,
         SaerfradragKode.HELT, sjablonListe);
-    assertEquals(Double.valueOf(1217d),
+    assertEquals(BigDecimal.valueOf(1217),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert).getResultatEvneBelop());
 
   }

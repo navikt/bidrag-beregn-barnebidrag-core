@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,7 +137,7 @@ public class BidragsevneCoreTest {
   private void byggBidragsevnePeriodeGrunnlagCore() {
 
     var inntektPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LONN_SKE.toString(), Double.valueOf(666000));
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LONN_SKE.toString(), BigDecimal.valueOf(666000));
     var inntektPeriodeListe = new ArrayList<InntektPeriodeCore>();
     inntektPeriodeListe.add(inntektPeriode);
 
@@ -176,24 +177,24 @@ public class BidragsevneCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(Double.valueOf(666), Double.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, Double.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
+        new ResultatBeregning(BigDecimal.valueOf(666), BigDecimal.valueOf(166500)),
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(Double.valueOf(667), Double.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
+        new ResultatBeregning(BigDecimal.valueOf(667), BigDecimal.valueOf(166500)),
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(Double.valueOf(668), Double.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, Double.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
+        new ResultatBeregning(BigDecimal.valueOf(668), BigDecimal.valueOf(166500)),
+        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))), 1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
