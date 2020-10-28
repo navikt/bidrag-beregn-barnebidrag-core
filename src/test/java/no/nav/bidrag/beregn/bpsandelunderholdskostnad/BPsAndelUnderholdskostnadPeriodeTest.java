@@ -517,7 +517,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     if (rolle.equals("BB")) {
       inntektBBPeriodeListe = lagJustertInntektGrunnlag();
     } else {
-      inntektBBPeriodeListe = singletonList(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MAN_VURDERING, 40000d));
+      inntektBBPeriodeListe = emptyList();
     }
 
     grunnlag = new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId, underholdskostnadPeriodeListe,

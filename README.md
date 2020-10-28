@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.8.8   | Endret       | Rettet feil i validering av inntekter
 0.8.7   | Opprettet    | Lagt til validering av inntekter
 0.8.6   | Endret       | Feilretting i beregning av netto barnetilsyn
 0.8.5   | Endret       | Feilretting i BPsAndelUnderholdskostnadCoreImpl
