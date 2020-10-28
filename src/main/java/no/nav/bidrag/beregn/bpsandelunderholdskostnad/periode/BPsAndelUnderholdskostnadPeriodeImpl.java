@@ -152,6 +152,10 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
   // Justerer inntekter basert på regler definert i InntektUtil (bidrag-beregn-felles)
   private List<InntektPeriode> justerInntekter(List<InntektPeriode> inntektPeriodeListe) {
 
+    if (inntektPeriodeListe.isEmpty()) {
+      return inntektPeriodeListe;
+    }
+
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
             BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
