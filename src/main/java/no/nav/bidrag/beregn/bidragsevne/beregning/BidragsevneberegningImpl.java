@@ -157,7 +157,6 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
       forelopigBidragsevne = forelopigBidragsevne.add(BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(
           grunnlagBeregningPeriodisert.getSjablonListe(),
           SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP)));
-
       System.out.println("Foreløpig evne etter tillegg for særfradrag: " + forelopigBidragsevne);
     } else {
       if (grunnlagBeregningPeriodisert.getSaerfradragkode().equals(SaerfradragKode.HALVT)) {

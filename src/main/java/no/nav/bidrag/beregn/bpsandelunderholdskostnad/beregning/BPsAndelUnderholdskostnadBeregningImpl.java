@@ -103,7 +103,6 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
     BigDecimal andelBelop = BigDecimal.valueOf(0);
     boolean barnetErSelvforsorget = false;
 
-
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
         .stream()
@@ -129,15 +128,36 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       andelProsent = BigDecimal.valueOf(0.0);
       barnetErSelvforsorget = true;
     } else {
-      andelProsent = inntektBP.divide(inntektBP.add(inntektBM).add(inntektBB)).multiply(BigDecimal.valueOf(100));
+      andelProsent = inntektBP.divide(
+          inntektBP.add(inntektBM).add(inntektBB),
+      new MathContext(10, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100));
+
+      System.out.println("andelprosent: " + andelProsent);
 
       var sjettedeler = new ArrayList<BigDecimal>();
 
-      sjettedeler.add(BigDecimal.valueOf((1.0 / 6)).multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf((2.0 / 6)).multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf((3.0 / 6)).multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf((4.0 / 6)).multiply(BigDecimal.valueOf(100)));
-      sjettedeler.add(BigDecimal.valueOf((5.0 / 6)).multiply(BigDecimal.valueOf(100)));
+      sjettedeler.add(BigDecimal.valueOf(1).divide(BigDecimal.valueOf(6),
+          new MathContext(12, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100)));
+      sjettedeler.add(BigDecimal.valueOf(2).divide(BigDecimal.valueOf(6),
+          new MathContext(12, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100)));
+      sjettedeler.add(BigDecimal.valueOf(3).divide(BigDecimal.valueOf(6),
+          new MathContext(12, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100)));
+      sjettedeler.add(BigDecimal.valueOf(4).divide(BigDecimal.valueOf(6),
+          new MathContext(12, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100)));
+      sjettedeler.add(BigDecimal.valueOf(5).divide(BigDecimal.valueOf(6),
+          new MathContext(12, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100)));
+
+      System.out.println("Sjettedel: " + sjettedeler.get(0));
+      System.out.println("Sjettedel: " + sjettedeler.get(1));
+      System.out.println("Sjettedel: " + sjettedeler.get(2));
+      System.out.println("Sjettedel: " + sjettedeler.get(3));
+      System.out.println("Sjettedel: " + sjettedeler.get(4));
 
 //      BigDecimal finalAndel = andel;
       BigDecimal finalAndel = andelProsent;
@@ -145,16 +165,17 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
           .min(Comparator.comparing(a -> finalAndel.subtract(a).abs()))
           .orElseThrow(() -> new IllegalArgumentException("Empty collection"));
 
-      andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
-
       // Utregnet andel skal ikke være større en 5/6
-
-      if (andelProsent.compareTo(BigDecimal.valueOf(83.3)) > 0) {
-        andelProsent = BigDecimal.valueOf(83.3);
+      if (andelProsent.compareTo(BigDecimal.valueOf(83.3333333333)) >= 0) {
+        andelProsent = BigDecimal.valueOf(83.3333333333);
+      } else {
+        andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
       }
+
       andelBelop =
           grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
-              .multiply(andelProsent).divide(BigDecimal.valueOf(100),
+              .multiply(andelProsent)
+              .divide(BigDecimal.valueOf(100),
               new MathContext(10, RoundingMode.HALF_UP));
 
       andelBelop = andelBelop.setScale(1, RoundingMode.HALF_UP);
