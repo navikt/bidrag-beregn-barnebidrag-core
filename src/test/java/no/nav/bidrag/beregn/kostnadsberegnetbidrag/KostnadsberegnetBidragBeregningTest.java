@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -20,10 +21,11 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningUtenSamvaer() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(10000, 20d,
-        0d);
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+        BigDecimal.valueOf(20),
+        BigDecimal.valueOf(0));
 
-    assertEquals(2000d,
+    assertEquals(BigDecimal.valueOf(2000),
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatkostnadsberegnetbidragBelop());
   }
@@ -34,11 +36,12 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningMedSamvaer() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(10000, 20,
-        100.0
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+        BigDecimal.valueOf(20),
+        BigDecimal.valueOf(100)
     );
 
-    assertEquals(1900d,
+    assertEquals(BigDecimal.valueOf(1900),
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatkostnadsberegnetbidragBelop());
   }
@@ -48,8 +51,9 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesOpp() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(666, 91d,
-        0d
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(666),
+        BigDecimal.valueOf(91),
+        BigDecimal.valueOf(0)
     );
 
     assertEquals(610d,
@@ -62,11 +66,12 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesNed() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(1000, 17.2,
-        100d
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000),
+        BigDecimal.valueOf(17.2),
+        BigDecimal.valueOf(100)
     );
 
-    assertEquals(70d,
+    assertEquals(BigDecimal.valueOf(70),
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
             .getResultatkostnadsberegnetbidragBelop());
   }

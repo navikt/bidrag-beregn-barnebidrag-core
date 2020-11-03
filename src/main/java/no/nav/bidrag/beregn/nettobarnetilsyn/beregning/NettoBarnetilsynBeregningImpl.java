@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.summingDouble;
-import static java.util.stream.Collectors.toCollection;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

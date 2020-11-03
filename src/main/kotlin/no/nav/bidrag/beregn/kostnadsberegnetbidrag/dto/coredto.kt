@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -16,17 +17,17 @@ data class BeregnKostnadsberegnetBidragGrunnlagCore(
 
 data class UnderholdskostnadPeriodeCore(
     val underholdskostnadPeriodeDatoFraTil: PeriodeCore,
-    val underholdskostnadBelop: Double
+    val underholdskostnadBelop: BigDecimal
 )
 
 data class BPsAndelUnderholdskostnadPeriodeCore(
     val bPsAndelUnderholdskostnadPeriodeDatoFraTil: PeriodeCore,
-    val bPsAndelUnderholdskostnadProsent: Double
+    val bPsAndelUnderholdskostnadProsent: BigDecimal
 )
 
 data class SamvaersfradragPeriodeCore(
     val samvaersfradragDatoPeriodeFraTil: PeriodeCore,
-    val samvaersfradrag: Double
+    val samvaersfradrag: BigDecimal
 )
 
 // Resultatperiode
@@ -43,11 +44,11 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatKostnadsberegnetBidragBelop: Double
+    val resultatKostnadsberegnetBidragBelop: BigDecimal
 )
 
 // Grunnlag beregning
 data class ResultatGrunnlagCore(
-    val underholdskostnadBelop: Double,
-    val bPsAndelUnderholdskostnadProsent: Double,
-    val samvaersfradragBelop: Double?)
+    val underholdskostnadBelop: BigDecimal,
+    val bPsAndelUnderholdskostnadProsent: BigDecimal,
+    val samvaersfradragBelop: BigDecimal?)

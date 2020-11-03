@@ -1,9 +1,9 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -34,21 +34,21 @@ public class KostnadsberegnetBidragPeriodeTest {
       var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
       underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
           new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-08-01")),
-          10000d));
+          BigDecimal.valueOf(10000)));
 
       underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
           new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-08-01")),
-          1000d));
+          BigDecimal.valueOf(1000)));
 
       var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
       bPsAndelUnderholdskostnadPeriodeListe.add(new BPsAndelUnderholdskostnadPeriode(
           new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-          20d));
+          BigDecimal.valueOf(20)));
 
       var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
       samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(
           new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-          100d));
+          BigDecimal.valueOf(17.33333333)));
 
 
       // Sjabloner brukes ikke i beregning av kostnadsberegnet bidra
@@ -66,11 +66,13 @@ public class KostnadsberegnetBidragPeriodeTest {
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-08-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop()).isEqualTo(1900d),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop())
+              .isEqualTo(BigDecimal.valueOf(1900)),
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-08-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop()).isEqualTo(100d)
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop())
+              .isEqualTo(BigDecimal.valueOf(100))
       );
 
       printGrunnlagResultat(resultat);

@@ -2,10 +2,11 @@ package no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+import java.math.BigDecimal
 
 data class UnderholdskostnadPeriode(
     val underholdskostnadDatoFraTil: Periode,
-    val underholdskostnadBelop: Double) : PeriodisertGrunnlag {
+    val underholdskostnadBelop: BigDecimal) : PeriodisertGrunnlag {
   constructor(underholdskostnadPeriode: UnderholdskostnadPeriode)
       : this(underholdskostnadPeriode.underholdskostnadDatoFraTil.justerDatoer(),
       underholdskostnadPeriode.underholdskostnadBelop)
@@ -16,7 +17,7 @@ data class UnderholdskostnadPeriode(
 
 data class BPsAndelUnderholdskostnadPeriode(
     val bPsAndelUnderholdskostnadDatoFraTil: Periode,
-    val bPsAndelUnderholdskostnadProsent: Double) : PeriodisertGrunnlag {
+    val bPsAndelUnderholdskostnadProsent: BigDecimal) : PeriodisertGrunnlag {
   constructor(bPsAndelunderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode)
       : this(bPsAndelunderholdskostnadPeriode.bPsAndelUnderholdskostnadDatoFraTil.justerDatoer(),
       bPsAndelunderholdskostnadPeriode.bPsAndelUnderholdskostnadProsent)
@@ -27,7 +28,7 @@ data class BPsAndelUnderholdskostnadPeriode(
 
 data class SamvaersfradragPeriode(
     val samvaersfradragDatoFraTil: Periode,
-    val samvaersfradrag: Double?) : PeriodisertGrunnlag {
+    val samvaersfradrag: BigDecimal?) : PeriodisertGrunnlag {
   constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
       : this(samvaersfradragPeriode.samvaersfradragDatoFraTil.justerDatoer(),
       samvaersfradragPeriode.samvaersfradrag)
