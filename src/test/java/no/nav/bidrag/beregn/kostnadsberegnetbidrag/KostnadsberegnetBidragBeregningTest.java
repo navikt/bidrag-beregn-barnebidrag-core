@@ -25,9 +25,9 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.valueOf(20),
         BigDecimal.valueOf(0));
 
-    assertEquals(BigDecimal.valueOf(2000),
+    assertEquals(2000d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
 
 
@@ -41,9 +41,9 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.valueOf(100)
     );
 
-    assertEquals(BigDecimal.valueOf(1900),
+    assertEquals(1900d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
 
   @DisplayName("Test av resultatet rundes av til nærmeste tier. 606,06 -> 610")
@@ -58,7 +58,7 @@ public class KostnadsberegnetBidragBeregningTest {
 
     assertEquals(610d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
 
   @DisplayName("Test av resultatet rundes ned til nærmeste tier. 72,0 -> 70,0 ")
@@ -71,10 +71,8 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.valueOf(100)
     );
 
-    assertEquals(BigDecimal.valueOf(70),
+    assertEquals(70d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
-
 }
-

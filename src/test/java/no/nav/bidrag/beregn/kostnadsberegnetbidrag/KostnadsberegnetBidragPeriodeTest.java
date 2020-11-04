@@ -48,10 +48,10 @@ public class KostnadsberegnetBidragPeriodeTest {
       var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
       samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(
           new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-          BigDecimal.valueOf(17.33333333)));
+          BigDecimal.valueOf(100)));
 
 
-      // Sjabloner brukes ikke i beregning av kostnadsberegnet bidra
+      // Sjabloner brukes ikke i beregning av kostnadsberegnet bidrag
 
       BeregnKostnadsberegnetBidragGrunnlag beregnKostnadsberegnetBidragGrunnlag =
           new BeregnKostnadsberegnetBidragGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
@@ -66,13 +66,13 @@ public class KostnadsberegnetBidragPeriodeTest {
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-08-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop())
-              .isEqualTo(BigDecimal.valueOf(1900)),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop().doubleValue())
+              .isEqualTo(1900d),
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-08-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop())
-              .isEqualTo(BigDecimal.valueOf(100))
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop().doubleValue())
+              .isEqualTo(100d)
       );
 
       printGrunnlagResultat(resultat);
