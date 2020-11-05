@@ -48,19 +48,19 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
     System.out.println("BB: " + inntektBB);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
-    if (inntektBB.compareTo(BigDecimal.valueOf(SjablonUtil
-        .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-            SjablonTallNavn.FORSKUDDSSATS_BELOP) * 100)) > 0) {
+    if (inntektBB.compareTo(
+        SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+            SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(100))) > 0) {
       andelProsent = BigDecimal.valueOf(0.0);
       barnetErSelvforsorget = true;
     } else {
-      inntektBB = inntektBB.subtract(BigDecimal.valueOf(SjablonUtil
-          .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-              SjablonTallNavn.FORSKUDDSSATS_BELOP) * 30));
+      inntektBB = inntektBB.subtract(
+          SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+              SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(30)));
 
       System.out.println("30 * forhøyet forskudd: " + SjablonUtil
           .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-              SjablonTallNavn.FORSKUDDSSATS_BELOP) * 30);
+              SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(30)));
       System.out.println("InntektBB etter fratrekk av 30 * forhøyet forskudd: " + inntektBB);
 
       if (inntektBB.compareTo(BigDecimal.valueOf(0)) < 0) {
@@ -122,9 +122,9 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
         .reduce(BigDecimal.valueOf(0), BigDecimal::add);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
-    if (inntektBB.compareTo(BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert
-            .getSjablonListe(),
-            SjablonTallNavn.FORSKUDDSSATS_BELOP) * 100)) > 0) {
+    if (inntektBB.compareTo(
+        SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+            SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(100))) > 0) {
       andelProsent = BigDecimal.valueOf(0.0);
       barnetErSelvforsorget = true;
     } else {

@@ -4,6 +4,7 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -35,7 +36,7 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatSamvaersfradragBelop: Double
+    val resultatSamvaersfradragBelop: BigDecimal
 )
 
 // Grunnlag beregning

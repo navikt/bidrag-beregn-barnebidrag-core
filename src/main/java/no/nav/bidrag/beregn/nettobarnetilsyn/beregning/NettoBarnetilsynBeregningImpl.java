@@ -53,9 +53,8 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     }
     System.out.println("Antall barn med tilsynsutgifter i perioden: " + antallBarnMedTilsynsutgift);
 
-    var maksTilsynsbelop = BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe()
-        , SjablonNavn.MAKS_TILSYN,
-        antallBarnIPerioden));
+    var maksTilsynsbelop = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe()
+        , SjablonNavn.MAKS_TILSYN, antallBarnIPerioden);
     System.out.println("Maks tilsynsbeløp: " + maksTilsynsbelop);
 
 /*    var samletFaktiskUtgiftBelop = faktiskUtgiftListeSummertPerBarn.values()
@@ -79,9 +78,9 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         // Finner prosentandel av totalbeløp og beregner så andel av maks tilsynsbeløp
         tempResultatBelop = (faktiskUtgift.getValue()
             .divide(samletFaktiskUtgiftBelop, new MathContext(2, RoundingMode.HALF_UP))
-            .multiply(BigDecimal.valueOf(
+            .multiply(
             SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-                SjablonNavn.MAKS_TILSYN, antallBarnIPerioden))));
+                SjablonNavn.MAKS_TILSYN, antallBarnIPerioden)));
       } else {
         tempResultatBelop = faktiskUtgift.getValue();
       }
@@ -108,9 +107,9 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
   public BigDecimal beregnFradragsbelopPerBarn(GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert, int antallBarn,
       int antallBarnMedTilsynsutgift, BigDecimal tilsynsbelop) {
 
-    var skattAlminneligInntektProsent = BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-        SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT));
-    var maksFradrag = BigDecimal.valueOf(SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.MAKS_FRADRAG, antallBarn));
+    var skattAlminneligInntektProsent = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
+        SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT);
+    var maksFradrag = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.MAKS_FRADRAG, antallBarn);
 
     System.out.println("Tilsynsbeløp: " + tilsynsbelop);
     System.out.println("Skattesats: " + skattAlminneligInntektProsent);
