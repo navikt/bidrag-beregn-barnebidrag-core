@@ -4,6 +4,7 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -18,7 +19,7 @@ data class FaktiskUtgiftPeriodeCore(
     val faktiskUtgiftPeriodeDatoFraTil: PeriodeCore,
     val faktiskUtgiftSoknadsbarnFodselsdato: LocalDate,
     val faktiskUtgiftSoknadsbarnPersonId: Int,
-    val faktiskUtgiftBelop: Double
+    val faktiskUtgiftBelop: BigDecimal
 )
 
 // Resultat
@@ -35,7 +36,7 @@ data class ResultatPeriodeCore(
 
 data class ResultatBeregningCore(
     val resultatSoknadsbarnPersonId: Int,
-    val resultatBelop: Double
+    val resultatBelop: BigDecimal
 )
 
 data class ResultatGrunnlagCore(
@@ -46,5 +47,5 @@ data class ResultatGrunnlagCore(
 data class FaktiskUtgiftCore(
     val faktiskUtgiftSoknadsbarnPersonId: Int,
     val soknadsbarnAlder: Int,
-    val faktiskUtgiftBelop: Double
+    val faktiskUtgiftBelop: BigDecimal
 )

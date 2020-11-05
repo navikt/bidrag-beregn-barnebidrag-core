@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -26,7 +27,7 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatSoknadsbarnPersonId: Int,
-    val resultatBelop: Double
+    val resultatBelop: BigDecimal
 )
 
 // Grunnlag beregning
@@ -37,5 +38,5 @@ data class GrunnlagBeregningPeriodisert(
 data class FaktiskUtgift(
     val faktiskUtgiftSoknadsbarnPersonId: Int,
     val soknadsbarnAlder: Int,
-    val faktiskUtgiftBelop: Double
+    val faktiskUtgiftBelop: BigDecimal
 )

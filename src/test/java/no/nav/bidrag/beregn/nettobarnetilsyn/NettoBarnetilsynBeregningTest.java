@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
@@ -25,7 +26,8 @@ class NettoBarnetilsynBeregningTest {
   void testEttBarnEttBelopUnderMaksTilsynsbelop() {
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,2500d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,
+        BigDecimal.valueOf(2500)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -34,7 +36,7 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(1),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(1978d)
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(1978d)
     );
   }
 
@@ -44,8 +46,10 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,2500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,
+        BigDecimal.valueOf(2500)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,
+        BigDecimal.valueOf(5000)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -54,8 +58,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2083d),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4583d)
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(2083d),
+        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(4583d)
     );
   }
 
@@ -65,11 +69,11 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,  2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,  1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,  500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,  2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,  2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,  BigDecimal.valueOf(2000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,  BigDecimal.valueOf(1000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(500)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 5,  BigDecimal.valueOf(2000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(2000)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -78,8 +82,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(2083d),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(4583d)
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(2083d),
+        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(4583d)
     );
   }
 
@@ -90,8 +94,8 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 5,7000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 9,3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 5, BigDecimal.valueOf(7000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 9, BigDecimal.valueOf(3000)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -109,8 +113,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(5367d),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2062d)
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(5367d),
+        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(2062d)
     );
   }
 
@@ -121,9 +125,9 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, 5000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 8, 3000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(3, 3, 2000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(5000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 8,  BigDecimal.valueOf(3000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, 3,  BigDecimal.valueOf(2000)));
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
     var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
@@ -140,9 +144,9 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(4299d),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2427d),
-        () -> assertThat(resultat.get(2).getResultatBelop()).isEqualTo(1490d)
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(4299d),
+        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(2427d),
+        () -> assertThat(resultat.get(2).getResultatBelop().doubleValue()).isEqualTo(1490d)
     );
   }
 
@@ -152,7 +156,7 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,1000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(1000)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -166,7 +170,7 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(1),
-        () -> assertThat(resultat.get(0).getResultatBelop()).isEqualTo(750d)
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(750d)
     );
   }
 
@@ -176,9 +180,9 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(3, 10, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 10, 3000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, 10, BigDecimal.valueOf(1000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(2000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 10, BigDecimal.valueOf(3000)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -198,10 +202,10 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 10, 1000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(3, 10, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 10, 2000d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, 5000d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 10, BigDecimal.valueOf(1000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, 10, BigDecimal.valueOf(2000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 10, BigDecimal.valueOf(2000)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(5000)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
@@ -213,7 +217,7 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
         () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
-        () -> assertThat(resultat.get(1).getResultatBelop()).isEqualTo(2427d))
+        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(2427d))
     ;
   }
 
@@ -224,18 +228,18 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10,0d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(2, 8,2500d));
-    faktiskUtgiftListe.add(new FaktiskUtgift(3, 14,0d));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(0)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(2, 8,  BigDecimal.valueOf(2500)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, 14, BigDecimal.valueOf(0)));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 
     var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertEquals(0d,
-        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop());
+        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop().doubleValue());
     assertEquals(1874d,
-        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop());
+        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop().doubleValue());
 
   }
 }
