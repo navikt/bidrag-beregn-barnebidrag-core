@@ -115,7 +115,7 @@ public class NettoBarnetilsynCoreTest {
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)));
+        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
@@ -132,7 +132,7 @@ public class NettoBarnetilsynCoreTest {
         new GrunnlagBeregningPeriodisert(
             Arrays.asList(new FaktiskUtgift(1, 10, BigDecimal.valueOf(3))),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     nettoBarnetilsynPeriodeResultat = new BeregnNettoBarnetilsynResultat(periodeResultatListe);
   }

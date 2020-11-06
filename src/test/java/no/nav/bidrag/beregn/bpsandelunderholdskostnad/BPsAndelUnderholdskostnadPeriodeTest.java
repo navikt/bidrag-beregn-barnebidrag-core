@@ -117,12 +117,12 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2008-06-30")),
         new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                1600d)))));
+                BigDecimal.valueOf(1600))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2008-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                1700d)))));
+                BigDecimal.valueOf(1700))))));
 
     BeregnBPsAndelUnderholdskostnadGrunnlag beregnBPsAndelUnderholdskostnadGrunnlag =
         new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId,
@@ -543,17 +543,17 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                1600d)))));
+                BigDecimal.valueOf(1600))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-06-30")),
         new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                1640d)))));
+                BigDecimal.valueOf(1640))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2020-07-01"), null),
         new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                1670d)))));
+                BigDecimal.valueOf(1670))))));
 
     return sjablonPeriodeListe;
   }

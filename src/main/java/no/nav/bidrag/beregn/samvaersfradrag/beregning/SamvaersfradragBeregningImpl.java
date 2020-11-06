@@ -25,8 +25,7 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
     sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
           grunnlagBeregningPeriodisert.getSamvaersklasse()));
-    belopFradrag = SjablonUtil
-        .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
+    belopFradrag = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
               sjablonNokkelListe, SjablonNokkelNavn.ALDER_TOM, grunnlagBeregningPeriodisert.getSoknadBarnAlder(),
               SjablonInnholdNavn.FRADRAG_BELOP);
 

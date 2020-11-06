@@ -4,6 +4,7 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import java.math.BigDecimal
 import java.time.LocalDate
 
 
@@ -27,12 +28,12 @@ data class BarnetilsynMedStonadPeriodeCore(
 
 data class NettoBarnetilsynPeriodeCore(
     val nettoBarnetilsynPeriodeDatoFraTil: PeriodeCore,
-    val nettoBarnetilsynBelop: Double
+    val nettoBarnetilsynBelop: BigDecimal
 )
 
 data class ForpleiningUtgiftPeriodeCore(
     val forpleiningUtgiftPeriodeDatoFraTil: PeriodeCore,
-    val forpleiningUtgiftBelop: Double
+    val forpleiningUtgiftBelop: BigDecimal
 )
 
 
@@ -50,14 +51,14 @@ data class ResultatPeriodeCore(
 )
 
 data class ResultatBeregningCore(
-    val resultatBelopUnderholdskostnad: Double
+    val resultatBelopUnderholdskostnad: BigDecimal
 )
 
 data class ResultatGrunnlagCore(
     val soknadBarnAlder: Int,
     val barnetilsynMedStonadTilsynType: String,
     val barnetilsynMedStonadStonadType: String,
-    val nettoBarnetilsynBelop: Double,
-    val forpleiningUtgiftBelop: Double,
+    val nettoBarnetilsynBelop: BigDecimal,
+    val forpleiningUtgiftBelop: BigDecimal,
     val sjablonListe: List<SjablonCore>
 )

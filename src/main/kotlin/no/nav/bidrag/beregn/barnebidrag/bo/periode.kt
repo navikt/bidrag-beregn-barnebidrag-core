@@ -2,11 +2,12 @@ package no.nav.bidrag.beregn.barnebidrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+import java.math.BigDecimal
 
 data class BidragsevnePeriode(
     val bidragsevneDatoFraTil: Periode,
-    val bidragsevneBelop: Double,
-    val tjuefemProsentInntekt: Double) : PeriodisertGrunnlag {
+    val bidragsevneBelop: BigDecimal,
+    val tjuefemProsentInntekt: BigDecimal) : PeriodisertGrunnlag {
   constructor(bidragsevnePeriode: BidragsevnePeriode)
       : this(bidragsevnePeriode.bidragsevneDatoFraTil.justerDatoer(),
       bidragsevnePeriode.bidragsevneBelop,
@@ -19,8 +20,8 @@ data class BidragsevnePeriode(
 data class BPsAndelUnderholdskostnadPeriode(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnadDatoFraTil: Periode,
-    val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double,
+    val bPsAndelUnderholdskostnadProsent: BigDecimal,
+    val bPsAndelUnderholdskostnadBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean) : PeriodisertGrunnlag {
   constructor(bPsAndelUnderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode)
       : this(
@@ -38,7 +39,7 @@ data class BPsAndelUnderholdskostnadPeriode(
 data class SamvaersfradragPeriode(
     val soknadsbarnPersonId: Int,
     val samvaersfradragDatoFraTil: Periode,
-    val samvaersfradragBelop: Double) : PeriodisertGrunnlag {
+    val samvaersfradragBelop: BigDecimal) : PeriodisertGrunnlag {
   constructor(samvaersfradragPeriode: SamvaersfradragPeriode)
       : this(samvaersfradragPeriode.soknadsbarnPersonId,
       samvaersfradragPeriode.samvaersfradragDatoFraTil.justerDatoer(),
@@ -64,8 +65,8 @@ data class DeltBostedPeriode(
 data class BarnetilleggPeriode(
     val soknadsbarnPersonId: Int,
     val barnetilleggDatoFraTil: Periode,
-    val barnetilleggBelop: Double,
-    val barnetilleggSkattProsent: Double) : PeriodisertGrunnlag {
+    val barnetilleggBelop: BigDecimal,
+    val barnetilleggSkattProsent: BigDecimal) : PeriodisertGrunnlag {
   constructor(barnetilleggPeriode: BarnetilleggPeriode)
       : this(barnetilleggPeriode.soknadsbarnPersonId, barnetilleggPeriode.barnetilleggDatoFraTil.justerDatoer(),
       barnetilleggPeriode.barnetilleggBelop, barnetilleggPeriode.barnetilleggSkattProsent)

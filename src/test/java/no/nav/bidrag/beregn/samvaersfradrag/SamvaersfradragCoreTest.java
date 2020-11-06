@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,7 +129,7 @@ public class SamvaersfradragCoreTest {
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)));
+        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(1600))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
@@ -141,24 +142,27 @@ public class SamvaersfradragCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(Double.valueOf(666)),
+        new ResultatBeregning(BigDecimal.valueOf(666)),
         new GrunnlagBeregningPeriodisert(4, "03",
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                    BigDecimal.valueOf(1600))))))));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(Double.valueOf(667)),
+        new ResultatBeregning(BigDecimal.valueOf(667)),
         new GrunnlagBeregningPeriodisert(4, "03",
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1640d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                    BigDecimal.valueOf(1640))))))));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(Double.valueOf(668)),
+        new ResultatBeregning(BigDecimal.valueOf(668)),
         new GrunnlagBeregningPeriodisert(4, "03",
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1640d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                    BigDecimal.valueOf(1640))))))));
 
 
     samvaersfradragPeriodeResultat = new BeregnSamvaersfradragResultat(periodeResultatListe);

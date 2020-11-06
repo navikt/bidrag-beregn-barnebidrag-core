@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,18 +137,18 @@ public class UnderholdskostnadCoreTest {
     barnetilsynMedStonadPeriodeListe.add(barnetilsynMedStonadPeriode);
 
     var nettoBarnetilsynPeriode = new NettoBarnetilsynPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), 666d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(666));
     var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriodeCore>();
     nettoBarnetilsynPeriodeListe.add(nettoBarnetilsynPeriode);
 
     var forpleiningUtgiftPeriode = new ForpleiningUtgiftPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), 666d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(666));
     var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriodeCore>();
     forpleiningUtgiftPeriodeListe.add(forpleiningUtgiftPeriode);
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)));
+        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
@@ -162,30 +163,30 @@ public class UnderholdskostnadCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(Double.valueOf(666)),
+        new ResultatBeregning(BigDecimal.valueOf(666)),
         new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
-            666,
-            777,
+            BigDecimal.valueOf(666),
+            BigDecimal.valueOf(777),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(Double.valueOf(667)),
+        new ResultatBeregning(BigDecimal.valueOf(667)),
         new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
-            667,
-            778,
+            BigDecimal.valueOf(667),
+            BigDecimal.valueOf(778),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(Double.valueOf(668)),
+        new ResultatBeregning(BigDecimal.valueOf(668)),
         new BeregnUnderholdskostnadGrunnlagPeriodisert(7, new BarnetilsynMedStonad("DU", "64"),
-            668,
-            778,
+            BigDecimal.valueOf(668),
+                BigDecimal.valueOf(778),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     underholdskostnadPeriodeResultat = new BeregnUnderholdskostnadResultat(periodeResultatListe);
   }

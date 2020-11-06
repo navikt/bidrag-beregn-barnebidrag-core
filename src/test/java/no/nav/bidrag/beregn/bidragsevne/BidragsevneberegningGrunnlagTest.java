@@ -28,14 +28,14 @@ class BidragsevneberegningGrunnlagTest {
 
     var sjablonVerdi =
         SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT);
-    assertThat(sjablonVerdi).isEqualTo(22d);
+    assertThat(sjablonVerdi.doubleValue()).isEqualTo(22d);
 
     var sortertTrinnvisSkattesatsListe = SjablonUtil
         .hentTrinnvisSkattesats(sjablonListe, SjablonNavn.TRINNVIS_SKATTESATS);
 
     assertThat(sortertTrinnvisSkattesatsListe.size()).isEqualTo(4);
-    assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense()).isEqualTo(180800d);
-    assertThat(sortertTrinnvisSkattesatsListe.get(0).getSats()).isEqualTo(1.9d);
+    assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense().doubleValue()).isEqualTo(180800d);
+    assertThat(sortertTrinnvisSkattesatsListe.get(0).getSats().doubleValue()).isEqualTo(1.9d);
 
   }
 }

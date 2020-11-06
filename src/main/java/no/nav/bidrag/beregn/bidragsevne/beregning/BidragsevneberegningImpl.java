@@ -265,9 +265,9 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
         } else {
           samletSkattetrinnBelop = samletSkattetrinnBelop.add(
-              (sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()
-                  .subtract(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense()
-                  .multiply(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()))
+               sortertTrinnvisSkattesatsListe.get(indeks).getInntektGrense()
+                  .subtract(sortertTrinnvisSkattesatsListe.get(indeks - 1).getInntektGrense())
+                  .multiply(sortertTrinnvisSkattesatsListe.get(indeks - 1).getSats()
               .divide(BigDecimal.valueOf(100),
               new MathContext(10, RoundingMode.HALF_UP))));
 

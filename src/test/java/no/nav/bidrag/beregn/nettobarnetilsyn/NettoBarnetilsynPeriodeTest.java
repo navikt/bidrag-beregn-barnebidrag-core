@@ -509,78 +509,91 @@ public class NettoBarnetilsynPeriodeTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "1")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 2083.33d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(2083.33))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "2")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 3333d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(3333))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "3")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 4583d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(4583))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "4")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 5833d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(5833))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "5")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 7083d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(7083))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "6")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 8333d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(8333))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "7")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 9583d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(9583))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "8")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 10833d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(10833))))));
 
     boolean add = sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "99")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(), 12083d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
+                BigDecimal.valueOf(12083))))));
 
     // Maks tilsyn
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_TILSYN.getNavn(), Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "1")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_TILSYN_BELOP.getNavn(), 6214d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_TILSYN_BELOP.getNavn(),
+                BigDecimal.valueOf(6214))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_TILSYN.getNavn(), Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "2")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_TILSYN_BELOP.getNavn(), 8109d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_TILSYN_BELOP.getNavn(),
+                BigDecimal.valueOf(8109))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_TILSYN.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "99")),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_TILSYN_BELOP.getNavn(), 9189d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_TILSYN_BELOP.getNavn(),
+                BigDecimal.valueOf(9189))))));
 
     // Sjablontall
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 25.05d)))));
+            Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                BigDecimal.valueOf(25.05))))));
 
     return sjablonPeriodeListe;
   }

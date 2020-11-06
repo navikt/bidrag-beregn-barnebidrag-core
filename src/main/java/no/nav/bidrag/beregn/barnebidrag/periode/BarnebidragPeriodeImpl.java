@@ -168,20 +168,24 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         var barnetErSelvforsorget = bPsAndelUnderholdskostnad.getBarnetErSelvforsorget() ;
 
         if (deltBosted) {
-          if (bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent() > 50d) {
-            andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent() - 50d;
+          if (bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent()
+              .compareTo(BigDecimal.valueOf(50)) > 0) {
+            andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent()
+                .subtract(BigDecimal.valueOf(50));
 
             BigDecimal omregnetAndelBelop =
-                BigDecimal.valueOf(bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop() /
-                    bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent())
+                bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop()
+                .divide(bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent(),
+                    new MathContext(10, RoundingMode.HALF_UP))
                     .multiply(BigDecimal.valueOf(100));
 
-            omregnetAndelBelop = omregnetAndelBelop.multiply(BigDecimal.valueOf(andelProsent)
-                .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP)));
-            andelBelop = omregnetAndelBelop.doubleValue();
+            omregnetAndelBelop = omregnetAndelBelop.multiply(andelProsent)
+                .divide(BigDecimal.valueOf(100),
+                    new MathContext(10, RoundingMode.HALF_UP));
+            andelBelop = omregnetAndelBelop;
           } else {
-            andelProsent = 0d;
-            andelBelop = 0d;
+            andelProsent = BigDecimal.valueOf(0);
+            andelBelop = BigDecimal.valueOf(0);
           }
         }
 

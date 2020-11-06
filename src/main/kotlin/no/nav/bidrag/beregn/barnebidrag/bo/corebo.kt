@@ -4,6 +4,7 @@ import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.enums.ResultatKode
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -33,7 +34,7 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val soknadsbarnPersonId: Int,
-    val resultatBarnebidragBelop: Double,
+    val resultatBarnebidragBelop: BigDecimal,
     val resultatkode: ResultatKode
 )
 
@@ -47,26 +48,26 @@ data class GrunnlagBeregningPeriodisert(
 )
 
 data class Bidragsevne(
-    val bidragsevneBelop: Double,
-    val tjuefemProsentInntekt: Double
+    val bidragsevneBelop: BigDecimal,
+    val tjuefemProsentInntekt: BigDecimal
 )
 
 data class GrunnlagBeregningPerBarn(
     val soknadsbarnPersonId: Int,
     val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
-    val samvaersfradrag: Double,
+    val samvaersfradrag: BigDecimal,
     val deltBosted: Boolean,
     val barnetilleggBP: Barnetillegg,
     val barnetilleggBM: Barnetillegg
 )
 
 data class BPsAndelUnderholdskostnad(
-    val bPsAndelUnderholdskostnadProsent: Double,
-    val bPsAndelUnderholdskostnadBelop: Double,
+    val bPsAndelUnderholdskostnadProsent: BigDecimal,
+    val bPsAndelUnderholdskostnadBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean
 )
 
 data class Barnetillegg(
-    val barnetilleggBelop: Double,
-    val barnetilleggSkattProsent: Double
+    val barnetilleggBelop: BigDecimal,
+    val barnetilleggSkattProsent: BigDecimal
 )

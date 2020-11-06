@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.samvaersfradrag;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,17 +54,23 @@ public class SamvaersfradragPeriodeTest {
           new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
               Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
                   new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "5")),
-              Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
-                  new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
-                  new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 727d)))));
+              Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                  BigDecimal.valueOf(0)),
+                  new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                      BigDecimal.valueOf(8)),
+                  new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                      BigDecimal.valueOf(727))))));
       sjablonPeriodeListe.add(new SjablonPeriode(
           new Periode(LocalDate.parse("2018-07-01"), null),
           new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
               Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
                   new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "10")),
-              Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
-                  new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
-                  new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
+              Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                  BigDecimal.valueOf(0)),
+                  new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                      BigDecimal.valueOf(8)),
+                  new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                      BigDecimal.valueOf(1052))))));
 
       BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
           new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
@@ -78,11 +85,13 @@ public class SamvaersfradragPeriodeTest {
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-04-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()).isEqualTo(727.0d),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
+              .isEqualTo(727.0d),
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-04-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isNull(),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()).isEqualTo(1052.0d)
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
+              .isEqualTo(1052.0d)
       );
 
       printGrunnlagResultat(resultat);
@@ -114,33 +123,45 @@ public class SamvaersfradragPeriodeTest {
         new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
             Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "01"),
                 new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "5")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 3d),
-                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 3d),
-                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 219d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                BigDecimal.valueOf(3)),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                    BigDecimal.valueOf(3)),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                    BigDecimal.valueOf(219))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-06-30")),
         new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
             Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "01"),
                 new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "10")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 3d),
-                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 3d),
-                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 318d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                BigDecimal.valueOf(3)),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                    BigDecimal.valueOf(3)),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                    BigDecimal.valueOf(318))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-06-30")),
         new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
             Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
                 new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "5")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
-                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
-                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 727d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                BigDecimal.valueOf(0)),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                    BigDecimal.valueOf(8)),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                    BigDecimal.valueOf(727))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), null),
         new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
             Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
                 new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "10")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
-                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
-                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                BigDecimal.valueOf(0)),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                    BigDecimal.valueOf(8)),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                    BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
         new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,
@@ -151,23 +172,26 @@ public class SamvaersfradragPeriodeTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
-//          () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()).isEqualTo(219.0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
+            .isEqualTo(219.0d),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()).isEqualTo(727.0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
+            .isEqualTo(727.0d),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop()).isEqualTo(727.0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
+            .isEqualTo(727.0d),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isNull(),
-    () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatSamvaersfradragBelop()).isEqualTo(1052.0d)
+    () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
+        .isEqualTo(1052.0d)
     );
 
     printGrunnlagResultat(resultat);
@@ -194,17 +218,23 @@ public class SamvaersfradragPeriodeTest {
         new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
             Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
                 new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "5")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
-                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
-                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 727d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                BigDecimal.valueOf(0)),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                    BigDecimal.valueOf(8)),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                    BigDecimal.valueOf(727))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), null),
         new Sjablon(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
             Arrays.asList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), "02"),
                 new SjablonNokkel(SjablonNokkelNavn.ALDER_TOM.getNavn(), "10")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(), 0d),
-                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(), 8d),
-                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(), 1052d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.ANTALL_DAGER_TOM.getNavn(),
+                BigDecimal.valueOf(0)),
+                new SjablonInnhold(SjablonInnholdNavn.ANTALL_NETTER_TOM.getNavn(),
+                    BigDecimal.valueOf(8)),
+                new SjablonInnhold(SjablonInnholdNavn.FRADRAG_BELOP.getNavn(),
+                    BigDecimal.valueOf(1052))))));
 
     BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag =
         new BeregnSamvaersfradragGrunnlag(beregnDatoFra, beregnDatoTil, 1, soknadsbarnFodselsdato,

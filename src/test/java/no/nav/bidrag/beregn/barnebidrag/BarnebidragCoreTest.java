@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,7 +87,7 @@ public class BarnebidragCoreTest {
             .isEqualTo(LocalDate.parse("2018-01-01")),
 
         () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi().doubleValue()).isEqualTo(22)
 
     );
   }
@@ -117,19 +118,19 @@ public class BarnebidragCoreTest {
 
     var bidragsevnePeriode = new BidragsevnePeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        100000d, 20000d);
+        BigDecimal.valueOf(100000), BigDecimal.valueOf(20000));
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriodeCore>();
     bidragsevnePeriodeListe.add(bidragsevnePeriode);
 
     var bPsAndelUnderholdskostnadPeriode = new BPsAndelUnderholdskostnadPeriodeCore(
         1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        100000d, 20000d, false);
+        BigDecimal.valueOf(100000), BigDecimal.valueOf(20000), false);
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriodeCore>();
     bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode);
 
     var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(
         1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        1000d);
+        BigDecimal.valueOf(1000));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();
     samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
 
@@ -141,13 +142,13 @@ public class BarnebidragCoreTest {
 
     var barnetilleggBPPeriode = new BarnetilleggPeriodeCore(
         1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        100d, 10d);
+        BigDecimal.valueOf(100), BigDecimal.valueOf(10));
     var barnetilleggBPPeriodeListe = new ArrayList<BarnetilleggPeriodeCore>();
     barnetilleggBPPeriodeListe.add(barnetilleggBPPeriode);
 
     var barnetilleggBMPeriode = new BarnetilleggPeriodeCore(
         1, new PeriodeCore(LocalDate.parse("2017-01-01"), null),
-        100d, 10d);
+        BigDecimal.valueOf(100), BigDecimal.valueOf(10));
     var barnetilleggBMPeriodeListe = new ArrayList<BarnetilleggPeriodeCore>();
     barnetilleggBMPeriodeListe.add(barnetilleggBMPeriode);
 
@@ -159,7 +160,7 @@ public class BarnebidragCoreTest {
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)));
+        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
@@ -174,15 +175,17 @@ public class BarnebidragCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        Arrays.asList(new ResultatBeregning(1, 1, ResultatKode.KOSTNADSBEREGNET_BIDRAG)),
-        new GrunnlagBeregningPeriodisert(new Bidragsevne(1000d, 12000d),
+        Arrays.asList(new ResultatBeregning(
+            1, BigDecimal.valueOf(1), ResultatKode.KOSTNADSBEREGNET_BIDRAG)),
+        new GrunnlagBeregningPeriodisert(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
             Arrays.asList(new GrunnlagBeregningPerBarn(1, new BPsAndelUnderholdskostnad(
-                60d, 8000d, false), 100d, false,
-                new Barnetillegg(100d, 10d),
-                new Barnetillegg(1000d, 10d))),
+                    BigDecimal.valueOf(60), BigDecimal.valueOf(8000), false), BigDecimal.valueOf(100),
+                false,
+                new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10)),
+                new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10)))),
             false,
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     beregnBarnebidragPeriodeResultat = new BeregnBarnebidragResultat(periodeResultatListe);
   }
