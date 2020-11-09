@@ -41,7 +41,8 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(8000d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    // Tester mot Doubleverdi her fordi svaret returneres som 8.00E+3
+    assertEquals(8000, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.KOSTNADSBEREGNET_BIDRAG, resultat.get(0).getResultatkode());
   }
 
@@ -63,8 +64,10 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-//    1700d-(1700d*10d/100)-100d
-    assertEquals(1430d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    // 1700d-(1700d*10d/100)-100d
+    // Tester mot Doubleverdi her fordi svaret returneres som 1.43E+3
+
+    assertEquals(1430, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP, resultat.get(0).getResultatkode());
   }
 
@@ -91,8 +94,10 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(8000d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
-    assertEquals(7000d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(8000, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(7000, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.KOSTNADSBEREGNET_BIDRAG, resultat.get(0).getResultatkode());
   }
 
@@ -126,13 +131,15 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(4000d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(4000, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(0).getResultatkode());
 
-    assertEquals(2400d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(2400, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(1).getResultatkode());
 
-    assertEquals(1600d, resultat.get(2).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(1600, resultat.get(2).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(2).getResultatkode());
 
   }
@@ -153,8 +160,9 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(1000d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(1000, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(0).getResultatkode());
   }
 
@@ -182,10 +190,10 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(5330d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(5330, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(0).getResultatkode());
 
-    assertEquals(4670d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(4670, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(1).getResultatkode());
 
   }
@@ -218,19 +226,20 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(4000d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(4000, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(0).getResultatkode());
 
-    assertEquals(2400d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(2400, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(1).getResultatkode());
 
-    assertEquals(1600d, resultat.get(2).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(1600, resultat.get(2).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(2).getResultatkode());
 
-    assertEquals(8000d, (resultat.get(0).getResultatBarnebidragBelop().doubleValue() +
-    resultat.get(1).getResultatBarnebidragBelop().doubleValue() +
-    resultat.get(2).getResultatBarnebidragBelop().doubleValue()));
+    assertEquals(8000, (resultat.get(0).getResultatBarnebidragBelop()
+        .add(resultat.get(1).getResultatBarnebidragBelop())
+        .add(resultat.get(2).getResultatBarnebidragBelop())).doubleValue());
   }
 
   @DisplayName("Beregner at bidrag settes likt underholdskostnad minus nettobarnetilleggBM. Dette skjer "
@@ -252,7 +261,9 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(300d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(300, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM, resultat.get(0).getResultatkode());
 
   }
@@ -276,7 +287,8 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(450d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(450, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP, resultat.get(0).getResultatkode());
 
   }
@@ -297,7 +309,9 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(1800d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(1800, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.KOSTNADSBEREGNET_BIDRAG, resultat.get(0).getResultatkode());
   }
 
@@ -326,10 +340,12 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(450d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(450, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP, resultat.get(0).getResultatkode());
 
-    assertEquals(290d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(290, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM, resultat.get(1).getResultatkode());
 
   }
@@ -352,7 +368,9 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
-    assertEquals(4667d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(4667, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
@@ -387,7 +405,9 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
-    assertEquals(2667d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(2667, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
@@ -421,9 +441,11 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
-    assertEquals(2667d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
-    assertEquals(1667d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
-    assertEquals(2667d, resultat.get(2).getResultatBarnebidragBelop().doubleValue());
+
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(2667, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(1667, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(2667, resultat.get(2).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
@@ -505,7 +527,7 @@ public class BarnebidragBeregningTest {
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
-    assertEquals(727d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(727, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET, resultat.get(0).getResultatkode());
 
   }
@@ -534,8 +556,9 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
-    assertEquals(500d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
-    assertEquals(500d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(500, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(500, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(0).getResultatkode());
     assertEquals(ResultatKode.DELT_BOSTED, resultat.get(1).getResultatkode());
   }
@@ -565,8 +588,9 @@ public class BarnebidragBeregningTest {
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
-    assertEquals(1000d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
-    assertEquals(0d, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
+    // Tester mot Doubleverdi her fordi svaret returneres med x.xxE+x
+    assertEquals(1000, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(0, resultat.get(1).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.BIDRAG_REDUSERT_AV_EVNE, resultat.get(0).getResultatkode());
     assertEquals(ResultatKode.BARNET_ER_SELVFORSORGET, resultat.get(1).getResultatkode());
 
@@ -585,21 +609,12 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
         new Barnetillegg(BigDecimal.valueOf(4000), BigDecimal.valueOf(10))));
 
-/*    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(83.3d, 7793d),
-        1167d, false,
-        new Barnetillegg(0d, 0d),
-        new Barnetillegg(0d, 0d)));*/
-
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    assertEquals(4750d, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
+    assertEquals(4750, resultat.get(0).getResultatBarnebidragBelop().doubleValue());
     assertEquals(ResultatKode.KOSTNADSBEREGNET_BIDRAG, resultat.get(0).getResultatkode());
-/*    assertEquals(5320d, resultat.get(1).getResultatBarnebidragBelop());
-    assertEquals(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT, resultat.get(1).getResultatkode());*/
 
   }
 }
-

@@ -104,12 +104,12 @@ public class BarnebidragPeriodeTest {
             resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(15000),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
             ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-    () -> assertThat(
-        resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(16000),
+        () -> assertThat(
+            resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(16000),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
             ResultatKode.KOSTNADSBEREGNET_BIDRAG)
 
-        );
+    );
 
     printGrunnlagResultat(resultat);
   }
@@ -339,7 +339,7 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1)
             .getResultatBarnebidragBelop().doubleValue()).isEqualTo(200d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getGrunnlagPerBarnListe().get(1)
-                .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().doubleValue()).isEqualTo(10d),
+            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().doubleValue()).isEqualTo(10d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
             .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)

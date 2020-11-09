@@ -28,11 +28,6 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     BigDecimal totaltBelopUnderholdskostnad = BigDecimal.valueOf(0);
 
-/*    BigDecimal totaltBelopUnderholdskostnad = grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()
-        .stream()
-        .map(GrunnlagBeregningPerBarn::getBPsAndelUnderholdskostnad)
-        .mapToDouble(BPsAndelUnderholdskostnad::getBPsAndelUnderholdskostnadBelop).sum());*/
-
     for (GrunnlagBeregningPerBarn grunnlag : grunnlagBeregningPeriodisert
         .getGrunnlagPerBarnListe()) {
       totaltBelopUnderholdskostnad =
@@ -40,9 +35,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
               .add(grunnlag.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop());
     }
 
-//    System.out.println("totaltBelopUnderholdskostnad: " + totaltBelopUnderholdskostnad);
-
-    BigDecimal maksBidragsbelop = BigDecimal.valueOf(0);
+    BigDecimal maksBidragsbelop = BigDecimal.ZERO;
 
     if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
         grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt()) < 0) {

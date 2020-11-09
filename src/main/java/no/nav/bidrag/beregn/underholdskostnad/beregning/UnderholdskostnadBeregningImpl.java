@@ -45,8 +45,8 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
         beregnUnderholdskostnadGrunnlagPeriodisert.getForpleiningUtgiftBelop());
 
     // Setter underholdskostnad til 0 hvis beregnet beløp er under 0
-    if (tempBeregnetUnderholdskostnad.compareTo(BigDecimal.valueOf(0)) < 0) {
-      tempBeregnetUnderholdskostnad = BigDecimal.valueOf(0.0);
+    if (tempBeregnetUnderholdskostnad.compareTo(BigDecimal.ZERO) < 0) {
+      tempBeregnetUnderholdskostnad = BigDecimal.ZERO;
     }
 
     return new ResultatBeregning(tempBeregnetUnderholdskostnad);
