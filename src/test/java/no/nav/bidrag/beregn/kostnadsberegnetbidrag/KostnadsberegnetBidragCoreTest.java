@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,21 +71,21 @@ public class KostnadsberegnetBidragCoreTest {
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatKostnadsberegnetBidragBelop())
-            .isEqualTo(Double.valueOf(666)),
+            .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatKostnadsberegnetBidragBelop())
-            .isEqualTo(Double.valueOf(667)),
+            .isEqualTo(BigDecimal.valueOf(667)),
 
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatKostnadsberegnetBidragBelop())
-            .isEqualTo(Double.valueOf(668))
+            .isEqualTo(BigDecimal.valueOf(668))
 
     );
   }
@@ -103,7 +104,8 @@ public class KostnadsberegnetBidragCoreTest {
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore).isNotNull(),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe()).isNotEmpty(),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe()).hasSize(1),
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe().get(0).getAvvikTekst())
+            .isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
             AvvikType.DATO_FRA_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe()).isEmpty()
@@ -114,21 +116,25 @@ public class KostnadsberegnetBidragCoreTest {
   private void byggKostnadsberegnetBidragPeriodeGrunnlagCore() {
 
     var underholdskostnadPeriode = new UnderholdskostnadPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 10000);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(10000));
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriodeCore>();
     underholdskostnadPeriodeListe.add(underholdskostnadPeriode);
 
     var bPsAndelUnderholdskostnadPeriode = new BPsAndelUnderholdskostnadPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 20d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(20));
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriodeCore>();
     bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode);
 
     var samvaersfradragPeriode = new SamvaersfradragPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 100);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(100));
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriodeCore>();
     samvaersfradragPeriodeListe.add(samvaersfradragPeriode);
 
-    beregnKostnadsberegnetBidragGrunnlagCore = new BeregnKostnadsberegnetBidragGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
+    beregnKostnadsberegnetBidragGrunnlagCore = new BeregnKostnadsberegnetBidragGrunnlagCore(LocalDate.parse("2017-01-01"),
+        LocalDate.parse("2020-01-01"),
         1, underholdskostnadPeriodeListe, bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe);
   }
 
@@ -137,20 +143,26 @@ public class KostnadsberegnetBidragCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(Double.valueOf(666)),
-        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
+        new ResultatBeregning(BigDecimal.valueOf(666)),
+        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+            BigDecimal.valueOf(20),
+            BigDecimal.valueOf(100)
         )));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(Double.valueOf(667)),
-        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
+        new ResultatBeregning(BigDecimal.valueOf(667)),
+        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+            BigDecimal.valueOf(20),
+            BigDecimal.valueOf(100)
         )));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(Double.valueOf(668)),
-        new GrunnlagBeregningPeriodisert(10000d, 20d, 100d
+        new ResultatBeregning(BigDecimal.valueOf(668)),
+        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+            BigDecimal.valueOf(20),
+            BigDecimal.valueOf(100)
         )));
 
     kostnadsberegnetBidragPeriodeResultat = new BeregnKostnadsberegnetBidragResultat(periodeResultatListe);

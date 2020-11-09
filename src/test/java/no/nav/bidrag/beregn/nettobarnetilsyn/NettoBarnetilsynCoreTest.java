@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +78,7 @@ public class NettoBarnetilsynCoreTest {
             .isEqualTo(LocalDate.parse("2018-01-01")),
 
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }
@@ -108,13 +109,13 @@ public class NettoBarnetilsynCoreTest {
 
     var faktiskUtgiftPeriode = new FaktiskUtgiftPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), LocalDate.parse("2010-01-01"),
-        1, 2);
+        1, BigDecimal.valueOf(2));
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriodeCore>();
     faktiskUtgiftPeriodeListe.add(faktiskUtgiftPeriode);
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)));
+        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
@@ -127,11 +128,11 @@ public class NettoBarnetilsynCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        Arrays.asList(new ResultatBeregning(1, 1)),
+        Arrays.asList(new ResultatBeregning(1, BigDecimal.valueOf(1))),
         new GrunnlagBeregningPeriodisert(
-            Arrays.asList(new FaktiskUtgift(1, 10,3)),
+            Arrays.asList(new FaktiskUtgift(1, 10, BigDecimal.valueOf(3))),
             Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 22d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     nettoBarnetilsynPeriodeResultat = new BeregnNettoBarnetilsynResultat(periodeResultatListe);
   }

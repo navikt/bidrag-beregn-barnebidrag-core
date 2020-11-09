@@ -401,213 +401,245 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2003-12-31")),
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                8848d)))));
+                BigDecimal.valueOf(8848))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2013-01-01"), null),
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                0d)))));
+                BigDecimal.valueOf(0))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2013-12-31")),
         new Sjablon(SjablonTallNavn.TRYGDEAVGIFT_PROSENT.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                7.8d)))));
+                BigDecimal.valueOf(7.8))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2014-01-01"), null),
         new Sjablon(SjablonTallNavn.TRYGDEAVGIFT_PROSENT.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                8.2d)))));
+                BigDecimal.valueOf(8.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                3417d)))));
+                BigDecimal.valueOf(3417))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
         new Sjablon(SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                3487d)))));
+                BigDecimal.valueOf(3487))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2005-01-01"), LocalDate.parse("2005-05-31")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                57400d)))));
+                BigDecimal.valueOf(57400))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2017-07-01"), LocalDate.parse("2017-12-31")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                75000d)))));
+                BigDecimal.valueOf(75000d))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-06-30")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                75000d)))));
+                BigDecimal.valueOf(75000))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                83000d)))));
+                BigDecimal.valueOf(83000))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                85050d)))));
+                BigDecimal.valueOf(85050))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("9999-12-31")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_PROSENT.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                31d)))));
+                BigDecimal.valueOf(31))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                54750d)))));
+                BigDecimal.valueOf(54750))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
         new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                56550d)))));
+                BigDecimal.valueOf(56550))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                54750d)))));
+                BigDecimal.valueOf(54750))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
         new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                56550d)))));
+                BigDecimal.valueOf(56550))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                13132d)))));
+                BigDecimal.valueOf(13132))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), null),
         new Sjablon(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                12977d)))));
+                BigDecimal.valueOf(12977))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                23d)))));
+                BigDecimal.valueOf(23))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), null),
         new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                22d)))));
+                BigDecimal.valueOf(22))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 169000d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 1.4d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(169000)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(1.4))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 237900d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 3.3d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(237900)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(3.3))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 598050d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 12.4d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(598050)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(12.4))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 962050d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 15.4d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(962050)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(15.4))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 174500d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 1.9d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(174500)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(1.9))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 245650d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 4.2d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(245650)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(4.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 617500d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 13.2d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(617500)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(13.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 964800d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 16.2d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(964800)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(16.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 180800d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 1.9d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(180800)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(1.9))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 254500d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 4.2d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(254500)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(4.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 639750d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 13.2d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(639750)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(13.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(), 999550d),
-                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(), 16.2d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
+                BigDecimal.valueOf(999550)),
+                new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
+                    BigDecimal.valueOf(16.2))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 9303d),
-                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 8657d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
+                BigDecimal.valueOf(9303)),
+                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
+                    BigDecimal.valueOf(8657))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-06-30")),
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 5698d),
-                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 7330d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
+                BigDecimal.valueOf(5698)),
+                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
+                    BigDecimal.valueOf(7330))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 9591d),
-                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 8925d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
+                BigDecimal.valueOf(9591)),
+                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
+                    BigDecimal.valueOf(8925))))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-07-01"), null),
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
-            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(), 5875d),
-                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(), 7557d)))));
+            Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
+                BigDecimal.valueOf(5875)),
+                new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
+                    BigDecimal.valueOf(7557))))));
 
     return sjablonPeriodeListe;
   }

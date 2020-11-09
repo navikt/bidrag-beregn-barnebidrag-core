@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.underholdskostnad.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+import java.math.BigDecimal
 
 data class BarnetilsynMedStonadPeriode(
     val barnetilsynMedStonadDatoFraTil: Periode,
@@ -18,7 +19,7 @@ data class BarnetilsynMedStonadPeriode(
 
 data class NettoBarnetilsynPeriode(
     val nettoBarnetilsynDatoFraTil: Periode,
-    val nettoBarnetilsynBelop: Double) : PeriodisertGrunnlag {
+    val nettoBarnetilsynBelop: BigDecimal) : PeriodisertGrunnlag {
   constructor(nettoBarnetilsynPeriode: NettoBarnetilsynPeriode)
       : this(nettoBarnetilsynPeriode.nettoBarnetilsynDatoFraTil.justerDatoer(),
       nettoBarnetilsynPeriode.nettoBarnetilsynBelop)
@@ -29,7 +30,7 @@ data class NettoBarnetilsynPeriode(
 
 data class ForpleiningUtgiftPeriode(
     val forpleiningUtgiftDatoFraTil: Periode,
-    val forpleiningUtgiftBelop: Double) : PeriodisertGrunnlag {
+    val forpleiningUtgiftBelop: BigDecimal) : PeriodisertGrunnlag {
   constructor(forpleiningUtgiftPeriode: ForpleiningUtgiftPeriode)
       : this(forpleiningUtgiftPeriode.forpleiningUtgiftDatoFraTil.justerDatoer(),
       forpleiningUtgiftPeriode.forpleiningUtgiftBelop)

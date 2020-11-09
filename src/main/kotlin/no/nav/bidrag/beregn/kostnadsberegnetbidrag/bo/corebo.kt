@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -26,11 +27,11 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatkostnadsberegnetbidragBelop: Double
+    val resultatkostnadsberegnetbidragBelop: BigDecimal
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
-    val underholdskostnadBelop: Double,
-    val bPsAndelUnderholdskostnadProsent: Double,
-    val samvaersfradragBelop: Double?)
+    val underholdskostnadBelop: BigDecimal,
+    val bPsAndelUnderholdskostnadProsent: BigDecimal,
+    val samvaersfradragBelop: BigDecimal?)

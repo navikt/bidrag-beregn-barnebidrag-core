@@ -65,8 +65,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
 
     var bruddlisteAlderBarn = new ArrayList<Periode>();
     bruddlisteAlderBarn.add(new Periode(bruddatoAlder, bruddatoAlder));
-//    Integer tellerAar = beregnSamvaersfradragGrunnlag.getBeregnDatoFra().getYear();
-    // Bygger opp liste med bruddpunker i perioden mellom beregnFraDato og beregnTilDato,
+    // Bygger opp liste med bruddpunkter i perioden mellom beregnFraDato og beregnTilDato,
     // passer også på å ikke legge til bruddpunkt etter beregnTilDato
 
     while (bruddatoAlder.plusYears(1).isBefore(beregnSamvaersfradragGrunnlag.getBeregnDatoTil())) {

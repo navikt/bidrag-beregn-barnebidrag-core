@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.underholdskostnad.bo
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -35,13 +36,13 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatBelopUnderholdskostnad: Double
+    val resultatBelopUnderholdskostnad: BigDecimal
 )
 
 // Grunnlag beregning
 data class BeregnUnderholdskostnadGrunnlagPeriodisert(
     val soknadBarnAlder: Int,
     val barnetilsynMedStonad: BarnetilsynMedStonad?,
-    val nettoBarnetilsynBelop: Double,
-    val forpleiningUtgiftBelop: Double,
+    val nettoBarnetilsynBelop: BigDecimal,
+    val forpleiningUtgiftBelop: BigDecimal,
     val sjablonListe: List<Sjablon>)

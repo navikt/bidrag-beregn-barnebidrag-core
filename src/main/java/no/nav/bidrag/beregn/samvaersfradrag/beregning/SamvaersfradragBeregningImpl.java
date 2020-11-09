@@ -1,5 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag.beregning;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
@@ -20,12 +21,11 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
-    double belopFradrag = 0.0d;
+    BigDecimal belopFradrag = BigDecimal.ZERO;
 
     sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
           grunnlagBeregningPeriodisert.getSamvaersklasse()));
-    belopFradrag = SjablonUtil
-        .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
+    belopFradrag = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.SAMVAERSFRADRAG,
               sjablonNokkelListe, SjablonNokkelNavn.ALDER_TOM, grunnlagBeregningPeriodisert.getSoknadBarnAlder(),
               SjablonInnholdNavn.FRADRAG_BELOP);
 

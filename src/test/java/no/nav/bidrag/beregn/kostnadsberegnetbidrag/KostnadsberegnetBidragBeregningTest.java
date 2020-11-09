@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -20,12 +21,13 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningUtenSamvaer() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(10000, 20d,
-        0d);
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+        BigDecimal.valueOf(20),
+        BigDecimal.ZERO);
 
     assertEquals(2000d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
 
 
@@ -34,13 +36,14 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningMedSamvaer() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(10000, 20,
-        100.0
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
+        BigDecimal.valueOf(20),
+        BigDecimal.valueOf(100)
     );
 
     assertEquals(1900d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
 
   @DisplayName("Test av resultatet rundes av til nærmeste tier. 606,06 -> 610")
@@ -48,13 +51,14 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesOpp() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(666, 91d,
-        0d
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(666),
+        BigDecimal.valueOf(91),
+        BigDecimal.ZERO
     );
 
     assertEquals(610d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
 
   @DisplayName("Test av resultatet rundes ned til nærmeste tier. 72,0 -> 70,0 ")
@@ -62,14 +66,13 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesNed() {
     KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(1000, 17.2,
-        100d
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000),
+        BigDecimal.valueOf(17.2),
+        BigDecimal.valueOf(100)
     );
 
     assertEquals(70d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop());
+            .getResultatkostnadsberegnetbidragBelop().doubleValue());
   }
-
 }
-

@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.underholdskostnad;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.math.BigDecimal;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -25,13 +26,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(3,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(5999,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 7 år gammelt")
@@ -43,13 +45,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(7,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(7481d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 10 år gammelt")
@@ -61,13 +64,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(10,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(7481d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 11 år gammelt")
@@ -79,13 +83,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(8684d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
 
@@ -98,13 +103,13 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
         new BarnetilsynMedStonad("DU", "64"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(257d,
-        underholdskostnadberegning.beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert));
+        underholdskostnadberegning.beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert).doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 11 år gammelt  + stønad til tilsynsutgifter DU")
@@ -116,12 +121,13 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
         new BarnetilsynMedStonad("DU", "64"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
     assertEquals((6913d + 2825d + 257d - 1054d),
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test at netto barnetilsynsutgifter blir lagt til underholdskostnad")
@@ -133,13 +139,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        666d,
-        0.0d,
+        BigDecimal.valueOf(666),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(8684d + 666d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test at forpleiningsutgifter blir trukket fra underholdskostnad")
@@ -151,13 +158,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(11,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        0.0d,
-        17.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(17.0),
         sjablonListe
     );
 
     assertEquals(8684d - 17d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test fra John")
@@ -169,13 +177,14 @@ class UnderholdskostnadBeregningTest {
     BeregnUnderholdskostnadGrunnlagPeriodisert beregnUnderholdskostnadGrunnlagPeriodisert
         = new BeregnUnderholdskostnadGrunnlagPeriodisert(12,
         new BarnetilsynMedStonad("Ingen", "Ingen"),
-        0.0d,
-        0.0d,
+        BigDecimal.valueOf(0.0),
+        BigDecimal.valueOf(0.0),
         sjablonListe
     );
 
     assertEquals(8684d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
 }

@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn.periode;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -124,9 +125,9 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
 
   // setter beløp for faktisk utgift til 0 hvis barnet er over 12 år
   @Override
-  public double finnEndeligFaktiskUtgiftBelop(int alder, double faktiskUtgift) {
+  public BigDecimal finnEndeligFaktiskUtgiftBelop(int alder, BigDecimal faktiskUtgift) {
     if (alder > 12) {
-      return 0d;
+      return BigDecimal.ZERO;
     } else {
       return faktiskUtgift;
     }

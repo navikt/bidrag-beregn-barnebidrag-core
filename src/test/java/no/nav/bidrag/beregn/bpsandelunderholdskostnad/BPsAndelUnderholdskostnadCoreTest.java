@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,23 +80,23 @@ public class BPsAndelUnderholdskostnadCoreTest {
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatAndelProsent())
-            .isEqualTo(Double.valueOf(10)),
+            .isEqualTo(BigDecimal.valueOf(10)),
 
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatAndelProsent())
-            .isEqualTo(Double.valueOf(20)),
+            .isEqualTo(BigDecimal.valueOf(20)),
 
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatAndelProsent())
-            .isEqualTo(Double.valueOf(30)),
+            .isEqualTo(BigDecimal.valueOf(30)),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(1600)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(1600))
 
     );
   }
@@ -125,16 +126,20 @@ public class BPsAndelUnderholdskostnadCoreTest {
   private void byggBPsAndelUnderholdskostnadPeriodeGrunnlagCore() {
 
     var underholdskostnadPeriode = new UnderholdskostnadPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), 1000d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(1000));
 
     var inntektBPPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), 111d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
+        BigDecimal.valueOf(111));
 
     var inntektBMPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), 222d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
+        BigDecimal.valueOf(222));
 
     var inntektBBPeriode = new InntektPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), 333d);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
+        BigDecimal.valueOf(333));
 
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriodeCore>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriodeCore>();
@@ -148,11 +153,12 @@ public class BPsAndelUnderholdskostnadCoreTest {
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)));
+        Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(1600))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
-    beregnBPsAndelUnderholdskostnadGrunnlagCore = new BeregnBPsAndelUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"), 1,
+    beregnBPsAndelUnderholdskostnadGrunnlagCore = new BeregnBPsAndelUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"),
+        LocalDate.parse("2020-01-01"), 1,
         underholdskostnadPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
         inntektBBPeriodeListe, sjablonPeriodeListe);
   }
@@ -164,30 +170,33 @@ public class BPsAndelUnderholdskostnadCoreTest {
     var inntektBMListe = new ArrayList<Inntekt>();
     var inntektBBListe = new ArrayList<Inntekt>();
 
-    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE,111d));
-    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE,222d));
-    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE,333d));
+    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(111d)));
+    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(222d)));
+    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(333d)));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(10d, 100d, false),
-        new GrunnlagBeregningPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new ResultatBeregning(BigDecimal.valueOf(10), BigDecimal.valueOf(100), false),
+        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000), inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1600d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                    BigDecimal.valueOf(1600))))))));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(20d, 200d, false),
-        new GrunnlagBeregningPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new ResultatBeregning(BigDecimal.valueOf(20), BigDecimal.valueOf(200), false),
+        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000), inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1640d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                    BigDecimal.valueOf(1640))))))));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(30d, 300d, false),
-        new GrunnlagBeregningPeriodisert(1000d, inntektBPListe, inntektBMListe, inntektBBListe,
+        new ResultatBeregning(BigDecimal.valueOf(30), BigDecimal.valueOf(300), false),
+        new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000), inntektBPListe, inntektBMListe, inntektBBListe,
             Arrays.asList(new Sjablon(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 1680d)))))));
+                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                    BigDecimal.valueOf(1680))))))));
 
 
     bPsAndelunderholdskostnadPeriodeResultat = new BeregnBPsAndelUnderholdskostnadResultat(periodeResultatListe);

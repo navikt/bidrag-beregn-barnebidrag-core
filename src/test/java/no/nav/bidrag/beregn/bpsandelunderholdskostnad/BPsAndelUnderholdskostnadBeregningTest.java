@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
@@ -30,14 +31,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     void testBeregningMedInntekterForAlle() {
       var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-      Double underholdskostnad = Double.valueOf(10000);
+      BigDecimal underholdskostnad = BigDecimal.valueOf(10000);
       var inntektBP = new ArrayList<Inntekt>();
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
 
-      inntektBP.add(new Inntekt(InntektType.LONN_SKE, 217666));
-      inntektBM.add(new Inntekt(InntektType.LONN_SKE, 400000));
-      inntektBB.add(new Inntekt(InntektType.LONN_SKE, 40000));
+      inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(217666)));
+      inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
+      inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
 
       var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
           new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -46,8 +47,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
       assertAll(
           () -> assertThat(resultat).isNotNull(),
-          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(35.2d),
-          () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(3520d)
+          () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(35.2)),
+          () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(3520))
       );
     }
 
@@ -57,22 +58,22 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningMedFlereInntekterForAlle() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 200000));
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 17666));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 100000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 200000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 100000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 10000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000)));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(17666)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(200000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(10000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -81,8 +82,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(34.7d),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(347d),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(34.7)),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(347)),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isFalse()
     );
   }
@@ -92,14 +93,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testAndelLikNullVedHoyInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 217666));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 400000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 400000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(217666)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -108,8 +109,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(0.0),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(0.0),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(0.0)),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.ZERO),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isTrue()
     );
   }
@@ -121,14 +122,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testAtMaksAndelSettes() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 1000000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 40000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 40000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
 
 
     // Beregnet andel skal da bli 92,6%, overstyres til 5/6 (83,3333333333%)
@@ -139,7 +140,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3333333333)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
     );
   }
 
@@ -149,14 +150,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningMedNullInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 502000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 500000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 0));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -165,7 +166,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(50.1)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(50.1))
     );
   }
 
@@ -174,14 +175,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningGamleReglerAvrundTreSjettedeler() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 502000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 500000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 0));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -190,7 +191,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(50.0)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(50.0))
     );
   }
 
@@ -199,14 +200,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningGamleReglerAvrundEnSjettedel() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 2000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 500000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 1000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(2000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -215,7 +216,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(16.7)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(16.7))
     );
   }
 
@@ -224,14 +225,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningGamleReglerAvrundFemSjettedeler() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(1000);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 2000000));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 2000));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 1000));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(2000000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(2000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -240,7 +241,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3)
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
     );
   }
 
@@ -249,14 +250,14 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testFraJohn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    Double underholdskostnad = Double.valueOf(9355);
+    BigDecimal underholdskostnad = BigDecimal.valueOf(9355);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, 600000d));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, 100000d));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, 0d));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(600000d)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000d)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(0d)));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -265,8 +266,8 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(7796d),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(83.3333333333d)
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(7796)),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
     );
   }
 

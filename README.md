@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.9.0   | Endret       | Alle delberegninger skrevet om til å bruke BigDecimal, sjablonverdier også endret til å mottas som BigDecimal
 0.8.9   | Endret       | Beregning av bidragsevne skrevet om til å bruke BigDecimal i stedet for Double, sjabloner er ikke skrevet om ennå
 0.8.8   | Endret       | Rettet feil i validering av inntekter
 0.8.7   | Opprettet    | Lagt til validering av inntekter
@@ -49,4 +50,4 @@ Versjon | Endringstype | Beskrivelse
 0.0.4   | Endret       | Logikk for periodisering og mapping mot Core lagt til
 0.0.3   | Endret       | Alle beregninger er nå med, bortsett fra netto barnetilsyn
 0.0.2   | Endret       | Beregner nå med forbruksutgifter, boutgifter og barnetilsyn med stønad
-0.0.1   | Opprettet    | Init commit for beregning av underholdskostnad'
+0.0.1   | Opprettet    | Init commit for beregning av underholdskostnad

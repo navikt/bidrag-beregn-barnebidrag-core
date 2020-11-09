@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -63,13 +62,13 @@ class BidragsevneberegningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert4
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.MED_ANDRE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.valueOf(0),
+    assertEquals(BigDecimal.ZERO,
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert4).getResultatEvneBelop());
 
     // Test at fordel skatteklasse 2 ikke legges til beregnet evne når skatteklasse = 1
     inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 12000d))));
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000)))));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert5
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 3,
@@ -80,7 +79,7 @@ class BidragsevneberegningTest {
     // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
     inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 12000d))));
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000)))));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert6
         = new GrunnlagBeregningPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
@@ -90,10 +89,10 @@ class BidragsevneberegningTest {
 
     // Test at personfradrag skatteklasse 2 brukes hvis skatteklasse 2 er angitt
     sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), 0d))));
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.ZERO))));
 
     sjablonListe.set(1, new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(),emptyList(),
-        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), Double.valueOf(24000d)))));
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(24000)))));
 
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert7
         = new GrunnlagBeregningPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
@@ -155,7 +154,6 @@ class BidragsevneberegningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    //System.out.println(bidragsevneberegning.beregnSkattetrinnBelop(beregnBidragsevneGrunnlagPeriodisert));
     assertEquals(BigDecimal.valueOf(1400+16181+3465+0),
         bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert));
 
@@ -163,7 +161,7 @@ class BidragsevneberegningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.valueOf(0),
+    assertEquals(BigDecimal.ZERO,
         bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert2));
 
     inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(250000)));

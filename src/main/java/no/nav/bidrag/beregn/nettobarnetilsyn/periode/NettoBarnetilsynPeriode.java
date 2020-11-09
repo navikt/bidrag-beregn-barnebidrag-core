@@ -1,5 +1,6 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.periode;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,6 @@ public interface NettoBarnetilsynPeriode {
 
   Integer beregnSoknadbarnAlder(LocalDate fodselsdato, LocalDate beregnTil);
 
-  double finnEndeligFaktiskUtgiftBelop(int alder, double faktiskUtgift);
+  BigDecimal finnEndeligFaktiskUtgiftBelop(int alder, BigDecimal faktiskUtgift);
 
 }

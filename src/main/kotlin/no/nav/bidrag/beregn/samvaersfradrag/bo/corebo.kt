@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.samvaersfradrag.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
@@ -28,7 +29,7 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatSamvaersfradragBelop: Double
+    val resultatSamvaersfradragBelop: BigDecimal
 )
 
 // Grunnlag beregning

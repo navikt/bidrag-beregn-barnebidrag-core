@@ -71,7 +71,6 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     var antallBarnIEgetHusholdPeriodeListe = mapAntallBarnIEgetHusholdPeriodeListe(
         beregnBidragsevneGrunnlagCore.getAntallBarnIEgetHusholdPeriodeListe());
     var saerfradragPeriodeListe = mapSaerfradragPeriodeListe(beregnBidragsevneGrunnlagCore.getSaerfradragPeriodeListe());
-//    var sjablonPeriodeListeOld = mapSjablonPeriodeListe(beregnBidragsevneGrunnlagAltCore.getSjablonPeriodeListeOld());
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBidragsevneGrunnlagCore.getSjablonPeriodeListe());
     return new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, inntektPeriodeListe, skatteklassePeriodeListe,
         bostatusPeriodeListe, antallBarnIEgetHusholdPeriodeListe, saerfradragPeriodeListe, sjablonPeriodeListe);

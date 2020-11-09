@@ -158,12 +158,12 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
 
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+            inntektPeriode.getInntektBelop()))
         .collect(toList()));
 
     return justertInntektPeriodeListe.stream()
         .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getInntektDatoFraTil(), inntektGrunnlag.getInntektType(),
-            inntektGrunnlag.getInntektBelop().doubleValue()))
+            inntektGrunnlag.getInntektBelop()))
         .sorted(comparing(inntektPeriode -> inntektPeriode.getInntektDatoFraTil().getDatoFra()))
         .collect(toList());
   }
@@ -208,21 +208,21 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
     // Valider inntekter BP
     var inntektGrunnlagListe = grunnlag.getInntektBPPeriodeListe().stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+            inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSPLIKTIG));
 
     // Valider inntekter BM
     inntektGrunnlagListe = grunnlag.getInntektBMPeriodeListe().stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+            inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSMOTTAKER));
 
     // Valider inntekter BB
     inntektGrunnlagListe = grunnlag.getInntektBBPeriodeListe().stream()
         .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            BigDecimal.valueOf(inntektPeriode.getInntektBelop())))
+            inntektPeriode.getInntektBelop()))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.SOKNADSBARN));
 
