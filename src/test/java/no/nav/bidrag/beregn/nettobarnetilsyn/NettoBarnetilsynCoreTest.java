@@ -78,7 +78,7 @@ public class NettoBarnetilsynCoreTest {
             .isEqualTo(LocalDate.parse("2018-01-01")),
 
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }

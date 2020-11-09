@@ -79,11 +79,11 @@ public class UnderholdskostnadCoreTest {
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(666)),
+            .isEqualTo(BigDecimal.valueOf(666)),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getNettoBarnetilsynBelop())
-            .isEqualTo(666),
+            .isEqualTo(BigDecimal.valueOf(666)),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getForpleiningUtgiftBelop())
-            .isEqualTo(777),
+            .isEqualTo(BigDecimal.valueOf(777)),
         () -> assertThat(
             beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBarnetilsynMedStonadTilsynType())
             .isEqualTo("DU"),
@@ -93,16 +93,16 @@ public class UnderholdskostnadCoreTest {
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(667)),
+            .isEqualTo(BigDecimal.valueOf(667)),
 
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(668)),
+            .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }

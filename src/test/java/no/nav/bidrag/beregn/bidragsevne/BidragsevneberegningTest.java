@@ -34,8 +34,7 @@ class BidragsevneberegningTest {
     BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
 
     // Tester beregning med ulike inntekter
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(900000)));
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
+    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(1000000)));
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
         SaerfradragKode.INGEN, sjablonListe);

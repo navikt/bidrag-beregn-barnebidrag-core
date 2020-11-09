@@ -107,7 +107,7 @@ public class BidragsevneCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatEvneBelop())
             .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(22)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }

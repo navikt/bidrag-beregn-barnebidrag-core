@@ -77,23 +77,23 @@ public class SamvaersfradragCoreTest {
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop())
-            .isEqualTo(Double.valueOf(666)),
+            .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop())
-            .isEqualTo(Double.valueOf(667)),
+            .isEqualTo(BigDecimal.valueOf(667)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop())
-            .isEqualTo(Double.valueOf(668)),
+            .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(1600)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(1600))
 
     );
   }

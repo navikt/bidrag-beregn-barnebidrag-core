@@ -26,7 +26,7 @@ public class SamvaersfradragBeregningTest {
 
     assertEquals(2272d,
         samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatSamvaersfradragBelop());
+            .getResultatSamvaersfradragBelop().doubleValue());
   }
 
   @DisplayName("Test av beregning av samvaersfradrag for seksåring")
@@ -40,7 +40,7 @@ public class SamvaersfradragBeregningTest {
 
     assertEquals(2716d,
         samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatSamvaersfradragBelop());
+            .getResultatSamvaersfradragBelop().doubleValue());
   }
 
   @DisplayName("Test fra John")
@@ -54,7 +54,7 @@ public class SamvaersfradragBeregningTest {
 
     assertEquals(457d,
         samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatSamvaersfradragBelop());
+            .getResultatSamvaersfradragBelop().doubleValue());
   }
 
 

@@ -32,7 +32,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(5999,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 7 år gammelt")
@@ -50,7 +51,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(7481d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 10 år gammelt")
@@ -68,7 +70,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(7481d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 11 år gammelt")
@@ -86,7 +89,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(8684d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
 
@@ -105,7 +109,7 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(257d,
-        underholdskostnadberegning.beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert));
+        underholdskostnadberegning.beregnBarnetilsynMedStonad(beregnUnderholdskostnadGrunnlagPeriodisert).doubleValue());
   }
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 11 år gammelt  + stønad til tilsynsutgifter DU")
@@ -141,7 +145,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(8684d + 666d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test at forpleiningsutgifter blir trukket fra underholdskostnad")
@@ -159,7 +164,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(8684d - 17d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
   @DisplayName("Test fra John")
@@ -177,7 +183,8 @@ class UnderholdskostnadBeregningTest {
     );
 
     assertEquals(8684d,
-        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert).getResultatBelopUnderholdskostnad());
+        underholdskostnadberegning.beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert)
+            .getResultatBelopUnderholdskostnad().doubleValue());
   }
 
 }

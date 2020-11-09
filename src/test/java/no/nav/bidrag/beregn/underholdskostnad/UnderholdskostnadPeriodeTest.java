@@ -64,7 +64,7 @@ public class UnderholdskostnadPeriodeTest {
             .isEqualTo(10),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning()
             .getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(4491d)),
+            .isEqualTo(BigDecimal.valueOf(4491)),
 
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
@@ -77,9 +77,9 @@ public class UnderholdskostnadPeriodeTest {
             .isEqualTo(10),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning()
             .getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(5602d)),
+            .isEqualTo(BigDecimal.valueOf(5602)),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag()
-            .getForpleiningUtgiftBelop()).isEqualTo(Double.valueOf(123d)),
+            .getForpleiningUtgiftBelop()).isEqualTo(BigDecimal.valueOf(123)),
 
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
@@ -92,7 +92,7 @@ public class UnderholdskostnadPeriodeTest {
             .isEqualTo(10),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning()
             .getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(4380d)),
+            .isEqualTo(BigDecimal.valueOf(4380)),
 
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra())
@@ -105,7 +105,7 @@ public class UnderholdskostnadPeriodeTest {
             .isEqualTo(10),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning()
             .getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(4380d)),
+            .isEqualTo(BigDecimal.valueOf(4380)),
 
         () -> assertThat(
             resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoFra())
@@ -118,7 +118,7 @@ public class UnderholdskostnadPeriodeTest {
             .isEqualTo(10),
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatBeregning()
             .getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(4491d)),
+            .isEqualTo(BigDecimal.valueOf(4491)),
 
         // Barnet har fyllt 11 år og skal ha høyere forbruksutgifter enn de første periodene
         () -> assertThat(
@@ -132,7 +132,7 @@ public class UnderholdskostnadPeriodeTest {
             .isEqualTo(11),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregning()
             .getResultatBelopUnderholdskostnad())
-            .isEqualTo(Double.valueOf(5477d))
+            .isEqualTo(BigDecimal.valueOf(5477))
 
     );
 

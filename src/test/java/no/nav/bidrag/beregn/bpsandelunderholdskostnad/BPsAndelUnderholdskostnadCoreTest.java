@@ -96,7 +96,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatAndelProsent())
             .isEqualTo(BigDecimal.valueOf(30)),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(1600)
+            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(1600))
 
     );
   }
