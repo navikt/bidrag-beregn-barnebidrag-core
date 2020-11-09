@@ -228,9 +228,9 @@ class NettoBarnetilsynBeregningTest {
 
     var nettoBarnetilsynBeregning = new NettoBarnetilsynBeregningImpl();
 
-    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.valueOf(0)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(1, 10, BigDecimal.ZERO));
     faktiskUtgiftListe.add(new FaktiskUtgift(2, 8,  BigDecimal.valueOf(2500)));
-    faktiskUtgiftListe.add(new FaktiskUtgift(3, 14, BigDecimal.valueOf(0)));
+    faktiskUtgiftListe.add(new FaktiskUtgift(3, 14, BigDecimal.ZERO));
 
     var GrunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(faktiskUtgiftListe, sjablonListe);
 

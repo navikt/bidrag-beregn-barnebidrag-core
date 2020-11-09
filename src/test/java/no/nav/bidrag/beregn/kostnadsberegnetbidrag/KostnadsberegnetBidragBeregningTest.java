@@ -23,7 +23,7 @@ public class KostnadsberegnetBidragBeregningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(10000),
         BigDecimal.valueOf(20),
-        BigDecimal.valueOf(0));
+        BigDecimal.ZERO);
 
     assertEquals(2000d,
         kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
@@ -53,7 +53,7 @@ public class KostnadsberegnetBidragBeregningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(666),
         BigDecimal.valueOf(91),
-        BigDecimal.valueOf(0)
+        BigDecimal.ZERO
     );
 
     assertEquals(610d,

@@ -34,7 +34,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     // Legger sammen inntektene
     var inntekt = grunnlagBeregningPeriodisert.getInntektListe().stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     System.out.println("Samlede inntekter: " + inntekt);
 
@@ -50,7 +50,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     System.out.println("25% av inntekt: " + tjuefemProsentInntekt);
 
     // finner personfradragklasse ut fra angitt skatteklasse
-    BigDecimal personfradrag = BigDecimal.valueOf(0);
+    BigDecimal personfradrag = BigDecimal.ZERO;
     if (grunnlagBeregningPeriodisert.getSkatteklasse() == (1)) {
       System.out.println("Skatteklasse 1");
       personfradrag = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
@@ -186,9 +186,9 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
 
     System.out.println("Endelig beregnet bidragsevne: " + maanedligBidragsevne);
 
-    if (maanedligBidragsevne.compareTo(BigDecimal.valueOf(0)) < 0){
+    if (maanedligBidragsevne.compareTo(BigDecimal.ZERO) < 0){
       System.out.println("Beregnet bidragsevne er mindre enn 0, settes til 0");
-      maanedligBidragsevne = BigDecimal.valueOf(0);
+      maanedligBidragsevne = BigDecimal.ZERO;
       System.out.println("Korrigert bidragsevne: " + maanedligBidragsevne);
     }
     System.out.println("------------------------------------------------------");
@@ -205,7 +205,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     BigDecimal inntekt = grunnlagBeregningPeriodisert.getInntektListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     BigDecimal minstefradrag = inntekt.multiply(
         SjablonUtil.hentSjablonverdi(
@@ -239,13 +239,13 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     var inntekt = grunnlagBeregningPeriodisert.getInntektListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     var sortertTrinnvisSkattesatsListe = SjablonUtil.hentTrinnvisSkattesats(
         grunnlagBeregningPeriodisert.getSjablonListe(),
         SjablonNavn.TRINNVIS_SKATTESATS);
 
-    BigDecimal samletSkattetrinnBelop = BigDecimal.valueOf(0);
+    BigDecimal samletSkattetrinnBelop = BigDecimal.ZERO;
     var indeks = 1;
 
     // Beregn skattetrinnbeløp

@@ -184,8 +184,8 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
                     new MathContext(10, RoundingMode.HALF_UP));
             andelBelop = omregnetAndelBelop;
           } else {
-            andelProsent = BigDecimal.valueOf(0);
-            andelBelop = BigDecimal.valueOf(0);
+            andelProsent = BigDecimal.ZERO;
+            andelBelop = BigDecimal.ZERO;
           }
         }
 

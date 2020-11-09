@@ -161,7 +161,7 @@ public class UnderholdskostnadPeriodeTest {
 
     var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriode>();
     forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-        new Periode(LocalDate.parse("2018-02-01"), LocalDate.parse("2020-10-01")), BigDecimal.valueOf(0)));
+        new Periode(LocalDate.parse("2018-02-01"), LocalDate.parse("2020-10-01")), BigDecimal.ZERO));
 
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
     sjablonPeriodeListe.add(new SjablonPeriode(
@@ -229,7 +229,7 @@ public class UnderholdskostnadPeriodeTest {
 
     var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriode>();
     forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-        new Periode(LocalDate.parse("2018-02-01"), null), BigDecimal.valueOf(0)));
+        new Periode(LocalDate.parse("2018-02-01"), null), BigDecimal.ZERO));
 
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
     sjablonPeriodeListe.add(new SjablonPeriode(

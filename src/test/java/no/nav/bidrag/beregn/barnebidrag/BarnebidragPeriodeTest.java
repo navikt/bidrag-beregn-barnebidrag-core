@@ -74,10 +74,10 @@ public class BarnebidragPeriodeTest {
         false));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
@@ -143,7 +143,7 @@ public class BarnebidragPeriodeTest {
         BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-09-01")),
-        BigDecimal.valueOf(0)));
+        BigDecimal.ZERO));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
         new Periode(LocalDate.parse("2019-09-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(1000)));
@@ -152,42 +152,42 @@ public class BarnebidragPeriodeTest {
         false));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
         BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(0)));
+        BigDecimal.ZERO));
     deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
         false));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0)));
+        BigDecimal.ZERO));
     deltBostedPeriodeListe.add(new DeltBostedPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(3,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
 
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-12-01")),
@@ -283,16 +283,16 @@ public class BarnebidragPeriodeTest {
         BigDecimal.valueOf(60), BigDecimal.valueOf(6000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0)));
+        BigDecimal.ZERO));
     deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")),
@@ -302,16 +302,16 @@ public class BarnebidragPeriodeTest {
         BigDecimal.valueOf(40), BigDecimal.valueOf(4000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0)));
+        BigDecimal.ZERO));
     deltBostedPeriodeListe.add(new DeltBostedPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         true));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(2,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
 
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
@@ -400,16 +400,16 @@ public class BarnebidragPeriodeTest {
         BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0)));
+        BigDecimal.ZERO));
     deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
     barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+        BigDecimal.ZERO, BigDecimal.ZERO));
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));

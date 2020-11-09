@@ -26,7 +26,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
 
-    BigDecimal totaltBelopUnderholdskostnad = BigDecimal.valueOf(0);
+    BigDecimal totaltBelopUnderholdskostnad = BigDecimal.ZERO;
 
     for (GrunnlagBeregningPerBarn grunnlag : grunnlagBeregningPeriodisert
         .getGrunnlagPerBarnListe()) {
@@ -51,7 +51,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
       ResultatKode resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
 
-      BigDecimal tempBarnebidrag = BigDecimal.valueOf(0);
+      BigDecimal tempBarnebidrag = BigDecimal.ZERO;
 
       // Beregner nettobarnetilsyn for BP og BM
       var nettoBarnetilleggBP = grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop()
@@ -71,13 +71,13 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
                       new MathContext(10, RoundingMode.HALF_UP))));
 
       // Regner ut underholdskostnad ut fra andelsprosent og beløp. Skal ikke gjøres hvis disse er lik 0
-      BigDecimal underholdskostnad = BigDecimal.valueOf(0);
+      BigDecimal underholdskostnad = BigDecimal.ZERO;
       if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
           .getBPsAndelUnderholdskostnadProsent()
-          .compareTo(BigDecimal.valueOf(0)) > 0 &&
+          .compareTo(BigDecimal.ZERO) > 0 &&
           grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
               .getBPsAndelUnderholdskostnadBelop()
-              .compareTo(BigDecimal.valueOf(0)) > 0) {
+              .compareTo(BigDecimal.ZERO) > 0) {
         underholdskostnad =
             grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
                 .getBPsAndelUnderholdskostnadBelop().divide(
@@ -118,7 +118,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       // så skal bidraget settes likt barnetillegget. BarnetilleggBP skal ikke taes hensyn til ved delt bosted
       if (!grunnlagBeregningPerBarn.getDeltBosted() &&
           tempBarnebidrag.compareTo(nettoBarnetilleggBP) < 0
-          && nettoBarnetilleggBP.compareTo(BigDecimal.valueOf(0)) > 0) {
+          && nettoBarnetilleggBP.compareTo(BigDecimal.ZERO) > 0) {
         tempBarnebidrag = nettoBarnetilleggBP
             .subtract(grunnlagBeregningPerBarn.getSamvaersfradrag());
         resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP;
@@ -134,12 +134,12 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       }
 
       // Beløp for bidrag settes til 0 hvis bidraget er utregnet til negativt beløp etter samværsfradrag
-      if (tempBarnebidrag.compareTo(BigDecimal.valueOf(0)) <= 0) {
-        tempBarnebidrag = BigDecimal.valueOf(0);
+      if (tempBarnebidrag.compareTo(BigDecimal.ZERO) <= 0) {
+        tempBarnebidrag = BigDecimal.ZERO;
       }
 
       if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
-          BigDecimal.valueOf(0)) == 0) {
+          BigDecimal.ZERO) == 0) {
         resultatkode = ResultatKode.INGEN_EVNE;
       }
 
@@ -148,7 +148,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       }
 
       if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBarnetErSelvforsorget()) {
-        tempBarnebidrag = BigDecimal.valueOf(0);
+        tempBarnebidrag = BigDecimal.ZERO;
         resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
       }
 
@@ -179,7 +179,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
         grunnlagBeregningPeriodisert.getSjablonListe(),
         SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP);
 
-    BigDecimal barnetilleggForsvaretPerBarn = BigDecimal.valueOf(0);
+    BigDecimal barnetilleggForsvaretPerBarn = BigDecimal.ZERO;
 
     System.out.println("barnetillegg første barn: " + barnetilleggForsvaretForsteBarn);
     System.out.println("barnetillegg øvrige barn: " + barnetilleggForsvaretOvrigeBarn);

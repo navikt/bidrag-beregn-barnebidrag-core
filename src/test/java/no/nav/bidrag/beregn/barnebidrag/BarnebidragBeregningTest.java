@@ -33,9 +33,9 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -58,7 +58,7 @@ public class BarnebidragBeregningTest {
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
        false), BigDecimal.valueOf(100), false,
         new Barnetillegg(BigDecimal.valueOf(1700), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -80,15 +80,15 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
-            false), BigDecimal.valueOf(0),false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO,false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -110,22 +110,22 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
-        false), BigDecimal.valueOf(0),false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        false), BigDecimal.ZERO,false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
         false),
-        BigDecimal.valueOf(0),false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        BigDecimal.ZERO,false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -153,9 +153,9 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0),false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO,false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -176,15 +176,15 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -207,21 +207,21 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
-            false), BigDecimal.valueOf(0),false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO,false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -254,7 +254,7 @@ public class BarnebidragBeregningTest {
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
             false), BigDecimal.valueOf(50), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10d))));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
@@ -278,7 +278,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(200),
-            false), BigDecimal.valueOf(0),false,
+            false), BigDecimal.ZERO,false,
         new Barnetillegg(BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
 
@@ -302,8 +302,8 @@ public class BarnebidragBeregningTest {
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
             false), BigDecimal.valueOf(200), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -326,14 +326,14 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(400),
-            false), BigDecimal.valueOf(0), false,
+            false), BigDecimal.ZERO, false,
         new Barnetillegg(BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
         new Barnetillegg(BigDecimal.valueOf(400), BigDecimal.valueOf(10))));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(300),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10))));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
@@ -361,8 +361,8 @@ public class BarnebidragBeregningTest {
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false),BigDecimal.valueOf(1000), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -385,21 +385,21 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
@@ -421,21 +421,21 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
             false), BigDecimal.valueOf(1000), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
@@ -459,69 +459,69 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(4,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(5,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(6,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(7,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(8,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(9,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(10,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(11,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false),BigDecimal.ZERO, true,
+        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
@@ -541,15 +541,15 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), true,
+            false), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -573,15 +573,15 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(0), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+            false), BigDecimal.ZERO, false,
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(0), BigDecimal.valueOf(0),
-            true), BigDecimal.valueOf(0), true,
+        new BPsAndelUnderholdskostnad(BigDecimal.ZERO, BigDecimal.ZERO,
+            true), BigDecimal.ZERO, true,
         new Barnetillegg(BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
         bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
@@ -606,7 +606,7 @@ public class BarnebidragBeregningTest {
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
         new BPsAndelUnderholdskostnad(BigDecimal.valueOf(60),BigDecimal.valueOf(5210),
             false), BigDecimal.valueOf(457), false,
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0)),
+        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
         new Barnetillegg(BigDecimal.valueOf(4000), BigDecimal.valueOf(10))));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(

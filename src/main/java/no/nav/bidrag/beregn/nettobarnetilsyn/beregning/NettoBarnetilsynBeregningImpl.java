@@ -22,9 +22,9 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
   public List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
-    BigDecimal tempResultatBelop = BigDecimal.valueOf(0);
-    BigDecimal fradragsbelopPerBarn = BigDecimal.valueOf(0);
-    BigDecimal resultatBelop = BigDecimal.valueOf(0);
+    BigDecimal tempResultatBelop = BigDecimal.ZERO;
+    BigDecimal fradragsbelopPerBarn = BigDecimal.ZERO;
+    BigDecimal resultatBelop = BigDecimal.ZERO;
 
     var faktiskUtgiftListeSummertPerBarn = grunnlagBeregningPeriodisert
         .getFaktiskUtgiftListe()
@@ -44,9 +44,9 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     System.out.println("Totalt antall barn under 13 år i perioden: " + antallBarnIPerioden);
 
     int antallBarnMedTilsynsutgift = 0;
-    var samletFaktiskUtgiftBelop = BigDecimal.valueOf(0);
+    var samletFaktiskUtgiftBelop = BigDecimal.ZERO;
     for (var tempFaktiskUtgift : faktiskUtgiftListeSummertPerBarn.entrySet()) {
-      if (tempFaktiskUtgift.getValue().compareTo(BigDecimal.valueOf(0)) > 0) {
+      if (tempFaktiskUtgift.getValue().compareTo(BigDecimal.ZERO) > 0) {
         antallBarnMedTilsynsutgift ++;
         samletFaktiskUtgiftBelop = samletFaktiskUtgiftBelop.add(tempFaktiskUtgift.getValue());
       }
@@ -129,7 +129,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
     System.out.println("Maks fradragsbeløp beregnet vha sjabloner: " + maksFradragsbelop);
     System.out.println("Endelig fradragsbeløp: " + fradragsbelop);
 
-    var fradragsbelopPerBarn = BigDecimal.valueOf(0);
+    var fradragsbelopPerBarn = BigDecimal.ZERO;
 
     if (antallBarnMedTilsynsutgift > 0){
       fradragsbelopPerBarn = fradragsbelop.divide(BigDecimal.valueOf(antallBarnMedTilsynsutgift),

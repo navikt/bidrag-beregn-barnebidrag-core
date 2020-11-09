@@ -110,7 +110,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(0.0)),
-        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.valueOf(0)),
+        () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.ZERO),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isTrue()
     );
   }
@@ -157,7 +157,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000)));
     inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(0)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);
@@ -182,7 +182,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(502000)));
     inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(0)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
    var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);

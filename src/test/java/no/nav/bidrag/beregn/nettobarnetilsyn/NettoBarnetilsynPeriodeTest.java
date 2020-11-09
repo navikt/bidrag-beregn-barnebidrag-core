@@ -185,7 +185,7 @@ public class NettoBarnetilsynPeriodeTest {
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
     faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2015-03-17"), BigDecimal.valueOf(0)));
+        LocalDate.parse("2015-03-17"), BigDecimal.ZERO));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
         new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
@@ -219,7 +219,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2015-03-17"), BigDecimal.valueOf(200)));
     faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(2,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2015-03-17"), BigDecimal.valueOf(0)));
+        LocalDate.parse("2015-03-17"), BigDecimal.ZERO));
     faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(3,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
         LocalDate.parse("2015-03-17"), BigDecimal.valueOf(800)));

@@ -22,14 +22,14 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     BigDecimal andelProsent;
-    BigDecimal andelBelop = BigDecimal.valueOf(0);
+    BigDecimal andelBelop = BigDecimal.ZERO;
     boolean barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     System.out.println("BP: " + inntektBP);
 
@@ -37,14 +37,14 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
     var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
     System.out.println("BM: " + inntektBM);
 
     // Legger sammen inntektene
     var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
     System.out.println("BB: " + inntektBB);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
@@ -63,8 +63,8 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
               SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(30)));
       System.out.println("InntektBB etter fratrekk av 30 * forhøyet forskudd: " + inntektBB);
 
-      if (inntektBB.compareTo(BigDecimal.valueOf(0)) < 0) {
-        inntektBB = BigDecimal.valueOf(0);
+      if (inntektBB.compareTo(BigDecimal.ZERO) < 0) {
+        inntektBB = BigDecimal.ZERO;
       }
 
       andelProsent = (inntektBP.divide(
@@ -100,26 +100,26 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     BigDecimal andelProsent;
-    BigDecimal andelBelop = BigDecimal.valueOf(0);
+    BigDecimal andelBelop = BigDecimal.ZERO;
     boolean barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     // Legger sammen inntektene
     var inntektBM = grunnlagBeregningPeriodisert.getInntektBMListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     // Legger sammen inntektene
     var inntektBB = grunnlagBeregningPeriodisert.getInntektBBListe()
         .stream()
         .map(Inntekt::getInntektBelop)
-        .reduce(BigDecimal.valueOf(0), BigDecimal::add);
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
     if (inntektBB.compareTo(

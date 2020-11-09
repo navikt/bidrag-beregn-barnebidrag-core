@@ -127,7 +127,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
   @Override
   public BigDecimal finnEndeligFaktiskUtgiftBelop(int alder, BigDecimal faktiskUtgift) {
     if (alder > 12) {
-      return BigDecimal.valueOf(0);
+      return BigDecimal.ZERO;
     } else {
       return faktiskUtgift;
     }

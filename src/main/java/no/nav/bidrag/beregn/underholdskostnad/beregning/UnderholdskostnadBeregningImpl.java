@@ -159,7 +159,7 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
 
       return tempBarnetilsynBelop;
     } else {
-      return BigDecimal.valueOf(0.0d);
+      return BigDecimal.ZERO;
     }
   }
 }

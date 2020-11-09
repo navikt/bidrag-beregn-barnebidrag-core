@@ -21,7 +21,7 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
     List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
-    BigDecimal belopFradrag = BigDecimal.valueOf(0);
+    BigDecimal belopFradrag = BigDecimal.ZERO;
 
     sjablonNokkelListe.add(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(),
           grunnlagBeregningPeriodisert.getSamvaersklasse()));
