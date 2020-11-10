@@ -61,7 +61,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
       bruddatoAlder = bruddatoAlder.plusYears(1);
     }
 
-    System.out.println("BruddatoAlder: " + bruddatoAlder);
+//    System.out.println("BruddatoAlder: " + bruddatoAlder);
 
     var bruddlisteAlderBarn = new ArrayList<Periode>();
     bruddlisteAlderBarn.add(new Periode(bruddatoAlder, bruddatoAlder));
@@ -132,7 +132,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     LocalDate tempSoknadbarnFodselsdato = beregnSamvaersfradragGrunnlag.getSoknadsbarnFodselsdato();
     Integer beregnetAlder = Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
 
-    System.out.println("Beregnet alder: " + beregnetAlder);
+//    System.out.println("Beregnet alder: " + beregnetAlder);
 
     return beregnetAlder;
   }

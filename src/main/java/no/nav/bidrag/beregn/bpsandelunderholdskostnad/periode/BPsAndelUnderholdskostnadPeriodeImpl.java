@@ -130,13 +130,13 @@ public class BPsAndelUnderholdskostnadPeriodeImpl implements BPsAndelUnderholdsk
       // Beregner med gamle regler hvis periodens beregntilogmeddato er 01.01.2009 eller tidligere
       if (beregningsperiode.getDatoTil() == null ||
           beregningsperiode.getDatoFraTil().getDatoTil().isAfter(LocalDate.parse("2009-01-01"))) {
-        System.out.println("Beregner med nye regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
+//        System.out.println("Beregner med nye regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
         resultatPeriodeListe.add(new ResultatPeriode(
             beregnBPsAndelUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
             beregningsperiode, bPsAndelUnderholdskostnadBeregning.beregn(beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert),
             beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert));
       } else {
-        System.out.println("Beregner med gamle regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
+//        System.out.println("Beregner med gamle regler, tomdato: " + beregningsperiode.getDatoFraTil().getDatoTil());
         resultatPeriodeListe.add(new ResultatPeriode(
             beregnBPsAndelUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
             beregningsperiode,

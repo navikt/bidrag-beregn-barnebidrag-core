@@ -41,7 +41,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
             reducing(BigDecimal.ZERO, FaktiskUtgift::getFaktiskUtgiftBelop, BigDecimal::add)));
 
     var antallBarnIPerioden = listeMedBarnUnder13Aar.size();
-    System.out.println("Totalt antall barn under 13 år i perioden: " + antallBarnIPerioden);
+//    System.out.println("Totalt antall barn under 13 år i perioden: " + antallBarnIPerioden);
 
     int antallBarnMedTilsynsutgift = 0;
     var samletFaktiskUtgiftBelop = BigDecimal.ZERO;
@@ -51,11 +51,11 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         samletFaktiskUtgiftBelop = samletFaktiskUtgiftBelop.add(tempFaktiskUtgift.getValue());
       }
     }
-    System.out.println("Antall barn med tilsynsutgifter i perioden: " + antallBarnMedTilsynsutgift);
+//    System.out.println("Antall barn med tilsynsutgifter i perioden: " + antallBarnMedTilsynsutgift);
 
     var maksTilsynsbelop = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe()
         , SjablonNavn.MAKS_TILSYN, antallBarnIPerioden);
-    System.out.println("Maks tilsynsbeløp: " + maksTilsynsbelop);
+//    System.out.println("Maks tilsynsbeløp: " + maksTilsynsbelop);
 
 /*    var samletFaktiskUtgiftBelop = faktiskUtgiftListeSummertPerBarn.values()
         .stream()
@@ -63,7 +63,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         .reduce(BigDecimal.ZERO, FaktiskUtgift::getFaktiskUtgiftBelop, BigDecimal::add));
 //        .mapToDouble(Double::doubleValue).sum();*/
 
-    System.out.println("Samlet beløp for faktisk utgift: " + samletFaktiskUtgiftBelop);
+//    System.out.println("Samlet beløp for faktisk utgift: " + samletFaktiskUtgiftBelop);
 
     if (samletFaktiskUtgiftBelop.compareTo(maksTilsynsbelop) > 0) {
       fradragsbelopPerBarn = beregnFradragsbelopPerBarn(grunnlagBeregningPeriodisert,
@@ -97,7 +97,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
       resultatBelop = resultatBelop.setScale(0, RoundingMode.HALF_UP);
 
       resultatBeregningListe.add(new ResultatBeregning(faktiskUtgift.getKey(), resultatBelop));
-      System.out.println("Beregnet netto barnetilsynsbeløp: " + resultatBelop);
+//      System.out.println("Beregnet netto barnetilsynsbeløp: " + resultatBelop);
     }
 
     return resultatBeregningListe;
@@ -111,13 +111,13 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT);
     var maksFradrag = SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(), SjablonNavn.MAKS_FRADRAG, antallBarn);
 
-    System.out.println("Tilsynsbeløp: " + tilsynsbelop);
-    System.out.println("Skattesats: " + skattAlminneligInntektProsent);
-    System.out.println("Maks fradragsbeløp: " + maksFradrag);
+//    System.out.println("Tilsynsbeløp: " + tilsynsbelop);
+//    System.out.println("Skattesats: " + skattAlminneligInntektProsent);
+//    System.out.println("Maks fradragsbeløp: " + maksFradrag);
 
     var fradragsbelop = tilsynsbelop.multiply(skattAlminneligInntektProsent.divide(BigDecimal.valueOf(100),
         new MathContext(10, RoundingMode.HALF_UP)));
-    System.out.println("Beregnet fradragsbeløp for samlet tilsynsbeløp " + fradragsbelop);
+//    System.out.println("Beregnet fradragsbeløp for samlet tilsynsbeløp " + fradragsbelop);
 
     var maksFradragsbelop = maksFradrag.multiply(skattAlminneligInntektProsent.divide(BigDecimal.valueOf(100),
         new MathContext(10, RoundingMode.HALF_UP)));
@@ -126,8 +126,8 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
       fradragsbelop = maksFradragsbelop;
     }
 
-    System.out.println("Maks fradragsbeløp beregnet vha sjabloner: " + maksFradragsbelop);
-    System.out.println("Endelig fradragsbeløp: " + fradragsbelop);
+//    System.out.println("Maks fradragsbeløp beregnet vha sjabloner: " + maksFradragsbelop);
+//    System.out.println("Endelig fradragsbeløp: " + fradragsbelop);
 
     var fradragsbelopPerBarn = BigDecimal.ZERO;
 
@@ -136,7 +136,7 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
           new MathContext(10, RoundingMode.HALF_UP));
     }
 
-    System.out.println("Fradragsbeløp fordelt per barn: " + fradragsbelopPerBarn);
+//    System.out.println("Fradragsbeløp fordelt per barn: " + fradragsbelopPerBarn);
 
     return fradragsbelopPerBarn;
   }
