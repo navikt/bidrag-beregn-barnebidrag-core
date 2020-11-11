@@ -1,6 +1,8 @@
 package no.nav.bidrag.beregn.barnebidrag.beregning;
 
 import static java.util.Collections.emptyList;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -231,6 +233,6 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
     var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
     sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe;
+    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
   }
 }

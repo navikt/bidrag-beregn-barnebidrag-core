@@ -1,5 +1,8 @@
 package no.nav.bidrag.beregn.underholdskostnad.beregning;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -188,6 +191,6 @@ public class UnderholdskostnadBeregningImpl implements UnderholdskostnadBeregnin
   private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
     var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
     sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe;
+    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
   }
 }

@@ -1,7 +1,9 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.reducing;
+import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -157,6 +159,6 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
   private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
     var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
     sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe;
+    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
   }
 }
