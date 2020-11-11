@@ -2,10 +2,11 @@ package no.nav.bidrag.beregn.bidragsevne.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.enums.BostatusKode
 import no.nav.bidrag.beregn.felles.enums.InntektType
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -34,7 +35,8 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val resultatEvneBelop: BigDecimal,
-    val resultat25ProsentInntekt: BigDecimal
+    val resultat25ProsentInntekt: BigDecimal,
+    val sjablonListe: List<SjablonNavnVerdi>
 )
 
 // Grunnlag beregning

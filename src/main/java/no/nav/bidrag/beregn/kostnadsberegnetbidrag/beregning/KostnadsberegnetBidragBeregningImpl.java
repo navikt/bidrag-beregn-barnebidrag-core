@@ -12,9 +12,7 @@ public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidr
   public ResultatBeregning beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    BigDecimal belopFradrag = BigDecimal.valueOf(0.0);
-
-    BigDecimal resultat = (grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
+    var resultat = (grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
         .multiply(grunnlagBeregningPeriodisert.getBPsAndelUnderholdskostnadProsent())
         .divide(BigDecimal.valueOf(100), new MathContext(2, RoundingMode.HALF_UP))
         .subtract(grunnlagBeregningPeriodisert.getSamvaersfradragBelop()));

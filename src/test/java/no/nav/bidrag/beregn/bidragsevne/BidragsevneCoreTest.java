@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,10 +10,9 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
@@ -27,6 +27,7 @@ import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
@@ -44,9 +45,8 @@ import org.mockito.MockitoAnnotations;
 
 @DisplayName("BidragsevneCore (dto-test)")
 public class BidragsevneCoreTest {
-  private BidragsevneCore bidragsevneCore;
 
-  private List<Sjablon> sjablonListe = new ArrayList<>();
+  private BidragsevneCore bidragsevneCore;
 
   @Mock
   private BidragsevnePeriode bidragsevnePeriodeMock;
@@ -91,7 +91,8 @@ public class BidragsevneCoreTest {
             .isEqualTo(InntektType.LONN_SKE.toString()),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getInntektListe().get(0)
             .getInntektBelop()).isEqualTo(BigDecimal.valueOf(666000)),
-        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBostatusKode()).isEqualTo("MED_ANDRE"),
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getBostatusKode())
+            .isEqualTo("MED_ANDRE"),
 
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
             .isEqualTo(LocalDate.parse("2018-01-01")),
@@ -107,7 +108,7 @@ public class BidragsevneCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatEvneBelop())
             .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonInnholdListe().get(0).getSjablonInnholdVerdi()).isEqualTo(BigDecimal.valueOf(22))
+            .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }
@@ -164,7 +165,7 @@ public class BidragsevneCoreTest {
 
     var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-            Arrays.asList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
+        singletonList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
     var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
     sjablonPeriodeListe.add(sjablonPeriode);
 
@@ -178,30 +179,33 @@ public class BidragsevneCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(666), BigDecimal.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        new ResultatBeregning(BigDecimal.valueOf(666), BigDecimal.valueOf(166500),
+            singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
+        new GrunnlagBeregningPeriodisert(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
             1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
-            Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
+            singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
+                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(667), BigDecimal.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
+        new ResultatBeregning(BigDecimal.valueOf(667), BigDecimal.valueOf(166500),
+            singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
+        new GrunnlagBeregningPeriodisert(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
             1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
-            Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
+            singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
+                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(668), BigDecimal.valueOf(166500)),
-        new GrunnlagBeregningPeriodisert(Arrays.asList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
+        new ResultatBeregning(BigDecimal.valueOf(668), BigDecimal.valueOf(166500),
+            singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
+        new GrunnlagBeregningPeriodisert(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
             1, BostatusKode.MED_ANDRE,
             1, SaerfradragKode.HELT,
-            Arrays.asList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-                Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
+            singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
+                singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
     bidragsevnePeriodeResultat = new BeregnBidragsevneResultat(periodeResultatListe);
   }

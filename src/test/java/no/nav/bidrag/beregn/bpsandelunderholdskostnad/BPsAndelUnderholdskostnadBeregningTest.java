@@ -12,7 +12,6 @@ import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregningPeriod
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
-
 import no.nav.bidrag.beregn.felles.enums.InntektType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,18 +19,14 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av beregning av BPs andel av underholdskostnad")
 public class BPsAndelUnderholdskostnadBeregningTest {
 
-    private int soknadsbarnPersonId = 1;
-    private Double inntektBP = 0.0;
-    private Double inntektBM = 0.0;
-    private Double inntektBB = 0.0;
-    private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+    private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
     @DisplayName("Beregning med inntekter for alle parter")
     @Test
     void testBeregningMedInntekterForAlle() {
       var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-      BigDecimal underholdskostnad = BigDecimal.valueOf(10000);
+      var underholdskostnad = BigDecimal.valueOf(10000);
       var inntektBP = new ArrayList<Inntekt>();
       var inntektBM = new ArrayList<Inntekt>();
       var inntektBB = new ArrayList<Inntekt>();
@@ -58,7 +53,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningMedFlereInntekterForAlle() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -93,7 +88,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testAndelLikNullVedHoyInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -109,7 +104,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.valueOf(0.0)),
+        () -> assertThat(resultat.getResultatAndelProsent()).isEqualTo(BigDecimal.ZERO),
         () -> assertThat(resultat.getResultatAndelBelop()).isEqualTo(BigDecimal.ZERO),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isTrue()
     );
@@ -122,7 +117,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testAtMaksAndelSettes() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -150,7 +145,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningMedNullInntektBarn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -175,7 +170,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningGamleReglerAvrundTreSjettedeler() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -200,7 +195,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningGamleReglerAvrundEnSjettedel() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -225,7 +220,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testBeregningGamleReglerAvrundFemSjettedeler() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(1000);
+    var underholdskostnad = BigDecimal.valueOf(1000);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
@@ -250,7 +245,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
   void testFraJohn() {
     var bPsAndelUnderholdskostnadBeregning = new BPsAndelUnderholdskostnadBeregningImpl();
 
-    BigDecimal underholdskostnad = BigDecimal.valueOf(9355);
+    var underholdskostnad = BigDecimal.valueOf(9355);
     var inntektBP = new ArrayList<Inntekt>();
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();

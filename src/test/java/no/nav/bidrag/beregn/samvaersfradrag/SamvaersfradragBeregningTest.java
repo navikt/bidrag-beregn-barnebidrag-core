@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av beregning av samværsfradrag")
 public class SamvaersfradragBeregningTest {
 
-  private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+  private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
   @DisplayName("Test av beregning av samvaersfradrag for fireåring")
   @Test
@@ -57,6 +57,4 @@ public class SamvaersfradragBeregningTest {
             .getResultatSamvaersfradragBelop().doubleValue());
   }
 
-
 }
-

@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.samvaersfradrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -29,11 +30,13 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatSamvaersfradragBelop: BigDecimal
+    val resultatSamvaersfradragBelop: BigDecimal,
+    val sjablonListe: List<SjablonNavnVerdi>
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
     val soknadBarnAlder: Int,
     val samvaersklasse: String,
-    val sjablonListe: List<Sjablon>)
+    val sjablonListe: List<Sjablon>
+)

@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.math.BigDecimal
@@ -19,11 +20,6 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlag(
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
-data class Inntekt(
-    val inntektType: InntektType,
-    val inntektBelop: BigDecimal
-)
-
 // Resultatperiode
 data class BeregnBPsAndelUnderholdskostnadResultat(
     val resultatPeriodeListe: List<ResultatPeriode>
@@ -39,7 +35,8 @@ data class ResultatPeriode(
 data class ResultatBeregning(
     val resultatAndelProsent: BigDecimal,
     val resultatAndelBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
+    val barnetErSelvforsorget: Boolean,
+    val sjablonListe: List<SjablonNavnVerdi>
 )
 
 // Grunnlag beregning
@@ -49,4 +46,9 @@ data class GrunnlagBeregningPeriodisert(
     val inntektBMListe: List<Inntekt>,
     val inntektBBListe: List<Inntekt>,
     val sjablonListe: List<Sjablon>
+)
+
+data class Inntekt(
+    val inntektType: InntektType,
+    val inntektBelop: BigDecimal
 )

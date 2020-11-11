@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.10.0  | Endret       | Endret måten sjabloner legges ut på i resultatgrunnlaget (inneholder nå navn/verdi på de som faktisk er brukt)
 0.9.1   | Endret       | System.out.println kommentert ut i alle delberegninger 
 0.9.0   | Endret       | Alle delberegninger skrevet om til å bruke BigDecimal, sjablonverdier også endret til å mottas som BigDecimal
 0.8.9   | Endret       | Beregning av bidragsevne skrevet om til å bruke BigDecimal i stedet for Double, sjabloner er ikke skrevet om ennå

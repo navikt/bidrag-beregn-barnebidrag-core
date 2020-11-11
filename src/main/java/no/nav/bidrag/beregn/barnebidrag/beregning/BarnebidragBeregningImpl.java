@@ -1,32 +1,34 @@
 package no.nav.bidrag.beregn.barnebidrag.beregning;
 
+import static java.util.Collections.emptyList;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
+import java.util.Map;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.felles.SjablonUtil;
+import no.nav.bidrag.beregn.felles.bo.Sjablon;
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
+import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
 public class BarnebidragBeregningImpl implements BarnebidragBeregning {
-
-  private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
   @Override
   public List<ResultatBeregning> beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    boolean bidragRedusertAvBidragsevne = false;
+    var bidragRedusertAvBidragsevne = false;
 
-    List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
+    var resultatBeregningListe = new ArrayList<ResultatBeregning>();
 
-    BigDecimal totaltBelopUnderholdskostnad = BigDecimal.ZERO;
+    var totaltBelopUnderholdskostnad = BigDecimal.ZERO;
 
     for (GrunnlagBeregningPerBarn grunnlag : grunnlagBeregningPeriodisert
         .getGrunnlagPerBarnListe()) {
@@ -35,7 +37,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
               .add(grunnlag.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop());
     }
 
-    BigDecimal maksBidragsbelop = BigDecimal.ZERO;
+    var maksBidragsbelop = BigDecimal.ZERO;
 
     if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
         grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt()) < 0) {
@@ -49,9 +51,9 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
 
-      ResultatKode resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
+      var resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
 
-      BigDecimal tempBarnebidrag = BigDecimal.ZERO;
+      var tempBarnebidrag = BigDecimal.ZERO;
 
       // Beregner nettobarnetilsyn for BP og BM
       var nettoBarnetilleggBP = grunnlagBeregningPerBarn.getBarnetilleggBP().getBarnetilleggBelop()
@@ -71,7 +73,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
                       new MathContext(10, RoundingMode.HALF_UP))));
 
       // Regner ut underholdskostnad ut fra andelsprosent og beløp. Skal ikke gjøres hvis disse er lik 0
-      BigDecimal underholdskostnad = BigDecimal.ZERO;
+      var underholdskostnad = BigDecimal.ZERO;
       if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad()
           .getBPsAndelUnderholdskostnadProsent()
           .compareTo(BigDecimal.ZERO) > 0 &&
@@ -86,7 +88,6 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
                 new MathContext(10, RoundingMode.HALF_UP))
                 .multiply(BigDecimal.valueOf(100));
         underholdskostnad = underholdskostnad.setScale(0, RoundingMode.HALF_UP);
-//        System.out.println("U: " + underholdskostnad);
       }
 
       // Sjekker om totalt bidragsbeløp er større enn bidragsevne eller 25% av månedsinntekt
@@ -155,31 +156,26 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       // Bidrag skal avrundes til nærmeste tier
       tempBarnebidrag = tempBarnebidrag.setScale(-1, RoundingMode.HALF_UP);
 
-      resultatBeregningListe.add(new ResultatBeregning(
-          grunnlagBeregningPerBarn.getSoknadsbarnPersonId(),
-          tempBarnebidrag, resultatkode));
-
+      resultatBeregningListe
+          .add(new ResultatBeregning(grunnlagBeregningPerBarn.getSoknadsbarnPersonId(), tempBarnebidrag, resultatkode, emptyList()));
     }
 
     return resultatBeregningListe;
-
   }
 
   @Override
   public List<ResultatBeregning> beregnVedBarnetilleggForsvaret(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    List<ResultatBeregning> resultatBeregningListe = new ArrayList<>();
+    // Henter sjablonverdier
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
 
-    BigDecimal barnetilleggForsvaretForsteBarn = SjablonUtil.hentSjablonverdi(
-        grunnlagBeregningPeriodisert.getSjablonListe(),
-        SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP);
+    var resultatBeregningListe = new ArrayList<ResultatBeregning>();
 
-    BigDecimal barnetilleggForsvaretOvrigeBarn = SjablonUtil.hentSjablonverdi(
-        grunnlagBeregningPeriodisert.getSjablonListe(),
-        SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP);
+    var barnetilleggForsvaretForsteBarn = sjablonNavnVerdiMap.get(SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP.getNavn());
+    var barnetilleggForsvaretOvrigeBarn = sjablonNavnVerdiMap.get(SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP.getNavn());
 
-    BigDecimal barnetilleggForsvaretPerBarn = BigDecimal.ZERO;
+    var barnetilleggForsvaretPerBarn = BigDecimal.ZERO;
 
 //    System.out.println("barnetillegg første barn: " + barnetilleggForsvaretForsteBarn);
 //    System.out.println("barnetillegg øvrige barn: " + barnetilleggForsvaretOvrigeBarn);
@@ -208,12 +204,33 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
       var barnebidragEtterSamvaersfradrag =
           barnetilleggForsvaretPerBarn.subtract(grunnlagBeregningPerBarn.getSamvaersfradrag());
 
-      ResultatKode resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET;
+      var resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET;
 
-      resultatBeregningListe.add(new ResultatBeregning(
-          grunnlagBeregningPerBarn.getSoknadsbarnPersonId(),
-          barnebidragEtterSamvaersfradrag, resultatkode));
+      resultatBeregningListe.add(
+          new ResultatBeregning(grunnlagBeregningPerBarn.getSoknadsbarnPersonId(), barnebidragEtterSamvaersfradrag, resultatkode,
+              byggSjablonResultatListe(sjablonNavnVerdiMap)));
     }
+
     return resultatBeregningListe;
+  }
+
+  // Henter sjablonverdier
+  private Map<String, BigDecimal> hentSjablonVerdier(List<Sjablon> sjablonListe) {
+    var sjablonNavnVerdiMap = new HashMap<String, BigDecimal>();
+
+    // Sjablontall
+    sjablonNavnVerdiMap.put(SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP.getNavn(),
+        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP));
+    sjablonNavnVerdiMap.put(SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP.getNavn(),
+        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP));
+
+    return sjablonNavnVerdiMap;
+  }
+
+  // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
+  private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
+    var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
+    sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
+    return sjablonNavnVerdiListe;
   }
 }

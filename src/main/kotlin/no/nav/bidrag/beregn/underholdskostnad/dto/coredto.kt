@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.underholdskostnad.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonCore
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -37,7 +37,7 @@ data class ForpleiningUtgiftPeriodeCore(
 )
 
 
-// Resultat
+// Resultatperiode
 data class BeregnUnderholdskostnadResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
@@ -54,11 +54,12 @@ data class ResultatBeregningCore(
     val resultatBelopUnderholdskostnad: BigDecimal
 )
 
+// Grunnlag beregning
 data class ResultatGrunnlagCore(
     val soknadBarnAlder: Int,
     val barnetilsynMedStonadTilsynType: String,
     val barnetilsynMedStonadStonadType: String,
     val nettoBarnetilsynBelop: BigDecimal,
     val forpleiningUtgiftBelop: BigDecimal,
-    val sjablonListe: List<SjablonCore>
+    val sjablonListe: List<SjablonNavnVerdiCore>
 )

@@ -51,4 +51,5 @@ data class ResultatBeregningCore(
 data class ResultatGrunnlagCore(
     val underholdskostnadBelop: BigDecimal,
     val bPsAndelUnderholdskostnadProsent: BigDecimal,
-    val samvaersfradragBelop: BigDecimal?)
+    val samvaersfradragBelop: BigDecimal?
+)

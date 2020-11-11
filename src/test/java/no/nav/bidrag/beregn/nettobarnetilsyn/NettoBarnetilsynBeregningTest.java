@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.nettobarnetilsyn;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,16 +9,16 @@ import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.nettobarnetilsyn.beregning.NettoBarnetilsynBeregningImpl;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test av beregning av Netto Barnetilsyn")
 class NettoBarnetilsynBeregningTest {
 
-  private List<FaktiskUtgift> faktiskUtgiftListe = new ArrayList<>();
-  private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+  private final List<FaktiskUtgift> faktiskUtgiftListe = new ArrayList<>();
+  private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
   @DisplayName("Beregning med ett barn under maks tilsynsbeløp, resultatet skal da beregnes fra innsendt faktisk utgift-beløp")
   @Test
@@ -236,10 +235,9 @@ class NettoBarnetilsynBeregningTest {
 
     var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
-    assertEquals(0d,
-        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(0).getResultatBelop().doubleValue());
-    assertEquals(1874d,
-        nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert).get(1).getResultatBelop().doubleValue());
-
+    assertAll(
+        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(0d),
+        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(1874d))
+    ;
   }
 }

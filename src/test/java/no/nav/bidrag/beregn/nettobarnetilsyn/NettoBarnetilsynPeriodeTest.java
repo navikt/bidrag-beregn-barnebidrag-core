@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 public class NettoBarnetilsynPeriodeTest {
 
-  private NettoBarnetilsynPeriode nettoBarnetilsynPeriode = NettoBarnetilsynPeriode.getInstance();
+  private final NettoBarnetilsynPeriode nettoBarnetilsynPeriode = NettoBarnetilsynPeriode.getInstance();
 
   @Test
   @DisplayName("Test av periodisering for ett barn. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
@@ -561,7 +561,7 @@ public class NettoBarnetilsynPeriodeTest {
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.MAKS_FRADRAG_BELOP.getNavn(),
                 BigDecimal.valueOf(10833))))));
 
-    boolean add = sjablonPeriodeListe.add(new SjablonPeriode(
+    sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.MAKS_FRADRAG.getNavn(),
             Collections.singletonList(new SjablonNokkel(SjablonNokkelNavn.ANTALL_BARN_TOM.getNavn(), "99")),

@@ -34,4 +34,5 @@ data class ResultatBeregning(
 data class GrunnlagBeregningPeriodisert(
     val underholdskostnadBelop: BigDecimal,
     val bPsAndelUnderholdskostnadProsent: BigDecimal,
-    val samvaersfradragBelop: BigDecimal?)
+    val samvaersfradragBelop: BigDecimal?
+)
