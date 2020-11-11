@@ -171,35 +171,6 @@ class BidragsevneberegningTest {
   }
 
   @Test
-  void beregnSkattetrinnBelop() {
-
-    BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
-
-    ArrayList<Inntekt> inntekter = new ArrayList<>();
-    inntekter.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
-
-    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
-        = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
-        SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.valueOf(1400+16181+3465+0),
-        bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert));
-
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(174600)));
-    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert2
-        = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
-        SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.ZERO,
-        bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert2));
-
-    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(250000)));
-    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert3
-        = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, 1,
-        SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.valueOf(1315),
-        bidragsevneberegning.beregnSkattetrinnBelop(grunnlagBeregningPeriodisert3));
-  }
-
-  @Test
   void TestFraJohn() {
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
