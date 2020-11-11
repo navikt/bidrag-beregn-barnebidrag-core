@@ -29,8 +29,8 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
 
     var belopFradrag = sjablonNavnVerdiMap.get(SjablonNavn.SAMVAERSFRADRAG.getNavn());
 
-    System.out.println("Samværsfradrag: " + belopFradrag);
-    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
+//    System.out.println("Samværsfradrag: " + belopFradrag);
+//    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
 
     return new ResultatBeregning(belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap));
   }

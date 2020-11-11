@@ -17,7 +17,7 @@ public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidr
         .divide(BigDecimal.valueOf(100), new MathContext(2, RoundingMode.HALF_UP))
         .subtract(grunnlagBeregningPeriodisert.getSamvaersfradragBelop()));
 
-    System.out.println("Resultat: " + resultat);
+//    System.out.println("Resultat: " + resultat);
     resultat = resultat.setScale(-1, RoundingMode.HALF_UP);
 
     return new ResultatBeregning(resultat);

@@ -85,9 +85,9 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
 
     Periode maanedEtterSeksaarsdag = new Periode(seksaarsbruddato, seksaarsbruddato);
 
-    System.out.println(
+/*    System.out.println(
         "Seksårsdagperiode" + maanedEtterSeksaarsdag.getDatoFra() + maanedEtterSeksaarsdag
-            .getDatoTil());
+            .getDatoTil());*/
 
     // Barnets fødselsdag og måned skal overstyres til 01.07. Lager liste for å sikre brudd ved ny
     // alder fra 01.07 hvert år i beregningsperioden
@@ -170,9 +170,9 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
       // 3. beregnForhoyetBarnetrygd - Beregner med forhøyet barnetrygd
 
       if (beregningsperiode.getDatoFra().equals(soknadsbarnFodselsmaaned.getDatoFra())) {
-        System.out.println(
+/*        System.out.println(
             "Barnets fødselsmåned, beregner uten barnetrygd: "
-                + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+                + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
         resultatPeriodeListe.add(new ResultatPeriode(
             beregnUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
             beregningsperiode, underholdskostnadBeregning
@@ -180,9 +180,9 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
             beregnUnderholdskostnadGrunnlagPeriodisert));
       } else {
         if (beregningsperiode.getDatoFra().isBefore(datoRegelendringer.getDatoFra())) {
-          System.out.println(
+/*          System.out.println(
               "Periode er før innføring av forhøyet barnetrygd, beregner med ordinær barnetrygd "
-                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
           resultatPeriodeListe.add(new ResultatPeriode(
               beregnUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
               beregningsperiode, underholdskostnadBeregning
@@ -192,16 +192,16 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
           if (beregningsperiode.getDatoFra()
               .isAfter(datoRegelendringer.getDatoFra().minusDays(1))) {
             if (beregningsperiode.getDatoFra().isBefore(seksaarsbruddato)) {
-              System.out.println("Beregner med forhøyet barnetrygd"
-                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+/*              System.out.println("Beregner med forhøyet barnetrygd"
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
               resultatPeriodeListe.add(new ResultatPeriode(
                   beregnUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),
                   beregningsperiode,
                   underholdskostnadBeregning.beregnMedForhoyetBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
                   beregnUnderholdskostnadGrunnlagPeriodisert));
             } else {
-              System.out.println("Barnet har fyllt seks år og vi beregner med ordinær barnetrygd "
-                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+/*              System.out.println("Barnet har fyllt seks år og vi beregner med ordinær barnetrygd "
+                  + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
               resultatPeriodeListe
                   .add(new ResultatPeriode(
                       beregnUnderholdskostnadGrunnlag.getSoknadsbarnPersonId(),

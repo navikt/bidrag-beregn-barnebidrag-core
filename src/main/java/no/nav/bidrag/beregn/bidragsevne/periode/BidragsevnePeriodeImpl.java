@@ -122,7 +122,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
               sjablonPeriode.getSjablon().getSjablonNokkelListe(),
               sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
 
-      System.out.println("Beregner bidragsevne for periode: " + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
+//      System.out.println("Beregner bidragsevne for periode: " + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBidragsevneGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(inntektListe, skatteklasse, bostatusKode,

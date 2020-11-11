@@ -46,7 +46,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
     } else {
       maksBidragsbelop = grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt();
     }
-    System.out.println("maksBidragsbelop: " + maksBidragsbelop);
+//    System.out.println("maksBidragsbelop: " + maksBidragsbelop);
 
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
@@ -97,7 +97,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
             .getBPsAndelUnderholdskostnadBelop()
             .divide(totaltBelopUnderholdskostnad,
                 new MathContext(10, RoundingMode.HALF_UP));
-        System.out.println("Andel av evne: " + andelProsent);
+//        System.out.println("Andel av evne: " + andelProsent);
 
         tempBarnebidrag = maksBidragsbelop.multiply(andelProsent);
         if (bidragRedusertAvBidragsevne) {
@@ -110,8 +110,9 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
             .getBPsAndelUnderholdskostnadBelop();
       }
 
-      // Trekker fra samværsfradrag
+//    Trekker fra samværsfradrag
       tempBarnebidrag = tempBarnebidrag.subtract(grunnlagBeregningPerBarn.getSamvaersfradrag());
+//    System.out.println("Bidrag etter samværsfradrag: " + tempBarnebidrag);
 
       // Sjekker mot særregler for barnetillegg BP/BM
       // Dersom beregnet bidrag etter samværsfradrag er lavere enn eventuelt barnetillegg for BP
@@ -176,8 +177,8 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     var barnetilleggForsvaretPerBarn = BigDecimal.ZERO;
 
-    System.out.println("barnetillegg første barn: " + barnetilleggForsvaretForsteBarn);
-    System.out.println("barnetillegg øvrige barn: " + barnetilleggForsvaretOvrigeBarn);
+//    System.out.println("barnetillegg første barn: " + barnetilleggForsvaretForsteBarn);
+//    System.out.println("barnetillegg øvrige barn: " + barnetilleggForsvaretOvrigeBarn);
 
     if (grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe().size() == 1) {
       barnetilleggForsvaretPerBarn = barnetilleggForsvaretForsteBarn;
@@ -187,10 +188,14 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
           .divide(BigDecimal.valueOf(grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe().size()),
               new MathContext(10, RoundingMode.HALF_UP));
 
-      System.out.println("barnetilleggForsvaretPerBarn: " + barnetilleggForsvaretPerBarn.toString());
+//      System.out
+//          .println("barnetilleggForsvaretPerBarn: " + barnetilleggForsvaretPerBarn.toString());
 
       barnetilleggForsvaretPerBarn = barnetilleggForsvaretPerBarn.setScale(0, RoundingMode.HALF_UP);
-      System.out.println("barnetilleggForsvaretPerBarn etter avrunding: " + barnetilleggForsvaretPerBarn.toString());
+/*      System.out.println(
+          "barnetilleggForsvaretPerBarn etter avrunding: " + barnetilleggForsvaretPerBarn
+              .toString());*/
+
     }
 
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
