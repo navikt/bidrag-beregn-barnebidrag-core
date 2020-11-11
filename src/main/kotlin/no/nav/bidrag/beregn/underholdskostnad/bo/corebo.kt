@@ -1,8 +1,9 @@
 package no.nav.bidrag.beregn.underholdskostnad.bo
 
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.Sjablon
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -18,11 +19,6 @@ data class BeregnUnderholdskostnadGrunnlag(
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
-data class BarnetilsynMedStonad(
-    val barnetilsynMedStonadTilsynType: String,
-    val barnetilsynMedStonadStonadType: String
-)
-
 // Resultatperiode
 data class BeregnUnderholdskostnadResultat(
     val resultatPeriodeListe: List<ResultatPeriode>
@@ -36,7 +32,8 @@ data class ResultatPeriode(
 )
 
 data class ResultatBeregning(
-    val resultatBelopUnderholdskostnad: BigDecimal
+    val resultatBelopUnderholdskostnad: BigDecimal,
+    val sjablonListe: List<SjablonNavnVerdi>
 )
 
 // Grunnlag beregning
@@ -45,4 +42,10 @@ data class BeregnUnderholdskostnadGrunnlagPeriodisert(
     val barnetilsynMedStonad: BarnetilsynMedStonad?,
     val nettoBarnetilsynBelop: BigDecimal,
     val forpleiningUtgiftBelop: BigDecimal,
-    val sjablonListe: List<Sjablon>)
+    val sjablonListe: List<Sjablon>
+)
+
+data class BarnetilsynMedStonad(
+    val barnetilsynMedStonadTilsynType: String,
+    val barnetilsynMedStonadStonadType: String
+)

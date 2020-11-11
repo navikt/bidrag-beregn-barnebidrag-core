@@ -5,18 +5,17 @@ import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
 
 public interface Bidragsevneberegning {
-    ResultatBeregning beregn(
-        GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
-    BigDecimal beregnMinstefradrag(
-        GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
+  ResultatBeregning beregn(
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
-    BigDecimal beregnSkattetrinnBelop(
-        GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
+  BigDecimal beregnMinstefradrag(
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert, BigDecimal minstefradragInntektBelop, BigDecimal minstefradragInntektSjablonProsent);
 
-    static Bidragsevneberegning getInstance(){
-        return new BidragsevneberegningImpl();
-    }
+  BigDecimal beregnSkattetrinnBelop(
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
-
+  static Bidragsevneberegning getInstance() {
+    return new BidragsevneberegningImpl();
+  }
 }

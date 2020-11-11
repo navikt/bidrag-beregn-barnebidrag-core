@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonCore
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -22,7 +22,7 @@ data class FaktiskUtgiftPeriodeCore(
     val faktiskUtgiftBelop: BigDecimal
 )
 
-// Resultat
+// Resultatperiode
 data class BeregnNettoBarnetilsynResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
@@ -39,9 +39,10 @@ data class ResultatBeregningCore(
     val resultatBelop: BigDecimal
 )
 
+// Grunnlag beregning
 data class ResultatGrunnlagCore(
     val faktiskUtgiftListe: List<FaktiskUtgiftCore>,
-    val sjablonListe: List<SjablonCore>
+    val sjablonListe: List<SjablonNavnVerdiCore>
 )
 
 data class FaktiskUtgiftCore(

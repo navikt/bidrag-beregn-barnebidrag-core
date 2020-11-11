@@ -5,25 +5,29 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
+import no.nav.bidrag.beregn.felles.bo.Sjablon;
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
 public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderholdskostnadBeregning {
-
-  private List<SjablonNokkel> sjablonNokkelListe = new ArrayList<>();
 
   @Override
   public ResultatBeregning beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    BigDecimal andelProsent;
-    BigDecimal andelBelop = BigDecimal.ZERO;
-    boolean barnetErSelvforsorget = false;
+    // Henter sjablonverdier
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
+
+    var andelProsent = BigDecimal.ZERO;
+    var andelBelop = BigDecimal.ZERO;
+    var barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
@@ -49,18 +53,14 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
     if (inntektBB.compareTo(
-        SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-            SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(100))) > 0) {
-      andelProsent = BigDecimal.valueOf(0.0);
+        sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(100))) > 0) {
       barnetErSelvforsorget = true;
     } else {
       inntektBB = inntektBB.subtract(
-          SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-              SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(30)));
+          sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(30)));
 
-      System.out.println("30 * forhøyet forskudd: " + SjablonUtil
-          .hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-              SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(30)));
+      System.out.println(
+          "30 * forhøyet forskudd: " + sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(30)));
       System.out.println("InntektBB etter fratrekk av 30 * forhøyet forskudd: " + inntektBB);
 
       if (inntektBB.compareTo(BigDecimal.ZERO) < 0) {
@@ -75,9 +75,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
       System.out.println("andelProsent: " + andelProsent);
 
-
       // Utregnet andel skal ikke være større en 5/6
-
       if (andelProsent.compareTo(BigDecimal.valueOf(83.3333333333)) > 0) {
         andelProsent = BigDecimal.valueOf(83.3333333333);
       }
@@ -91,17 +89,19 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     }
 
-    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget);
-
+    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
   }
 
   @Override
   public ResultatBeregning beregnMedGamleRegler(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    BigDecimal andelProsent;
-    BigDecimal andelBelop = BigDecimal.ZERO;
-    boolean barnetErSelvforsorget = false;
+    // Henter sjablonverdier
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
+
+    var andelProsent = BigDecimal.ZERO;
+    var andelBelop = BigDecimal.ZERO;
+    var barnetErSelvforsorget = false;
 
     // Legger sammen inntektene
     var inntektBP = grunnlagBeregningPeriodisert.getInntektBPListe()
@@ -123,9 +123,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     // Test på om barnets inntekt er høyere enn 100 ganger sats for forhøyet forskudd. Hvis så så skal ikke BPs andel regnes ut.
     if (inntektBB.compareTo(
-        SjablonUtil.hentSjablonverdi(grunnlagBeregningPeriodisert.getSjablonListe(),
-            SjablonTallNavn.FORSKUDDSSATS_BELOP).multiply(BigDecimal.valueOf(100))) > 0) {
-      andelProsent = BigDecimal.valueOf(0.0);
+        sjablonNavnVerdiMap.get(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn()).multiply(BigDecimal.valueOf(100))) > 0) {
       barnetErSelvforsorget = true;
     } else {
       andelProsent = inntektBP.divide(
@@ -159,7 +157,6 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
       System.out.println("Sjettedel: " + sjettedeler.get(3));
       System.out.println("Sjettedel: " + sjettedeler.get(4));
 
-//      BigDecimal finalAndel = andel;
       BigDecimal finalAndel = andelProsent;
       andelProsent = sjettedeler.stream()
           .min(Comparator.comparing(a -> finalAndel.subtract(a).abs()))
@@ -182,11 +179,25 @@ public class BPsAndelUnderholdskostnadBeregningImpl implements BPsAndelUnderhold
 
     }
 
-    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget);
-
+    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget, byggSjablonResultatListe(sjablonNavnVerdiMap));
     }
 
+  // Henter sjablonverdier
+  private Map<String, BigDecimal> hentSjablonVerdier(List<Sjablon> sjablonListe) {
+
+    var sjablonNavnVerdiMap = new HashMap<String, BigDecimal>();
+
+    // Sjablontall
+    sjablonNavnVerdiMap.put(SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(),
+        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.FORSKUDDSSATS_BELOP));
+
+    return sjablonNavnVerdiMap;
+  }
+
+  // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
+  private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
+    var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
+    sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
+    return sjablonNavnVerdiListe;
+  }
 }
-
-
-

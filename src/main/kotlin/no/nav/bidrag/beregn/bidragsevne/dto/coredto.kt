@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.bidragsevne.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonCore
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -46,7 +46,7 @@ data class SaerfradragPeriodeCore(
 )
 
 
-// Resultat
+// Resultatperiode
 data class BeregnBidragsevneResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
@@ -63,18 +63,17 @@ data class ResultatBeregningCore(
     val resultat25ProsentInntekt: BigDecimal
 )
 
+// Grunnlag beregning
 data class ResultatGrunnlagCore(
     val inntektListe: List<InntektCore>,
     val skatteklasse: Int,
     val bostatusKode: String,
     val antallEgneBarnIHusstand: Int,
     val saerfradragkode: String,
-    val sjablonListe: List<SjablonCore>
+    val sjablonListe: List<SjablonNavnVerdiCore>
 )
 
 data class InntektCore(
     val inntektType: String,
     val inntektBelop: BigDecimal
 )
-
-

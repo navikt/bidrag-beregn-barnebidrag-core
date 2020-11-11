@@ -6,14 +6,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
+import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregningImpl;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
 import no.nav.bidrag.beregn.barnebidrag.bo.Barnetillegg;
 import no.nav.bidrag.beregn.barnebidrag.bo.Bidragsevne;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
+import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregningImpl;
-import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,8 +21,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av beregning av barnebidrag")
 public class BarnebidragBeregningTest {
 
-  private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
-  private List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe  = new ArrayList<>();
+  private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+  private final List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe  = new ArrayList<>();
 
   @DisplayName("Beregner ved full evne, ett barn, ingen barnetillegg")
   @Test

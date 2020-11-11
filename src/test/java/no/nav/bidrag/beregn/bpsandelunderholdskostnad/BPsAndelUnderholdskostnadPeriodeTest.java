@@ -157,7 +157,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2009-06-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2009-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatAndelProsent())
-            .isEqualTo(BigDecimal.valueOf(0.0))
+            .isEqualTo(BigDecimal.ZERO)
     );
 
     printGrunnlagResultat(resultat);

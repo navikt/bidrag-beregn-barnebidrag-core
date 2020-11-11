@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.barnebidrag.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonCore
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -82,7 +82,7 @@ data class GrunnlagBeregningPeriodisertCore(
     val bidragsevne: BidragsevneCore,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarnCore>,
     val barnetilleggForsvaret: Boolean,
-    val sjablonListe: List<SjablonCore>
+    val sjablonListe: List<SjablonNavnVerdiCore>
 )
 
 data class BidragsevneCore(
@@ -96,7 +96,7 @@ data class GrunnlagBeregningPerBarnCore(
     val samvaersfradrag: BigDecimal,
     val deltBosted: Boolean,
     val barnetilleggBP: BarnetilleggCore,
-    val barnetilleggBM: BarnetilleggCore,
+    val barnetilleggBM: BarnetilleggCore
 )
 
 data class BPsAndelUnderholdskostnadCore(

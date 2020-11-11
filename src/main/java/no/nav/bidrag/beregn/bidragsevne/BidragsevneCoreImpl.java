@@ -28,12 +28,13 @@ import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.dto.AvvikCore;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
@@ -42,13 +43,11 @@ import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
 
 public class BidragsevneCoreImpl implements BidragsevneCore {
 
-//  private BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.getInstance();
-
   public BidragsevneCoreImpl(BidragsevnePeriode bidragsevnePeriode) {
     this.bidragsevnePeriode = bidragsevnePeriode;
   }
 
-  private BidragsevnePeriode bidragsevnePeriode;
+  private final BidragsevnePeriode bidragsevnePeriode;
 
   public BeregnBidragsevneResultatCore beregnBidragsevne(
       BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
@@ -75,7 +74,6 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     return new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, inntektPeriodeListe, skatteklassePeriodeListe,
         bostatusPeriodeListe, antallBarnIEgetHusholdPeriodeListe, saerfradragPeriodeListe, sjablonPeriodeListe);
   }
-
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -180,7 +178,7 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
               bidragsevneResultatGrunnlag.getBostatusKode().toString(),
               bidragsevneResultatGrunnlag.getAntallEgneBarnIHusstand(),
               bidragsevneResultatGrunnlag.getSaerfradragkode().toString(),
-              mapResultatGrunnlagSjabloner(bidragsevneResultatGrunnlag.getSjablonListe()))));
+              mapResultatGrunnlagSjabloner(bidragsevneResultat.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
   }
@@ -194,22 +192,12 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     return resultatGrunnlagInntektListeCore;
   }
 
-  private List<SjablonCore> mapResultatGrunnlagSjabloner(List<Sjablon> resultatGrunnlagSjablonListe) {
-    var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonCore>();
-    for (Sjablon resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
-      var sjablonNokkelListeCore = new ArrayList<SjablonNokkelCore>();
-      var sjablonInnholdListeCore = new ArrayList<SjablonInnholdCore>();
-      for (SjablonNokkel sjablonNokkel : resultatGrunnlagSjablon.getSjablonNokkelListe()) {
-        sjablonNokkelListeCore.add(new SjablonNokkelCore(sjablonNokkel.getSjablonNokkelNavn(), sjablonNokkel.getSjablonNokkelVerdi()));
-      }
-      for (SjablonInnhold sjablonInnhold : resultatGrunnlagSjablon.getSjablonInnholdListe()) {
-        sjablonInnholdListeCore.add(new SjablonInnholdCore(sjablonInnhold.getSjablonInnholdNavn(), sjablonInnhold.getSjablonInnholdVerdi()));
-      }
+  private List<SjablonNavnVerdiCore> mapResultatGrunnlagSjabloner(List<SjablonNavnVerdi> resultatGrunnlagSjablonListe) {
+    var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
+    for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonCore(resultatGrunnlagSjablon.getSjablonNavn(), sjablonNokkelListeCore, sjablonInnholdListeCore));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
     }
-
     return resultatGrunnlagSjablonListeCore;
   }
-
 }

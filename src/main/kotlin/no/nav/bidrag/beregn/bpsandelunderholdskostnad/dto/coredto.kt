@@ -2,7 +2,7 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonCore
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -19,23 +19,18 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
     var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
+data class UnderholdskostnadPeriodeCore(
+    val underholdskostnadDatoFraTil: PeriodeCore,
+    val underholdskostnadBelop: BigDecimal
+)
+
 data class InntektPeriodeCore(
     val inntektPeriodeDatoFraTil: PeriodeCore,
     val inntektType: String,
     val inntektBelop: BigDecimal
 )
 
-data class UnderholdskostnadPeriodeCore(
-    val underholdskostnadDatoFraTil: PeriodeCore,
-    val underholdskostnadBelop: BigDecimal
-)
-
-data class InntektCore(
-    val inntektType: String,
-    val inntektBelop: BigDecimal
-)
-
-// Resultat
+// Resultatperiode
 data class BeregnBPsAndelUnderholdskostnadResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
@@ -54,10 +49,16 @@ data class ResultatBeregningCore(
     val barnetErSelvforsorget: Boolean
 )
 
+// Grunnlag beregning
 data class ResultatGrunnlagCore(
     val underholdskostnadBelop: BigDecimal,
     val inntektBPListe: List<InntektCore>,
     val inntektBMListe: List<InntektCore>,
     val inntektBBListe: List<InntektCore>,
-    val sjablonListe: List<SjablonCore>,
+    val sjablonListe: List<SjablonNavnVerdiCore>
+)
+
+data class InntektCore(
+    val inntektType: String,
+    val inntektBelop: BigDecimal
 )

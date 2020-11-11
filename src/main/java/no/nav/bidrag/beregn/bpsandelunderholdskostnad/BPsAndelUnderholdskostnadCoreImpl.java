@@ -22,12 +22,13 @@ import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
+import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.dto.AvvikCore;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
+import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
@@ -39,7 +40,7 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     this.bPsAndelunderholdskostnadPeriode = bPsAndelunderholdskostnadPeriode;
   }
 
-  private BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode;
+  private final BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode;
 
   @Override
   public BeregnBPsAndelUnderholdskostnadResultatCore beregnBPsAndelUnderholdskostnad(
@@ -140,7 +141,7 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
               mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBPListe()),
               mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBMListe()),
               mapResultatGrunnlagInntekt(bPsAndelunderholdskostnadResultatGrunnlag.getInntektBBListe()),
-              mapResultatGrunnlagSjabloner(bPsAndelunderholdskostnadResultatGrunnlag.getSjablonListe()))));
+              mapResultatGrunnlagSjabloner(bPsAndelunderholdskostnadResultat.getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
   }
@@ -154,22 +155,12 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     return resultatGrunnlagInntektListeCore;
   }
 
-  private List<SjablonCore> mapResultatGrunnlagSjabloner(List<Sjablon> resultatGrunnlagSjablonListe) {
-    var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonCore>();
-    for (Sjablon resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
-      var sjablonNokkelListeCore = new ArrayList<SjablonNokkelCore>();
-      var sjablonInnholdListeCore = new ArrayList<SjablonInnholdCore>();
-      for (SjablonNokkel sjablonNokkel : resultatGrunnlagSjablon.getSjablonNokkelListe()) {
-        sjablonNokkelListeCore.add(new SjablonNokkelCore(sjablonNokkel.getSjablonNokkelNavn(), sjablonNokkel.getSjablonNokkelVerdi()));
-      }
-      for (SjablonInnhold sjablonInnhold : resultatGrunnlagSjablon.getSjablonInnholdListe()) {
-        sjablonInnholdListeCore.add(new SjablonInnholdCore(sjablonInnhold.getSjablonInnholdNavn(), sjablonInnhold.getSjablonInnholdVerdi()));
-      }
+  private List<SjablonNavnVerdiCore> mapResultatGrunnlagSjabloner(List<SjablonNavnVerdi> resultatGrunnlagSjablonListe) {
+    var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
+    for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonCore(resultatGrunnlagSjablon.getSjablonNavn(), sjablonNokkelListeCore, sjablonInnholdListeCore));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
     }
-
     return resultatGrunnlagSjablonListeCore;
   }
-
 }
