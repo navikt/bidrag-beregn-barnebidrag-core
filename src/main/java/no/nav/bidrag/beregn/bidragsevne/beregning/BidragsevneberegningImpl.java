@@ -91,7 +91,6 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     forelopigBidragsevne = forelopigBidragsevne.subtract(beregnSkattetrinnBelop(grunnlagBeregningPeriodisert));
 //    System.out.println("Foreløpig evne etter fratrekk av trinnskatt: " + forelopigBidragsevne);
 
-
     // Trekker fra boutgifter og midler til eget underhold
     if (grunnlagBeregningPeriodisert.getBostatusKode().equals(BostatusKode.ALENE)) {
       sjablonNokkelListe.clear();

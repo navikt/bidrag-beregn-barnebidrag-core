@@ -118,6 +118,33 @@ class BidragsevneberegningTest {
   }
 
   @Test
+  void beregnMedFordelSkatteklasse2() {
+
+    List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
+
+    // Overstyrer sjablonverdier fra TestUtil for å få testet fordel skatteklasse 2
+    sjablonListe.set(49, new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE1_BELOP.getNavn(), emptyList(),
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(45300)))));
+    sjablonListe.set(50, new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(90700)))));
+
+    ArrayList<Inntekt> inntekter = new ArrayList<>();
+
+    BidragsevneberegningImpl bidragsevneberegning = new BidragsevneberegningImpl();
+
+    // Test at fordel skatteklasse 2 legges til beregnet evne når skatteklasse = 2
+    inntekter.set(0, new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000)));
+    sjablonListe.set(0, new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
+        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000)))));
+
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert6
+        = new GrunnlagBeregningPeriodisert(inntekter, 2, BostatusKode.ALENE, 3,
+        SaerfradragKode.INGEN, sjablonListe);
+    assertEquals(BigDecimal.valueOf(9424),
+        bidragsevneberegning.beregn(grunnlagBeregningPeriodisert6).getResultatEvneBelop());
+  }
+
+  @Test
   void beregnMinstefradrag() {
 
     ArrayList<Inntekt> inntekter = new ArrayList<>();
