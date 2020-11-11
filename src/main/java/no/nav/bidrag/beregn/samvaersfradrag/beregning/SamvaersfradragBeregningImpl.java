@@ -29,8 +29,8 @@ public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
               sjablonNokkelListe, SjablonNokkelNavn.ALDER_TOM, grunnlagBeregningPeriodisert.getSoknadBarnAlder(),
               SjablonInnholdNavn.FRADRAG_BELOP);
 
-    System.out.println("Samværsfradrag: " + belopFradrag);
-    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
+//    System.out.println("Samværsfradrag: " + belopFradrag);
+//    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
 
     return new ResultatBeregning(belopFradrag);
 

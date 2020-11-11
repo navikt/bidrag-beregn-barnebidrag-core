@@ -83,7 +83,7 @@ public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidrag
           i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(SamvaersfradragPeriode::getSamvaersfradrag).findFirst().orElse(null);
 
-      System.out.println("Samværsfradrag: " + samvaersfradragBelop);
+//      System.out.println("Samværsfradrag: " + samvaersfradragBelop);
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
