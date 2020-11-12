@@ -158,15 +158,11 @@ class BidragsevnePeriodeTest {
 
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
-        () -> assertThat(avvikListe).hasSize(2),
+        () -> assertThat(avvikListe).hasSize(1),
 
-        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.LIGNING_KORRIGERT_BARNETILLEGG.toString() +
+        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG.toString() +
             " er ugyldig for søknadstype " + SoknadType.BIDRAG.toString() + " og rolle " + Rolle.BIDRAGSPLIKTIG.toString()),
-        () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE),
-
-        () -> assertThat(avvikListe.get(1).getAvvikTekst()).isEqualTo("inntektType " + InntektType.LIGNING_KORRIGERT_BARNETILLEGG.toString() +
-            " er kun gyldig fom. 2013-01-01 tom. 2018-12-31"),
-        () -> assertThat(avvikListe.get(1).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_PERIODE)
+        () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
     );
     printAvvikListe(avvikListe);
   }
@@ -187,7 +183,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2018-06-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektListe().size()).isEqualTo(1),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektType())
-            .isEqualTo(InntektType.INNTEKTSOPPL_ARBEIDSGIVER),
+            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(200000)),
 
@@ -195,7 +191,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning().getInntektListe().size()).isEqualTo(1),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektType())
-            .isEqualTo(InntektType.INNTEKTSOPPL_ARBEIDSGIVER),
+            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(150000)),
 
@@ -203,7 +199,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning().getInntektListe().size()).isEqualTo(1),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektType())
-            .isEqualTo(InntektType.INNTEKTSOPPL_ARBEIDSGIVER),
+            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(150000)),
 
@@ -215,7 +211,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(300000)),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatGrunnlagBeregning().getInntektListe().get(1).getInntektType())
-            .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPL),
+            .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatGrunnlagBeregning().getInntektListe().get(1).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(100000)),
 
@@ -227,7 +223,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(300000)),
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlagBeregning().getInntektListe().get(1).getInntektType())
-            .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPL),
+            .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlagBeregning().getInntektListe().get(1).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(100000)),
 
@@ -235,7 +231,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoTil()).isNull(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlagBeregning().getInntektListe().size()).isEqualTo(2),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektType())
-            .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPL),
+            .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(100000)),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlagBeregning().getInntektListe().get(1).getInntektType())
@@ -292,19 +288,19 @@ class BidragsevnePeriodeTest {
 
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2004-01-01")),
-            InntektType.INNTEKTSOPPL_ARBEIDSGIVER, BigDecimal.valueOf(666000)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(666000)));
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2004-01-01"), LocalDate.parse("2016-01-01")),
-            InntektType.INNTEKTSOPPL_ARBEIDSGIVER, BigDecimal.valueOf(555000)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(555000)));
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2016-01-01"), LocalDate.parse("2019-01-01")),
-            InntektType.INNTEKTSOPPL_ARBEIDSGIVER, BigDecimal.valueOf(444000)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(444000)));
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-04-01")),
-            InntektType.INNTEKTSOPPL_ARBEIDSGIVER, BigDecimal.valueOf(666000)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(666000)));
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2019-04-01"), LocalDate.parse("2020-01-01")),
-            InntektType.INNTEKTSOPPL_ARBEIDSGIVER, BigDecimal.valueOf(666001)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(666001)));
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2019-05-01"), LocalDate.parse("2020-01-01")),
             InntektType.OVERGANGSSTONAD, BigDecimal.valueOf(2)));
@@ -319,8 +315,8 @@ class BidragsevnePeriodeTest {
     var inntektPeriodeListe = new ArrayList<InntektPeriode>();
 
     inntektPeriodeListe
-        .add(new InntektPeriode(new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")), InntektType.LIGNING_KORRIGERT_BARNETILLEGG,
-            BigDecimal.valueOf(666001)));
+        .add(new InntektPeriode(new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
+            InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
 
     return inntektPeriodeListe;
   }
@@ -329,14 +325,16 @@ class BidragsevnePeriodeTest {
     var inntektPeriodeListe = new ArrayList<InntektPeriode>();
 
     inntektPeriodeListe.add(
-        new InntektPeriode(new Periode(LocalDate.parse("2018-01-01"), null), InntektType.INNTEKTSOPPL_ARBEIDSGIVER, BigDecimal.valueOf(200000)));
+        new InntektPeriode(new Periode(LocalDate.parse("2018-01-01"), null), InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
+            BigDecimal.valueOf(200000)));
     inntektPeriodeListe.add(
-        new InntektPeriode(new Periode(LocalDate.parse("2018-06-01"), LocalDate.parse("2018-12-31")), InntektType.INNTEKTSOPPL_ARBEIDSGIVER,
+        new InntektPeriode(new Periode(LocalDate.parse("2018-06-01"), LocalDate.parse("2018-12-31")), InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
             BigDecimal.valueOf(150000)));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null), InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT, BigDecimal.valueOf(300000)));
     inntektPeriodeListe.add(
-        new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null), InntektType.KAPITALINNTEKT_EGNE_OPPL, BigDecimal.valueOf(100000)));
+        new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null), InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER,
+            BigDecimal.valueOf(100000)));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2020-01-01"), null), InntektType.ATTFORING_AAP, BigDecimal.valueOf(250000)));
 
@@ -513,7 +511,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(169000)),
+                    BigDecimal.valueOf(169000)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(1.4))))));
 
@@ -521,7 +519,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(237900)),
+                    BigDecimal.valueOf(237900)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(3.3))))));
 
@@ -529,7 +527,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(598050)),
+                    BigDecimal.valueOf(598050)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(12.4))))));
 
@@ -537,7 +535,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(962050)),
+                    BigDecimal.valueOf(962050)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(15.4))))));
 
@@ -545,7 +543,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(174500)),
+                    BigDecimal.valueOf(174500)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(1.9))))));
 
@@ -553,7 +551,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(245650)),
+                    BigDecimal.valueOf(245650)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(4.2))))));
 
@@ -561,7 +559,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(617500)),
+                    BigDecimal.valueOf(617500)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(13.2))))));
 
@@ -569,7 +567,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2019-12-31")),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(964800)),
+                    BigDecimal.valueOf(964800)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(16.2))))));
 
@@ -577,7 +575,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(180800)),
+                    BigDecimal.valueOf(180800)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(1.9))))));
 
@@ -585,7 +583,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(254500)),
+                    BigDecimal.valueOf(254500)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(4.2))))));
 
@@ -593,7 +591,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(639750)),
+                    BigDecimal.valueOf(639750)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(13.2))))));
 
@@ -601,7 +599,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2020-01-01"), null),
         new Sjablon(SjablonNavn.TRINNVIS_SKATTESATS.getNavn(), emptyList(),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.INNTEKTSGRENSE_BELOP.getNavn(),
-                BigDecimal.valueOf(999550)),
+                    BigDecimal.valueOf(999550)),
                 new SjablonInnhold(SjablonInnholdNavn.SKATTESATS_PROSENT.getNavn(),
                     BigDecimal.valueOf(16.2))))));
 
@@ -610,7 +608,7 @@ class BidragsevnePeriodeTest {
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
-                BigDecimal.valueOf(9303)),
+                    BigDecimal.valueOf(9303)),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
                     BigDecimal.valueOf(8657))))));
 
@@ -619,7 +617,7 @@ class BidragsevnePeriodeTest {
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
-                BigDecimal.valueOf(5698)),
+                    BigDecimal.valueOf(5698)),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
                     BigDecimal.valueOf(7330))))));
 
@@ -628,7 +626,7 @@ class BidragsevnePeriodeTest {
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "EN")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
-                BigDecimal.valueOf(9591)),
+                    BigDecimal.valueOf(9591)),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
                     BigDecimal.valueOf(8925))))));
 
@@ -637,7 +635,7 @@ class BidragsevnePeriodeTest {
         new Sjablon(SjablonNavn.BIDRAGSEVNE.getNavn(), Collections.singletonList(new SjablonNokkel(
             SjablonNokkelNavn.BOSTATUS.getNavn(), "GS")),
             Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.BOUTGIFT_BELOP.getNavn(),
-                BigDecimal.valueOf(5875)),
+                    BigDecimal.valueOf(5875)),
                 new SjablonInnhold(SjablonInnholdNavn.UNDERHOLD_BELOP.getNavn(),
                     BigDecimal.valueOf(7557))))));
 
