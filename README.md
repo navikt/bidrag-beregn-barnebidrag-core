@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.11.2  | Endret       | Tatt inn ny versjon av bidrag-beregn-felles og justert noen tester angående inntekter
 0.11.1  | Endret       | Sortering av sjabloner som legges ut i resultatgrunnlaget
 0.11.0  | Endret       | Forsøk på å fikse problem med utilgjengelige Kotlin dataklasser (ingen endringer, kun ny versjon)
 0.10.0  | Endret       | Endret måten sjabloner legges ut på i resultatgrunnlaget (inneholder nå navn/verdi på de som faktisk er brukt)
