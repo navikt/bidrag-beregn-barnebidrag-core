@@ -1,7 +1,8 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -24,9 +25,8 @@ public class SamvaersfradragBeregningTest {
         sjablonListe
     );
 
-    assertEquals(2272d,
-        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatSamvaersfradragBelop().doubleValue());
+    assertThat(samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatSamvaersfradragBelop()
+        .compareTo(BigDecimal.valueOf(2272))).isZero();
   }
 
   @DisplayName("Test av beregning av samvaersfradrag for seksåring")
@@ -38,9 +38,8 @@ public class SamvaersfradragBeregningTest {
         sjablonListe
     );
 
-    assertEquals(2716d,
-        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatSamvaersfradragBelop().doubleValue());
+    assertThat(samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatSamvaersfradragBelop()
+        .compareTo(BigDecimal.valueOf(2716))).isZero();
   }
 
   @DisplayName("Test fra John")
@@ -52,9 +51,8 @@ public class SamvaersfradragBeregningTest {
         sjablonListe
     );
 
-    assertEquals(457d,
-        samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatSamvaersfradragBelop().doubleValue());
+    assertThat(samvaersfradragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatSamvaersfradragBelop()
+        .compareTo(BigDecimal.valueOf(457))).isZero();
   }
 
 }

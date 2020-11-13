@@ -250,9 +250,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBM = new ArrayList<Inntekt>();
     var inntektBB = new ArrayList<Inntekt>();
 
-    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(600000d)));
-    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000d)));
-    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(0d)));
+    inntektBP.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(600000)));
+    inntektBM.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(100000)));
+    inntektBB.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.ZERO));
 
     var beregnBPsAndelUnderholdskostnadGrunnlagPeriodisert =
         new GrunnlagBeregningPeriodisert(underholdskostnad, inntektBP, inntektBM, inntektBB, sjablonListe);

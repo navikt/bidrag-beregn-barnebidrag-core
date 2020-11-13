@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -35,8 +34,7 @@ public class UnderholdskostnadPeriodeTest {
 
   private BeregnUnderholdskostnadGrunnlag grunnlag;
 
-  private UnderholdskostnadPeriode underholdskostnadPeriode = UnderholdskostnadPeriode
-      .getInstance();
+  private final UnderholdskostnadPeriode underholdskostnadPeriode = UnderholdskostnadPeriode.getInstance();
 
   @Test
   @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
@@ -46,94 +44,67 @@ public class UnderholdskostnadPeriodeTest {
 
     var resultat = underholdskostnadPeriode.beregnPerioder(grunnlag);
 
-    assertThat(resultat).isNotNull();
-
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(6),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2018-07-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSoknadBarnAlder())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSoknadBarnAlder())
             .isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning()
-            .getResultatBelopUnderholdskostnad())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(BigDecimal.valueOf(4491)),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getSoknadBarnAlder())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getSoknadBarnAlder())
             .isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning()
-            .getResultatBelopUnderholdskostnad())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(BigDecimal.valueOf(5602)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag()
-            .getForpleiningUtgiftBelop()).isEqualTo(BigDecimal.valueOf(123)),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getForpleiningUtgiftBelop())
+            .isEqualTo(BigDecimal.valueOf(123)),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(2).getResultatGrunnlag().getSoknadBarnAlder())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlag().getSoknadBarnAlder())
             .isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning()
-            .getResultatBelopUnderholdskostnad())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(BigDecimal.valueOf(4380)),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(3).getResultatGrunnlag().getSoknadBarnAlder())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatGrunnlag().getSoknadBarnAlder())
             .isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning()
-            .getResultatBelopUnderholdskostnad())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(BigDecimal.valueOf(4380)),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(4).getResultatGrunnlag().getSoknadBarnAlder())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatGrunnlag().getSoknadBarnAlder())
             .isEqualTo(10),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatBeregning()
-            .getResultatBelopUnderholdskostnad())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(BigDecimal.valueOf(4491)),
 
         // Barnet har fyllt 11 år og skal ha høyere forbruksutgifter enn de første periodene
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoTil())
             .isNull(),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(5).getResultatGrunnlag().getSoknadBarnAlder())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatGrunnlag().getSoknadBarnAlder())
             .isEqualTo(11),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregning()
-            .getResultatBelopUnderholdskostnad())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregning().getResultatBelopUnderholdskostnad())
             .isEqualTo(BigDecimal.valueOf(5477))
-
     );
 
     printGrunnlagResultat(resultat);
@@ -181,29 +152,23 @@ public class UnderholdskostnadPeriodeTest {
 
     var resultat = underholdskostnadPeriode.beregnPerioder(grunnlag);
 
-    assertThat(resultat).isNotNull();
-
     assertAll(
+        () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-08-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad().doubleValue())
-            .isEqualTo(2000d),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad()
+            .compareTo(BigDecimal.valueOf(2000))).isZero(),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2019-08-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
             .isNull(),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad().doubleValue())
-            .isEqualTo(2000d - 1054d)
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad()
+            .compareTo(BigDecimal.valueOf(2000 - 1054))).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -249,40 +214,33 @@ public class UnderholdskostnadPeriodeTest {
 
     var resultat = underholdskostnadPeriode.beregnPerioder(grunnlag);
 
-    assertThat(resultat).isNotNull();
-
     assertAll(
+        () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
+
         // Første periode er før innføring av forhøyet barnetrygd
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2021-03-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2021-07-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad().doubleValue())
-            .isEqualTo(2000d - 1054d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatBelopUnderholdskostnad()
+            .compareTo(BigDecimal.valueOf(2000 - 1054))).isZero(),
+
         // Forhøyet barnetrygd er innført, barnet er under seks år -> forhøyet barnetrygd brukes
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2021-07-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2021-11-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad().doubleValue())
-            .isEqualTo(2000d - 1354d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatBelopUnderholdskostnad()
+            .compareTo(BigDecimal.valueOf(2000 - 1354))).isZero(),
+
         // Forhøyet barnetrygd er innført, barnet har fyllt seks år -> ordinær barnetrygd brukes
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra())
             .isEqualTo(LocalDate.parse("2021-11-01")),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
             .isNull(),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad().doubleValue())
-            .isEqualTo(2000d - 1054d)
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatBelopUnderholdskostnad()
+            .compareTo(BigDecimal.valueOf(2000 - 1054))).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -299,25 +257,26 @@ public class UnderholdskostnadPeriodeTest {
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
         () -> assertThat(avvikListe).hasSize(4),
+
         () -> assertThat(avvikListe.get(0).getAvvikTekst())
-            .isEqualTo(
-                "Første dato i barnetilsynMedStonadPeriodeListe (2018-01-01) er etter beregnDatoFra (2015-01-01)"),
+            .isEqualTo("Første dato i barnetilsynMedStonadPeriodeListe (2018-01-01) er etter beregnDatoFra (2015-01-01)"),
         () -> assertThat(avvikListe.get(0).getAvvikType())
             .isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
+
         () -> assertThat(avvikListe.get(1).getAvvikTekst())
-            .isEqualTo(
-                "Siste dato i barnetilsynMedStonadPeriodeListe (2020-12-01) er før beregnDatoTil (2021-01-01)"),
+            .isEqualTo("Siste dato i barnetilsynMedStonadPeriodeListe (2020-12-01) er før beregnDatoTil (2021-01-01)"),
         () -> assertThat(avvikListe.get(1).getAvvikType())
             .isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
+
         () -> assertThat(avvikListe.get(2).getAvvikTekst())
-            .isEqualTo(
-                "Første dato i nettoBarnetilsynPeriodeListe (2016-01-01) er etter beregnDatoFra (2015-01-01)"),
+            .isEqualTo("Første dato i nettoBarnetilsynPeriodeListe (2016-01-01) er etter beregnDatoFra (2015-01-01)"),
         () -> assertThat(avvikListe.get(2).getAvvikType())
             .isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
+
         () -> assertThat(avvikListe.get(3).getAvvikTekst())
-            .isEqualTo(
-                "Siste dato i forpleiningUtgiftPeriodeListe (2020-01-01) er før beregnDatoTil (2021-01-01)"),
-        () -> assertThat(avvikListe.get(3).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
+            .isEqualTo("Siste dato i forpleiningUtgiftPeriodeListe (2020-01-01) er før beregnDatoTil (2021-01-01)"),
+        () -> assertThat(avvikListe.get(3).getAvvikType())
+            .isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
     );
 
     printAvvikListe(avvikListe);

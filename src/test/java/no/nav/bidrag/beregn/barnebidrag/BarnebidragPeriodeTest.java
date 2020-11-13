@@ -19,7 +19,6 @@ import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.DeltBostedPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersfradragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.periode.BarnebidragPeriode;
-
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
@@ -34,9 +33,7 @@ import org.junit.jupiter.api.Test;
 
 public class BarnebidragPeriodeTest {
 
-  private BeregnBarnebidragGrunnlag grunnlag;
-
-  private BarnebidragPeriode barnebidragPeriode = BarnebidragPeriode.getInstance();
+  private final BarnebidragPeriode barnebidragPeriode = BarnebidragPeriode.getInstance();
 
   public ArrayList<SjablonPeriode> sjablonPeriodeListe = new ArrayList<>();
 
@@ -68,7 +65,7 @@ public class BarnebidragPeriodeTest {
         BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(0d)));
+        BigDecimal.ZERO));
     deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
@@ -100,15 +97,14 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-10-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
 
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(15000),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(15000))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
             ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(
-            resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop().doubleValue()).isEqualTo(16000),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(16000))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatkode()).isEqualTo(
             ResultatKode.KOSTNADSBEREGNET_BIDRAG)
-
     );
 
     printGrunnlagResultat(resultat);
@@ -218,34 +214,34 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-12-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(2)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(4000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(2)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(7000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(8000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(3001d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(4001d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(5000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(5000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(2).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(5000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(5000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(4000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(2).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(5000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(7000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(8000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(3001))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(4001))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
 
     );
 
@@ -334,24 +330,24 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-11-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(800d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(200d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(800))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(200))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlag().getGrunnlagPerBarnListe().get(1)
-            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().doubleValue()).isEqualTo(10d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(1000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatBarnebidragBelop().doubleValue()).isEqualTo(0d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().compareTo(BigDecimal.valueOf(10))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(1000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.ZERO)).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getGrunnlagPerBarnListe().get(1)
-            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().doubleValue()).isEqualTo(0d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatkode()).isEqualTo(ResultatKode.DELT_BOSTED)
+            .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().compareTo(BigDecimal.ZERO)).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatkode())
+            .isEqualTo(ResultatKode.DELT_BOSTED)
     );
 
     printGrunnlagResultat(resultat);

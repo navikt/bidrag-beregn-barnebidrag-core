@@ -1,6 +1,5 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
@@ -9,7 +8,6 @@ import static org.mockito.Mockito.when;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
