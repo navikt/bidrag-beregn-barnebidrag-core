@@ -45,7 +45,7 @@ class BidragsevnePeriodeTest {
 
   private BeregnBidragsevneGrunnlag grunnlag;
 
-  private BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.getInstance();
+  private final BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.getInstance();
 
   @Test
   @DisplayName("Test med OK grunnlag")
@@ -404,7 +404,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2013-01-01"), null),
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                BigDecimal.valueOf(0))))));
+                BigDecimal.ZERO)))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2013-12-31")),
@@ -438,7 +438,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2017-07-01"), LocalDate.parse("2017-12-31")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                BigDecimal.valueOf(75000d))))));
+                BigDecimal.valueOf(75000))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-06-30")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),

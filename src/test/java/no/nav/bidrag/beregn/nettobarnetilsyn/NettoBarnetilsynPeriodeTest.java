@@ -50,8 +50,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2008-03-17"), BigDecimal.valueOf(5000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -63,23 +62,22 @@ public class NettoBarnetilsynPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(1000d),
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(750d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(750))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(2000d),
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(2000))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(1499d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(1499))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(5000d),
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(5000))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(4478d)
-
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(4478))).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -106,8 +104,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2008-03-17"), BigDecimal.valueOf(5000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -119,26 +116,25 @@ public class NettoBarnetilsynPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(1000d),
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(750))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop().doubleValue())
-            .isEqualTo(750d),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(2000d),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(1583),
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(2000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(1583))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(1).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(2000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatBelop().doubleValue()).isEqualTo(1583d),
+            .getFaktiskUtgiftListe().get(1).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(2000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(1583))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
             .getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning()
-            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().doubleValue()).isEqualTo(5000d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(4478d)
 
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatGrunnlagBeregning()
+            .getFaktiskUtgiftListe().get(0).getFaktiskUtgiftBelop().compareTo(BigDecimal.valueOf(5000))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(4478))).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -156,8 +152,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2005-03-17"), BigDecimal.valueOf(1000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -168,9 +163,8 @@ public class NettoBarnetilsynPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(0d)
-
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.ZERO)).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -188,8 +182,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2015-03-17"), BigDecimal.ZERO));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -201,7 +194,6 @@ public class NettoBarnetilsynPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().isEmpty())
-
     );
 
     printGrunnlagResultat(resultat);
@@ -225,8 +217,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2015-03-17"), BigDecimal.valueOf(800)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -238,7 +229,6 @@ public class NettoBarnetilsynPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getFaktiskUtgiftListe().size()).isEqualTo(3)
-
     );
 
     printGrunnlagResultat(resultat);
@@ -266,8 +256,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2013-03-17"), BigDecimal.valueOf(200)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -277,31 +266,30 @@ public class NettoBarnetilsynPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-11-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2018-12-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop().doubleValue())
-            .isEqualTo(600d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(600))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(3),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatBelop().doubleValue())
-            .isEqualTo(600d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(600))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId())
             .isEqualTo(1),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-09-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregningListe().get(0).getResultatBelop().doubleValue())
-            .isEqualTo(150d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(150))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultatBeregningListe().get(0)
             .getResultatSoknadsbarnPersonId()).isEqualTo(2),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(7).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-11-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(7).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-12-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(7).getResultatBeregningListe().get(0).getResultatBelop().doubleValue())
-            .isEqualTo(150d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(7).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(150))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(7).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId())
             .isEqualTo(4)
-
     );
 
     printGrunnlagResultat(resultat);
@@ -322,8 +310,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2012-02-18"), BigDecimal.valueOf(2000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -359,8 +346,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2008-03-17"), BigDecimal.valueOf(5000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var avvikListe = nettoBarnetilsynPeriode.validerInput(beregnNettoBarnetilsynGrunnlag);
 
@@ -395,8 +381,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2006-02-18"), BigDecimal.valueOf(2000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -406,15 +391,14 @@ public class NettoBarnetilsynPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(1499d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(1499))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(0d)
-
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.ZERO)).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -437,8 +421,7 @@ public class NettoBarnetilsynPeriodeTest {
         LocalDate.parse("2016-02-18"), BigDecimal.valueOf(1000)));
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
@@ -448,17 +431,16 @@ public class NettoBarnetilsynPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(1624d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(1624))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(0d),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1)
-            .getResultatBelop().doubleValue()).isEqualTo(750d)
-
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.ZERO)).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(750))).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -476,23 +458,15 @@ public class NettoBarnetilsynPeriodeTest {
     faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1,
         new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
         LocalDate.parse("2010-03-17"), BigDecimal.valueOf(3000)));
-/*    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
-        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2011-03-18"), 2, 2000d));
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(
-        new Periode(LocalDate.parse("2019-07-01"), LocalDate.parse("2020-01-01")),
-        LocalDate.parse("2012-03-18"), 3, 2000d));*/
 
     BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag =
-        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe,
-            lagSjablonGrunnlag());
+        new BeregnNettoBarnetilsynGrunnlag(beregnDatoFra, beregnDatoTil, faktiskUtgiftPeriodeListe, lagSjablonGrunnlag());
 
     var resultat = nettoBarnetilsynPeriode.beregnPerioder(beregnNettoBarnetilsynGrunnlag);
 
     assertAll(
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0)
-            .getResultatBelop().doubleValue()).isEqualTo(2478d)
-//        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()).isEqualTo(2249d)
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBelop()
+            .compareTo(BigDecimal.valueOf(2478))).isZero()
     );
 
     printGrunnlagResultat(resultat);

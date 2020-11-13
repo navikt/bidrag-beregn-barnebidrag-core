@@ -35,7 +35,7 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(1),
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(1978d)
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.valueOf(1978))).isZero()
     );
   }
 
@@ -57,8 +57,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(2083d),
-        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(4583d)
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.valueOf(2083))).isZero(),
+        () -> assertThat(resultat.get(1).getResultatBelop().compareTo(BigDecimal.valueOf(4583))).isZero()
     );
   }
 
@@ -81,8 +81,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(2083d),
-        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(4583d)
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.valueOf(2083))).isZero(),
+        () -> assertThat(resultat.get(1).getResultatBelop().compareTo(BigDecimal.valueOf(4583))).isZero()
     );
   }
 
@@ -112,8 +112,8 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(2),
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(5367d),
-        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(2062d)
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.valueOf(5367))).isZero(),
+        () -> assertThat(resultat.get(1).getResultatBelop().compareTo(BigDecimal.valueOf(2062))).isZero()
     );
   }
 
@@ -143,9 +143,9 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(3),
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(4299d),
-        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(2427d),
-        () -> assertThat(resultat.get(2).getResultatBelop().doubleValue()).isEqualTo(1490d)
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.valueOf(4299))).isZero(),
+        () -> assertThat(resultat.get(1).getResultatBelop().compareTo(BigDecimal.valueOf(2427))).isZero(),
+        () -> assertThat(resultat.get(2).getResultatBelop().compareTo(BigDecimal.valueOf(1490))).isZero()
     );
   }
 
@@ -169,7 +169,7 @@ class NettoBarnetilsynBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.size()).isEqualTo(1),
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(750d)
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.valueOf(750))).isZero()
     );
   }
 
@@ -192,7 +192,8 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.size()).isEqualTo(3),
         () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
-        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3));
+        () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3)
+    );
   }
 
   @DisplayName("Test summering på søknadsbarns personid")
@@ -216,8 +217,8 @@ class NettoBarnetilsynBeregningTest {
         () -> assertThat(resultat.get(0).getResultatSoknadsbarnPersonId()).isEqualTo(1),
         () -> assertThat(resultat.get(1).getResultatSoknadsbarnPersonId()).isEqualTo(2),
         () -> assertThat(resultat.get(2).getResultatSoknadsbarnPersonId()).isEqualTo(3),
-        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(2427d))
-    ;
+        () -> assertThat(resultat.get(1).getResultatBelop().compareTo(BigDecimal.valueOf(2427))).isZero()
+    );
   }
 
 
@@ -236,8 +237,8 @@ class NettoBarnetilsynBeregningTest {
     var resultat = nettoBarnetilsynBeregning.beregn(GrunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBelop().doubleValue()).isEqualTo(0d),
-        () -> assertThat(resultat.get(1).getResultatBelop().doubleValue()).isEqualTo(1874d))
-    ;
+        () -> assertThat(resultat.get(0).getResultatBelop().compareTo(BigDecimal.ZERO)).isZero(),
+        () -> assertThat(resultat.get(1).getResultatBelop().compareTo(BigDecimal.valueOf(1874))).isZero()
+    );
   }
 }

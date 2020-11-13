@@ -34,7 +34,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
   private BeregnBPsAndelUnderholdskostnadGrunnlag grunnlag;
 
-  private BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode = BPsAndelUnderholdskostnadPeriode.getInstance();
+  private final BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode = BPsAndelUnderholdskostnadPeriode.getInstance();
 
   @Test
   @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
@@ -480,7 +480,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000d)));
+        BigDecimal.valueOf(1000)));
 
     inntektBPPeriodeListe
         .add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG,

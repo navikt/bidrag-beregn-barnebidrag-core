@@ -19,8 +19,7 @@ import org.junit.jupiter.api.Test;
 
 public class KostnadsberegnetBidragPeriodeTest {
 
-    private KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode =
-        KostnadsberegnetBidragPeriode.getInstance();
+    private final KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode = KostnadsberegnetBidragPeriode.getInstance();
 
     @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
     @Test
@@ -66,13 +65,13 @@ public class KostnadsberegnetBidragPeriodeTest {
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-08-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop().doubleValue())
-              .isEqualTo(1900d),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop()
+              .compareTo(BigDecimal.valueOf(1900))).isZero(),
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-08-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop().doubleValue())
-              .isEqualTo(100d)
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop()
+              .compareTo(BigDecimal.valueOf(100))).isZero()
       );
 
       printGrunnlagResultat(resultat);

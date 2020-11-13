@@ -169,9 +169,9 @@ public class BPsAndelUnderholdskostnadCoreTest {
     var inntektBMListe = new ArrayList<Inntekt>();
     var inntektBBListe = new ArrayList<Inntekt>();
 
-    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(111d)));
-    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(222d)));
-    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(333d)));
+    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(111)));
+    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(222)));
+    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(333)));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),

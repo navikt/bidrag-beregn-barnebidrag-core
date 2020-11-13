@@ -1,11 +1,8 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
-import java.util.List;
-import no.nav.bidrag.beregn.TestUtil;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning.KostnadsberegnetBidragBeregningImpl;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.GrunnlagBeregningPeriodisert;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +10,6 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("Test av beregning kostnadsberegnet bidrag uten samværsfradrag")
 public class KostnadsberegnetBidragBeregningTest {
-
-  private List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 
   @DisplayName("Test av beregning av kostnadsberegnetBidrag")
   @Test
@@ -25,9 +20,8 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.valueOf(20),
         BigDecimal.ZERO);
 
-    assertEquals(2000d,
-        kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop().doubleValue());
+     assertThat(kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatkostnadsberegnetbidragBelop()
+         .compareTo(BigDecimal.valueOf(2000))).isZero();
   }
 
 
@@ -41,9 +35,8 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.valueOf(100)
     );
 
-    assertEquals(1900d,
-        kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop().doubleValue());
+    assertThat(kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatkostnadsberegnetbidragBelop()
+        .compareTo(BigDecimal.valueOf(1900))).isZero();
   }
 
   @DisplayName("Test av resultatet rundes av til nærmeste tier. 606,06 -> 610")
@@ -56,9 +49,8 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.ZERO
     );
 
-    assertEquals(610d,
-        kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop().doubleValue());
+    assertThat(kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatkostnadsberegnetbidragBelop()
+        .compareTo(BigDecimal.valueOf(610))).isZero();
   }
 
   @DisplayName("Test av resultatet rundes ned til nærmeste tier. 72,0 -> 70,0 ")
@@ -71,8 +63,7 @@ public class KostnadsberegnetBidragBeregningTest {
         BigDecimal.valueOf(100)
     );
 
-    assertEquals(70d,
-        kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert)
-            .getResultatkostnadsberegnetbidragBelop().doubleValue());
+    assertThat(kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatkostnadsberegnetbidragBelop()
+        .compareTo(BigDecimal.valueOf(70))).isZero();
   }
 }
