@@ -29,7 +29,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
     this.nettoBarnetilsynBeregning = nettoBarnetilsynBeregning;
   }
 
-  private NettoBarnetilsynBeregning nettoBarnetilsynBeregning;
+  private final NettoBarnetilsynBeregning nettoBarnetilsynBeregning;
 
   public BeregnNettoBarnetilsynResultat beregnPerioder(
       BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag) {

@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.toCollection;
 
 import java.util.ArrayList;
 import java.util.List;
-import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -14,9 +13,9 @@ import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BPsAndelUnderholdskostnadP
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragGrunnlag;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragResultat;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.SamvaersfradragPeriode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.UnderholdskostnadPeriode;
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatPeriode;
 
 public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidragPeriode {
   public KostnadsberegnetBidragPeriodeImpl(
@@ -24,13 +23,12 @@ public class KostnadsberegnetBidragPeriodeImpl implements KostnadsberegnetBidrag
     this.kostnadsberegnetBidragBeregning = kostnadsberegnetBidragBeregning;
   }
 
-  private KostnadsberegnetBidragBeregning kostnadsberegnetBidragBeregning;
+  private final KostnadsberegnetBidragBeregning kostnadsberegnetBidragBeregning;
 
   public BeregnKostnadsberegnetBidragResultat beregnPerioder(
       BeregnKostnadsberegnetBidragGrunnlag beregnKostnadsberegnetBidragGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
-    var soknadsbarnPersonId = beregnKostnadsberegnetBidragGrunnlag.getSoknadsbarnPersonId();
 
     var justertUnderholdskostnadPeriodeListe = beregnKostnadsberegnetBidragGrunnlag.getUnderholdskostnadPeriodeListe()
         .stream()

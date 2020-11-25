@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.underholdskostnad.periode;
 
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toUnmodifiableSet;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -30,7 +29,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
     this.underholdskostnadBeregning = underholdskostnadBeregning;
   }
 
-  private UnderholdskostnadBeregning underholdskostnadBeregning;
+  private final UnderholdskostnadBeregning underholdskostnadBeregning;
 
   public BeregnUnderholdskostnadResultat beregnPerioder(
       BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag) {
@@ -59,8 +58,8 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
 
     // Barnetrygd skal ikke trekkes fra i barnets fødselsmåned, må derfor lage denne måneden som egen periode
     Periode soknadsbarnFodselsmaaned = new Periode(
-        beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().withDayOfMonth(01),
-        beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().withDayOfMonth(01)
+        beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().withDayOfMonth(1),
+        beregnUnderholdskostnadGrunnlag.getSoknadsbarnFodselsdato().withDayOfMonth(1)
             .plusMonths(1));
 
     // Ny sjablon forhøyet barnetrygd for barn til og med fem år inntrer fra 01.07.2021

@@ -4,7 +4,6 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.beregning.Bidragsevneberegning;
@@ -26,7 +25,7 @@ import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.Rolle;
 import no.nav.bidrag.beregn.felles.enums.SoknadType;
-import no.nav.bidrag.beregn.felles.inntekt.InntektGrunnlag;
+import no.nav.bidrag.beregn.felles.inntekt.InntektPeriodeGrunnlag;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 
 
@@ -37,7 +36,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
   }
 
   //  private Bidragsevneberegning bidragsevneberegning = Bidragsevneberegning.getInstance();
-  private Bidragsevneberegning bidragsevneberegning;
+  private final Bidragsevneberegning bidragsevneberegning;
 
   public BeregnBidragsevneResultat beregnPerioder(
       BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag) {
@@ -146,8 +145,8 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
     }
 
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
-        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            inntektPeriode.getInntektBelop()))
+        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+            inntektPeriode.getInntektBelop(), false, false))
         .collect(toList()));
 
     return justertInntektPeriodeListe.stream()
@@ -212,8 +211,8 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
     // Valider inntekter
     var inntektGrunnlagListe = beregnBidragsevneGrunnlag.getInntektPeriodeListe().stream()
-        .map(inntektPeriode -> new InntektGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
-            inntektPeriode.getInntektBelop()))
+        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getInntektDatoFraTil(), inntektPeriode.getInntektType(),
+            inntektPeriode.getInntektBelop(), false, false))
         .collect(toList());
     avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSPLIKTIG));
 
