@@ -3,7 +3,7 @@
 
   <groupId>no.nav.bidrag</groupId>
   <artifactId>bidrag-beregn-barnebidrag-core</artifactId>
-  <version>0.11.4-SNAPSHOT</version>
+  <version>0.12.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>bidrag-beregn-barnebidrag-core</name>
   <description>Repo for beregning av barnebidrag</description>
@@ -36,7 +36,7 @@
 
     <!-- dependencies -->
     <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
-    <bidrag-beregn-felles.version>0.12.1</bidrag-beregn-felles.version>
+    <bidrag-beregn-felles.version>0.13.0</bidrag-beregn-felles.version>
   </properties>
 
   <distributionManagement>

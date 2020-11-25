@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.12.0  | Opprettet    | Lagt til logikk for utvidet barnetrygd (inntekt BM). Utvidet Inntekt DTO og BO med nye felter.
 0.11.3  | Endret       | Erstattet Double med BigDecimal i resterende testklasser
 0.11.2  | Endret       | Tatt inn ny versjon av bidrag-beregn-felles og justert noen tester angående inntekter
 0.11.1  | Endret       | Sortering av sjabloner som legges ut i resultatgrunnlaget
