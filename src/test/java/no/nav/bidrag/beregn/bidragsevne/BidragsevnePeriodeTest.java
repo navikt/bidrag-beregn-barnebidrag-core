@@ -119,7 +119,7 @@ class BidragsevnePeriodeTest {
 
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
-        () -> assertThat(avvikListe).hasSize(6),
+        () -> assertThat(avvikListe).hasSize(7),
 
         () -> assertThat(avvikListe.get(0).getAvvikTekst())
             .isEqualTo("Første dato i inntektPeriodeListe (2003-01-01) er etter beregnDatoFra (2001-07-01)"),
@@ -143,7 +143,11 @@ class BidragsevnePeriodeTest {
 
         () -> assertThat(avvikListe.get(5).getAvvikTekst())
             .isEqualTo("Siste dato i saerfradragPeriodeListe (2020-01-01) er før beregnDatoTil (2021-01-01)"),
-        () -> assertThat(avvikListe.get(5).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
+        () -> assertThat(avvikListe.get(5).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
+
+        () -> assertThat(avvikListe.get(6).getAvvikTekst())
+            .isEqualTo("inntektType KONTANTSTOTTE er ugyldig for søknadstype BIDRAG og rolle BIDRAGSPLIKTIG"),
+        () -> assertThat(avvikListe.get(6).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
     );
 
     printAvvikListe(avvikListe);
