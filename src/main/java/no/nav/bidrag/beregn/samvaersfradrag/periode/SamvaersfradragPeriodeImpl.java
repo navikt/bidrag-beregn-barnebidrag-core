@@ -15,8 +15,8 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
 
@@ -27,7 +27,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     this.samvaersfradragBeregning = samvaersfradragBeregning;
   }
 
-  private SamvaersfradragBeregning samvaersfradragBeregning;
+  private final SamvaersfradragBeregning samvaersfradragBeregning;
 
   public BeregnSamvaersfradragResultat beregnPerioder(
       BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag) {

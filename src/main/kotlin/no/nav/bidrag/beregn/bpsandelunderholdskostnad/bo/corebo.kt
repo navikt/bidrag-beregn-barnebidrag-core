@@ -50,5 +50,7 @@ data class GrunnlagBeregningPeriodisert(
 
 data class Inntekt(
     val inntektType: InntektType,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
+    val deltFordel: Boolean,
+    val skatteklasse2: Boolean
 )

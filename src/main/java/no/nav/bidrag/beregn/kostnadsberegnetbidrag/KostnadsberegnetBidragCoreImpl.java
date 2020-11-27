@@ -29,7 +29,7 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     this.kostnadsberegnetBidragPeriode = kostnadsberegnetBidragPeriode;
   }
 
-  private KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode;
+  private final KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode;
 
   public BeregnKostnadsberegnetBidragResultatCore beregnKostnadsberegnetBidrag(
       BeregnKostnadsberegnetBidragGrunnlagCore beregnKostnadsberegnetBidragGrunnlagCore) {

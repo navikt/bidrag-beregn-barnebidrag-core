@@ -45,7 +45,7 @@ class BidragsevnePeriodeTest {
 
   private BeregnBidragsevneGrunnlag grunnlag;
 
-  private BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.getInstance();
+  private final BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.getInstance();
 
   @Test
   @DisplayName("Test med OK grunnlag")
@@ -119,7 +119,7 @@ class BidragsevnePeriodeTest {
 
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
-        () -> assertThat(avvikListe).hasSize(6),
+        () -> assertThat(avvikListe).hasSize(7),
 
         () -> assertThat(avvikListe.get(0).getAvvikTekst())
             .isEqualTo("Første dato i inntektPeriodeListe (2003-01-01) er etter beregnDatoFra (2001-07-01)"),
@@ -143,7 +143,11 @@ class BidragsevnePeriodeTest {
 
         () -> assertThat(avvikListe.get(5).getAvvikTekst())
             .isEqualTo("Siste dato i saerfradragPeriodeListe (2020-01-01) er før beregnDatoTil (2021-01-01)"),
-        () -> assertThat(avvikListe.get(5).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
+        () -> assertThat(avvikListe.get(5).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
+
+        () -> assertThat(avvikListe.get(6).getAvvikTekst())
+            .isEqualTo("inntektType KONTANTSTOTTE er ugyldig for søknadstype BIDRAG og rolle BIDRAGSPLIKTIG"),
+        () -> assertThat(avvikListe.get(6).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
     );
 
     printAvvikListe(avvikListe);
@@ -404,7 +408,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2013-01-01"), null),
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                BigDecimal.valueOf(0))))));
+                BigDecimal.ZERO)))));
 
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2003-01-01"), LocalDate.parse("2013-12-31")),
@@ -438,7 +442,7 @@ class BidragsevnePeriodeTest {
         new Periode(LocalDate.parse("2017-07-01"), LocalDate.parse("2017-12-31")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),
             Collections.singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
-                BigDecimal.valueOf(75000d))))));
+                BigDecimal.valueOf(75000))))));
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2018-06-30")),
         new Sjablon(SjablonTallNavn.MINSTEFRADRAG_INNTEKT_BELOP.getNavn(), emptyList(),

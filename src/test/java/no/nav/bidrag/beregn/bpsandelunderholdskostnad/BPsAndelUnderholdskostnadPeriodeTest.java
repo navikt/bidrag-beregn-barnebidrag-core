@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -34,7 +35,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
   private BeregnBPsAndelUnderholdskostnadGrunnlag grunnlag;
 
-  private BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode = BPsAndelUnderholdskostnadPeriode.getInstance();
+  private final BPsAndelUnderholdskostnadPeriode bPsAndelunderholdskostnadPeriode = BPsAndelUnderholdskostnadPeriode.getInstance();
 
   @Test
   @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
@@ -85,15 +86,15 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
-        InntektType.LONN_SKE, BigDecimal.valueOf(300000)));
+        InntektType.LONN_SKE, BigDecimal.valueOf(300000), false, false));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
-        InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
+        InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2008-01-01"), LocalDate.parse("2009-06-01")),
-        InntektType.LONN_SKE, BigDecimal.valueOf(40000)));
+        InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false));
 
     underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
@@ -101,15 +102,15 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LONN_SKE, BigDecimal.valueOf(3000)));
+        InntektType.LONN_SKE, BigDecimal.valueOf(3000), false, false));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LONN_SKE, BigDecimal.valueOf(400000)));
+        InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2009-06-01"), LocalDate.parse("2020-08-01")),
-        InntektType.LONN_SKE, BigDecimal.valueOf(4000000)));
+        InntektType.LONN_SKE, BigDecimal.valueOf(4000000), false, false));
 
     // Lag sjabloner
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
@@ -206,7 +207,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         () -> assertThat(avvikListe.get(1).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE),
 
         () -> assertThat(avvikListe.get(2).getAvvikTekst()).isEqualTo("inntektType " + InntektType.PENSJON_KORRIGERT_BARNETILLEGG.toString() +
-            " er kun gyldig fom. 2015-01-01 tom. 2015-12-31"),
+            " er kun gyldig fom. 2015-01-01 tom. 2016-01-01"),
         () -> assertThat(avvikListe.get(2).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_PERIODE),
 
         () -> assertThat(avvikListe.get(3).getAvvikTekst()).isEqualTo("inntektType " + InntektType.BARNETRYGD_MANUELL_VURDERING.toString() +
@@ -221,7 +222,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
   @DisplayName("Test justering av inntekter BP")
   void testJusteringAvInntekterBP() {
 
-    lagGrunnlagMedInntekterTilJustering("BP");
+    lagGrunnlagMedInntekterTilJustering("BP", null, null);
     var resultat = bPsAndelunderholdskostnadPeriode.beregnPerioder(grunnlag);
 
     assertAll(
@@ -295,7 +296,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
   @DisplayName("Test justering av inntekter BM")
   void testJusteringAvInntekterBM() {
 
-    lagGrunnlagMedInntekterTilJustering("BM");
+    lagGrunnlagMedInntekterTilJustering("BM", null, null);
     var resultat = bPsAndelunderholdskostnadPeriode.beregnPerioder(grunnlag);
 
     assertAll(
@@ -369,7 +370,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
   @DisplayName("Test justering av inntekter BB")
   void testJusteringAvInntekterBB() {
 
-    lagGrunnlagMedInntekterTilJustering("BB");
+    lagGrunnlagMedInntekterTilJustering("BB", null, null);
     var resultat = bPsAndelunderholdskostnadPeriode.beregnPerioder(grunnlag);
 
     assertAll(
@@ -439,6 +440,36 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     );
   }
 
+  @Test
+  @DisplayName("Test utvidet barnetrygd BM")
+  void testUtvidetBarnetrygdBM() {
+
+    lagGrunnlagMedInntekterTilJustering("BMUTV", LocalDate.parse("2019-01-01"), LocalDate.parse("2019-04-01"));
+    var resultat = bPsAndelunderholdskostnadPeriode.beregnPerioder(grunnlag);
+
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-04-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().size()).isEqualTo(3),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().get(0).getInntektType())
+            .isEqualTo(InntektType.PENSJON_KORRIGERT_BARNETILLEGG),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().get(0).getInntektBelop())
+            .isEqualTo(BigDecimal.valueOf(400000)),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().get(1).getInntektType())
+            .isEqualTo(InntektType.UTVIDET_BARNETRYGD),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().get(1).getInntektBelop())
+            .isEqualTo(BigDecimal.valueOf(12000)),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().get(2).getInntektType())
+            .isEqualTo(InntektType.FORDEL_SAERFRADRAG_ENSLIG_FORSORGER),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektBMListe().get(2).getInntektBelop())
+            .isEqualTo(BigDecimal.valueOf(13000))
+    );
+  }
+
   private void lagGrunnlag(String beregnDatoFra, String beregnDatoTil) {
 
     var soknadsbarnPersonId = 1;
@@ -453,15 +484,15 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     inntektBPPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(217666)));
+        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(217666), false, false));
 
     inntektBMPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(400000)));
+        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(400000), false, false));
 
     inntektBBPeriodeListe.add(new InntektPeriode(
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")),
-        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(40000)));
+        InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(40000), false, false));
 
     grunnlag = new BeregnBPsAndelUnderholdskostnadGrunnlag(LocalDate.parse(beregnDatoFra), LocalDate.parse(beregnDatoTil),
         soknadsbarnPersonId, underholdskostnadPeriodeListe, inntektBPPeriodeListe, inntektBMPeriodeListe,
@@ -480,46 +511,61 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
 
     underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-        BigDecimal.valueOf(1000d)));
+        BigDecimal.valueOf(1000)));
 
     inntektBPPeriodeListe
         .add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG,
-            BigDecimal.valueOf(666001)));
+            BigDecimal.valueOf(666001), false, false));
 
     inntektBMPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.PENSJON_KORRIGERT_BARNETILLEGG,
-        BigDecimal.valueOf(400000)));
+        BigDecimal.valueOf(400000), false, false));
 
     inntektBBPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.BARNETRYGD_MANUELL_VURDERING,
-        BigDecimal.valueOf(40000)));
+        BigDecimal.valueOf(40000), false, false));
 
     grunnlag = new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId, underholdskostnadPeriodeListe,
         inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
   }
 
-  private void lagGrunnlagMedInntekterTilJustering(String rolle) {
+  private void lagGrunnlagMedInntekterTilJustering(String rolle, LocalDate beregnDatoFra, LocalDate beregnDatoTil) {
 
-    var beregnDatoFra = LocalDate.parse("2018-01-01");
-    var beregnDatoTil = LocalDate.parse("2020-07-01");
+    if (beregnDatoFra == null) {
+      beregnDatoFra = LocalDate.parse("2018-01-01");
+    }
+    if (beregnDatoTil == null) {
+      beregnDatoTil = LocalDate.parse("2020-07-01");
+    }
+
     var soknadsbarnPersonId = 1;
-    var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
+
     List<InntektPeriode> inntektBPPeriodeListe;
     List<InntektPeriode> inntektBMPeriodeListe;
     List<InntektPeriode> inntektBBPeriodeListe;
 
+    var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
     underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(new Periode(beregnDatoFra, beregnDatoTil), BigDecimal.valueOf(1000)));
+
+    var sjablonPeriodeListe = lagSjablonGrunnlag();
 
     if (rolle.equals("BP")) {
       inntektBPPeriodeListe = lagJustertInntektGrunnlag();
     } else {
       inntektBPPeriodeListe = singletonList(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
-          InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
+          InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001), false, false));
     }
 
     if (rolle.equals("BM")) {
       inntektBMPeriodeListe = lagJustertInntektGrunnlag();
+    } else if (rolle.equals("BMUTV")) {
+      inntektBMPeriodeListe = Arrays.asList(
+          new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
+              InntektType.PENSJON_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(400000), false, false),
+          new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
+              InntektType.UTVIDET_BARNETRYGD, BigDecimal.valueOf(12000), false, false));
+      sjablonPeriodeListe = lagSjablonGrunnlagUtvidetBarnetrygd();
     } else {
       inntektBMPeriodeListe = singletonList(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
-          InntektType.PENSJON_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(400000)));
+          InntektType.PENSJON_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(400000), false, false));
     }
 
     if (rolle.equals("BB")) {
@@ -529,7 +575,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     }
 
     grunnlag = new BeregnBPsAndelUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarnPersonId, underholdskostnadPeriodeListe,
-        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, lagSjablonGrunnlag());
+        inntektBPPeriodeListe, inntektBMPeriodeListe, inntektBBPeriodeListe, sjablonPeriodeListe);
   }
 
 
@@ -555,25 +601,45 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     return sjablonPeriodeListe;
   }
 
+  private List<SjablonPeriode> lagSjablonGrunnlagUtvidetBarnetrygd() {
+    var sjablontallPeriodeListe = new ArrayList<SjablonPeriode>();
+
+    // Sjablon 0030
+    sjablontallPeriodeListe.add(new SjablonPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
+        new Sjablon(SjablonTallNavn.OVRE_INNTEKTSGRENSE_IKKE_I_SKATTEPOSISJON_BELOP.getNavn(), emptyList(), Collections.singletonList(
+            new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(105000))))));
+
+    // Sjablon 0031
+    sjablontallPeriodeListe.add(new SjablonPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
+        new Sjablon(SjablonTallNavn.NEDRE_INNTEKTSGRENSE_FULL_SKATTEPOSISJON_BELOP.getNavn(), emptyList(), Collections.singletonList(
+            new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(105000))))));
+
+    // Sjablon 0039
+    sjablontallPeriodeListe.add(new SjablonPeriode(new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
+        new Sjablon(SjablonTallNavn.FORDEL_SAERFRADRAG_BELOP.getNavn(), emptyList(), Collections.singletonList(
+            new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(13000))))));
+
+    return sjablontallPeriodeListe;
+  }
+
   private List<InntektPeriode> lagJustertInntektGrunnlag() {
     var inntektPeriodeListe = new ArrayList<InntektPeriode>();
 
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2018-01-01"), null),
-            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(200000)));
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(200000), false, false));
     inntektPeriodeListe.add(
-        new InntektPeriode(new Periode(LocalDate.parse("2018-06-01"), LocalDate.parse("2018-12-31")),
-            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER,
-            BigDecimal.valueOf(150000)));
-    inntektPeriodeListe.add(
-        new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null),
-            InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT, BigDecimal.valueOf(300000)));
+        new InntektPeriode(new Periode(LocalDate.parse("2018-06-01"), LocalDate.parse("2019-01-01")),
+            InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER, BigDecimal.valueOf(150000), false, false));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null),
-            InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER, BigDecimal.valueOf(100000)));
+            InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT, BigDecimal.valueOf(300000), false, false));
+    inntektPeriodeListe.add(
+        new InntektPeriode(new Periode(LocalDate.parse("2019-01-01"), null),
+            InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER, BigDecimal.valueOf(100000), false, false));
     inntektPeriodeListe.add(
         new InntektPeriode(new Periode(LocalDate.parse("2020-01-01"), null),
-            InntektType.ATTFORING_AAP, BigDecimal.valueOf(250000)));
+            InntektType.ATTFORING_AAP, BigDecimal.valueOf(250000), false, false));
 
     return inntektPeriodeListe;
   }

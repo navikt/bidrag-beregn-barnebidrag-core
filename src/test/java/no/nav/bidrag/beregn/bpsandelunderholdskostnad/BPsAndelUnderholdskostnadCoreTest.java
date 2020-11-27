@@ -130,15 +130,15 @@ public class BPsAndelUnderholdskostnadCoreTest {
 
     var inntektBPPeriode = new InntektPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
-        BigDecimal.valueOf(111));
+        BigDecimal.valueOf(111), false, false);
 
     var inntektBMPeriode = new InntektPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
-        BigDecimal.valueOf(222));
+        BigDecimal.valueOf(222), false, false);
 
     var inntektBBPeriode = new InntektPeriodeCore(
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(),
-        BigDecimal.valueOf(333));
+        BigDecimal.valueOf(333), false, false);
 
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriodeCore>();
     var inntektBPPeriodeListe = new ArrayList<InntektPeriodeCore>();
@@ -169,9 +169,9 @@ public class BPsAndelUnderholdskostnadCoreTest {
     var inntektBMListe = new ArrayList<Inntekt>();
     var inntektBBListe = new ArrayList<Inntekt>();
 
-    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(111d)));
-    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(222d)));
-    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE,BigDecimal.valueOf(333d)));
+    inntektBPListe.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(111), false, false));
+    inntektBMListe.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(222), false, false));
+    inntektBBListe.add(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(333), false, false));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),

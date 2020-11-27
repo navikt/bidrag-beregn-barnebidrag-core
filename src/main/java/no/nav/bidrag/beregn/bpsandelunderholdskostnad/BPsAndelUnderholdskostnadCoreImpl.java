@@ -91,16 +91,18 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     return sjablonPeriodeListe;
   }
 
-  private List<InntektPeriode> mapInntektPeriodeListe(List<InntektPeriodeCore> inntekterPeriodeListeCore) {
-    var inntekterPeriodeListe = new ArrayList<InntektPeriode>();
-    for (InntektPeriodeCore inntektPeriodeCore : inntekterPeriodeListeCore) {
-      inntekterPeriodeListe.add(new InntektPeriode(
+  private List<InntektPeriode> mapInntektPeriodeListe(List<InntektPeriodeCore> inntektPeriodeListeCore) {
+    var inntektPeriodeListe = new ArrayList<InntektPeriode>();
+    for (InntektPeriodeCore inntektPeriodeCore : inntektPeriodeListeCore) {
+      inntektPeriodeListe.add(new InntektPeriode(
           new Periode(inntektPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoFra(),
               inntektPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoTil()),
-              InntektType.valueOf(inntektPeriodeCore.getInntektType()),
-              inntektPeriodeCore.getInntektBelop()));
+          InntektType.valueOf(inntektPeriodeCore.getInntektType()),
+          inntektPeriodeCore.getInntektBelop(),
+          inntektPeriodeCore.getDeltFordel(),
+          inntektPeriodeCore.getSkatteklasse2()));
     }
-    return inntekterPeriodeListe;
+    return inntektPeriodeListe;
   }
 
   private List<UnderholdskostnadPeriode> mapUnderholdskostnadPeriodeListe(List<UnderholdskostnadPeriodeCore> underholdskostnadPeriodeListeCore) {
@@ -150,7 +152,8 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var resultatGrunnlagInntektListeCore = new ArrayList<InntektCore>();
     for (Inntekt resultatGrunnlagInntekt : resultatGrunnlagInntektListe) {
       resultatGrunnlagInntektListeCore
-          .add(new InntektCore(resultatGrunnlagInntekt.getInntektType().toString(), resultatGrunnlagInntekt.getInntektBelop()));
+          .add(new InntektCore(resultatGrunnlagInntekt.getInntektType().toString(), resultatGrunnlagInntekt.getInntektBelop(),
+          resultatGrunnlagInntekt.getDeltFordel(), resultatGrunnlagInntekt.getSkatteklasse2()));
     }
     return resultatGrunnlagInntektListeCore;
   }

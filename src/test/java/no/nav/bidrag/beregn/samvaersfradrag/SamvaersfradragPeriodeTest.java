@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av periodisert beregning av samværsfradrag")
 public class SamvaersfradragPeriodeTest {
 
-    private SamvaersfradragPeriode samvaersfradragPeriode = SamvaersfradragPeriode.getInstance();
+    private final SamvaersfradragPeriode samvaersfradragPeriode = SamvaersfradragPeriode.getInstance();
 
     @Test
     @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene, "
@@ -85,13 +85,13 @@ public class SamvaersfradragPeriodeTest {
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-04-01")),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
-              .isEqualTo(727.0d),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()
+              .compareTo(BigDecimal.valueOf(727))).isZero(),
 
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-04-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isNull(),
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
-              .isEqualTo(1052.0d)
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()
+              .compareTo(BigDecimal.valueOf(1052))).isZero()
       );
 
       printGrunnlagResultat(resultat);
@@ -175,23 +175,23 @@ public class SamvaersfradragPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
-            .isEqualTo(219.0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()
+            .compareTo(BigDecimal.valueOf(219))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
-            .isEqualTo(727.0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()
+            .compareTo(BigDecimal.valueOf(727))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
-            .isEqualTo(727.0d),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop()
+            .compareTo(BigDecimal.valueOf(727))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isNull(),
-    () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatSamvaersfradragBelop().doubleValue())
-        .isEqualTo(1052.0d)
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatSamvaersfradragBelop()
+            .compareTo(BigDecimal.valueOf(1052))).isZero()
     );
 
     printGrunnlagResultat(resultat);
