@@ -7,7 +7,6 @@ import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
-
 // Grunnlag periode
 data class BeregnUnderholdskostnadGrunnlagCore(
     val soknadsbarnPersonId: Int,

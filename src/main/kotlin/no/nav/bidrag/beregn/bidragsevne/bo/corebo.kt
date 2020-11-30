@@ -44,7 +44,7 @@ data class GrunnlagBeregningPeriodisert(
     val inntektListe: List<Inntekt>,
     val skatteklasse: Int,
     val bostatusKode: BostatusKode,
-    val antallEgneBarnIHusstand: Int,
+    val antallEgneBarnIHusstand: BigDecimal,
     val saerfradragkode: SaerfradragKode,
     val sjablonListe: List<Sjablon>
 )
@@ -53,4 +53,3 @@ data class Inntekt(
     val inntektType: InntektType,
     val inntektBelop: BigDecimal
 )
-

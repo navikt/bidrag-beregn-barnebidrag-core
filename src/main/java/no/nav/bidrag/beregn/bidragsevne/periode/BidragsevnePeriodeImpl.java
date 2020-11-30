@@ -125,8 +125,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnBidragsevneGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(inntektListe, skatteklasse, bostatusKode,
-          antallBarnIEgetHushold,
-          saerfradrag, sjablonliste);
+          antallBarnIEgetHushold, saerfradrag, sjablonliste);
 
       resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, bidragsevneberegning.beregn(beregnBidragsevneGrunnlagPeriodisert),
           beregnBidragsevneGrunnlagPeriodisert));

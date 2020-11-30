@@ -133,10 +133,8 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     var antallBarnIEgetHusholdPeriodeListe = new ArrayList<AntallBarnIEgetHusholdPeriode>();
     for (AntallBarnIEgetHusholdPeriodeCore antallBarnIEgetHusholdPeriodeCore : antallBarnIEgetHusholdPeriodeListeCore) {
       antallBarnIEgetHusholdPeriodeListe.add(new AntallBarnIEgetHusholdPeriode(
-          new Periode(antallBarnIEgetHusholdPeriodeCore.getAntallBarnIEgetHusholdPeriodeDatoFraTil()
-              .getPeriodeDatoFra(),
-              antallBarnIEgetHusholdPeriodeCore.getAntallBarnIEgetHusholdPeriodeDatoFraTil()
-                  .getPeriodeDatoTil()),
+          new Periode(antallBarnIEgetHusholdPeriodeCore.getAntallBarnIEgetHusholdPeriodeDatoFraTil().getPeriodeDatoFra(),
+              antallBarnIEgetHusholdPeriodeCore.getAntallBarnIEgetHusholdPeriodeDatoFraTil().getPeriodeDatoTil()),
           antallBarnIEgetHusholdPeriodeCore.getAntallBarn()));
     }
     return antallBarnIEgetHusholdPeriodeListe;
