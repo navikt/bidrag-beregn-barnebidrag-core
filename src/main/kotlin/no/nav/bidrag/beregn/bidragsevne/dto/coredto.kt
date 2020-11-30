@@ -37,7 +37,7 @@ data class BostatusPeriodeCore(
 
 data class AntallBarnIEgetHusholdPeriodeCore(
     val antallBarnIEgetHusholdPeriodeDatoFraTil: PeriodeCore,
-    val antallBarn: Int
+    val antallBarn: BigDecimal
 )
 
 data class SaerfradragPeriodeCore(
@@ -68,7 +68,7 @@ data class ResultatGrunnlagCore(
     val inntektListe: List<InntektCore>,
     val skatteklasse: Int,
     val bostatusKode: String,
-    val antallEgneBarnIHusstand: Int,
+    val antallEgneBarnIHusstand: BigDecimal,
     val saerfradragkode: String,
     val sjablonListe: List<SjablonNavnVerdiCore>
 )

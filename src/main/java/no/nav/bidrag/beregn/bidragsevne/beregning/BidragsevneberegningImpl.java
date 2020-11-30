@@ -121,7 +121,7 @@ public class BidragsevneberegningImpl implements Bidragsevneberegning {
     // Trekker fra midler til underhold egne barn i egen husstand
     forelopigBidragsevne = forelopigBidragsevne.subtract(
         sjablonNavnVerdiMap.get(SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.getNavn())
-            .multiply(BigDecimal.valueOf(grunnlagBeregningPeriodisert.getAntallEgneBarnIHusstand()))
+            .multiply(grunnlagBeregningPeriodisert.getAntallEgneBarnIHusstand())
             .multiply(BigDecimal.valueOf(12)));
 //    System.out.println("Foreløpig evne etter fratrekk av underhold for egne barn i egen husstand: "
 //        + forelopigBidragsevne);

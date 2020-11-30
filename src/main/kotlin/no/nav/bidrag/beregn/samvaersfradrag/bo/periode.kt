@@ -3,7 +3,6 @@ package no.nav.bidrag.beregn.samvaersfradrag.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 
-
 data class SamvaersklassePeriode(
     val samvaersklasseDatoFraTil: Periode,
     val samvaersklasse: String) : PeriodisertGrunnlag {
