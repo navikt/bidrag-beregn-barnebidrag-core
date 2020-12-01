@@ -347,7 +347,7 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatGrunnlag().getGrunnlagPerBarnListe().get(1)
             .getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent().compareTo(BigDecimal.ZERO)).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatkode())
-            .isEqualTo(ResultatKode.DELT_BOSTED)
+            .isEqualTo(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED)
     );
 
     printGrunnlagResultat(resultat);
@@ -408,7 +408,7 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
             .compareTo(BigDecimal.valueOf(0))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode())
-            .isEqualTo(ResultatKode.DELT_BOSTED)
+            .isEqualTo(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED)
     );
 
     printGrunnlagResultat(resultat);
@@ -475,6 +475,8 @@ public class BarnebidragPeriodeTest {
 
     printGrunnlagResultat(resultat);
   }
+
+
 
 
   private void lagSjablonliste(){
@@ -555,7 +557,6 @@ public class BarnebidragPeriodeTest {
 
     printAvvikListe(avvikListe);
   }
-
 
 
   private void printGrunnlagResultat(

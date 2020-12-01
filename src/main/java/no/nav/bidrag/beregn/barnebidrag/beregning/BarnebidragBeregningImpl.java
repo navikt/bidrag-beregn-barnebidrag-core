@@ -34,6 +34,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     for (GrunnlagBeregningPerBarn grunnlag : grunnlagBeregningPeriodisert
         .getGrunnlagPerBarnListe()) {
+
       totaltBelopUnderholdskostnad =
           totaltBelopUnderholdskostnad
               .add(grunnlag.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop());
@@ -146,8 +147,16 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
         resultatkode = ResultatKode.INGEN_EVNE;
       }
 
+      // Hvis barnet har delt bosted og bidrag ikke er redusert under beregningen skal resultatkode settes til DELT_BOSTED
       if (grunnlagBeregningPerBarn.getDeltBosted()) {
-        resultatkode = ResultatKode.DELT_BOSTED;
+        if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadProsent()
+            .compareTo(BigDecimal.ZERO) > 0) {
+          if (resultatkode.equals(ResultatKode.KOSTNADSBEREGNET_BIDRAG)) {
+            resultatkode = ResultatKode.DELT_BOSTED;
+          }
+        } else {
+          resultatkode = ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED;
+        }
       }
 
       if (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getBarnetErSelvforsorget()) {

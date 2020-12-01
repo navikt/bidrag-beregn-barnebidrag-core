@@ -192,7 +192,7 @@ class BidragsevneberegningTest {
     GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
         = new GrunnlagBeregningPeriodisert(inntekter, 1, BostatusKode.ALENE, BigDecimal.ZERO,
         SaerfradragKode.HELT, sjablonListe);
-    assertEquals(BigDecimal.valueOf(1217),
+    assertEquals(BigDecimal.valueOf(17617),
         bidragsevneberegning.beregn(grunnlagBeregningPeriodisert).getResultatEvneBelop());
 
   }

@@ -163,7 +163,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(avvikListe).isNotEmpty(),
         () -> assertThat(avvikListe).hasSize(1),
 
-        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.SKATTEGRUNNLAG_SKE.toString() +
+        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG.toString() +
             " er ugyldig for søknadstype " + SoknadType.BIDRAG.toString() + " og rolle " + Rolle.BIDRAGSPLIKTIG.toString()),
         () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
     );
@@ -320,7 +320,7 @@ class BidragsevnePeriodeTest {
 
     inntektPeriodeListe
         .add(new InntektPeriode(new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-            InntektType.LONN_SKE_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
+            InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
 
     return inntektPeriodeListe;
   }

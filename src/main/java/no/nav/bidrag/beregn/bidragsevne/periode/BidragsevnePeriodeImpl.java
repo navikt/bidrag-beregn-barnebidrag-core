@@ -25,6 +25,7 @@ import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.Rolle;
 import no.nav.bidrag.beregn.felles.enums.SoknadType;
+import no.nav.bidrag.beregn.felles.inntekt.InntektPeriodeGrunnlag;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 
 
