@@ -197,7 +197,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         () -> assertThat(avvikListe).isNotEmpty(),
         () -> assertThat(avvikListe).hasSize(4),
 
-        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG.toString() +
+        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.LONN_SKE_KORRIGERT_BARNETILLEGG.toString() +
             " er ugyldig for søknadstype " + SoknadType.BIDRAG.toString() + " og rolle " + Rolle.BIDRAGSPLIKTIG.toString()),
         () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE),
 
@@ -483,7 +483,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         BigDecimal.valueOf(1000)));
 
     inntektBPPeriodeListe
-        .add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG,
+        .add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.LONN_SKE_KORRIGERT_BARNETILLEGG,
             BigDecimal.valueOf(666001)));
 
     inntektBMPeriodeListe.add(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil), InntektType.PENSJON_KORRIGERT_BARNETILLEGG,
@@ -512,7 +512,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
       inntektBPPeriodeListe = lagJustertInntektGrunnlag();
     } else {
       inntektBPPeriodeListe = singletonList(new InntektPeriode(new Periode(beregnDatoFra, beregnDatoTil),
-          InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
+          InntektType.LONN_SKE_KORRIGERT_BARNETILLEGG, BigDecimal.valueOf(666001)));
     }
 
     if (rolle.equals("BM")) {

@@ -353,6 +353,130 @@ public class BarnebidragPeriodeTest {
     printGrunnlagResultat(resultat);
   }
 
+  @Test
+  @DisplayName("Test med delt bosted med BPs andel av underholdskostnad < 50%")
+  void testDeltBostedEttBarnAndelUnderFemtiProsent() {
+
+    LocalDate beregnDatoFra = LocalDate.parse("2019-08-01");
+    LocalDate beregnDatoTil = LocalDate.parse("2020-01-01");
+
+    lagSjablonliste();
+
+    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
+    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
+    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
+    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
+    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
+    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
+    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+
+    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
+        new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(5603), BigDecimal.valueOf(8334)));
+
+    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(48.4), BigDecimal.valueOf(4203), false));
+    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.ZERO));
+    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        true));
+    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.ZERO, BigDecimal.ZERO));
+    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.ZERO, BigDecimal.ZERO));
+
+    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        false));
+
+    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
+        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
+            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            sjablonPeriodeListe);
+
+    var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(0))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.DELT_BOSTED)
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+
+  @Test
+  @DisplayName("Test med delt bosted med BPs andel av underholdskostnad > 50%")
+  void testDeltBostedEttBarnAndelOverFemtiProsent() {
+
+    LocalDate beregnDatoFra = LocalDate.parse("2019-08-01");
+    LocalDate beregnDatoTil = LocalDate.parse("2020-01-01");
+
+    lagSjablonliste();
+
+    var bidragsevnePeriodeListe           = new ArrayList<BidragsevnePeriode>();
+    var bPsAndelUnderholdskostnadListe    = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
+    var samvaersfradragPeriodeListe       = new ArrayList<SamvaersfradragPeriode>();
+    var deltBostedPeriodeListe            = new ArrayList<DeltBostedPeriode>();
+    var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
+    var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
+    var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+
+    bidragsevnePeriodeListe.add(new BidragsevnePeriode(
+        new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(359), BigDecimal.valueOf(11458)));
+
+    bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.valueOf(56.4), BigDecimal.valueOf(4898), false));
+    samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.ZERO));
+    deltBostedPeriodeListe.add(new DeltBostedPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        true));
+    barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.ZERO, BigDecimal.ZERO));
+    barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(1,
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        BigDecimal.ZERO, BigDecimal.ZERO));
+
+    barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        false));
+
+    BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
+        new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
+            bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            sjablonPeriodeListe);
+
+    var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
+
+    assertAll(
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(1),
+
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatBarnebidragBelop()
+            .compareTo(BigDecimal.valueOf(360))).isZero(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatkode())
+            .isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+
   private void lagSjablonliste(){
     sjablonPeriodeListe.add(new SjablonPeriode(
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2021-06-30")),
