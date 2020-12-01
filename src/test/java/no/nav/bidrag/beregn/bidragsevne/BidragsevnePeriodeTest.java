@@ -186,7 +186,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2018-06-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektListe().size()).isEqualTo(1),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektType())
-            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
+            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatGrunnlagBeregning().getInntektListe().get(0).getInntektBelop())
             .isEqualTo(BigDecimal.valueOf(200000)),
 

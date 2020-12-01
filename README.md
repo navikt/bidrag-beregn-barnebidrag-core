@@ -7,6 +7,7 @@ Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.13.1  | Endret       | Rettet feil logikk returkode for delt bosted
 0.13.0  | Endret       | Endret antallBarnIEgenHusstand fra Integer til BigDecimal
 0.12.2  | Endret       | Kluss med versjoner
 0.12.1  | Endret       | Ny versjon av bidrag-beregn-felles. Rettet test som feilet pga strengere kontroll av inntektstyper.
