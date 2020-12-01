@@ -154,7 +154,7 @@ public class BidragsevneCoreTest {
     bostatusPeriodeListe.add(bostatusPeriode);
 
     var antallEgneBarnIHusstandPeriode = new AntallBarnIEgetHusholdPeriodeCore(
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), 1);
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.ONE);
     var antallEgneBarnIHusstandPeriodeListe = new ArrayList<AntallBarnIEgetHusholdPeriodeCore>();
     antallEgneBarnIHusstandPeriodeListe.add(antallEgneBarnIHusstandPeriode);
 
@@ -183,7 +183,7 @@ public class BidragsevneCoreTest {
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregningPeriodisert(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
             1, BostatusKode.MED_ANDRE,
-            1, SaerfradragKode.HELT,
+            BigDecimal.ONE, SaerfradragKode.HELT,
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
@@ -193,7 +193,7 @@ public class BidragsevneCoreTest {
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregningPeriodisert(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
             1, BostatusKode.MED_ANDRE,
-            1, SaerfradragKode.HELT,
+            BigDecimal.ONE, SaerfradragKode.HELT,
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 
@@ -203,7 +203,7 @@ public class BidragsevneCoreTest {
             singletonList(new SjablonNavnVerdi(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregningPeriodisert(singletonList(new Inntekt(InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
             1, BostatusKode.MED_ANDRE,
-            1, SaerfradragKode.HELT,
+            BigDecimal.ONE, SaerfradragKode.HELT,
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 

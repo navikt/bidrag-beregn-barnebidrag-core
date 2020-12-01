@@ -27,7 +27,9 @@ data class UnderholdskostnadPeriodeCore(
 data class InntektPeriodeCore(
     val inntektPeriodeDatoFraTil: PeriodeCore,
     val inntektType: String,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
+    val deltFordel: Boolean,
+    val skatteklasse2: Boolean
 )
 
 // Resultatperiode
@@ -60,5 +62,7 @@ data class ResultatGrunnlagCore(
 
 data class InntektCore(
     val inntektType: String,
-    val inntektBelop: BigDecimal
+    val inntektBelop: BigDecimal,
+    val deltFordel: Boolean,
+    val skatteklasse2: Boolean
 )
