@@ -1,12 +1,112 @@
 # bidrag-beregn-barnebidrag-core
 ![](https://github.com/navikt/bidrag-beregn-barnebidrag-core/workflows/maven%20deploy/badge.svg)
 
-Repo for beregning av barnebidrag-core. Disse erstatter beregninger i BBM.
+Repo for beregning av barnebidrag-core. Det gjøres seks delberegninger der resultatet går inn i en endelig beregning av barnebidrag.
+Disse erstatter beregninger i BBM.
+<br>
+<br>Disse beregningene gjøres:
+
+<b>BeregnBidragsevne - Returnerer periodisert liste med BPs bidragsevne</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ---------- |
+beregnDatoFra                      | Bisys          | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                      | Bisys          | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+inntektPeriodeListe                | Bisys          | Liste med BPs inntekter, periodisert
+skatteklassePeriodeListe           | Bisys          | Liste med skatteklasse for BP, periodisert
+bostatusPeriodeListe               | Bisys          | Liste med BPs bostatus, periodisert
+antallBarnIEgetHusholdPeriodeListe | Bisys          | Liste med antall barn i BPs husholdning, periodisert
+saerfradragPeriodeListe            | Bisys          | Liste over særfradrag, periodisert
+sjablonPeriodeListe                | bidrag-sjablon | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnNettoBarnetilsyn - Returnerer periodisert liste med beregnet netto barnetilsyn for alle barn i søknaden</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ---------- |
+beregnDatoFra                      | Bisys          | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                      | Bisys          | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+faktiskUtgiftPeriodeListe          | Bisys          | Liste med personId, fødselsdato for  og beløp med faktiske utgifter for alle barn i søknaden, periodisert
+sjablonPeriodeListe                | bidrag-sjablon | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnUnderholdskostnad - Returnerer periodisert liste med beregnet underholdskostnad for angitt barn</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+soknadsbarnPersonId               | Bisys                  | PersonId for søknadsbarnet
+beregnDatoFra                     | Bisys                  | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                     | Bisys                  | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+soknadBarnFodselsdato             | Bisys                  | Fødselsdato for angitt barn, barnets alder brukes i innhenting av sjablonverdier
+barnetilsynMedStonadPeriodeListe  | Bisys                  | Tilsyntype og stønadtype (fra Infotrygd per 2020), brukes for å hente sjablonverdier, periodisert
+nettoBarnetilsynPeriodeListe      | beregnNettoBarnetilsyn | Beregnet netto barnetilsynbeløp, periodisert
+forpleiningUtgiftPeriodeListe     | Bisys                  | Forpleiningsutgifter, periodisert
+sjablonPeriodeListe               | bidrag-sjablon         | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnBPsAndelUnderholdskostnad - Returnerer periodisert liste med BPs andel av underholdskostnad for angitt barn</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                     | Bisys                   | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                     | Bisys                   | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+soknadsbarnPersonId               | Bisys                   | PersonId for angitt barn
+underholdskostnadPeriodeListe     | beregnUnderholdskostnad | Liste med beregnet underholdskostnad for angitt barn, periodisert.
+inntektBPPeriodeListe             | Bisys                   | Liste med inntekter for BP, periodisert
+inntektBMPeriodeListe             | Bisys                   | Liste med inntekter for BM, periodisert
+inntektBBPeriodeListe             | Bisys                   | Liste med inntekter for BB (bidragsbarn), periodisert
+sjablonPeriodeListe               | bidrag-sjablon          | Sjabloner for beregningsperioden
+
+<br>
+<b>BeregnSamvaersfradrag - Returnerer periodisert liste med beregnede samværsfradragbeløp for angitt barn</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                     | Bisys          | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                     | Bisys          | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+soknadsbarnPersonId               | Bisys          | PersonId for angitt barn
+soknadsbarnFodselsdato            | Bisys          | Fødselsdato for angitt barn
+samvaersklassePeriodeListe        | Bisys          | Liste med samværsklasser for søknadsbarn, periodisert
+sjablonPeriodeListe               | bidrag-sjablon | Sjabloner for beregningsperioden
+
+
+<br>
+<b>BeregnKostnadsberegnetBidrag - Returnerer periodisert liste med beregnet kostnadsberegnet bidrag - denne kan antagelig fjernes</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                         | Bisys                           | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                         | Bisys                           | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+soknadsbarnPersonId                   | Bisys                           | PersonId for angitt barn
+underholdskostnadPeriodeListe         | beregnUnderholdskostnad         | Liste med beregnet underholdskostnad for angitt barn, periodisert.
+bPsAndelUnderholdskostnadPeriodeListe | beregnBPsAndelUnderholdskostnad | Liste med beregnet BPs andel av underholdskostnad for angitt barn, periodisert
+samvaersfradragPeriodeListe           | beregnSamvaersfradrag           | Liste med beregnet samværsfradrag for angitt barn, periodisert
+sjablonPeriodeListe                   | bidrag-sjablon                  | Sjabloner for beregningsperioden
+
+
+<br>
+<b>BeregnBarnebidrag - Sluttberegning som returnerer barnebidragsberegningsresultat for alle barn i søknaden med tilhørende resultatkode. Data fra delberegninger for alle barn i saken sendes inn som input</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                         | Bisys                           | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                         | Bisys                           | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+bidragsevnePeriodeListe               | BeregnBidragsevne               | Liste med BPs bidragsevne, periodisert
+bPsAndelUnderholdskostnadPeriodeListe | BeregnBPsAndelUnderholdskostnad | Liste med BPs andel av underholdskostnad, periodisert
+samvaersfradragPeriodeListe           | beregnSamvaersfradrag           | Liste med beregnede samværsfradrag for alle barn i søknaden, periodisert
+deltBostedPeriodeListe                | Bisys                           | Liste som sier om det er delt bosted eller ikke for alle barn i søknaden, periodisert. Delt bosted innebærer at beregnet bidrag reduseres med 50%
+barnetilleggBPPeriodeListe            | Bisys                           | Liste med beløp og skatteprosent for barnetillegg for BP, periodisert
+barnetilleggBMPeriodeListe            | Bisys                           | Liste med beløp og skatteprosent for barnetillegg for BM, periodisert
+barnetilleggForsvaretPeriodeListe     | Bisys                           | Liste som sier om det finnes barnetillegg fra forsvaret eller ikke, periodisert, hvis ja så overstyres all utregning av barnebidrag i perioden
+sjablonPeriodeListe                   | bidrag-sjablon                  | Sjabloner for beregningsperioden
+
+
 
 ## Changelog:
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.13.2  | Endret       | Lagt til beskrivelse av beregningene som gjøres
 0.13.1  | Endret       | Rettet feil logikk returkode for delt bosted
 0.13.0  | Endret       | Endret antallBarnIEgenHusstand fra Integer til BigDecimal
 0.12.2  | Endret       | Kluss med versjoner
