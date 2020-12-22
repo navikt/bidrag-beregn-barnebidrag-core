@@ -106,6 +106,7 @@ sjablonPeriodeListe                   | bidrag-sjablon                  | Sjablo
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.13.3  | Endret       | Endret avrunding for kostnadsberegnet bidrag
 0.13.2  | Endret       | Lagt til beskrivelse av beregningene som gjøres
 0.13.1  | Endret       | Rettet feil logikk returkode for delt bosted
 0.13.0  | Endret       | Endret antallBarnIEgenHusstand fra Integer til BigDecimal
