@@ -684,7 +684,7 @@ public class BarnebidragBeregningTest {
 
     );
   }
-  
+
 /*  @DisplayName("Tester fra John")
   @Test
   void testerFraJohn() {
