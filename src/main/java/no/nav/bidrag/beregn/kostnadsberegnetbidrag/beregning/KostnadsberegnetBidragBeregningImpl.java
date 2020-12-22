@@ -12,13 +12,12 @@ public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidr
   public ResultatBeregning beregn(
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
-    var resultat = (grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
+    var resultat = grunnlagBeregningPeriodisert.getUnderholdskostnadBelop()
         .multiply(grunnlagBeregningPeriodisert.getBPsAndelUnderholdskostnadProsent())
-        .divide(BigDecimal.valueOf(100), new MathContext(2, RoundingMode.HALF_UP))
-        .subtract(grunnlagBeregningPeriodisert.getSamvaersfradragBelop()));
+        .divide(BigDecimal.valueOf(100), -1, RoundingMode.HALF_UP)
+        .subtract(grunnlagBeregningPeriodisert.getSamvaersfradragBelop());
 
 //    System.out.println("Resultat: " + resultat);
-    resultat = resultat.setScale(-1, RoundingMode.HALF_UP);
 
     return new ResultatBeregning(resultat);
 

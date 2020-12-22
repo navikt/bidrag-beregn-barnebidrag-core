@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning.KostnadsberegnetBidragBeregningImpl;
@@ -65,5 +66,21 @@ public class KostnadsberegnetBidragBeregningTest {
 
     assertThat(kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatkostnadsberegnetbidragBelop()
         .compareTo(BigDecimal.valueOf(70))).isZero();
+
+  }
+
+
+  @DisplayName("Test av resultatet avrundes riktig ")
+  @Test
+  void testAvrunding() {
+    KostnadsberegnetBidragBeregningImpl kostnadsberegnetBidragBeregning = new KostnadsberegnetBidragBeregningImpl();
+    GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert
+        = new GrunnlagBeregningPeriodisert(BigDecimal.valueOf(1000),
+        BigDecimal.valueOf(17.2),
+        BigDecimal.valueOf(100)
+    );
+
+    assertEquals(BigDecimal.valueOf(70),
+        kostnadsberegnetBidragBeregning.beregn(grunnlagBeregningPeriodisert).getResultatkostnadsberegnetbidragBelop());
   }
 }
