@@ -91,8 +91,8 @@ sjablonPeriodeListe                   | bidrag-sjablon                  | Sjablo
 | ------------| ----- | ------------- |
 beregnDatoFra                         | Bisys                           | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
 beregnDatoTil                         | Bisys                           | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
-bidragsevnePeriodeListe               | BeregnBidragsevne               | Liste med BPs bidragsevne, periodisert
-bPsAndelUnderholdskostnadPeriodeListe | BeregnBPsAndelUnderholdskostnad | Liste med BPs andel av underholdskostnad, periodisert
+bidragsevnePeriodeListe               | beregnBidragsevne               | Liste med BPs bidragsevne, periodisert
+bPsAndelUnderholdskostnadPeriodeListe | beregnBPsAndelUnderholdskostnad | Liste med BPs andel av underholdskostnad, periodisert
 samvaersfradragPeriodeListe           | beregnSamvaersfradrag           | Liste med beregnede samværsfradrag for alle barn i søknaden, periodisert
 deltBostedPeriodeListe                | Bisys                           | Liste som sier om det er delt bosted eller ikke for alle barn i søknaden, periodisert. Delt bosted innebærer at beregnet bidrag reduseres med 50%
 barnetilleggBPPeriodeListe            | Bisys                           | Liste med beløp og skatteprosent for barnetillegg for BP, periodisert
