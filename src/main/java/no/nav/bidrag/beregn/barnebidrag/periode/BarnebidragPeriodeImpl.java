@@ -201,7 +201,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
-          bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, sjablonliste);
+          bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, andreLopendeBidrag, sjablonliste);
 
       if (barnetilleggForsvaret) {
         resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,

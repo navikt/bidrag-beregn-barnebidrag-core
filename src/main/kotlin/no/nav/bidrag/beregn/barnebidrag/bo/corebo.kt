@@ -19,6 +19,7 @@ data class BeregnBarnebidragGrunnlag(
     val barnetilleggBPPeriodeListe: List<BarnetilleggPeriode>,
     val barnetilleggBMPeriodeListe: List<BarnetilleggPeriode>,
     val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriode>,
+    val andreLopendeBidragPeriodeListe: List<AndreLopendeBidragPeriode>,
     val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
@@ -46,6 +47,7 @@ data class GrunnlagBeregningPeriodisert(
     val bidragsevne: Bidragsevne,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarn>,
     val barnetilleggForsvaret: Boolean,
+    val andreLopendeBidragListe: List<AndreLopendeBidrag>,
     val sjablonListe: List<Sjablon>
 )
 
@@ -72,4 +74,10 @@ data class BPsAndelUnderholdskostnad(
 data class Barnetillegg(
     val barnetilleggBelop: BigDecimal,
     val barnetilleggSkattProsent: BigDecimal
+)
+
+data class AndreLopendeBidrag(
+    val barnPersonId: Int,
+    val lopendeBidragBelop: BigDecimal,
+    val beregnetSamvaersfradragBelop: BigDecimal
 )

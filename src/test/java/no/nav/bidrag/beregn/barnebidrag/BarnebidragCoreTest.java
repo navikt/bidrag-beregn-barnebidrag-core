@@ -166,7 +166,7 @@ public class BarnebidragCoreTest {
     beregnBarnebidragGrunnlagCore = new BeregnBarnebidragGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
         bidragsevnePeriodeListe, bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe,
         deltBostedPeriodeListe, barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe,
-        barnetilleggForsvaretPeriodeListe, sjablonPeriodeListe);
+        barnetilleggForsvaretPeriodeListe, , sjablonPeriodeListe, );
   }
 
   private void byggBarnebidragPeriodeResultat() {
@@ -182,7 +182,7 @@ public class BarnebidragCoreTest {
                 false,
                 new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10)),
                 new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10)))),
-            false,
+            false, ,
             singletonList(new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                 singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))))))));
 

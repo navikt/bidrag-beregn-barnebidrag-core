@@ -40,7 +40,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -65,7 +65,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
     // 1700d-(1700d*10d/100)-100d
@@ -96,7 +96,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -134,7 +134,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -162,7 +162,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -193,7 +193,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -231,7 +231,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -266,7 +266,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -292,7 +292,7 @@ public class BarnebidragBeregningTest {
 
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -316,7 +316,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -348,7 +348,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10))));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -375,7 +375,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
 
@@ -412,7 +412,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, true, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
 
@@ -448,7 +448,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, true, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
 
@@ -534,7 +534,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, true, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
 
@@ -564,7 +564,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -597,7 +597,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -624,7 +624,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -649,7 +649,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
@@ -674,7 +674,7 @@ public class BarnebidragBeregningTest {
         new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, , sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 

@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.barnebidrag.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
+import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import java.math.BigDecimal
 
 data class BidragsevnePeriode(
@@ -85,3 +86,20 @@ data class BarnetilleggForsvaretPeriode(
     return barnetilleggForsvaretDatoFraTil
   }
 }
+
+data class AndreLopendeBidragPeriode(
+  val andreLopendeBidragDatoFraTil: Periode,
+  val barnPersonId: Int,
+  val lopendeBidragBelop: BigDecimal,
+  val beregnetSamvaersfradragBelop: BigDecimal) : PeriodisertGrunnlag {
+  constructor(andreLopendeBidragPeriode: AndreLopendeBidragPeriode)
+      : this(andreLopendeBidragPeriode.andreLopendeBidragDatoFraTil.justerDatoer(),
+    andreLopendeBidragPeriode.barnPersonId,
+    andreLopendeBidragPeriode.lopendeBidragBelop,
+    andreLopendeBidragPeriode.beregnetSamvaersfradragBelop)
+  override fun getDatoFraTil(): Periode {
+    return andreLopendeBidragDatoFraTil
+  }
+}
+
+

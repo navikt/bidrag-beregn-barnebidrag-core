@@ -81,7 +81,7 @@ public class BarnebidragPeriodeTest {
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
             sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
@@ -194,7 +194,7 @@ public class BarnebidragPeriodeTest {
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
             sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
@@ -316,7 +316,7 @@ public class BarnebidragPeriodeTest {
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
             sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
@@ -397,7 +397,7 @@ public class BarnebidragPeriodeTest {
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
             sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
@@ -459,7 +459,7 @@ public class BarnebidragPeriodeTest {
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
             sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
@@ -538,7 +538,7 @@ public class BarnebidragPeriodeTest {
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
             sjablonPeriodeListe);
 
     var avvikListe = barnebidragPeriode.validerInput(beregnBarnebidragGrunnlag);
