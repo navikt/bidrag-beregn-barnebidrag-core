@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidrag;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
@@ -34,11 +35,18 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     for (GrunnlagBeregningPerBarn grunnlag : grunnlagBeregningPeriodisert
         .getGrunnlagPerBarnListe()) {
-
       totaltBelopUnderholdskostnad =
           totaltBelopUnderholdskostnad
               .add(grunnlag.getBPsAndelUnderholdskostnad().getBPsAndelUnderholdskostnadBelop());
     }
+
+    var totaltBelopLopendeBidrag = BigDecimal.ZERO;
+    for (AndreLopendeBidrag andreLopendeBidrag : grunnlagBeregningPeriodisert.getAndreLopendeBidragListe()){
+      totaltBelopLopendeBidrag = totaltBelopLopendeBidrag.add(andreLopendeBidrag.getLopendeBidragBelop()
+          .add(andreLopendeBidrag.getBeregnetSamvaersfradragBelop()));
+    }
+    System.out.println("Totalbeløp for løpende bidrag: " + totaltBelopLopendeBidrag);
+
 
     var maksBidragsbelop = BigDecimal.ZERO;
 
@@ -49,7 +57,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
     } else {
       maksBidragsbelop = grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt();
     }
-//    System.out.println("maksBidragsbelop: " + maksBidragsbelop);
+    System.out.println("maksBidragsbelop: " + maksBidragsbelop);
 
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
@@ -100,7 +108,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
             .getBPsAndelUnderholdskostnadBelop()
             .divide(totaltBelopUnderholdskostnad,
                 new MathContext(10, RoundingMode.HALF_UP));
-//        System.out.println("Andel av evne: " + andelProsent);
+        System.out.println("Andel av evne: " + andelProsent);
 
         tempBarnebidrag = maksBidragsbelop.multiply(andelProsent);
         if (bidragRedusertAvBidragsevne) {
@@ -115,7 +123,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
 //    Trekker fra samværsfradrag
       tempBarnebidrag = tempBarnebidrag.subtract(grunnlagBeregningPerBarn.getSamvaersfradrag());
-//    System.out.println("Bidrag etter samværsfradrag: " + tempBarnebidrag);
+    System.out.println("Bidrag etter samværsfradrag: " + tempBarnebidrag);
 
       // Sjekker mot særregler for barnetillegg BP/BM
       // Dersom beregnet bidrag etter samværsfradrag er lavere enn eventuelt barnetillegg for BP
@@ -164,6 +172,16 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
         resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
       }
 
+      // Sjekker om bidragsevne dekker beregnet bidrag pluss løpende bidragsbeløp + samværsfradrag,
+      // hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
+      if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
+          tempBarnebidrag.add(totaltBelopLopendeBidrag)) < 0 &&
+          !resultatkode.equals(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED) &&
+          !resultatkode.equals(ResultatKode.BARNET_ER_SELVFORSORGET) &&
+          !resultatkode.equals(ResultatKode.INGEN_EVNE)){
+          resultatkode = ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING;
+      }
+
       // Bidrag skal avrundes til nærmeste tier
       tempBarnebidrag = tempBarnebidrag.setScale(-1, RoundingMode.HALF_UP);
 
@@ -182,6 +200,13 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
     var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe());
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
+
+    var totaltBelopLopendeBidrag = BigDecimal.ZERO;
+    for (AndreLopendeBidrag andreLopendeBidrag : grunnlagBeregningPeriodisert.getAndreLopendeBidragListe()){
+      totaltBelopLopendeBidrag = totaltBelopLopendeBidrag.add(andreLopendeBidrag.getLopendeBidragBelop()
+          .add(andreLopendeBidrag.getBeregnetSamvaersfradragBelop()));
+    }
+    System.out.println("Totalbeløp for løpende bidrag, barnetillegg forsvaret: " + totaltBelopLopendeBidrag);
 
     var barnetilleggForsvaretForsteBarn = sjablonNavnVerdiMap.get(SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP.getNavn());
     var barnetilleggForsvaretOvrigeBarn = sjablonNavnVerdiMap.get(SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP.getNavn());
@@ -209,13 +234,21 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
     }
 
+    var resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET;
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn :
         grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe()) {
 
       var barnebidragEtterSamvaersfradrag =
           barnetilleggForsvaretPerBarn.subtract(grunnlagBeregningPerBarn.getSamvaersfradrag());
 
-      var resultatkode = ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET;
+      // Sjekker om bidragsevne dekker beregnet bidrag pluss løpende bidragsbeløp + samværsfradrag,
+      // hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
+      if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
+          barnetilleggForsvaretPerBarn.multiply(
+              BigDecimal.valueOf(grunnlagBeregningPeriodisert.getGrunnlagPerBarnListe().size()))
+              .add(totaltBelopLopendeBidrag)) < 0){
+        resultatkode = ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING;
+      }
 
       resultatBeregningListe.add(
           new ResultatBeregning(grunnlagBeregningPerBarn.getSoknadsbarnPersonId(), barnebidragEtterSamvaersfradrag, resultatkode,

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaretPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggPeriode;
@@ -53,6 +54,7 @@ public class BarnebidragPeriodeTest {
     var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var andreLopendeBidragPeriodeListe    = new ArrayList<AndreLopendeBidragPeriode>();
 
     bidragsevnePeriodeListe.add(new BidragsevnePeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
@@ -78,11 +80,14 @@ public class BarnebidragPeriodeTest {
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
+    andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        1, BigDecimal.ZERO, BigDecimal.ZERO));
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
-            sjablonPeriodeListe);
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
 
@@ -126,6 +131,7 @@ public class BarnebidragPeriodeTest {
     var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var andreLopendeBidragPeriodeListe    = new ArrayList<AndreLopendeBidragPeriode>();
 
     bidragsevnePeriodeListe.add(new BidragsevnePeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
@@ -191,11 +197,16 @@ public class BarnebidragPeriodeTest {
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-12-01"), LocalDate.parse("2020-01-01")),
         true));
+
+    andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        1, BigDecimal.ZERO, BigDecimal.ZERO));
+
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
-            sjablonPeriodeListe);
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
 
@@ -266,6 +277,7 @@ public class BarnebidragPeriodeTest {
     var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var andreLopendeBidragPeriodeListe    = new ArrayList<AndreLopendeBidragPeriode>();
 
     bidragsevnePeriodeListe.add(new BidragsevnePeriode(
         new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")),
@@ -313,11 +325,15 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
 
+    andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        1, BigDecimal.ZERO, BigDecimal.ZERO));
+
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
-            sjablonPeriodeListe);
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
 
@@ -369,6 +385,7 @@ public class BarnebidragPeriodeTest {
     var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var andreLopendeBidragPeriodeListe    = new ArrayList<AndreLopendeBidragPeriode>();
 
     bidragsevnePeriodeListe.add(new BidragsevnePeriode(
         new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")),
@@ -394,11 +411,15 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
 
+    andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        1, BigDecimal.ZERO, BigDecimal.ZERO));
+
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
-            sjablonPeriodeListe);
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
 
@@ -431,6 +452,7 @@ public class BarnebidragPeriodeTest {
     var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var andreLopendeBidragPeriodeListe    = new ArrayList<AndreLopendeBidragPeriode>();
 
     bidragsevnePeriodeListe.add(new BidragsevnePeriode(
         new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")),
@@ -456,11 +478,15 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
 
+    andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        1, BigDecimal.ZERO, BigDecimal.ZERO));
+
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
-            sjablonPeriodeListe);
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
 
     var resultat = barnebidragPeriode.beregnPerioder(beregnBarnebidragGrunnlag);
 
@@ -510,6 +536,7 @@ public class BarnebidragPeriodeTest {
     var barnetilleggBPPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggBMPeriodeListe        = new ArrayList<BarnetilleggPeriode>();
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
+    var andreLopendeBidragPeriodeListe    = new ArrayList<AndreLopendeBidragPeriode>();
 
     bidragsevnePeriodeListe.add(new BidragsevnePeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")),
@@ -535,11 +562,16 @@ public class BarnebidragPeriodeTest {
     barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
         false));
+
+    andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")),
+        1, BigDecimal.ZERO, BigDecimal.ZERO));
+
     BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag =
         new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
             bPsAndelUnderholdskostnadListe, samvaersfradragPeriodeListe, deltBostedPeriodeListe,
-            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe, ,
-            sjablonPeriodeListe);
+            barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe, barnetilleggForsvaretPeriodeListe,
+            andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
 
     var avvikListe = barnebidragPeriode.validerInput(beregnBarnebidragGrunnlag);
 

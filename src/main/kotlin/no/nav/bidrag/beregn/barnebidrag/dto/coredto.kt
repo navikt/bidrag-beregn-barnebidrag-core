@@ -63,8 +63,8 @@ data class BarnetilleggForsvaretPeriodeCore(
 data class AndreLopendeBidragPeriodeCore(
     val periodeDatoFraTil: PeriodeCore,
     val barnPersonId: Int,
-    val lopendeBidragBelop: BigDecimal,
-    val beregnetSamvaersfradragBelop: BigDecimal
+    val bidragBelop: BigDecimal,
+    val samvaersfradragBelop: BigDecimal
 )
 
 // Resultatperiode
@@ -120,6 +120,6 @@ data class BarnetilleggCore(
 
 data class AndreLopendeBidragCore(
     val barnPersonId: Int,
-    val lopendeBidragBelop: BigDecimal,
-    val beregnetSamvaersfradragBelop: BigDecimal
+    val bidragBelop: BigDecimal,
+    val samvaersfradragBelop: BigDecimal
 )

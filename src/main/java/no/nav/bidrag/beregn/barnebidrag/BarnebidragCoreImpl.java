@@ -215,8 +215,8 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
           new Periode(andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
               andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
           andreLopendeBidragPeriodeCore.getBarnPersonId(),
-          andreLopendeBidragPeriodeCore.getLopendeBidragBelop(),
-          andreLopendeBidragPeriodeCore.getBeregnetSamvaersfradragBelop()
+          andreLopendeBidragPeriodeCore.getBidragBelop(),
+          andreLopendeBidragPeriodeCore.getSamvaersfradragBelop()
       ));
     }
     return andreLopendeBidragPeriodeListe.stream()
