@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatBeregning;
 
@@ -11,11 +12,13 @@ public class ForholdsmessigFordelingBeregningImpl implements ForholdsmessigForde
 
   @Override
   public List<ResultatBeregning> beregn(
-      List<GrunnlagBeregningPeriodisert> grunnlagBeregningPeriodisertListe) {
+      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
 
-    for (GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert : grunnlagBeregningPeriodisertListe) {
+    var bidragsevne = grunnlagBeregningPeriodisert.getBidragsevne();
+
+    for (BeregnetBidragSak beregnetBidragSak : grunnlagBeregningPeriodisert.getBeregnetBidragSakListe()) {
 
       var resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
 
@@ -23,9 +26,9 @@ public class ForholdsmessigFordelingBeregningImpl implements ForholdsmessigForde
 
       resultatBeregningListe
           .add(new ResultatBeregning(
-              grunnlagBeregningPeriodisert.getSaksnr(),
-              grunnlagBeregningPeriodisert.getBarnPersonId(),
-              grunnlagBeregningPeriodisert.getBidragBelop(),
+              beregnetBidragSak.getSaksnr(),
+              beregnetBidragSak.getBarnPersonId(),
+              beregnetBidragSak.getBidragBelop(),
               resultatkode));
     }
 

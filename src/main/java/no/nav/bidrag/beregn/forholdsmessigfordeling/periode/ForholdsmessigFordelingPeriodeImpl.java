@@ -13,6 +13,9 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.beregning.ForholdsmessigFord
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingGrunnlag;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingResultat;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSakPeriode;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.Bidragsevne;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BidragsevnePeriode;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatPeriode;
 
@@ -30,6 +33,12 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    var justertBidragsevnePeriodeListe =
+        beregnForholdsmessigFordelingGrunnlag.getBidragsevnePeriodeListe()
+        .stream()
+        .map(BidragsevnePeriode::new)
+        .collect(toCollection(ArrayList::new));
+
     var justertBeregnedeBidragSakPeriodeListe =
         beregnForholdsmessigFordelingGrunnlag.getBeregnetBidragPeriodeListe()
         .stream()
@@ -40,6 +49,7 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
         .addBruddpunkt(beregnForholdsmessigFordelingGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
+        .addBruddpunkter(justertBidragsevnePeriodeListe)
         .addBruddpunkter(justertBeregnedeBidragSakPeriodeListe)
         .addBruddpunkt(beregnForholdsmessigFordelingGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnForholdsmessigFordelingGrunnlag.getBeregnDatoFra(),
@@ -59,65 +69,26 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
-//      var beregnetBidragSakListe = new ArrayList<GrunnlagBeregningPeriodisert>();
+      var bidragsevne = justertBidragsevnePeriodeListe.stream().filter(
+          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getBidragsevneBelop(),
+              bidragsevnePeriode.getTjuefemProsentInntekt())).findFirst().orElse(null);
 
-        var grunnlagBeregningPeriodisertListe = justertBeregnedeBidragSakPeriodeListe.stream()
+      var beregnetBidragSakListe = justertBeregnedeBidragSakPeriodeListe.stream()
             .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .map(beregnetBidragSakPeriode -> new GrunnlagBeregningPeriodisert(
+            .map(beregnetBidragSakPeriode -> new BeregnetBidragSak(
                 beregnetBidragSakPeriode.getSaksnr(),
                 beregnetBidragSakPeriode.getBarnPersonId(),
                 beregnetBidragSakPeriode.getBidragBelop())).collect(toList());
 
-/*        var samvaersfradrag = justertSamvaersfradragPeriodeListe.stream().filter(i ->
-            i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(SamvaersfradragPeriode::getSamvaersfradragBelop).findFirst().orElse(null);
-
-        var deltBosted = justertDeltBostedPeriodeListe.stream().filter(i ->
-            i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(DeltBostedPeriode::getDeltBostedIPeriode).findFirst().orElse(null);
-
-        var barnetilleggBP = justertBarnetilleggBPPeriodeListe.stream()
-            .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(barnetilleggBPPeriode -> new Barnetillegg(barnetilleggBPPeriode.getBarnetilleggBelop(),
-                barnetilleggBPPeriode.getBarnetilleggSkattProsent())).findFirst().orElse(null);
-
-        var barnetilleggBM = justertBarnetilleggBMPeriodeListe.stream()
-            .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(barnetilleggBMPeriode -> new Barnetillegg(barnetilleggBMPeriode.getBarnetilleggBelop(),
-                barnetilleggBMPeriode.getBarnetilleggSkattProsent())).findFirst().orElse(null);*/
-/*
-        // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50%
-        // så skal ikke bidrag beregnes
-        var andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent();
-        var andelBelop = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop() ;
-        var barnetErSelvforsorget = bPsAndelUnderholdskostnad.getBarnetErSelvforsorget() ;
-
-
-        beregnetBidragSakListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId,
-            new BPsAndelUnderholdskostnad(andelProsent, andelBelop, barnetErSelvforsorget),
-            samvaersfradrag, deltBosted, barnetilleggBP, barnetilleggBM));
-      }
-
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());*/
 
       // Kaller beregningsmodulen for hver beregningsperiode
-/*
-      var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
-          bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, andreLopendeBidragListe, sjablonliste);
 
-*/
+      var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
+          bidragsevne, beregnetBidragSakListe);
 
         resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-            forholdsmessigFordelingBeregning.beregn(grunnlagBeregningPeriodisertListe), grunnlagBeregningPeriodisertListe));
-
-
+            forholdsmessigFordelingBeregning.beregn(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
 
     }
 
@@ -128,13 +99,20 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
   // Validerer at input-verdier til beregn-barnebidrag er gyldige
   public List<Avvik> validerInput(BeregnForholdsmessigFordelingGrunnlag grunnlag) {
 
-
     // Sjekk perioder for bidragsevne
+    var bidragsevnePeriodeListe = new ArrayList<Periode>();
+    for (BidragsevnePeriode bidragsevnePeriode : grunnlag.getBidragsevnePeriodeListe()) {
+      bidragsevnePeriodeListe.add(bidragsevnePeriode.getDatoFraTil());
+    }
+    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
+        bidragsevnePeriodeListe, false, false, true, true));
+
+    // Sjekk perioder for beregnede bidrag som skal forholdsmessig fordeles
     var beregnetBidragSakPeriodeListe = new ArrayList<Periode>();
     for (BeregnetBidragSakPeriode forholdsmessigFordelingPeriode : grunnlag.getBeregnetBidragPeriodeListe()) {
       beregnetBidragSakPeriodeListe.add(forholdsmessigFordelingPeriode.getDatoFraTil());
     }
-    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"beregnetBidragSakPeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"beregnetBidragSakPeriodeListe",
         beregnetBidragSakPeriodeListe, false, false, true, true));
 
 

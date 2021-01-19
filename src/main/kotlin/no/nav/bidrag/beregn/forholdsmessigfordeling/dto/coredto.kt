@@ -1,6 +1,5 @@
 package no.nav.bidrag.beregn.forholdsmessigfordeling.dto
 
-import no.nav.bidrag.beregn.barnebidrag.dto.GrunnlagBeregningPerBarnCore
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.enums.ResultatKode
@@ -38,7 +37,7 @@ data class BeregnForholdsmessigFordelingResultatCore(
 data class ResultatPeriodeCore(
     val resultatDatoFraTil: PeriodeCore,
     val resultatBeregningListe: List<ResultatBeregningCore>,
-    val resultatGrunnlagListe: List<GrunnlagBeregningPeriodisertCore>
+    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
 )
 
 data class ResultatBeregningCore(
@@ -51,7 +50,7 @@ data class ResultatBeregningCore(
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
     val bidragsevne: BidragsevneCore,
-    val grunnlagBeregningPerSakListe: List<GrunnlagBeregningPerSakCore>,
+    val beregnetBidragSakListe: List<BeregnetBidragSakCore>,
 )
 
 data class BidragsevneCore(
@@ -59,7 +58,7 @@ data class BidragsevneCore(
     val tjuefemProsentInntekt: BigDecimal
 )
 
-data class GrunnlagBeregningPerSakCore(
+data class BeregnetBidragSakCore(
     val saksnr: Int,
     val barnPersonId: Int,
     val bidragBelop: BigDecimal

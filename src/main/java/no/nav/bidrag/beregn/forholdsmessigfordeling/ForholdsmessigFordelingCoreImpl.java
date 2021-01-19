@@ -13,7 +13,7 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigForde
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingResultat;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSakPeriode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BidragsevnePeriode;
-import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagBeregningPerSak;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatPeriode;
@@ -22,7 +22,7 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnForholdsmessigFord
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakPeriodeCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BidragsevneCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BidragsevnePeriodeCore;
-import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.GrunnlagBeregningPerSakCore;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.GrunnlagBeregningPeriodisertCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.ResultatBeregningCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.ResultatPeriodeCore;
@@ -115,7 +115,10 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
-          mapResultatGrunnlag(resultatPeriode.getResultatGrunnlagListe())));
+          new GrunnlagBeregningPeriodisertCore(
+              new BidragsevneCore(resultatPeriode.getResultatGrunnlag().getBidragsevne().getBidragsevneBelop(),
+              resultatPeriode.getResultatGrunnlag().getBidragsevne().getTjuefemProsentInntekt()),
+          mapBeregnetBidragSak(resultatPeriode.getResultatGrunnlag().getBeregnetBidragSakListe()))));
     }
     return resultatPeriodeCoreListe;
   }
@@ -131,26 +134,24 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     return resultatBeregningListeCore;
   }
 
-  private List<GrunnlagBeregningPeriodisertCore> mapResultatGrunnlag(List<GrunnlagBeregningPeriodisert> grunnlagBeregningPeriodisertListe) {
-    var grunnlagBeregningListeCore = new ArrayList<GrunnlagBeregningPeriodisertCore>();
-    for (GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert : grunnlagBeregningPeriodisertListe) {
-      grunnlagBeregningListeCore.add(new GrunnlagBeregningPeriodisertCore(
-          new BidragsevneCore(grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop(),
-              grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt()),
-          mapResultatGrunnlagPerSak(grunnlagBeregningPeriodisert.getGrunnlagPerSakListe())));
+  private List<BeregnetBidragSakCore> mapBeregnetBidragSak(List<BeregnetBidragSak> beregnetBidragSakListe) {
+    var beregnetBidragSakListeCore = new ArrayList<BeregnetBidragSakCore>();
+    for (BeregnetBidragSak beregnetBidragSak : beregnetBidragSakListe) {
+      beregnetBidragSakListeCore.add(new BeregnetBidragSakCore(
+          beregnetBidragSak.getSaksnr(), beregnetBidragSak.getBarnPersonId(), beregnetBidragSak.getBidragBelop()));
     }
-    return grunnlagBeregningListeCore;
+    return beregnetBidragSakListeCore;
   }
 
 
-  private List<GrunnlagBeregningPerSakCore> mapResultatGrunnlagPerSak(List<GrunnlagBeregningPerSak> grunnlagBeregningPerSakListe) {
-    var grunnlagPerSakListeCore = new ArrayList<GrunnlagBeregningPerSakCore>();
-    for (GrunnlagBeregningPerSak grunnlagBeregningPerSak : grunnlagBeregningPerSakListe) {
-      grunnlagPerSakListeCore.add(new GrunnlagBeregningPerSakCore(
-          grunnlagBeregningPerSak.getSaksnr(),
-          grunnlagBeregningPerSak.getBarnPersonId(),
-          grunnlagBeregningPerSak.getBidragBelop()));
+/*  private List<BeregnetBidragSakCore> mapResultatGrunnlagPerSak(List<BeregnetBidragSak> beregnetBidragSakListe) {
+    var grunnlagPerSakListeCore = new ArrayList<BeregnetBidragSakCore>();
+    for (BeregnetBidragSak beregnetBidragSak : beregnetBidragSakListe) {
+      grunnlagPerSakListeCore.add(new BeregnetBidragSakCore(
+          beregnetBidragSak.getSaksnr(),
+          beregnetBidragSak.getBarnPersonId(),
+          beregnetBidragSak.getBidragBelop()));
     }
     return grunnlagPerSakListeCore;
-  }
+  }*/
 }

@@ -7,7 +7,7 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatBeregning;
 
 public interface ForholdsmessigFordelingBeregning {
 
-  List<ResultatBeregning> beregn(List<GrunnlagBeregningPeriodisert> grunnlagBeregningPeriodisertListe);
+  List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert);
 
   static ForholdsmessigFordelingBeregning getInstance(){
     return new ForholdsmessigFordelingBeregningImpl();
