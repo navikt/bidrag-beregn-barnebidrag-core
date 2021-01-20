@@ -1,6 +1,8 @@
 package no.nav.bidrag.beregn.forholdsmessigfordeling.beregning;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,14 +20,13 @@ public class ForholdsmessigFordelingBeregningImpl implements ForholdsmessigForde
       GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
-    var resultatPerBarnListe = new ArrayList<ResultatPerBarn>();
 
     var endeligBidragsevne = BigDecimal.ZERO;
     if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
         grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt()) > 0){
-      endeligBidragsevne = grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop();
-      } else {
       endeligBidragsevne = grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt();
+      } else {
+      endeligBidragsevne = grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop();
     }
 
     var resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;
@@ -36,17 +37,17 @@ public class ForholdsmessigFordelingBeregningImpl implements ForholdsmessigForde
         .stream()
         .map(BeregnetBidragSak::getGrunnlagPerBarnListe)
         .flatMap(Collection::stream)
-//        .collect(Collectors.toList())
-//        .stream()
         .map(GrunnlagPerBarn::getBidragBelop)
-//        .flatMap(GrunnlagPerBarn::getBidragBelop)
         .reduce(BigDecimal.ZERO, BigDecimal::add);
+    System.out.println("Endelig bidragsevne: " + endeligBidragsevne);
     System.out.println("Samlet bidragsbeløp for alle saker: " + samletBidragsbelopAlleSaker);
 
     if (samletBidragsbelopAlleSaker.compareTo(endeligBidragsevne) > 0){
       // Gjør forholdsmessig fordeling
-      var sakensAndelAvTotaltBelopAlleSaker = BigDecimal.ZERO;
-      var barnetsAndelAvTotaltBelopForSak = BigDecimal.ZERO;
+      System.out.println("Gjør forholdsmessig fordeling");
+      var sakensAndelAvTotaltBelopAlleSakerProsent = BigDecimal.ZERO;
+      var sakensAndelAvEndeligBidragsevneBelop = BigDecimal.ZERO;
+      var barnetsAndelAvTotaltBelopForSakProsent = BigDecimal.ZERO;
       var beregnetBidragsbelop = BigDecimal.ZERO;
       var samletBidragsbelopSak = BigDecimal.ZERO;
 
@@ -60,36 +61,49 @@ public class ForholdsmessigFordelingBeregningImpl implements ForholdsmessigForde
             .reduce(BigDecimal.ZERO, BigDecimal::add);
         System.out.println("Samlet bidragsbeløp for sak: " + beregnetBidragSak.getSaksnr() + " = " + samletBidragsbelopSak);
 
+        // Hvor stor prosentdel av det totale beløpet utgjør denne sakens samlede bidragsbeløp
+        sakensAndelAvTotaltBelopAlleSakerProsent = samletBidragsbelopSak.divide(samletBidragsbelopAlleSaker,
+        new MathContext(10, RoundingMode.HALF_UP));
 
+        // Regner ut hvor mye prosentsatsen utgjør av bidragsevnen
+        sakensAndelAvEndeligBidragsevneBelop = sakensAndelAvTotaltBelopAlleSakerProsent.multiply(endeligBidragsevne,
+            new MathContext(10, RoundingMode.HALF_UP));
 
-
-
-
-      }
-
-
-
-
-      } else {
-      // Ingen forholdsmessig fordeling gjøres og originalt bidragsbeløp returneres
-      for (BeregnetBidragSak beregnetBidragSak : grunnlagBeregningPeriodisert.getBeregnetBidragSakListe()) {
+        var resultatPerBarnListe = new ArrayList<ResultatPerBarn>();
+        // Leser hvert barn i saken og regner ut nytt, justert bidragsbeløp
         for (GrunnlagPerBarn grunnlagPerBarn : beregnetBidragSak.getGrunnlagPerBarnListe()){
+          barnetsAndelAvTotaltBelopForSakProsent = grunnlagPerBarn.getBidragBelop().divide(samletBidragsbelopSak,
+              new MathContext(10, RoundingMode.HALF_UP));
+          beregnetBidragsbelop = barnetsAndelAvTotaltBelopForSakProsent.multiply(sakensAndelAvEndeligBidragsevneBelop,
+              new MathContext(10, RoundingMode.HALF_UP));
+
+          // Bidrag skal avrundes til nærmeste tier
+          beregnetBidragsbelop = beregnetBidragsbelop.setScale(-1, RoundingMode.HALF_UP);
+
           resultatPerBarnListe.add(new ResultatPerBarn(grunnlagPerBarn.getBarnPersonId(),
-              grunnlagPerBarn.getBidragBelop(), ResultatKode.KOSTNADSBEREGNET_BIDRAG));
+              beregnetBidragsbelop, ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET));
         }
         resultatBeregningListe
             .add(new ResultatBeregning(
                 beregnetBidragSak.getSaksnr(),
                 resultatPerBarnListe));
+        }
+      } else {
+      // Ingen forholdsmessig fordeling gjøres og originalt bidragsbeløp returneres
+      System.out.println("Ingen forholdsmessig fordeling");
 
-
-        var tempBarnebidrag = BigDecimal.ZERO;
-
+      for (BeregnetBidragSak beregnetBidragSak : grunnlagBeregningPeriodisert.getBeregnetBidragSakListe()) {
+        var resultatPerBarnListe = new ArrayList<ResultatPerBarn>();
+        for (GrunnlagPerBarn grunnlagPerBarn : beregnetBidragSak.getGrunnlagPerBarnListe()){
+          resultatPerBarnListe.add(new ResultatPerBarn(grunnlagPerBarn.getBarnPersonId(),
+              grunnlagPerBarn.getBidragBelop(), ResultatKode.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING));
+        }
+        resultatBeregningListe
+            .add(new ResultatBeregning(
+                beregnetBidragSak.getSaksnr(),
+                resultatPerBarnListe));
       }
-
-
     }
-
 
     return resultatBeregningListe;
   }

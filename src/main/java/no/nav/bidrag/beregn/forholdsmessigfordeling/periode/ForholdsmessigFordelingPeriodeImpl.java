@@ -45,7 +45,6 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
         .map(BeregnetBidragSakPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
         .addBruddpunkt(beregnForholdsmessigFordelingGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
@@ -80,7 +79,6 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
                 beregnetBidragSakPeriode.getSaksnr(),
                 beregnetBidragSakPeriode.getGrunnlagPerBarnListe())).collect(toList());
 
-
       // Kaller beregningsmodulen for hver beregningsperiode
 
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
@@ -88,7 +86,6 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
 
         resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
             forholdsmessigFordelingBeregning.beregn(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
-
     }
 
     return new BeregnForholdsmessigFordelingResultat(resultatPeriodeListe);
