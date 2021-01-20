@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.forholdsmessigfordeling.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -13,19 +12,6 @@ data class BeregnForholdsmessigFordelingGrunnlag(
     val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
     val beregnetBidragPeriodeListe: List<BeregnetBidragSakPeriode>
 )
-
-data class BidragsevnePeriode(
-    val bidragsevneDatoFraTil: Periode,
-    val bidragsevneBelop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal) : PeriodisertGrunnlag {
-    constructor(bidragsevnePeriode: BidragsevnePeriode)
-        : this(bidragsevnePeriode.bidragsevneDatoFraTil.justerDatoer(),
-        bidragsevnePeriode.bidragsevneBelop,
-        bidragsevnePeriode.tjuefemProsentInntekt)
-    override fun getDatoFraTil(): Periode {
-        return bidragsevneDatoFraTil
-    }
-}
 
 // Resultatperiode
 data class BeregnForholdsmessigFordelingResultat(
@@ -40,6 +26,10 @@ data class ResultatPeriode(
 
 data class ResultatBeregning(
     val saksnr: Int,
+    val resultatPerBarnListe: List<ResultatPerBarn>
+)
+
+data class ResultatPerBarn(
     val barnPersonId: Int,
     val resultatBarnebidragBelop: BigDecimal,
     val resultatkode: ResultatKode
@@ -58,6 +48,10 @@ data class Bidragsevne(
 
 data class BeregnetBidragSak(
     val saksnr: Int,
+    val grunnlagPerBarnListe: List<GrunnlagPerBarn>
+)
+
+data class GrunnlagPerBarn(
     val barnPersonId: Int,
     val bidragBelop: BigDecimal
 )

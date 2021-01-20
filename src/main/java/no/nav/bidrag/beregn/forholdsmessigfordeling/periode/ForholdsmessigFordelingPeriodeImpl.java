@@ -78,8 +78,7 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
             .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
             .map(beregnetBidragSakPeriode -> new BeregnetBidragSak(
                 beregnetBidragSakPeriode.getSaksnr(),
-                beregnetBidragSakPeriode.getBarnPersonId(),
-                beregnetBidragSakPeriode.getBidragBelop())).collect(toList());
+                beregnetBidragSakPeriode.getGrunnlagPerBarnListe())).collect(toList());
 
 
       // Kaller beregningsmodulen for hver beregningsperiode

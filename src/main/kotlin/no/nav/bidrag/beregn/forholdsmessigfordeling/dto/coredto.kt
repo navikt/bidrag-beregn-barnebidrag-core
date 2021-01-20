@@ -23,9 +23,7 @@ data class BidragsevnePeriodeCore(
 data class BeregnetBidragSakPeriodeCore(
     val saksnr: Int,
     val periodeDatoFraTil: PeriodeCore,
-    val barnPersonId: Int,
-    val bidragBelop: BigDecimal,
-    val resultatkode: ResultatKode
+    val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>
 )
 
 // Resultatperiode
@@ -42,6 +40,10 @@ data class ResultatPeriodeCore(
 
 data class ResultatBeregningCore(
     val saksnr: Int,
+    val resultatPerBarnListe: List<ResultatPerBarnCore>
+)
+
+data class ResultatPerBarnCore(
     val barnPersonId: Int,
     val resultatBarnebidragBelop: BigDecimal,
     val resultatkode: String
@@ -60,6 +62,10 @@ data class BidragsevneCore(
 
 data class BeregnetBidragSakCore(
     val saksnr: Int,
+    val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>
+)
+
+data class GrunnlagPerBarnCore(
     val barnPersonId: Int,
     val bidragBelop: BigDecimal
 )
