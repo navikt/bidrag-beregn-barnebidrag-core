@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidrag;
+import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaretPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggPeriode;
@@ -16,6 +18,8 @@ import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersfradragPeriode;
+import no.nav.bidrag.beregn.barnebidrag.dto.AndreLopendeBidragCore;
+import no.nav.bidrag.beregn.barnebidrag.dto.AndreLopendeBidragPeriodeCore;
 import no.nav.bidrag.beregn.barnebidrag.dto.BPsAndelUnderholdskostnadCore;
 import no.nav.bidrag.beregn.barnebidrag.dto.BPsAndelUnderholdskostnadPeriodeCore;
 import no.nav.bidrag.beregn.barnebidrag.dto.BarnetilleggCore;
@@ -84,13 +88,15 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
         mapBarnetilleggBMPeriodeListe(beregnBarnebidragGrunnlagCore.getBarnetilleggBMPeriodeListe());
     var barnetilleggForsvaretPeriodeListe      =
         mapBarnetilleggForsvaretPeriodeListe(beregnBarnebidragGrunnlagCore.getBarnetilleggForsvaretPeriodeListe());
+    var andreLopendeBidragPeriodeListe = mapAndreLopendeBidragPeriodeListe(
+        beregnBarnebidragGrunnlagCore.getAndreLopendeBidragPeriodeListe());
 
     var sjablonPeriodeListe = mapSjablonPeriodeListe(beregnBarnebidragGrunnlagCore.getSjablonPeriodeListe());
 
     return new BeregnBarnebidragGrunnlag(beregnDatoFra, beregnDatoTil, bidragsevnePeriodeListe,
         bPsAndelUnderholdskostnadPeriodeListe, samvaersfradragPeriodeListe,
         deltBostedPeriodeListe, barnetilleggBPPeriodeListe, barnetilleggBMPeriodeListe,
-        barnetilleggForsvaretPeriodeListe, sjablonPeriodeListe);
+        barnetilleggForsvaretPeriodeListe, andreLopendeBidragPeriodeListe, sjablonPeriodeListe);
   }
 
   private List<BidragsevnePeriode> mapBidragsevnePeriodeListe(
@@ -201,6 +207,23 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
             .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
   }
 
+  private List<AndreLopendeBidragPeriode> mapAndreLopendeBidragPeriodeListe(
+      List<AndreLopendeBidragPeriodeCore> andreLopendeBidragPeriodeListeCore) {
+    var andreLopendeBidragPeriodeListe = new ArrayList<AndreLopendeBidragPeriode>();
+    for (AndreLopendeBidragPeriodeCore andreLopendeBidragPeriodeCore : andreLopendeBidragPeriodeListeCore) {
+      andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
+          new Periode(andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
+              andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          andreLopendeBidragPeriodeCore.getBarnPersonId(),
+          andreLopendeBidragPeriodeCore.getBidragBelop(),
+          andreLopendeBidragPeriodeCore.getSamvaersfradragBelop()
+      ));
+    }
+    return andreLopendeBidragPeriodeListe.stream()
+        .sorted(Comparator.comparing(andreLopendeBidragPeriode -> andreLopendeBidragPeriode
+            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+  }
+
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
     var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
     for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
@@ -276,6 +299,19 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
               grunnlagBeregningPerBarn.getBarnetilleggBM().getBarnetilleggSkattProsent())));
     }
     return grunnlagPerBarnListeCore;
+  }
+
+  private List<AndreLopendeBidragCore> mapResultatGrunnlagAndreLopendeBidrag(
+      List<AndreLopendeBidrag> resultatGrunnlagAndreLopendeBidragListe) {
+    var resultatGrunnlagAndreLopendeBidragListeCore = new ArrayList<AndreLopendeBidragCore>();
+    for (AndreLopendeBidrag resultatGrunnlagAndreLopendeBidrag : resultatGrunnlagAndreLopendeBidragListe) {
+      resultatGrunnlagAndreLopendeBidragListeCore
+          .add(new AndreLopendeBidragCore(resultatGrunnlagAndreLopendeBidrag.getBarnPersonId(),
+              resultatGrunnlagAndreLopendeBidrag.getLopendeBidragBelop(),
+              resultatGrunnlagAndreLopendeBidrag.getBeregnetSamvaersfradragBelop()
+          ));
+    }
+    return resultatGrunnlagAndreLopendeBidragListeCore;
   }
 
   private List<SjablonNavnVerdiCore> mapResultatGrunnlagSjabloner(List<SjablonNavnVerdi> resultatGrunnlagSjablonListe) {

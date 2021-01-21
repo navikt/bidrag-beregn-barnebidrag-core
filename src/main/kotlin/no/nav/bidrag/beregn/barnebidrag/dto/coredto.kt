@@ -18,6 +18,7 @@ data class BeregnBarnebidragGrunnlagCore(
     val barnetilleggBPPeriodeListe: List<BarnetilleggPeriodeCore>,
     val barnetilleggBMPeriodeListe: List<BarnetilleggPeriodeCore>,
     val barnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriodeCore>,
+    val andreLopendeBidragPeriodeListe: List<AndreLopendeBidragPeriodeCore>,
     val sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
@@ -57,6 +58,13 @@ data class BarnetilleggPeriodeCore(
 data class BarnetilleggForsvaretPeriodeCore(
     val barnetilleggForsvaretDatoFraTil: PeriodeCore,
     val barnetilleggForsvaretIPeriode: Boolean
+)
+
+data class AndreLopendeBidragPeriodeCore(
+    val periodeDatoFraTil: PeriodeCore,
+    val barnPersonId: Int,
+    val bidragBelop: BigDecimal,
+    val samvaersfradragBelop: BigDecimal
 )
 
 // Resultatperiode
@@ -108,4 +116,10 @@ data class BPsAndelUnderholdskostnadCore(
 data class BarnetilleggCore(
     val barnetilleggBelop: BigDecimal,
     val barnetilleggSkattProsent: BigDecimal
+)
+
+data class AndreLopendeBidragCore(
+    val barnPersonId: Int,
+    val bidragBelop: BigDecimal,
+    val samvaersfradragBelop: BigDecimal
 )

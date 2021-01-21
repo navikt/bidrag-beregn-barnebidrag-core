@@ -85,3 +85,20 @@ data class BarnetilleggForsvaretPeriode(
     return barnetilleggForsvaretDatoFraTil
   }
 }
+
+data class AndreLopendeBidragPeriode(
+  val andreLopendeBidragDatoFraTil: Periode,
+  val barnPersonId: Int,
+  val bidragBelop: BigDecimal,
+  val samvaersfradragBelop: BigDecimal) : PeriodisertGrunnlag {
+  constructor(andreLopendeBidragPeriode: AndreLopendeBidragPeriode)
+      : this(andreLopendeBidragPeriode.andreLopendeBidragDatoFraTil.justerDatoer(),
+    andreLopendeBidragPeriode.barnPersonId,
+    andreLopendeBidragPeriode.bidragBelop,
+    andreLopendeBidragPeriode.samvaersfradragBelop)
+  override fun getDatoFraTil(): Periode {
+    return andreLopendeBidragDatoFraTil
+  }
+}
+
+

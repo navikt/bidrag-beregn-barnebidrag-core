@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
+import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidrag;
+import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.Barnetillegg;
@@ -81,6 +83,11 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         .map(BarnetilleggForsvaretPeriode::new)
         .collect(toCollection(ArrayList::new));
 
+    var justertAndreLopendeBidragPeriodeListe = beregnBarnebidragGrunnlag.getAndreLopendeBidragPeriodeListe()
+        .stream()
+        .map(AndreLopendeBidragPeriode::new)
+        .collect(toCollection(ArrayList::new));
+
     var justertSjablonPeriodeListe = beregnBarnebidragGrunnlag.getSjablonPeriodeListe()
         .stream()
         .map(SjablonPeriode::new)
@@ -96,6 +103,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         .addBruddpunkter(justertBarnetilleggBPPeriodeListe)
         .addBruddpunkter(justertBarnetilleggBMPeriodeListe)
         .addBruddpunkter(justertBarnetilleggForsvaretPeriodeListe)
+        .addBruddpunkter(justertAndreLopendeBidragPeriodeListe)
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkt(beregnBarnebidragGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnBarnebidragGrunnlag.getBeregnDatoFra(),
@@ -125,6 +133,14 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
       var barnetilleggForsvaret = justertBarnetilleggForsvaretPeriodeListe.stream().filter(i ->
           i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(BarnetilleggForsvaretPeriode::getBarnetilleggForsvaretIPeriode).findFirst().orElse(null);
+
+      var andreLopendeBidragListe = justertAndreLopendeBidragPeriodeListe.stream().filter(i ->
+          i.getDatoFraTil().overlapperMed(beregningsperiode))
+          .map(andreLopendeBidragPeriode -> new AndreLopendeBidrag(
+              andreLopendeBidragPeriode.getBarnPersonId(),
+              andreLopendeBidragPeriode.getBidragBelop(),
+              andreLopendeBidragPeriode.getSamvaersfradragBelop()))
+          .collect(toList());
 
       var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
 
@@ -201,7 +217,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
-          bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, sjablonliste);
+          bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, andreLopendeBidragListe, sjablonliste);
 
       if (barnetilleggForsvaret) {
         resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
