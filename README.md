@@ -98,14 +98,25 @@ deltBostedPeriodeListe                | Bisys                           | Liste 
 barnetilleggBPPeriodeListe            | Bisys                           | Liste med beløp og skatteprosent for barnetillegg for BP, periodisert
 barnetilleggBMPeriodeListe            | Bisys                           | Liste med beløp og skatteprosent for barnetillegg for BM, periodisert
 barnetilleggForsvaretPeriodeListe     | Bisys                           | Liste som sier om det finnes barnetillegg fra forsvaret eller ikke, periodisert, hvis ja så overstyres all utregning av barnebidrag i perioden
+andreLopendeBidragPeriodeListe        | Bisys                           | Liste med bidragsbeløp og samværsfradrag for alle andre av BPs saker. Disse beløpene går inn i vurdering av bidragsevne og brukes for å finne ut om det må gjøres en forholdsmessig fordeling  
 sjablonPeriodeListe                   | bidrag-sjablon                  | Sjabloner for beregningsperioden
 
+<br>
+<b>BeregnForholdsmessigFordeling - Delberegning som kalles ved behov etter å ha beregnet alle bidragssaker på nytt. Returnerer nye bidragsbeløp forholdsmessig fordelt mellom alle saker</b>
+
+|Felt | Kilde | Beskrivelse
+| ------------| ----- | ------------- |
+beregnDatoFra                         | Bisys                           | Dato satt i Bisys, beregner fra denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+beregnDatoTil                         | Bisys                           | Dato satt i Bisys, beregner til denne datoen, kan bli flere resultatperioder ved endringer i grunnlagsdataene
+bidragsevnePeriodeListe               | beregnBidragsevne               | Liste med BPs bidragsevne, periodisert
+beregnetBidragPeriodeListe            | Bisys                           | Periodisert liste med alle saker som skal inngå i forholdsmessig fordeling
 
 
 ## Changelog:
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.14.2  | Endret       | Flere tester av forholdsmessig fordeling periodisering pluss tester fra John
 0.14.1  | Endret       | Rettet feil og lagt til flere tester forholdsmessig fordeling
 0.14.0  | Endret       | Ny delberegning, Forholdsmessig fordeling
 0.13.3  | Endret       | Endret avrunding for kostnadsberegnet bidrag

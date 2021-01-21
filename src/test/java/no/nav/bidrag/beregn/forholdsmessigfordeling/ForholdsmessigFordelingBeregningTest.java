@@ -142,4 +142,66 @@ public class ForholdsmessigFordelingBeregningTest {
     );
   }
 
+  @DisplayName("Test 1 fra John med to saker med ett barn hver")
+  @Test
+  void test1FraJohn() {
+    ForholdsmessigFordelingBeregningImpl forholdsmessigFordelingBeregning = new ForholdsmessigFordelingBeregningImpl();
+
+    beregnetBidragSakListe.add(new BeregnetBidragSak(1,
+        Arrays.asList(new GrunnlagPerBarn(1, BigDecimal.valueOf(3425)))));
+
+    beregnetBidragSakListe.add(new BeregnetBidragSak(2,
+        Arrays.asList(new GrunnlagPerBarn(2, BigDecimal.valueOf(5980)))));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
+        new Bidragsevne(BigDecimal.valueOf(5655), BigDecimal.valueOf(10000)),
+        beregnetBidragSakListe);
+
+    List<ResultatBeregning> resultat = forholdsmessigFordelingBeregning.beregn(grunnlagBeregningPeriodisert);
+
+    assertAll(
+        () -> assertThat(resultat.get(0).getSaksnr()).isEqualTo(1),
+        () -> assertThat(resultat.get(1).getSaksnr()).isEqualTo(2),
+        () -> assertThat(resultat.size()).isEqualTo(2),
+
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2060))).isZero(),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(3600))).isZero(),
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getResultatkode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getResultatkode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
+    );
+  }
+
+  @DisplayName("Test 2 fra John med tre saker med ett barn hver")
+  @Test
+  void test2FraJohn() {
+    ForholdsmessigFordelingBeregningImpl forholdsmessigFordelingBeregning = new ForholdsmessigFordelingBeregningImpl();
+
+    beregnetBidragSakListe.add(new BeregnetBidragSak(1,
+        Arrays.asList(new GrunnlagPerBarn(1, BigDecimal.valueOf(3425)))));
+
+    beregnetBidragSakListe.add(new BeregnetBidragSak(2,
+        Arrays.asList(new GrunnlagPerBarn(2, BigDecimal.valueOf(5980)))));
+
+    beregnetBidragSakListe.add(new BeregnetBidragSak(3,
+        Arrays.asList(new GrunnlagPerBarn(3, BigDecimal.valueOf(3856)))));
+
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
+        new Bidragsevne(BigDecimal.valueOf(5655), BigDecimal.valueOf(10000)),
+        beregnetBidragSakListe);
+
+    List<ResultatBeregning> resultat = forholdsmessigFordelingBeregning.beregn(grunnlagBeregningPeriodisert);
+
+    assertAll(
+        () -> assertThat(resultat.get(0).getSaksnr()).isEqualTo(1),
+        () -> assertThat(resultat.get(1).getSaksnr()).isEqualTo(2),
+        () -> assertThat(resultat.get(2).getSaksnr()).isEqualTo(3),
+        () -> assertThat(resultat.size()).isEqualTo(3),
+
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1460))).isZero(),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2550))).isZero(),
+        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1640))).isZero(),
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getResultatkode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getResultatkode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
+    );
+  }
 }
