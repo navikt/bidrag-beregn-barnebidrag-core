@@ -106,6 +106,7 @@ sjablonPeriodeListe                   | bidrag-sjablon                  | Sjablo
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.14.1  | Endret       | Rettet feil og lagt til flere tester forholdsmessig fordeling
 0.14.0  | Endret       | Ny delberegning, Forholdsmessig fordeling
 0.13.3  | Endret       | Endret avrunding for kostnadsberegnet bidrag
 0.13.2  | Endret       | Lagt til beskrivelse av beregningene som gjøres

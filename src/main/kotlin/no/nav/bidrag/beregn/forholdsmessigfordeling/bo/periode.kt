@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.forholdsmessigfordeling.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 
 data class BidragsevnePeriode(
