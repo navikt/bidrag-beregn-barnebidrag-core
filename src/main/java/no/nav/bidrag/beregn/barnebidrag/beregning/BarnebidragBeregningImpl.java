@@ -127,7 +127,7 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
 
       // Sjekker mot særregler for barnetillegg BP/BM
       // Dersom beregnet bidrag etter samværsfradrag er lavere enn eventuelt barnetillegg for BP
-      // så skal bidraget settes likt barnetillegget. BarnetilleggBP skal ikke taes hensyn til ved delt bosted
+      // så skal bidraget settes likt barnetillegget minus samværsfradrag. BarnetilleggBP skal ikke taes hensyn til ved delt bosted
       if (!grunnlagBeregningPerBarn.getDeltBosted() &&
           tempBarnebidrag.compareTo(nettoBarnetilleggBP) < 0
           && nettoBarnetilleggBP.compareTo(BigDecimal.ZERO) > 0) {
@@ -172,12 +172,13 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
         resultatkode = ResultatKode.BARNET_ER_SELVFORSORGET;
       }
 
-      // Sjekker om bidragsevne dekker beregnet bidrag pluss løpende bidragsbeløp + samværsfradrag,
+      // Sjekker om bidragsevne dekker beregnet bidrag pluss løpende bidragsbeløp for andre eksisterende bidragssaker + samværsfradrag,
       // hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
       if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
           tempBarnebidrag.add(totaltBelopLopendeBidrag)) < 0 &&
           !resultatkode.equals(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED) &&
           !resultatkode.equals(ResultatKode.BARNET_ER_SELVFORSORGET) &&
+          !resultatkode.equals(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP) &&
           !resultatkode.equals(ResultatKode.INGEN_EVNE)){
           resultatkode = ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING;
       }

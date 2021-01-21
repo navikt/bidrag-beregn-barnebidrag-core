@@ -799,27 +799,29 @@ public class BarnebidragBeregningTest {
 
 
 
-/*  @DisplayName("Tester fra John")
+  @DisplayName("Tester fra John")
   @Test
   void testerFraJohn() {
     BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(5603), BigDecimal.valueOf(8334));
+    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(136), BigDecimal.valueOf(8334));
+
+    andreLopendeBidragListe.clear();
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(48.4),BigDecimal.valueOf(8684),
-            false), BigDecimal.valueOf(0), true,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
+        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(42.9),BigDecimal.valueOf(3725),
+            false), BigDecimal.valueOf(457), false,
+        new Barnetillegg(BigDecimal.valueOf(2000), BigDecimal.valueOf(20)),
         new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
 
     var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, sjablonListe);
+        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
 
     List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(0))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.DELT_BOSTED)
+        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1140))).isZero(),
+        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
-  }*/
+  }
 }
