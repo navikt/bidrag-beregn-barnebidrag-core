@@ -90,6 +90,7 @@ data class GrunnlagBeregningPeriodisertCore(
     val bidragsevne: BidragsevneCore,
     val grunnlagPerBarnListe: List<GrunnlagBeregningPerBarnCore>,
     val barnetilleggForsvaret: Boolean,
+    val andreLopendeBidragListe: List<AndreLopendeBidragCore>,
     val sjablonListe: List<SjablonNavnVerdiCore>
 )
 

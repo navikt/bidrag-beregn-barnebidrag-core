@@ -267,6 +267,7 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
               barnebidragResultatGrunnlag.getBidragsevne().getTjuefemProsentInntekt()),
               mapResultatGrunnlag(barnebidragResultatGrunnlag.getGrunnlagPerBarnListe()),
               barnebidragResultatGrunnlag.getBarnetilleggForsvaret(),
+              mapResultatGrunnlagAndreLopendeBidrag(barnebidragResultatGrunnlag.getAndreLopendeBidragListe()),
               mapResultatGrunnlagSjabloner(resultatPeriode.getResultatBeregningListe().get(0).getSjablonListe()))));
     }
     return resultatPeriodeCoreListe;
