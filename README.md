@@ -116,6 +116,7 @@ beregnetBidragPeriodeListe            | Bisys                           | Period
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.14.4  | Endret       | Lagt til test fra John med flere barn per sak i forholdsmessig fordeling
 0.14.3  | Endret       | Rettet feil i mapping av AndreLopendeBidrag
 0.14.2  | Endret       | Flere tester av forholdsmessig fordeling periodisering pluss tester fra John
 0.14.1  | Endret       | Rettet feil og lagt til flere tester forholdsmessig fordeling
