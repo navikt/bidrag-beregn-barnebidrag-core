@@ -64,16 +64,16 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
     for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
       var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
       var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
-      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getSjablonNokkelListe()) {
-        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getSjablonNokkelNavn(), sjablonNokkelCore.getSjablonNokkelVerdi()));
+      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
+        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
       }
-      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getSjablonInnholdListe()) {
-        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getSjablonInnholdNavn(), sjablonInnholdCore.getSjablonInnholdVerdi()));
+      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
+        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
       }
       sjablonPeriodeListe.add(new SjablonPeriode(
-          new Periode(sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoFra(),
-              sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoTil()),
-          new Sjablon(sjablonPeriodeCore.getSjablonNavn(), sjablonNokkelListe, sjablonInnholdListe)));
+          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(),
+              sjablonPeriodeCore.getPeriode().getDatoTil()),
+          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
     }
     return sjablonPeriodeListe;
   }
@@ -83,8 +83,8 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
     var samvaersklassePeriodeListe = new ArrayList<SamvaersklassePeriode>();
     for (SamvaersklassePeriodeCore samvaersklassePeriodeCore : samvaersklassePeriodeListeCore) {
       samvaersklassePeriodeListe.add(new SamvaersklassePeriode(
-          new Periode(samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getPeriodeDatoFra(),
-              samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getDatoFom(),
+              samvaersklassePeriodeCore.getSamvaersklassePeriodeDatoFraTil().getDatoTil()),
           samvaersklassePeriodeCore.getSamvaersklasse()));
     }
     return samvaersklassePeriodeListe;
@@ -108,7 +108,7 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
       var samvaersfradragResultat = resultatPeriode.getResultatBeregning();
       var samvaersfradragResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(resultatPeriode.getSoknadsbarnPersonId(),
-          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFom(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(samvaersfradragResultat.getResultatSamvaersfradragBelop()),
           new ResultatGrunnlagCore(samvaersfradragResultatGrunnlag.getSoknadBarnAlder(),
               samvaersfradragResultatGrunnlag.getSamvaersklasse(),
@@ -121,7 +121,7 @@ public class SamvaersfradragCoreImpl implements SamvaersfradragCore {
     var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
     for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getNavn(), resultatGrunnlagSjablon.getVerdi()));
     }
     return resultatGrunnlagSjablonListeCore;
   }

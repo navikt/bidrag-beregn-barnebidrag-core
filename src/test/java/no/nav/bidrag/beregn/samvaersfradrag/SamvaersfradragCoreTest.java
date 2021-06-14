@@ -71,28 +71,28 @@ public class SamvaersfradragCoreTest {
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
 
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(666)),
 
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(667)),
 
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop())
             .isEqualTo(BigDecimal.valueOf(668)),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(1600))
+            .getVerdi()).isEqualTo(BigDecimal.valueOf(1600))
 
     );
   }
@@ -113,7 +113,7 @@ public class SamvaersfradragCoreTest {
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe()).hasSize(1),
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnSamvaersfradragResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
-            AvvikType.DATO_FRA_ETTER_DATO_TIL.toString()),
+            AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
@@ -172,7 +172,7 @@ public class SamvaersfradragCoreTest {
 
   private void byggAvvik() {
     avvikListe = new ArrayList<>();
-    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FRA_ETTER_DATO_TIL));
+    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
 
 }

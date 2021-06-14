@@ -64,23 +64,23 @@ public class KostnadsberegnetBidragCoreTest {
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
 
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatKostnadsberegnetBidragBelop())
             .isEqualTo(BigDecimal.valueOf(666)),
 
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatKostnadsberegnetBidragBelop())
             .isEqualTo(BigDecimal.valueOf(667)),
 
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatKostnadsberegnetBidragBelop())
             .isEqualTo(BigDecimal.valueOf(668))
@@ -105,7 +105,7 @@ public class KostnadsberegnetBidragCoreTest {
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe().get(0).getAvvikTekst())
             .isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
-            AvvikType.DATO_FRA_ETTER_DATO_TIL.toString()),
+            AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
@@ -168,7 +168,7 @@ public class KostnadsberegnetBidragCoreTest {
 
   private void byggAvvik() {
     avvikListe = new ArrayList<>();
-    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FRA_ETTER_DATO_TIL));
+    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
 
 }

@@ -77,16 +77,16 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
       var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
       var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
-      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getSjablonNokkelListe()) {
-        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getSjablonNokkelNavn(), sjablonNokkelCore.getSjablonNokkelVerdi()));
+      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
+        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
       }
-      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getSjablonInnholdListe()) {
-        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getSjablonInnholdNavn(), sjablonInnholdCore.getSjablonInnholdVerdi()));
+      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
+        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
       }
       sjablonPeriodeListe.add(new SjablonPeriode(
-          new Periode(sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoFra(),
-              sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoTil()),
-          new Sjablon(sjablonPeriodeCore.getSjablonNavn(), sjablonNokkelListe, sjablonInnholdListe)));
+          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(),
+              sjablonPeriodeCore.getPeriode().getDatoTil()),
+          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
     }
     return sjablonPeriodeListe;
   }
@@ -95,8 +95,8 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var inntektPeriodeListe = new ArrayList<InntektPeriode>();
     for (InntektPeriodeCore inntektPeriodeCore : inntektPeriodeListeCore) {
       inntektPeriodeListe.add(new InntektPeriode(
-          new Periode(inntektPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoFra(),
-              inntektPeriodeCore.getInntektPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(inntektPeriodeCore.getInntektPeriodeDatoFraTil().getDatoFom(),
+              inntektPeriodeCore.getInntektPeriodeDatoFraTil().getDatoTil()),
           InntektType.valueOf(inntektPeriodeCore.getInntektType()),
           inntektPeriodeCore.getInntektBelop(),
           inntektPeriodeCore.getDeltFordel(),
@@ -109,8 +109,8 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
     for (UnderholdskostnadPeriodeCore underholdskostnadPeriodeCore : underholdskostnadPeriodeListeCore) {
       underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
-          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getPeriodeDatoFra(),
-              underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getPeriodeDatoTil()),
+          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getDatoFom(),
+              underholdskostnadPeriodeCore.getUnderholdskostnadDatoFraTil().getDatoTil()),
           underholdskostnadPeriodeCore.getUnderholdskostnadBelop()));
     }
     return underholdskostnadPeriodeListe;
@@ -135,7 +135,7 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
       var bPsAndelunderholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           periodeResultat.getSoknadsbarnPersonId(),
-          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFom(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(bPsAndelunderholdskostnadResultat.getResultatAndelProsent(),
               bPsAndelunderholdskostnadResultat.getResultatAndelBelop(),
               bPsAndelunderholdskostnadResultat.getBarnetErSelvforsorget()),
@@ -162,7 +162,7 @@ public class BPsAndelUnderholdskostnadCoreImpl implements BPsAndelUnderholdskost
     var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
     for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getNavn(), resultatGrunnlagSjablon.getVerdi()));
     }
     return resultatGrunnlagSjablonListeCore;
   }

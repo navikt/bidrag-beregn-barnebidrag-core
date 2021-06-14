@@ -19,7 +19,10 @@ data class InntektPeriode(
       inntektPeriode.deltFordel,
       inntektPeriode.skatteklasse2)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
+    return inntektDatoFraTil
+  }
+  fun getDatoFraTil(): Periode {
     return inntektDatoFraTil
   }
 }
@@ -32,7 +35,10 @@ data class UnderholdskostnadPeriode(
       underholdskostnadPeriode.underholdskostnadDatoFraTil.justerDatoer(),
       underholdskostnadPeriode.underholdskostnadBelop)
 
-  override fun getDatoFraTil(): Periode {
+  override fun getPeriode(): Periode {
+    return underholdskostnadDatoFraTil
+  }
+  fun getDatoFraTil(): Periode {
     return underholdskostnadDatoFraTil
   }
 }

@@ -65,7 +65,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
     if (perioder.size() > 1) {
       if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil())) &&
           (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
+        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
         perioder.remove(perioder.size() - 1);
         perioder.remove(perioder.size() - 1);
         perioder.add(nyPeriode);
@@ -86,10 +86,10 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
                   beregningsperiode.getDatoTil()),
               faktiskUtgiftPeriode.getFaktiskUtgiftBelop()))).collect(toList());
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
+      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getNavn(),
+              sjablonPeriode.getSjablon().getNokkelListe(),
+              sjablonPeriode.getSjablon().getInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnNettoBarnetilsynGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(
@@ -136,7 +136,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
+      sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
     var avvikListe = new ArrayList<>(
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe",

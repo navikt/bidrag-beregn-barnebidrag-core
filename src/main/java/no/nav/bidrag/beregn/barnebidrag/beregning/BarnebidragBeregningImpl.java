@@ -276,6 +276,6 @@ public class BarnebidragBeregningImpl implements BarnebidragBeregning {
   private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
     var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
     sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
+    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getNavn)).collect(toList());
   }
 }

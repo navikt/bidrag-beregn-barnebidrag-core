@@ -11,19 +11,19 @@ import no.nav.bidrag.beregn.felles.dto.AvvikCore;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingGrunnlag;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingResultat;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSakPeriode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BidragsevnePeriode;
-import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagPerBarn;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatBeregning;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatPerBarn;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnForholdsmessigFordelingGrunnlagCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnForholdsmessigFordelingResultatCore;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakPeriodeCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BidragsevneCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BidragsevnePeriodeCore;
-import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.GrunnlagBeregningPeriodisertCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.GrunnlagPerBarnCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.ResultatBeregningCore;
@@ -71,14 +71,14 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
     for (BidragsevnePeriodeCore bidragsevnePeriodeCore : bidragsevnePeriodeListeCore) {
       bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-          new Periode(bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getPeriodeDatoFra(),
-              bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getPeriodeDatoTil()),
+          new Periode(bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getDatoFom(),
+              bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getDatoTil()),
           bidragsevnePeriodeCore.getBidragsevneBelop(),
           bidragsevnePeriodeCore.getTjuefemProsentInntekt()));
     }
     return bidragsevnePeriodeListe.stream()
         .sorted(Comparator.comparing(bidragsevnePeriode -> bidragsevnePeriode
-            .getBidragsevneDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getBidragsevneDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<BeregnetBidragSakPeriode> mapBeregnetBidragSakPeriodeListe(
@@ -87,13 +87,13 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     for (BeregnetBidragSakPeriodeCore beregnetBidragSakPeriodeCore : beregnetBidragSakPeriodeListeCore) {
       beregnetBidragSakPeriodeListe.add(new BeregnetBidragSakPeriode(
           beregnetBidragSakPeriodeCore.getSaksnr(),
-          new Periode(beregnetBidragSakPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
-              beregnetBidragSakPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(beregnetBidragSakPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
+              beregnetBidragSakPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           mapGrunnlagPerBarnListe(beregnetBidragSakPeriodeCore.getGrunnlagPerBarnListe())));
     }
     return beregnetBidragSakPeriodeListe.stream()
         .sorted(Comparator.comparing(bidragsevnePeriode -> bidragsevnePeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<GrunnlagPerBarn> mapGrunnlagPerBarnListe(List<GrunnlagPerBarnCore> grunnlagPerBarnListeCore) {
@@ -124,7 +124,7 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
 //      var forholdsmessigFordelingResultatGrunnlagListe = resultatPeriode.getResultatGrunnlagListe();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFom(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
           new GrunnlagBeregningPeriodisertCore(
               new BidragsevneCore(resultatPeriode.getResultatGrunnlag().getBidragsevne().getBidragsevneBelop(),

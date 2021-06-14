@@ -125,7 +125,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
       if ((perioder.get(perioder.size() - 2).getDatoTil()
           .equals(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil())) &&
           (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
+        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
         perioder.remove(perioder.size() - 1);
         perioder.remove(perioder.size() - 1);
         perioder.add(nyPeriode);
@@ -150,13 +150,13 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
           .map(ForpleiningUtgiftPeriode::getForpleiningUtgiftBelop).findFirst().orElse(null);
 
       var alderBarn = beregnSoknadbarnAlderOverstyrt(beregnUnderholdskostnadGrunnlag,
-          beregningsperiode.getDatoFra());
+          beregningsperiode.getDatoFom());
 
       var sjablonliste = justertSjablonPeriodeListe.stream()
-          .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
+          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getNavn(),
+              sjablonPeriode.getSjablon().getNokkelListe(),
+              sjablonPeriode.getSjablon().getInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnUnderholdskostnadGrunnlagPeriodisert = new BeregnUnderholdskostnadGrunnlagPeriodisert(
@@ -168,7 +168,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
       // 2. beregnOrdinaerBarnetrygd - Beregning med ordinær barnetrygd
       // 3. beregnForhoyetBarnetrygd - Beregner med forhøyet barnetrygd
 
-      if (beregningsperiode.getDatoFra().equals(soknadsbarnFodselsmaaned.getDatoFra())) {
+      if (beregningsperiode.getDatoFom().equals(soknadsbarnFodselsmaaned.getDatoFom())) {
 /*        System.out.println(
             "Barnets fødselsmåned, beregner uten barnetrygd: "
                 + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
@@ -178,7 +178,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
             .beregnUtenBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
             beregnUnderholdskostnadGrunnlagPeriodisert));
       } else {
-        if (beregningsperiode.getDatoFra().isBefore(datoRegelendringer.getDatoFra())) {
+        if (beregningsperiode.getDatoFom().isBefore(datoRegelendringer.getDatoFom())) {
 /*          System.out.println(
               "Periode er før innføring av forhøyet barnetrygd, beregner med ordinær barnetrygd "
                   + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
@@ -188,9 +188,9 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
               .beregnMedOrdinaerBarnetrygd(beregnUnderholdskostnadGrunnlagPeriodisert),
               beregnUnderholdskostnadGrunnlagPeriodisert));
         } else {
-          if (beregningsperiode.getDatoFra()
-              .isAfter(datoRegelendringer.getDatoFra().minusDays(1))) {
-            if (beregningsperiode.getDatoFra().isBefore(seksaarsbruddato)) {
+          if (beregningsperiode.getDatoFom()
+              .isAfter(datoRegelendringer.getDatoFom().minusDays(1))) {
+            if (beregningsperiode.getDatoFom().isBefore(seksaarsbruddato)) {
 /*              System.out.println("Beregner med forhøyet barnetrygd"
                   + beregningsperiode.getDatoFra() + " " + beregningsperiode.getDatoTil());*/
               resultatPeriodeListe.add(new ResultatPeriode(
@@ -244,7 +244,7 @@ public class UnderholdskostnadPeriodeImpl implements UnderholdskostnadPeriode {
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
+      sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
     var avvikListe = new ArrayList<>(
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),

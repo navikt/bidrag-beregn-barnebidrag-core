@@ -63,16 +63,16 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
       var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
       var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
-      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getSjablonNokkelListe()) {
-        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getSjablonNokkelNavn(), sjablonNokkelCore.getSjablonNokkelVerdi()));
+      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
+        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
       }
-      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getSjablonInnholdListe()) {
-        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getSjablonInnholdNavn(), sjablonInnholdCore.getSjablonInnholdVerdi()));
+      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
+        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
       }
       sjablonPeriodeListe.add(new SjablonPeriode(
-          new Periode(sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoFra(),
-              sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoTil()),
-          new Sjablon(sjablonPeriodeCore.getSjablonNavn(), sjablonNokkelListe, sjablonInnholdListe)));
+          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(),
+              sjablonPeriodeCore.getPeriode().getDatoTil()),
+          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
     }
     return sjablonPeriodeListe;
   }
@@ -83,8 +83,8 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     for (FaktiskUtgiftPeriodeCore faktiskUtgiftPeriodeCore : faktiskUtgiftBarnetilsynPeriodeListeCore) {
       faktiskUtgiftBarnetilsynPeriodeListe.add(new FaktiskUtgiftPeriode(
           faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnPersonId(),
-          new Periode(faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getPeriodeDatoFra(),
-              faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getDatoFom(),
+              faktiskUtgiftPeriodeCore.getFaktiskUtgiftPeriodeDatoFraTil().getDatoTil()),
           faktiskUtgiftPeriodeCore.getFaktiskUtgiftSoknadsbarnFodselsdato(),
           faktiskUtgiftPeriodeCore.getFaktiskUtgiftBelop()));
     }
@@ -108,7 +108,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
       var nettoBarnetilsynResultatGrunnlag = resultatPeriode.getResultatGrunnlagBeregning();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFom(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
           new ResultatGrunnlagCore(mapResultatGrunnlag(nettoBarnetilsynResultatGrunnlag.getFaktiskUtgiftListe()),
               mapResultatGrunnlagSjabloner(resultatPeriode.getResultatBeregningListe().get(0).getSjablonListe()))));
@@ -141,7 +141,7 @@ public class NettoBarnetilsynCoreImpl implements NettoBarnetilsynCore {
     var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
     for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getNavn(), resultatGrunnlagSjablon.getVerdi()));
     }
     return resultatGrunnlagSjablonListeCore;
   }

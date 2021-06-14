@@ -13,7 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("Test hent av sjablonverdi")
-class BidragsevneberegningGrunnlagTest {
+class BidragsevneBeregningGrunnlagTest {
 
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
 

@@ -83,12 +83,12 @@ public class SamvaersfradragPeriodeTest {
           () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
           () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
 
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-07-01")),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2019-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-04-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()
               .compareTo(BigDecimal.valueOf(727))).isZero(),
 
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-04-01")),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2020-04-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isNull(),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()
               .compareTo(BigDecimal.valueOf(1052))).isZero()
@@ -173,22 +173,22 @@ public class SamvaersfradragPeriodeTest {
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2018-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(219))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-02-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2019-02-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(727))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-03-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2019-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatBeregning().getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(727))).isZero(),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2020-03-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2020-03-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isNull(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregning().getResultatSamvaersfradragBelop()
             .compareTo(BigDecimal.valueOf(1052))).isZero()
@@ -263,9 +263,9 @@ public class SamvaersfradragPeriodeTest {
   private void printGrunnlagResultat(
         BeregnSamvaersfradragResultat beregnSamvaersfradragResultat) {
       beregnSamvaersfradragResultat.getResultatPeriodeListe().stream().sorted(
-          Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFra()))
+          Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFom()))
           .forEach(sortedPR -> System.out
-              .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
+              .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFom() + "; " + "Dato til: "
                   + sortedPR.getResultatDatoFraTil().getDatoTil()
                   + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultatBeregning().getResultatSamvaersfradragBelop()));
     }

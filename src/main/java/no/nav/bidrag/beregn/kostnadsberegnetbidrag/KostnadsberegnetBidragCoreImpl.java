@@ -61,8 +61,8 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
     for (UnderholdskostnadPeriodeCore underholdskostnadPeriodeCore : underholdskostnadPeriodeListeCore) {
       underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
-          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadPeriodeDatoFraTil().getPeriodeDatoFra(),
-              underholdskostnadPeriodeCore.getUnderholdskostnadPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadPeriodeDatoFraTil().getDatoFom(),
+              underholdskostnadPeriodeCore.getUnderholdskostnadPeriodeDatoFraTil().getDatoTil()),
           underholdskostnadPeriodeCore.getUnderholdskostnadBelop()));
     }
     return underholdskostnadPeriodeListe;
@@ -73,8 +73,8 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
     for (BPsAndelUnderholdskostnadPeriodeCore bPsAndelUnderholdskostnadPeriodeCore : bPsAndelUnderholdskostnadPeriodeListeCore) {
       bPsAndelUnderholdskostnadPeriodeListe.add(new BPsAndelUnderholdskostnadPeriode(
-          new Periode(bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadPeriodeDatoFraTil().getPeriodeDatoFra(),
-              bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadPeriodeDatoFraTil().getDatoFom(),
+              bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadPeriodeDatoFraTil().getDatoTil()),
           bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadProsent()));
     }
     return bPsAndelUnderholdskostnadPeriodeListe;
@@ -84,8 +84,8 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
     for (SamvaersfradragPeriodeCore samvaersfradragPeriodeCore : samvaersfradragPeriodeListeCore) {
       samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(
-          new Periode(samvaersfradragPeriodeCore.getSamvaersfradragDatoPeriodeFraTil().getPeriodeDatoFra(),
-              samvaersfradragPeriodeCore.getSamvaersfradragDatoPeriodeFraTil().getPeriodeDatoTil()),
+          new Periode(samvaersfradragPeriodeCore.getSamvaersfradragDatoPeriodeFraTil().getDatoFom(),
+              samvaersfradragPeriodeCore.getSamvaersfradragDatoPeriodeFraTil().getDatoTil()),
           samvaersfradragPeriodeCore.getSamvaersfradrag()));
     }
     return samvaersfradragPeriodeListe;
@@ -110,7 +110,7 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
       var kostnadsberegnetBidragResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           periodeResultat.getSoknadsbarnPersonId(),
-          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFom(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(kostnadsberegnetBidragResultat.getResultatkostnadsberegnetbidragBelop()),
           new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
               kostnadsberegnetBidragResultatGrunnlag.getBPsAndelUnderholdskostnadProsent(),

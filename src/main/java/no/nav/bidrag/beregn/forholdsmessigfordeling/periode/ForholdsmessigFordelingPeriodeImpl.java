@@ -12,10 +12,10 @@ import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.beregning.ForholdsmessigFordelingBeregning;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingGrunnlag;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingResultat;
+import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSakPeriode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.Bidragsevne;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BidragsevnePeriode;
-import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatPeriode;
 
@@ -58,7 +58,7 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
     if (perioder.size() > 1) {
       if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnForholdsmessigFordelingGrunnlag.getBeregnDatoTil())) &&
           (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
+        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
         perioder.remove(perioder.size() - 1);
         perioder.remove(perioder.size() - 1);
         perioder.add(nyPeriode);

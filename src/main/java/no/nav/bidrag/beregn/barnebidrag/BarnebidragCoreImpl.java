@@ -104,14 +104,14 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
     for (BidragsevnePeriodeCore bidragsevnePeriodeCore : bidragsevnePeriodeListeCore) {
       bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-          new Periode(bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getPeriodeDatoFra(),
-              bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getPeriodeDatoTil()),
+          new Periode(bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getDatoFom(),
+              bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getDatoTil()),
           bidragsevnePeriodeCore.getBidragsevneBelop(),
           bidragsevnePeriodeCore.getTjuefemProsentInntekt()));
     }
     return bidragsevnePeriodeListe.stream()
         .sorted(Comparator.comparing(bidragsevnePeriode -> bidragsevnePeriode
-            .getBidragsevneDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getBidragsevneDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<BPsAndelUnderholdskostnadPeriode> mapBPsAndelUnderholdskostnadPeriodeListe(
@@ -120,15 +120,15 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (BPsAndelUnderholdskostnadPeriodeCore bPsAndelUnderholdskostnadPeriodeCore : bPsAndelUnderholdskostnadPeriodeListeCore) {
       bPsAndelUnderholdskostnadPeriodeListe.add(new BPsAndelUnderholdskostnadPeriode(
           bPsAndelUnderholdskostnadPeriodeCore.getSoknadsbarnPersonId(),
-          new Periode(bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadDatoFraTil().getPeriodeDatoFra(),
-              bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadDatoFraTil().getPeriodeDatoTil()),
+          new Periode(bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadDatoFraTil().getDatoFom(),
+              bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadDatoFraTil().getDatoTil()),
           bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadProsent(),
           bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadBelop(),
           bPsAndelUnderholdskostnadPeriodeCore.getBarnetErSelvforsorget()));
     }
     return bPsAndelUnderholdskostnadPeriodeListe.stream()
         .sorted(Comparator.comparing(bPsAndelUnderholdskostnadPeriode -> bPsAndelUnderholdskostnadPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<SamvaersfradragPeriode> mapSamvaersfradragPeriodeListe(
@@ -137,13 +137,13 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (SamvaersfradragPeriodeCore samvaersfradragPeriodeCore : samvaersfradragPeriodeListeCore) {
       samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(
           samvaersfradragPeriodeCore.getSoknadsbarnPersonId(),
-          new Periode(samvaersfradragPeriodeCore.getSamvaersfradragDatoFraTil().getPeriodeDatoFra(),
-              samvaersfradragPeriodeCore.getSamvaersfradragDatoFraTil().getPeriodeDatoTil()),
+          new Periode(samvaersfradragPeriodeCore.getSamvaersfradragDatoFraTil().getDatoFom(),
+              samvaersfradragPeriodeCore.getSamvaersfradragDatoFraTil().getDatoTil()),
           samvaersfradragPeriodeCore.getSamvaersfradragBelop()));
     }
     return samvaersfradragPeriodeListe.stream()
         .sorted(Comparator.comparing(samvaersfradragPeriode -> samvaersfradragPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<DeltBostedPeriode> mapDeltBostedPeriodeListe(
@@ -152,13 +152,13 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (DeltBostedPeriodeCore deltBostedPeriodeCore : deltBostedPeriodeListeCore) {
       deltBostedPeriodeListe.add(new DeltBostedPeriode(
           deltBostedPeriodeCore.getSoknadsbarnPersonId(),
-          new Periode(deltBostedPeriodeCore.getDeltBostedDatoFraTil().getPeriodeDatoFra(),
-              deltBostedPeriodeCore.getDeltBostedDatoFraTil().getPeriodeDatoTil()),
+          new Periode(deltBostedPeriodeCore.getDeltBostedDatoFraTil().getDatoFom(),
+              deltBostedPeriodeCore.getDeltBostedDatoFraTil().getDatoTil()),
           deltBostedPeriodeCore.getDeltBostedIPeriode()));
     }
     return deltBostedPeriodeListe.stream()
         .sorted(Comparator.comparing(deltBostedPeriode -> deltBostedPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<BarnetilleggPeriode> mapBarnetilleggBPPeriodeListe(
@@ -167,14 +167,14 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (BarnetilleggPeriodeCore barnetilleggBPPeriodeCore : barnetilleggBPPeriodeListeCore) {
       barnetilleggBPPeriodeListe.add(new BarnetilleggPeriode(
           barnetilleggBPPeriodeCore.getSoknadsbarnPersonId(),
-          new Periode(barnetilleggBPPeriodeCore.getBarnetilleggDatoFraTil().getPeriodeDatoFra(),
-              barnetilleggBPPeriodeCore.getBarnetilleggDatoFraTil().getPeriodeDatoTil()),
+          new Periode(barnetilleggBPPeriodeCore.getBarnetilleggDatoFraTil().getDatoFom(),
+              barnetilleggBPPeriodeCore.getBarnetilleggDatoFraTil().getDatoTil()),
           barnetilleggBPPeriodeCore.getBarnetilleggBelop(),
           barnetilleggBPPeriodeCore.getBarnetilleggSkattProsent()));
     }
     return barnetilleggBPPeriodeListe.stream()
         .sorted(Comparator.comparing(barnetilleggBPPeriode -> barnetilleggBPPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<BarnetilleggPeriode> mapBarnetilleggBMPeriodeListe(
@@ -183,14 +183,14 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (BarnetilleggPeriodeCore barnetilleggBMPeriodeCore : barnetilleggBMPeriodeListeCore) {
       barnetilleggBMPeriodeListe.add(new BarnetilleggPeriode(
           barnetilleggBMPeriodeCore.getSoknadsbarnPersonId(),
-          new Periode(barnetilleggBMPeriodeCore.getBarnetilleggDatoFraTil().getPeriodeDatoFra(),
-              barnetilleggBMPeriodeCore.getBarnetilleggDatoFraTil().getPeriodeDatoTil()),
+          new Periode(barnetilleggBMPeriodeCore.getBarnetilleggDatoFraTil().getDatoFom(),
+              barnetilleggBMPeriodeCore.getBarnetilleggDatoFraTil().getDatoTil()),
           barnetilleggBMPeriodeCore.getBarnetilleggBelop(),
           barnetilleggBMPeriodeCore.getBarnetilleggSkattProsent()));
     }
     return barnetilleggBMPeriodeListe.stream()
         .sorted(Comparator.comparing(barnetilleggBMPeriode -> barnetilleggBMPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<BarnetilleggForsvaretPeriode> mapBarnetilleggForsvaretPeriodeListe(
@@ -198,13 +198,13 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     var barnetilleggForsvaretPeriodeListe = new ArrayList<BarnetilleggForsvaretPeriode>();
     for (BarnetilleggForsvaretPeriodeCore barnetilleggForsvaretPeriodeCore : barnetilleggForsvaretPeriodeListeCore) {
       barnetilleggForsvaretPeriodeListe.add(new BarnetilleggForsvaretPeriode(
-          new Periode(barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretDatoFraTil().getPeriodeDatoFra(),
-              barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretDatoFraTil().getPeriodeDatoTil()),
+          new Periode(barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretDatoFraTil().getDatoFom(),
+              barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretDatoFraTil().getDatoTil()),
           barnetilleggForsvaretPeriodeCore.getBarnetilleggForsvaretIPeriode()));
     }
     return barnetilleggForsvaretPeriodeListe.stream()
         .sorted(Comparator.comparing(barnetilleggForsvaretPeriode -> barnetilleggForsvaretPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<AndreLopendeBidragPeriode> mapAndreLopendeBidragPeriodeListe(
@@ -212,8 +212,8 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     var andreLopendeBidragPeriodeListe = new ArrayList<AndreLopendeBidragPeriode>();
     for (AndreLopendeBidragPeriodeCore andreLopendeBidragPeriodeCore : andreLopendeBidragPeriodeListeCore) {
       andreLopendeBidragPeriodeListe.add(new AndreLopendeBidragPeriode(
-          new Periode(andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoFra(),
-              andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
+              andreLopendeBidragPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
           andreLopendeBidragPeriodeCore.getBarnPersonId(),
           andreLopendeBidragPeriodeCore.getBidragBelop(),
           andreLopendeBidragPeriodeCore.getSamvaersfradragBelop()
@@ -221,7 +221,7 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     }
     return andreLopendeBidragPeriodeListe.stream()
         .sorted(Comparator.comparing(andreLopendeBidragPeriode -> andreLopendeBidragPeriode
-            .getDatoFraTil().getDatoFra())).collect(Collectors.toList());
+            .getDatoFraTil().getDatoFom())).collect(Collectors.toList());
   }
 
   private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
@@ -229,16 +229,16 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
       var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
       var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
-      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getSjablonNokkelListe()) {
-        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getSjablonNokkelNavn(), sjablonNokkelCore.getSjablonNokkelVerdi()));
+      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
+        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
       }
-      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getSjablonInnholdListe()) {
-        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getSjablonInnholdNavn(), sjablonInnholdCore.getSjablonInnholdVerdi()));
+      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
+        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
       }
       sjablonPeriodeListe.add(new SjablonPeriode(
-          new Periode(sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoFra(),
-              sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoTil()),
-          new Sjablon(sjablonPeriodeCore.getSjablonNavn(), sjablonNokkelListe, sjablonInnholdListe)));
+          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(),
+              sjablonPeriodeCore.getPeriode().getDatoTil()),
+          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
     }
     return sjablonPeriodeListe;
   }
@@ -260,7 +260,7 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
       var barnebidragResultatGrunnlag = resultatPeriode.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFra(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFom(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
           new GrunnlagBeregningPeriodisertCore(
               new BidragsevneCore(barnebidragResultatGrunnlag.getBidragsevne().getBidragsevneBelop(),
@@ -319,7 +319,7 @@ public class BarnebidragCoreImpl implements BarnebidragCore {
     var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
     for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getNavn(), resultatGrunnlagSjablon.getVerdi()));
     }
     return resultatGrunnlagSjablonListeCore;
   }

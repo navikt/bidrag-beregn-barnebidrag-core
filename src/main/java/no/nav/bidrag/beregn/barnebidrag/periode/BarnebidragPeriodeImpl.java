@@ -18,10 +18,10 @@ import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.Barnetillegg;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaretPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggPeriode;
-import no.nav.bidrag.beregn.barnebidrag.bo.Bidragsevne;
-import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
+import no.nav.bidrag.beregn.barnebidrag.bo.Bidragsevne;
+import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.DeltBostedPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
@@ -113,7 +113,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     if (perioder.size() > 1) {
       if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnBarnebidragGrunnlag.getBeregnDatoTil())) &&
           (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
+        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
         perioder.remove(perioder.size() - 1);
         perioder.remove(perioder.size() - 1);
         perioder.add(nyPeriode);
@@ -210,10 +210,10 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
             samvaersfradrag, deltBosted, barnetilleggBP, barnetilleggBM));
       }
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
+      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getNavn(),
+              sjablonPeriode.getSjablon().getNokkelListe(),
+              sjablonPeriode.getSjablon().getInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
@@ -275,7 +275,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
+      sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
     var avvikListe = new ArrayList<>(
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,

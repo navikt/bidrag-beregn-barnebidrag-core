@@ -70,16 +70,16 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
       var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
       var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
-      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getSjablonNokkelListe()) {
-        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getSjablonNokkelNavn(), sjablonNokkelCore.getSjablonNokkelVerdi()));
+      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
+        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
       }
-      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getSjablonInnholdListe()) {
-        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getSjablonInnholdNavn(), sjablonInnholdCore.getSjablonInnholdVerdi()));
+      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
+        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
       }
       sjablonPeriodeListe.add(new SjablonPeriode(
-          new Periode(sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoFra(),
-              sjablonPeriodeCore.getSjablonPeriodeDatoFraTil().getPeriodeDatoTil()),
-          new Sjablon(sjablonPeriodeCore.getSjablonNavn(), sjablonNokkelListe, sjablonInnholdListe)));
+          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(),
+              sjablonPeriodeCore.getPeriode().getDatoTil()),
+          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
     }
     return sjablonPeriodeListe;
   }
@@ -88,8 +88,8 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriode>();
     for (BarnetilsynMedStonadPeriodeCore barnetilsynMedStonadPeriodeCore : barnetilsynMedStonadPeriodeListeCore) {
       barnetilsynMedStonadPeriodeListe.add(new BarnetilsynMedStonadPeriode(
-          new Periode(barnetilsynMedStonadPeriodeCore.getBarnetilsynMedStonadPeriodeDatoFraTil().getPeriodeDatoFra(),
-              barnetilsynMedStonadPeriodeCore.getBarnetilsynMedStonadPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(barnetilsynMedStonadPeriodeCore.getBarnetilsynMedStonadPeriodeDatoFraTil().getDatoFom(),
+              barnetilsynMedStonadPeriodeCore.getBarnetilsynMedStonadPeriodeDatoFraTil().getDatoTil()),
           barnetilsynMedStonadPeriodeCore.getBarnetilsynMedStonadTilsynType(),
           barnetilsynMedStonadPeriodeCore.getBarnetilsynStonadStonadType()));
     }
@@ -100,8 +100,8 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriode>();
     for (NettoBarnetilsynPeriodeCore nettoBarnetilsynPeriodeCore : nettoBarnetilsynPeriodeListeCore) {
       nettoBarnetilsynPeriodeListe.add(new NettoBarnetilsynPeriode(
-          new Periode(nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoFra(),
-              nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getDatoFom(),
+              nettoBarnetilsynPeriodeCore.getNettoBarnetilsynPeriodeDatoFraTil().getDatoTil()),
           nettoBarnetilsynPeriodeCore.getNettoBarnetilsynBelop()));
     }
     return nettoBarnetilsynPeriodeListe;
@@ -111,8 +111,8 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriode>();
     for (ForpleiningUtgiftPeriodeCore forpleiningUtgiftPeriodeCore : forpleiningUtgiftPeriodeListeCore) {
       forpleiningUtgiftPeriodeListe.add(new ForpleiningUtgiftPeriode(
-          new Periode(forpleiningUtgiftPeriodeCore.getForpleiningUtgiftPeriodeDatoFraTil().getPeriodeDatoFra(),
-              forpleiningUtgiftPeriodeCore.getForpleiningUtgiftPeriodeDatoFraTil().getPeriodeDatoTil()),
+          new Periode(forpleiningUtgiftPeriodeCore.getForpleiningUtgiftPeriodeDatoFraTil().getDatoFom(),
+              forpleiningUtgiftPeriodeCore.getForpleiningUtgiftPeriodeDatoFraTil().getDatoTil()),
           forpleiningUtgiftPeriodeCore.getForpleiningUtgiftBelop()));
     }
     return forpleiningUtgiftPeriodeListe;
@@ -137,7 +137,7 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
       var underholdskostnadResultatGrunnlag = periodeResultat.getResultatGrunnlag();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
           periodeResultat.getSoknadsbarnPersonId(),
-          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFra(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFom(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
           new ResultatBeregningCore(underholdskostnadResultat.getResultatBelopUnderholdskostnad()),
           new ResultatGrunnlagCore(underholdskostnadResultatGrunnlag.getSoknadBarnAlder(),
               underholdskostnadResultatGrunnlag.getBarnetilsynMedStonad().getBarnetilsynMedStonadTilsynType(),
@@ -153,7 +153,7 @@ public class UnderholdskostnadCoreImpl implements UnderholdskostnadCore{
     var resultatGrunnlagSjablonListeCore = new ArrayList<SjablonNavnVerdiCore>();
     for (SjablonNavnVerdi resultatGrunnlagSjablon : resultatGrunnlagSjablonListe) {
       resultatGrunnlagSjablonListeCore
-          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getSjablonNavn(), resultatGrunnlagSjablon.getSjablonVerdi()));
+          .add(new SjablonNavnVerdiCore(resultatGrunnlagSjablon.getNavn(), resultatGrunnlagSjablon.getVerdi()));
     }
     return resultatGrunnlagSjablonListeCore;
   }

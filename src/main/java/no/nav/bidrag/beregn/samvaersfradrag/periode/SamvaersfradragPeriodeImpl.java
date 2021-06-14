@@ -86,7 +86,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     if (perioder.size() > 1) {
       if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnSamvaersfradragGrunnlag.getBeregnDatoTil())) &&
           (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
+        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
         perioder.remove(perioder.size() - 1);
         perioder.remove(perioder.size() - 1);
         perioder.add(nyPeriode);
@@ -99,12 +99,12 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
       var samvaersklasse = justertSamvaersklassePeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
           .map(SamvaersklassePeriode::getSamvaersklasse).findFirst().orElse(null);
 
-      var alderBarn = beregnSoknadbarnAlder(beregnSamvaersfradragGrunnlag, beregningsperiode.getDatoFra());
+      var alderBarn = beregnSoknadbarnAlder(beregnSamvaersfradragGrunnlag, beregningsperiode.getDatoFom());
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
+      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getNavn(),
+              sjablonPeriode.getSjablon().getNokkelListe(),
+              sjablonPeriode.getSjablon().getInnholdListe())).collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var beregnSamvaersfradragGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(alderBarn,
@@ -144,7 +144,7 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
+      sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
     var avvikListe = new ArrayList<>(
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,

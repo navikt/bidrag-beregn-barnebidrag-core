@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidrag;
-import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
 import no.nav.bidrag.beregn.barnebidrag.bo.Barnetillegg;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
@@ -83,13 +82,13 @@ public class BarnebidragCoreTest {
         () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
 
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoFra())
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getPeriodeDatoTil())
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
 
         () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getResultatGrunnlag().getSjablonListe().get(0)
-            .getSjablonVerdi()).isEqualTo(BigDecimal.valueOf(22))
+            .getVerdi()).isEqualTo(BigDecimal.valueOf(22))
 
     );
   }
@@ -110,7 +109,7 @@ public class BarnebidragCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).hasSize(1),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
-            AvvikType.DATO_FRA_ETTER_DATO_TIL.toString()),
+            AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
@@ -200,7 +199,7 @@ public class BarnebidragCoreTest {
 
   private void byggAvvik() {
     avvikListe = new ArrayList<>();
-    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FRA_ETTER_DATO_TIL));
+    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
 
 }

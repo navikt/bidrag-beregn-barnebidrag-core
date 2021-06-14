@@ -63,12 +63,12 @@ public class KostnadsberegnetBidragPeriodeTest {
           () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
           () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
 
-          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2018-07-01")),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2018-07-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-08-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregning().getResultatkostnadsberegnetbidragBelop()
               .compareTo(BigDecimal.valueOf(1900))).isZero(),
 
-          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFra()).isEqualTo(LocalDate.parse("2019-08-01")),
+          () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2019-08-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-08-01")),
           () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregning().getResultatkostnadsberegnetbidragBelop()
               .compareTo(BigDecimal.valueOf(100))).isZero()
@@ -82,9 +82,9 @@ public class KostnadsberegnetBidragPeriodeTest {
   private void printGrunnlagResultat(
         BeregnKostnadsberegnetBidragResultat beregnKostnadsberegnetBidragResultat) {
       beregnKostnadsberegnetBidragResultat.getResultatPeriodeListe().stream().sorted(
-          Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFra()))
+          Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFom()))
           .forEach(sortedPR -> System.out
-              .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFra() + "; " + "Dato til: "
+              .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFom() + "; " + "Dato til: "
                   + sortedPR.getResultatDatoFraTil().getDatoTil()
                   + "; " + "Prosentandel: " + sortedPR.getResultatBeregning().getResultatkostnadsberegnetbidragBelop()));
     }
