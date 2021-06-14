@@ -125,11 +125,7 @@ class BidragsevneBeregningTest {
   @Test
   @DisplayName("Skal ikke legge fordel skatteklasse 2 til beregnet evne for skatteklasse lik 1")
   void skalIkkeLeggeFordelSkatteklasse2TilBeregnetEvneForSkatteklasseLik1() {
-    sjablonPeriodeListe.remove(new SjablonPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
-        new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.ZERO)))));
-    sjablonPeriodeListe.add(new SjablonPeriode(
+    sjablonPeriodeListe.add(0, new SjablonPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
@@ -147,11 +143,7 @@ class BidragsevneBeregningTest {
   @Test
   @DisplayName("Skal legge fordel skatteklasse 2 til beregnet evne for skatteklasse lik 2")
   void skalLeggeFordelSkatteklasse2TilBeregnetEvneForSkatteklasseLik2() {
-    sjablonPeriodeListe.remove(new SjablonPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
-        new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
-            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.ZERO)))));
-    sjablonPeriodeListe.add(new SjablonPeriode(
+    sjablonPeriodeListe.add(0, new SjablonPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
@@ -169,11 +161,7 @@ class BidragsevneBeregningTest {
   @Test
   @DisplayName("Skal bruke personfradrag skatteklasse 2 hvis skatteklasse 2 er angitt")
   void skalBrukePersonfradragSkatteklasse2HvisSkatteklasse2ErAngitt() {
-    sjablonPeriodeListe.remove(new SjablonPeriode(
-        new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
-        new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
-            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.ZERO)))));
-    sjablonPeriodeListe.add(new SjablonPeriode(
+    sjablonPeriodeListe.add(0, new SjablonPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
         new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
             singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(24000))))));
