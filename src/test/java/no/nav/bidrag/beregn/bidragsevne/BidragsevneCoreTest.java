@@ -88,7 +88,7 @@ public class BidragsevneCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe()).isNotEmpty(),
         () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().size()).isEqualTo(3),
         () -> assertThat(beregnbidragsevneResultatCore.getSjablonListe()).isNotEmpty(),
-        () -> assertThat(beregnbidragsevneResultatCore.getSjablonListe().size()).isEqualTo(3),
+        () -> assertThat(beregnbidragsevneResultatCore.getSjablonListe().size()).isEqualTo(1),
 
         () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),

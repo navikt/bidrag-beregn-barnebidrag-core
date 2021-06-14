@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.bidragsevne;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,16 +21,14 @@ class BidragsevneBeregningGrunnlagTest {
   @Test
   void hentSjablon() {
 
-    var sjablonVerdi =
-        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT);
-    assertThat(sjablonVerdi).isEqualTo(BigDecimal.valueOf(22));
+    var sjablonverdiInntekt = SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT);
+    var sortertTrinnvisSkattesatsListe = SjablonUtil.hentTrinnvisSkattesats(sjablonListe, SjablonNavn.TRINNVIS_SKATTESATS);
 
-    var sortertTrinnvisSkattesatsListe = SjablonUtil
-        .hentTrinnvisSkattesats(sjablonListe, SjablonNavn.TRINNVIS_SKATTESATS);
-
-    assertThat(sortertTrinnvisSkattesatsListe.size()).isEqualTo(4);
-    assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense()).isEqualTo(BigDecimal.valueOf(180800));
-    assertThat(sortertTrinnvisSkattesatsListe.get(0).getSats()).isEqualTo(BigDecimal.valueOf(1.9));
-
+    assertAll(
+        () -> assertThat(sjablonverdiInntekt).isEqualTo(BigDecimal.valueOf(22)),
+        () -> assertThat(sortertTrinnvisSkattesatsListe.size()).isEqualTo(4),
+        () -> assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense()).isEqualTo(BigDecimal.valueOf(180800)),
+        () -> assertThat(sortertTrinnvisSkattesatsListe.get(0).getSats()).isEqualTo(BigDecimal.valueOf(1.9))
+    );
   }
 }
