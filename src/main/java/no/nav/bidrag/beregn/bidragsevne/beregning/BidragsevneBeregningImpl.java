@@ -1,25 +1,21 @@
 package no.nav.bidrag.beregn.bidragsevne.beregning;
 
 import static java.util.Collections.singletonList;
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatBeregning;
+import no.nav.bidrag.beregn.felles.FellesBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 import no.nav.bidrag.beregn.felles.bo.TrinnvisSkattesats;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
@@ -28,7 +24,7 @@ import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 
-public class BidragsevneBeregningImpl implements BidragsevneBeregning {
+public class BidragsevneBeregningImpl extends FellesBeregning implements BidragsevneBeregning {
 
   @Override
   public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning) {
@@ -234,22 +230,5 @@ public class BidragsevneBeregningImpl implements BidragsevneBeregning {
     }
 
     return sjablonNavnVerdiMap;
-  }
-
-  // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
-  private List<SjablonPeriodeNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap,
-      List<SjablonPeriode> sjablonPeriodeListe) {
-    var sjablonPeriodeNavnVerdiListe = new ArrayList<SjablonPeriodeNavnVerdi>();
-    sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) ->
-        sjablonPeriodeNavnVerdiListe.add(new SjablonPeriodeNavnVerdi(hentPeriode(sjablonPeriodeListe, sjablonNavn), sjablonNavn, sjablonVerdi)));
-    return sjablonPeriodeNavnVerdiListe.stream().sorted(comparing(SjablonPeriodeNavnVerdi::getNavn)).collect(toList());
-  }
-
-  private Periode hentPeriode(List<SjablonPeriode> sjablonPeriodeListe, String sjablonNavn) {
-    return sjablonPeriodeListe.stream()
-        .filter(sjablonPeriode -> sjablonPeriode.getSjablon().getNavn().equals(sjablonNavn))
-        .map(SjablonPeriode::getPeriode)
-        .findFirst()
-        .orElse(new Periode(LocalDate.MIN, LocalDate.MAX));
   }
 }

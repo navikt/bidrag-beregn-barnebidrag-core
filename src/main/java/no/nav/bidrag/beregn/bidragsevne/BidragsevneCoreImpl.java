@@ -2,7 +2,6 @@ package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.stream.Collectors.toList;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,24 +24,16 @@ import no.nav.bidrag.beregn.bidragsevne.dto.ResultatPeriodeCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.SaerfradragPeriodeCore;
 import no.nav.bidrag.beregn.bidragsevne.dto.SkatteklassePeriodeCore;
 import no.nav.bidrag.beregn.bidragsevne.periode.BidragsevnePeriode;
+import no.nav.bidrag.beregn.felles.FellesCore;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
-import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
-import no.nav.bidrag.beregn.felles.dto.AvvikCore;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonNokkelCore;
-import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore;
 import no.nav.bidrag.beregn.felles.enums.BostatusKode;
 import no.nav.bidrag.beregn.felles.enums.InntektType;
 import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
 
-public class BidragsevneCoreImpl implements BidragsevneCore {
+public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
 
   public BidragsevneCoreImpl(BidragsevnePeriode bidragsevnePeriode) {
     this.bidragsevnePeriode = bidragsevnePeriode;
@@ -130,24 +121,6 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     return saerfradragPeriodeListe;
   }
 
-  private List<SjablonPeriode> mapSjablonPeriodeListe(List<SjablonPeriodeCore> sjablonPeriodeListeCore) {
-    var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
-    for (SjablonPeriodeCore sjablonPeriodeCore : sjablonPeriodeListeCore) {
-      var sjablonNokkelListe = new ArrayList<SjablonNokkel>();
-      var sjablonInnholdListe = new ArrayList<SjablonInnhold>();
-      for (SjablonNokkelCore sjablonNokkelCore : sjablonPeriodeCore.getNokkelListe()) {
-        sjablonNokkelListe.add(new SjablonNokkel(sjablonNokkelCore.getNavn(), sjablonNokkelCore.getVerdi()));
-      }
-      for (SjablonInnholdCore sjablonInnholdCore : sjablonPeriodeCore.getInnholdListe()) {
-        sjablonInnholdListe.add(new SjablonInnhold(sjablonInnholdCore.getNavn(), sjablonInnholdCore.getVerdi()));
-      }
-      sjablonPeriodeListe.add(new SjablonPeriode(
-          new Periode(sjablonPeriodeCore.getPeriode().getDatoFom(), sjablonPeriodeCore.getPeriode().getDatoTil()),
-          new Sjablon(sjablonPeriodeCore.getNavn(), sjablonNokkelListe, sjablonInnholdListe)));
-    }
-    return sjablonPeriodeListe;
-  }
-
   private BeregnetBidragsevneResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnetBidragsevneResultat resultat) {
     return new BeregnetBidragsevneResultatCore(mapResultatPeriode(resultat.getBeregnetBidragsevnePeriodeListe()),
         mapSjablonGrunnlagListe(resultat.getBeregnetBidragsevnePeriodeListe()), mapAvvik(avvikListe));
@@ -185,25 +158,5 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
         .flatMap(Collection::stream)
         .distinct()
         .collect(toList());
-  }
-
-  private List<SjablonResultatGrunnlagCore> mapSjablonListe(List<SjablonPeriodeNavnVerdi> sjablonListe) {
-    return sjablonListe.stream()
-        .map(sjablon -> new SjablonResultatGrunnlagCore(lagSjablonReferanse(sjablon),
-            new PeriodeCore(sjablon.getPeriode().getDatoFom(), sjablon.getPeriode().getDatoTil()),
-            sjablon.getNavn(), sjablon.getVerdi()))
-        .collect(toList());
-  }
-
-  private String lagSjablonReferanse(SjablonPeriodeNavnVerdi sjablon) {
-    return "Sjablon_" + sjablon.getNavn() + "_" + sjablon.getPeriode().getDatoFom().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-  }
-
-  private List<AvvikCore> mapAvvik(List<Avvik> avvikListe) {
-    var avvikCoreListe = new ArrayList<AvvikCore>();
-    for (Avvik avvik : avvikListe) {
-      avvikCoreListe.add(new AvvikCore(avvik.getAvvikTekst(), avvik.getAvvikType().toString()));
-    }
-    return avvikCoreListe;
   }
 }
