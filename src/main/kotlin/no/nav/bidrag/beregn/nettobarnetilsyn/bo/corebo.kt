@@ -1,45 +1,45 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.bo.Sjablon
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import java.math.BigDecimal
 import java.time.LocalDate
 
 // Grunnlag periode
 data class BeregnNettoBarnetilsynGrunnlag(
-    val beregnDatoFra: LocalDate,
-    val beregnDatoTil: LocalDate,
-    var faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriode>,
-    val sjablonPeriodeListe: List<SjablonPeriode>
+  val beregnDatoFra: LocalDate,
+  val beregnDatoTil: LocalDate,
+  var faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriode>,
+  val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
 // Resultatperiode
-data class BeregnNettoBarnetilsynResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+data class BeregnetNettoBarnetilsynResultat(
+  val beregnetNettoBarnetilsynPeriodeListe: List<ResultatPeriode>
 )
 
 data class ResultatPeriode(
-    val resultatDatoFraTil: Periode,
-    val resultatBeregningListe: List<ResultatBeregning>,
-    val resultatGrunnlagBeregning: GrunnlagBeregningPeriodisert
+  val periode: Periode,
+  val resultatListe: List<ResultatBeregning>,
+  val grunnlag: GrunnlagBeregning
 )
 
 data class ResultatBeregning(
-    val resultatSoknadsbarnPersonId: Int,
-    val resultatBelop: BigDecimal,
-    val sjablonListe: List<SjablonNavnVerdi>
+  val soknadsbarnPersonId: Int,
+  val belop: BigDecimal,
+  val sjablonListe: List<SjablonPeriodeNavnVerdi>
 )
 
 // Grunnlag beregning
-data class GrunnlagBeregningPeriodisert(
-    val faktiskUtgiftListe: List<FaktiskUtgift>,
-    val sjablonListe: List<Sjablon>
+data class GrunnlagBeregning(
+  val faktiskUtgiftListe: List<FaktiskUtgift>,
+  val sjablonListe: List<SjablonPeriode>
 )
 
 data class FaktiskUtgift(
-    val faktiskUtgiftSoknadsbarnPersonId: Int,
-    val soknadsbarnAlder: Int,
-    val faktiskUtgiftBelop: BigDecimal
+  val soknadsbarnPersonId: Int,
+  val referanse: String,
+  val soknadsbarnAlder: Int,
+  val belop: BigDecimal
 )

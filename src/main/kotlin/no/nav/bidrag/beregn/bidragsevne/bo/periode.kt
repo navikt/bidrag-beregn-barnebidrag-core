@@ -62,7 +62,7 @@ data class BostatusPeriode(
 data class BarnIHusstandPeriode(
   val referanse: String,
   val barnIHusstandPeriode: Periode,
-  val antallBarn: Int
+  val antallBarn: Double
 ) : PeriodisertGrunnlag {
 
   constructor(barnIHusstandPeriode: BarnIHusstandPeriode) : this(

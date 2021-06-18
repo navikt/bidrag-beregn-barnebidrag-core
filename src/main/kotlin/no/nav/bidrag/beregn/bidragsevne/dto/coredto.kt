@@ -41,7 +41,7 @@ data class BostatusPeriodeCore(
 data class BarnIHusstandPeriodeCore(
   val referanse: String,
   val periode: PeriodeCore,
-  val antallBarn: Int
+  val antallBarn: Double
 )
 
 data class SaerfradragPeriodeCore(

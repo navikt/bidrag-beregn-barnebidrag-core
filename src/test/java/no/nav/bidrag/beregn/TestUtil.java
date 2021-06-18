@@ -25,6 +25,7 @@ public class TestUtil {
   public static final String BOSTATUS_REFERANSE = "BOSTATUS_REFERANSE";
   public static final String BARN_I_HUSSTAND_REFERANSE = "BARN_I_HUSSTAND_REFERANSE";
   public static final String SAERFRADRAG_REFERANSE = "SAERFRADRAG_REFERANSE";
+  public static final String FAKTISK_UTGIFT_REFERANSE = "FAKTISK_UTGIFT_REFERANSE";
 
   public static List<Sjablon> byggSjabloner() {
 
@@ -302,8 +303,6 @@ public class TestUtil {
         singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(5667)))));
     sjablonListe.add(new Sjablon(SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP.getNavn(), emptyList(),
         singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(2334)))));
-/*    sjablonListe.add(new Sjablon(SjablonTallNavn.FORHOYET_BARNETRYGD_BELOP.getNavn(), emptyList(),
-        Arrays.asList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(1354)))));*/
 
     // Trinnvis skattesats
     // Oppdatert med sjablonverdier gyldig fra 01.07.2020

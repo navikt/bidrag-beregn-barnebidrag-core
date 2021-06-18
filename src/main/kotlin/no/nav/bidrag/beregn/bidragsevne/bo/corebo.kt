@@ -22,7 +22,7 @@ data class BeregnBidragsevneGrunnlag(
 )
 
 // Resultatperiode
-data class BeregnBidragsevneResultat(
+data class BeregnetBidragsevneResultat(
   val beregnetBidragsevnePeriodeListe: List<ResultatPeriode>
 )
 
@@ -66,7 +66,7 @@ data class Bostatus(
 
 data class BarnIHusstand(
   val referanse: String,
-  val antallBarn: Int
+  val antallBarn: Double
 )
 
 data class Saerfradrag(

@@ -60,7 +60,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(31859)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(31859)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -74,9 +75,10 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
         sjablonPeriodeListe
     );
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
     assertAll(
-        () -> assertThat(BigDecimal.valueOf(8322)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop()),
-        () -> assertThat(BigDecimal.valueOf(10833)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getInntekt25Prosent())
+        () -> assertThat(BigDecimal.valueOf(8322)).isEqualTo(resultat.getBelop()),
+        () -> assertThat(BigDecimal.valueOf(10833)).isEqualTo(resultat.getInntekt25Prosent())
     );
   }
 
@@ -91,7 +93,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(17617)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(17617)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -105,7 +108,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(8424)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(8424)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -119,7 +123,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HELT),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.ZERO).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.ZERO).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -137,7 +142,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(8424)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(8424)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -155,7 +161,23 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(9424)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(9424)).isEqualTo(resultat.getBelop());
+  }
+
+  @Test
+  @DisplayName("Skal bruke halvt barn pga delt bosted")
+  void skalBrukeHalvtBarnPgaDeltBosted() {
+    var grunnlagBeregning = new GrunnlagBeregning(
+        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        new Skatteklasse(SKATTEKLASSE_REFERANSE, 2),
+        new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
+        new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 0.5),
+        new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
+        sjablonPeriodeListe
+    );
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(23314)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -173,7 +195,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.INGEN),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(7923)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(7923)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -187,7 +210,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HALVT),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(8965)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(8965)).isEqualTo(resultat.getBelop());
   }
 
   @Test
@@ -201,7 +225,8 @@ class BidragsevneBeregningTest {
         new Saerfradrag(SAERFRADRAG_REFERANSE, SaerfradragKode.HALVT),
         sjablonPeriodeListe
     );
-    assertThat(BigDecimal.valueOf(14253)).isEqualTo(bidragsevneBeregning.beregn(grunnlagBeregning).getBelop());
+    var resultat = bidragsevneBeregning.beregn(grunnlagBeregning);
+    assertThat(BigDecimal.valueOf(14253)).isEqualTo(resultat.getBelop());
   }
 
   @Test

@@ -19,7 +19,7 @@ import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.bo.BarnIHusstandPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
-import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnetBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
@@ -168,8 +168,8 @@ class BidragsevnePeriodeTest {
         () -> assertThat(avvikListe).isNotEmpty(),
         () -> assertThat(avvikListe).hasSize(1),
 
-        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG.toString() +
-            " er ugyldig for søknadstype " + SoknadType.BIDRAG.toString() + " og rolle " + Rolle.BIDRAGSPLIKTIG.toString()),
+        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + InntektType.SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG +
+            " er ugyldig for søknadstype " + SoknadType.BIDRAG + " og rolle " + Rolle.BIDRAGSPLIKTIG),
         () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
     );
     printAvvikListe(avvikListe);
@@ -191,7 +191,7 @@ class BidragsevnePeriodeTest {
         () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-06-01")),
         () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().size()).isEqualTo(1),
         () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
+            .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
         () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(200000)),
 
@@ -653,8 +653,8 @@ class BidragsevnePeriodeTest {
   }
 
 
-  private void printGrunnlagResultat(BeregnBidragsevneResultat beregnBidragsevneResultat) {
-    beregnBidragsevneResultat.getBeregnetBidragsevnePeriodeListe().stream().sorted(
+  private void printGrunnlagResultat(BeregnetBidragsevneResultat beregnetBidragsevneResultat) {
+    beregnetBidragsevneResultat.getBeregnetBidragsevnePeriodeListe().stream().sorted(
         Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "

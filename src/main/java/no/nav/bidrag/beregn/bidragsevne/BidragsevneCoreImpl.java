@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.bo.BarnIHusstandPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
-import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnetBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.InntektPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.ResultatPeriode;
@@ -50,10 +50,9 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
 
   private final BidragsevnePeriode bidragsevnePeriode;
 
-  public BeregnetBidragsevneResultatCore beregnBidragsevne(
-      BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
+  public BeregnetBidragsevneResultatCore beregnBidragsevne(BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
     var beregnBidragsevneGrunnlag = mapTilBusinessObject(beregnBidragsevneGrunnlagCore);
-    var beregnBidragsevneResultat = new BeregnBidragsevneResultat(Collections.emptyList());
+    var beregnBidragsevneResultat = new BeregnetBidragsevneResultat(Collections.emptyList());
     var avvikListe = bidragsevnePeriode.validerInput(beregnBidragsevneGrunnlag);
     if (avvikListe.isEmpty()) {
       beregnBidragsevneResultat = bidragsevnePeriode.beregnPerioder(beregnBidragsevneGrunnlag);
@@ -61,8 +60,7 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     return mapFraBusinessObject(avvikListe, beregnBidragsevneResultat);
   }
 
-  private BeregnBidragsevneGrunnlag mapTilBusinessObject(
-      BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
+  private BeregnBidragsevneGrunnlag mapTilBusinessObject(BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
     var beregnDatoFra = beregnBidragsevneGrunnlagCore.getBeregnDatoFra();
     var beregnDatoTil = beregnBidragsevneGrunnlagCore.getBeregnDatoTil();
     var inntektPeriodeListe = mapInntektPeriodeListe(beregnBidragsevneGrunnlagCore.getInntektPeriodeListe());
@@ -150,25 +148,27 @@ public class BidragsevneCoreImpl implements BidragsevneCore {
     return sjablonPeriodeListe;
   }
 
-  private BeregnetBidragsevneResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnBidragsevneResultat resultat) {
+  private BeregnetBidragsevneResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnetBidragsevneResultat resultat) {
     return new BeregnetBidragsevneResultatCore(mapResultatPeriode(resultat.getBeregnetBidragsevnePeriodeListe()),
         mapSjablonGrunnlagListe(resultat.getBeregnetBidragsevnePeriodeListe()), mapAvvik(avvikListe));
   }
 
-  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> periodeResultatListe) {
+  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
-    for (ResultatPeriode periodeResultat : periodeResultatListe) {
-      var bidragsevneBeregningResultat = periodeResultat.getResultat();
+    for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
+      var bidragsevneBeregningResultat = resultatPeriode.getResultat();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(periodeResultat.getPeriode().getDatoFom(), periodeResultat.getPeriode().getDatoTil()),
+          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
           new ResultatBeregningCore(bidragsevneBeregningResultat.getBelop(), bidragsevneBeregningResultat.getInntekt25Prosent()),
-          mapReferanseListe(periodeResultat)));    }
+          mapReferanseListe(resultatPeriode)));
+    }
     return resultatPeriodeCoreListe;
   }
 
   private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {
     var resultatGrunnlag = resultatPeriode.getGrunnlag();
     var sjablonListe = resultatPeriode.getResultat().getSjablonListe();
+
     var referanseListe = new ArrayList<String>();
     resultatGrunnlag.getInntektListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     referanseListe.add(resultatGrunnlag.getSkatteklasse().getReferanse());

@@ -10,7 +10,7 @@ import no.nav.bidrag.beregn.bidragsevne.beregning.BidragsevneBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.BarnIHusstand;
 import no.nav.bidrag.beregn.bidragsevne.bo.BarnIHusstandPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
-import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnetBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.Bostatus;
 import no.nav.bidrag.beregn.bidragsevne.bo.BostatusPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
@@ -38,11 +38,9 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
     this.bidragsevneberegning = bidragsevneberegning;
   }
 
-  //  private Bidragsevneberegning bidragsevneberegning = Bidragsevneberegning.getInstance();
   private final BidragsevneBeregning bidragsevneberegning;
 
-  public BeregnBidragsevneResultat beregnPerioder(
-      BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag) {
+  public BeregnetBidragsevneResultat beregnPerioder(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
@@ -89,8 +87,6 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
         .addBruddpunkt(beregnBidragsevneGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil());
 
-    // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
-
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
     if (perioder.size() > 1) {
       if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnBidragsevneGrunnlag.getBeregnDatoTil())) &&
@@ -102,11 +98,13 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
       }
     }
 
+    // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
       var inntektListe = justertInntektPeriodeListe.stream()
           .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
-          .map(inntektPeriode -> new Inntekt(inntektPeriode.getReferanse(), inntektPeriode.getType(), inntektPeriode.getBelop())).collect(toList());
+          .map(inntektPeriode -> new Inntekt(inntektPeriode.getReferanse(), inntektPeriode.getType(), inntektPeriode.getBelop()))
+          .collect(toList());
 
       var skatteklasse = justertSkatteklassePeriodeListe.stream()
           .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
@@ -141,8 +139,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
       resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, bidragsevneberegning.beregn(grunnlagBeregning), grunnlagBeregning));
     }
 
-    //Slår sammen perioder med samme resultat
-    return new BeregnBidragsevneResultat(resultatPeriodeListe);
+    return new BeregnetBidragsevneResultat(resultatPeriodeListe);
 
   }
 

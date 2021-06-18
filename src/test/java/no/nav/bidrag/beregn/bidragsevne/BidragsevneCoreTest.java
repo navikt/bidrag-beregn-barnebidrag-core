@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.bo.BarnIHusstand;
-import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneResultat;
+import no.nav.bidrag.beregn.bidragsevne.bo.BeregnetBidragsevneResultat;
 import no.nav.bidrag.beregn.bidragsevne.bo.Bostatus;
 import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
@@ -64,7 +64,7 @@ public class BidragsevneCoreTest {
   private BidragsevnePeriode bidragsevnePeriodeMock;
 
   private BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore;
-  private BeregnBidragsevneResultat bidragsevnePeriodeResultat;
+  private BeregnetBidragsevneResultat bidragsevnePeriodeResultat;
   private List<Avvik> avvikListe;
 
   @BeforeEach
@@ -131,8 +131,7 @@ public class BidragsevneCoreTest {
     byggAvvik();
 
     when(bidragsevnePeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = bidragsevneCore.beregnBidragsevne(
-        beregnBidragsevneGrunnlagCore);
+    var beregnbidragsevneResultatCore = bidragsevneCore.beregnBidragsevne(beregnBidragsevneGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
@@ -230,7 +229,7 @@ public class BidragsevneCoreTest {
                 new Sjablon(SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
                     singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22)))))))));
 
-    bidragsevnePeriodeResultat = new BeregnBidragsevneResultat(periodeResultatListe);
+    bidragsevnePeriodeResultat = new BeregnetBidragsevneResultat(periodeResultatListe);
   }
 
   private void byggAvvik() {
