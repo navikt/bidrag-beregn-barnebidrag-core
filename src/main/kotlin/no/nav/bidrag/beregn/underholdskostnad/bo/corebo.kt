@@ -17,9 +17,15 @@ data class BeregnUnderholdskostnadGrunnlag(
   val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
+data class Soknadsbarn(
+  val referanse: String,
+  val personId: Int,
+  val fodselsdato: LocalDate
+)
+
 // Resultat periode
 data class BeregnetUnderholdskostnadResultat(
-  val beregnetUnderholdskostnadPeriodeListe: List<ResultatPeriode>
+  val resultatPeriodeListe: List<ResultatPeriode>
 )
 
 data class ResultatPeriode(
@@ -41,12 +47,6 @@ data class GrunnlagBeregning(
   val nettoBarnetilsyn: NettoBarnetilsyn,
   val forpleiningUtgift: ForpleiningUtgift,
   val sjablonListe: List<SjablonPeriode>
-)
-
-data class Soknadsbarn(
-  val referanse: String,
-  val personId: Int,
-  val fodselsdato: LocalDate
 )
 
 data class SoknadsbarnAlder(

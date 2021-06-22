@@ -33,28 +33,32 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
   protected static final String ORDINAER_BARNETRYGD = "O";
   protected static final String FORHOYET_BARNETRYGD = "F";
 
+  private final UnderholdskostnadBeregning underholdskostnadBeregning;
+
   public UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning underholdskostnadBeregning) {
     this.underholdskostnadBeregning = underholdskostnadBeregning;
   }
-
-  private final UnderholdskostnadBeregning underholdskostnadBeregning;
 
   public BeregnetUnderholdskostnadResultat beregnPerioder(BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
     var justertBarnetilsynMedStonadPeriodeListe = beregnUnderholdskostnadGrunnlag.getBarnetilsynMedStonadPeriodeListe()
         .stream()
         .map(BarnetilsynMedStonadPeriode::new)
         .collect(toCollection(ArrayList::new));
+
     var justertNettoBarnetilsynPeriodeListe = beregnUnderholdskostnadGrunnlag.getNettoBarnetilsynPeriodeListe()
         .stream()
         .map(NettoBarnetilsynPeriode::new)
         .collect(toCollection(ArrayList::new));
+
     var justertForpleiningUtgiftPeriodeListe = beregnUnderholdskostnadGrunnlag.getForpleiningUtgiftPeriodeListe()
         .stream()
         .map(ForpleiningUtgiftPeriode::new)
         .collect(toCollection(ArrayList::new));
+
     var justertSjablonPeriodeListe = beregnUnderholdskostnadGrunnlag.getSjablonPeriodeListe()
         .stream()
         .map(SjablonPeriode::new)
@@ -112,20 +116,20 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
     for (Periode beregningsperiode : perioder) {
 
       var barnetilsynMedStonad = justertBarnetilsynMedStonadPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(barnetilsynMedStonadPeriode -> barnetilsynMedStonadPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(barnetilsynMedStonadPeriode -> new BarnetilsynMedStonad(barnetilsynMedStonadPeriode.getReferanse(),
               barnetilsynMedStonadPeriode.getTilsynType(), barnetilsynMedStonadPeriode.getStonadType()))
           .findFirst()
           .orElse(null);
 
       var nettoBarnetilsyn = justertNettoBarnetilsynPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(nettoBarnetilsynPeriode -> nettoBarnetilsynPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(nettoBarnetilsynPeriode -> new NettoBarnetilsyn(nettoBarnetilsynPeriode.getReferanse(), nettoBarnetilsynPeriode.getBelop()))
           .findFirst()
           .orElse(null);
 
       var forpleiningUtgift = justertForpleiningUtgiftPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(forpleiningUtgiftPeriode -> forpleiningUtgiftPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(forpleiningUtgiftPeriode -> new ForpleiningUtgift(forpleiningUtgiftPeriode.getReferanse(), forpleiningUtgiftPeriode.getBelop()))
           .findFirst()
           .orElse(null);
@@ -134,12 +138,11 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
           beregnSoknadbarnAlderOverstyrt(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFom()));
 
       var sjablonliste = justertSjablonPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
           .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var grunnlagBeregning = new GrunnlagBeregning(soknadsbarnAlder, barnetilsynMedStonad, nettoBarnetilsyn,
-          forpleiningUtgift, sjablonliste);
+      var grunnlagBeregning = new GrunnlagBeregning(soknadsbarnAlder, barnetilsynMedStonad, nettoBarnetilsyn, forpleiningUtgift, sjablonliste);
 
       resultatPeriodeListe.add(new ResultatPeriode(beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getPersonId(), beregningsperiode,
           beregnUnderholdskostnad(grunnlagBeregning, beregningsperiode, soknadsbarnFodselsmaaned, datoRegelendringer, seksaarsbruddato),

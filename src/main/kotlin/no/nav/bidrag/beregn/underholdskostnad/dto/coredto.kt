@@ -45,7 +45,7 @@ data class ForpleiningUtgiftPeriodeCore(
 
 // Resultat
 data class BeregnetUnderholdskostnadResultatCore(
-  val beregnetUnderholdskostnadPeriodeListe: List<ResultatPeriodeCore>,
+  val resultatPeriodeListe: List<ResultatPeriodeCore>,
   val sjablonListe: List<SjablonResultatGrunnlagCore>,
   val avvikListe: List<AvvikCore>
 )

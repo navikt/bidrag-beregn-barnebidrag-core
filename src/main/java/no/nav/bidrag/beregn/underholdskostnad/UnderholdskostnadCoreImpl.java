@@ -30,11 +30,11 @@ import no.nav.bidrag.beregn.underholdskostnad.periode.UnderholdskostnadPeriode;
 
 public class UnderholdskostnadCoreImpl extends FellesCore implements UnderholdskostnadCore {
 
+  private final UnderholdskostnadPeriode underholdskostnadPeriode;
+
   public UnderholdskostnadCoreImpl(UnderholdskostnadPeriode underholdskostnadPeriode) {
     this.underholdskostnadPeriode = underholdskostnadPeriode;
   }
-
-  private final UnderholdskostnadPeriode underholdskostnadPeriode;
 
   public BeregnetUnderholdskostnadResultatCore beregnUnderholdskostnad(BeregnUnderholdskostnadGrunnlagCore beregnUnderholdskostnadGrunnlagCore) {
     var beregnUnderholdskostnadGrunnlag = mapTilBusinessObject(beregnUnderholdskostnadGrunnlagCore);
@@ -99,8 +99,8 @@ public class UnderholdskostnadCoreImpl extends FellesCore implements Underholdsk
   }
 
   private BeregnetUnderholdskostnadResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnetUnderholdskostnadResultat resultat) {
-    return new BeregnetUnderholdskostnadResultatCore(mapResultatPeriode(resultat.getBeregnetUnderholdskostnadPeriodeListe()),
-        mapSjablonGrunnlagListe(resultat.getBeregnetUnderholdskostnadPeriodeListe()), mapAvvik(avvikListe));
+    return new BeregnetUnderholdskostnadResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+        mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {

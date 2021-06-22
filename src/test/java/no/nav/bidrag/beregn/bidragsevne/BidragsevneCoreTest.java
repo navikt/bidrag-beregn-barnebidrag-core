@@ -84,41 +84,41 @@ public class BidragsevneCoreTest {
     assertAll(
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).isEmpty(),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().size()).isEqualTo(3),
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
         () -> assertThat(beregnbidragsevneResultatCore.getSjablonListe()).isNotEmpty(),
         () -> assertThat(beregnbidragsevneResultatCore.getSjablonListe().size()).isEqualTo(1),
 
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoFom())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoTil())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getResultat().getBelop())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(666)),
 
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
             .isEqualTo(INNTEKT_REFERANSE),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
             .isEqualTo(SKATTEKLASSE_REFERANSE),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
             .isEqualTo(BOSTATUS_REFERANSE),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
             .isEqualTo(BARN_I_HUSSTAND_REFERANSE),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
             .isEqualTo(SAERFRADRAG_REFERANSE),
 
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(1).getPeriode().getDatoFom())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(1).getPeriode().getDatoTil())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(1).getResultat().getBelop())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(1).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(667)),
 
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(2).getPeriode().getDatoFom())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(2).getPeriode().getDatoTil())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe().get(2).getResultat().getBelop())
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe().get(2).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(668))
         );
   }
@@ -139,7 +139,7 @@ public class BidragsevneCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
             AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetBidragsevnePeriodeListe()).isEmpty()
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
 

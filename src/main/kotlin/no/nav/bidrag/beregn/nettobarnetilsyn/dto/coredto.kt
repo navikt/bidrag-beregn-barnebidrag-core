@@ -25,7 +25,7 @@ data class FaktiskUtgiftPeriodeCore(
 
 // Resultat
 data class BeregnetNettoBarnetilsynResultatCore(
-  val beregnetNettoBarnetilsynPeriodeListe: List<ResultatPeriodeCore>,
+  val resultatPeriodeListe: List<ResultatPeriodeCore>,
   val sjablonListe: List<SjablonResultatGrunnlagCore>,
   val avvikListe: List<AvvikCore>
 )

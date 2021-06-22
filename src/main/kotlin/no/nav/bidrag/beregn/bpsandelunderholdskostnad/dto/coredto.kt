@@ -2,67 +2,54 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// Grunnlag periode
+// Grunnlag
 data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
-    val beregnDatoFra: LocalDate,
-    val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
-    val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriodeCore>,
-    val inntektBPPeriodeListe: List<InntektPeriodeCore>,
-    val inntektBMPeriodeListe: List<InntektPeriodeCore>,
-    val inntektBBPeriodeListe: List<InntektPeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+  val beregnDatoFra: LocalDate,
+  val beregnDatoTil: LocalDate,
+  val soknadsbarnPersonId: Int,
+  val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriodeCore>,
+  val inntektBPPeriodeListe: List<InntektPeriodeCore>,
+  val inntektBMPeriodeListe: List<InntektPeriodeCore>,
+  val inntektBBPeriodeListe: List<InntektPeriodeCore>,
+  var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class UnderholdskostnadPeriodeCore(
-    val underholdskostnadDatoFraTil: PeriodeCore,
-    val underholdskostnadBelop: BigDecimal
+  val referanse: String,
+  val periode: PeriodeCore,
+  val belop: BigDecimal
 )
 
 data class InntektPeriodeCore(
-    val inntektPeriodeDatoFraTil: PeriodeCore,
-    val inntektType: String,
-    val inntektBelop: BigDecimal,
-    val deltFordel: Boolean,
-    val skatteklasse2: Boolean
+  val referanse: String,
+  val periode: PeriodeCore,
+  val type: String,
+  val belop: BigDecimal,
+  val deltFordel: Boolean,
+  val skatteklasse2: Boolean
 )
 
-// Resultatperiode
-data class BeregnBPsAndelUnderholdskostnadResultatCore(
-    val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val avvikListe: List<AvvikCore>
+// Resultat
+data class BeregnetBPsAndelUnderholdskostnadResultatCore(
+  val resultatPeriodeListe: List<ResultatPeriodeCore>,
+  val sjablonListe: List<SjablonResultatGrunnlagCore>,
+  val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: ResultatGrunnlagCore
+  val soknadsbarnPersonId: Int,
+  val periode: PeriodeCore,
+  val resultat: ResultatBeregningCore,
+  val grunnlagReferanseListe: List<String>
 )
 
 data class ResultatBeregningCore(
-    val resultatAndelProsent: BigDecimal,
-    val resultatAndelBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
-)
-
-// Grunnlag beregning
-data class ResultatGrunnlagCore(
-    val underholdskostnadBelop: BigDecimal,
-    val inntektBPListe: List<InntektCore>,
-    val inntektBMListe: List<InntektCore>,
-    val inntektBBListe: List<InntektCore>,
-    val sjablonListe: List<SjablonNavnVerdiCore>
-)
-
-data class InntektCore(
-    val inntektType: String,
-    val inntektBelop: BigDecimal,
-    val deltFordel: Boolean,
-    val skatteklasse2: Boolean
+  val andelProsent: BigDecimal,
+  val andelBelop: BigDecimal,
+  val barnetErSelvforsorget: Boolean
 )

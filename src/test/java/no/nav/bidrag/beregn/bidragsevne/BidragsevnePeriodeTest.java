@@ -61,64 +61,64 @@ class BidragsevnePeriodeTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe()).isNotEmpty(),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe()).hasSize(6),
+        () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(resultat.getResultatPeriodeListe()).hasSize(6),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoFom())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getResultat().getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(3749)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(444000)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getPeriode().getDatoFom())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getPeriode().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getResultat().getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(15604)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getGrunnlag().getBostatus().getKode())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getBostatus().getKode())
             .isEqualTo(BostatusKode.ALENE),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getPeriode().getDatoFom())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-02-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getPeriode().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getResultat().getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(20536)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getPeriode().getDatoFom())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-04-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getPeriode().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-05-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getResultat().getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(20536)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(666001)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getPeriode().getDatoFom())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-05-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getPeriode().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getResultat().getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(20536)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(666001)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getBelop())
             .isEqualTo(BigDecimal.valueOf(2)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getPeriode().getDatoFom())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getPeriode().getDatoTil())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getPeriode().getDatoTil())
             .isNull(),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getResultat().getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(20063)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(666001)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getBelop())
             .isEqualTo(BigDecimal.valueOf(2)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(2).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(2).getBelop())
             .isEqualTo(BigDecimal.valueOf(3))
     );
 
@@ -196,67 +196,67 @@ class BidragsevnePeriodeTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe()).isNotEmpty(),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().size()).isEqualTo(6),
+        () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(6),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-06-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-06-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().size()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getType())
             .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(200000)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-06-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getGrunnlag().getInntektListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getGrunnlag().getInntektListe().get(0).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-06-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getInntektListe().size()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getInntektListe().get(0).getType())
             .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(1).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(150000)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getGrunnlag().getInntektListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getGrunnlag().getInntektListe().get(0).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getGrunnlag().getInntektListe().size()).isEqualTo(1),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getGrunnlag().getInntektListe().get(0).getType())
             .isEqualTo(InntektType.INNTEKTSOPPLYSNINGER_ARBEIDSGIVER),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(2).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(150000)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getGrunnlag().getInntektListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getType())
             .isEqualTo(InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(300000)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getGrunnlag().getInntektListe().get(1).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(1).getType())
             .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(3).getGrunnlag().getInntektListe().get(1).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(1).getBelop())
             .isEqualTo(BigDecimal.valueOf(100000)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getType())
             .isEqualTo(InntektType.SAKSBEHANDLER_BEREGNET_INNTEKT),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(300000)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getType())
             .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getBelop())
             .isEqualTo(BigDecimal.valueOf(100000)),
 
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getPeriode().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getPeriode().getDatoTil()).isNull(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().size()).isEqualTo(2),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getType())
             .isEqualTo(InntektType.KAPITALINNTEKT_EGNE_OPPLYSNINGER),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getBelop())
             .isEqualTo(BigDecimal.valueOf(100000)),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getType())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getType())
             .isEqualTo(InntektType.ATTFORING_AAP),
-        () -> assertThat(resultat.getBeregnetBidragsevnePeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getBelop())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getBelop())
             .isEqualTo(BigDecimal.valueOf(250000))
     );
   }
@@ -666,7 +666,7 @@ class BidragsevnePeriodeTest {
 
 
   private void printGrunnlagResultat(BeregnetBidragsevneResultat beregnetBidragsevneResultat) {
-    beregnetBidragsevneResultat.getBeregnetBidragsevnePeriodeListe().stream().sorted(
+    beregnetBidragsevneResultat.getResultatPeriodeListe().stream().sorted(
         Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
         .forEach(sortedPR -> System.out
             .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "

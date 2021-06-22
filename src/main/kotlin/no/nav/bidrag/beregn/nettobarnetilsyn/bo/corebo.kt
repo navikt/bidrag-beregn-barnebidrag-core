@@ -16,7 +16,7 @@ data class BeregnNettoBarnetilsynGrunnlag(
 
 // Resultat periode
 data class BeregnetNettoBarnetilsynResultat(
-  val beregnetNettoBarnetilsynPeriodeListe: List<ResultatPeriode>
+  val resultatPeriodeListe: List<ResultatPeriode>
 )
 
 data class ResultatPeriode(

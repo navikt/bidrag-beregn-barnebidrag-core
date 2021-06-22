@@ -70,14 +70,14 @@ public class NettoBarnetilsynCoreTest {
     assertAll(
         () -> assertThat(beregnNettoBarnetilsynResultatCore).isNotNull(),
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getAvvikListe()).isEmpty(),
-        () -> assertThat(beregnNettoBarnetilsynResultatCore.getBeregnetNettoBarnetilsynPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnNettoBarnetilsynResultatCore.getBeregnetNettoBarnetilsynPeriodeListe().size()).isEqualTo(1),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getSjablonListe()).isNotEmpty(),
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getSjablonListe().size()).isEqualTo(1),
         () -> assertThat(beregnNettoBarnetilsynResultatCore.getSjablonListe().get(0).getVerdi()).isEqualTo(BigDecimal.valueOf(22)),
-        () -> assertThat(beregnNettoBarnetilsynResultatCore.getBeregnetNettoBarnetilsynPeriodeListe().get(0).getPeriode().getDatoFom())
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnNettoBarnetilsynResultatCore.getBeregnetNettoBarnetilsynPeriodeListe().get(0).getPeriode().getDatoTil())
+        () -> assertThat(beregnNettoBarnetilsynResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01"))
     );
   }
@@ -98,7 +98,7 @@ public class NettoBarnetilsynCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
             AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetNettoBarnetilsynPeriodeListe()).isEmpty()
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
 

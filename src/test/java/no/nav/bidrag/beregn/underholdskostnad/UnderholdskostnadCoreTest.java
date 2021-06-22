@@ -79,39 +79,37 @@ public class UnderholdskostnadCoreTest {
     assertAll(
         () -> assertThat(beregnUnderholdskostnadResultatCore).isNotNull(),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getAvvikListe()).isEmpty(),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe()).isNotEmpty(),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().size()).isEqualTo(3),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getSjablonListe()).isNotEmpty(),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getSjablonListe().size()).isEqualTo(1),
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe()).isNotEmpty(),
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().size()).isEqualTo(3),
 
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getPeriode().getDatoFom())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getPeriode().getDatoTil())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getResultat().getBelop())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(666)),
 
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
             .isEqualTo(SOKNADSBARN_REFERANSE),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
             .isEqualTo(BARNETILSYN_MED_STONAD_REFERANSE),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
             .isEqualTo(NETTO_BARNETILSYN_REFERANSE),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
             .isEqualTo(FORPLEINING_UTGIFT_REFERANSE),
 
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(1).getPeriode().getDatoFom())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(1).getPeriode().getDatoTil())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(1).getResultat().getBelop())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(667)),
 
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(2).getPeriode().getDatoFom())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(2).getPeriode().getDatoTil())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getBeregnetUnderholdskostnadPeriodeListe().get(2).getResultat().getBelop())
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultat().getBelop())
             .isEqualTo(BigDecimal.valueOf(668))
     );
   }
@@ -133,7 +131,7 @@ public class UnderholdskostnadCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
             AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
-        () -> assertThat(beregnbidragsevneResultatCore.getBeregnetUnderholdskostnadPeriodeListe()).isEmpty()
+        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
 
@@ -142,26 +140,18 @@ public class UnderholdskostnadCoreTest {
 
     var soknadsbarn = new SoknadsbarnCore(SOKNADSBARN_REFERANSE, 1, LocalDate.parse("2017-01-01"));
 
-    var barnetilsynMedStonadPeriode = new BarnetilsynMedStonadPeriodeCore(BARNETILSYN_MED_STONAD_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), "DU", "64");
-    var barnetilsynMedStonadPeriodeListe = new ArrayList<BarnetilsynMedStonadPeriodeCore>();
-    barnetilsynMedStonadPeriodeListe.add(barnetilsynMedStonadPeriode);
+    var barnetilsynMedStonadPeriodeListe = singletonList(new BarnetilsynMedStonadPeriodeCore(BARNETILSYN_MED_STONAD_REFERANSE,
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), "DU", "64"));
 
-    var nettoBarnetilsynPeriode = new NettoBarnetilsynPeriodeCore(NETTO_BARNETILSYN_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(666));
-    var nettoBarnetilsynPeriodeListe = new ArrayList<NettoBarnetilsynPeriodeCore>();
-    nettoBarnetilsynPeriodeListe.add(nettoBarnetilsynPeriode);
+    var nettoBarnetilsynPeriodeListe = singletonList(new NettoBarnetilsynPeriodeCore(NETTO_BARNETILSYN_REFERANSE,
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(666)));
 
-    var forpleiningUtgiftPeriode = new ForpleiningUtgiftPeriodeCore(FORPLEINING_UTGIFT_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(666));
-    var forpleiningUtgiftPeriodeListe = new ArrayList<ForpleiningUtgiftPeriodeCore>();
-    forpleiningUtgiftPeriodeListe.add(forpleiningUtgiftPeriode);
+    var forpleiningUtgiftPeriodeListe = singletonList(new ForpleiningUtgiftPeriodeCore(FORPLEINING_UTGIFT_REFERANSE,
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), BigDecimal.valueOf(666)));
 
-    var sjablonPeriode = new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
+    var sjablonPeriodeListe = singletonList(new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
         SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), emptyList(),
-        singletonList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22))));
-    var sjablonPeriodeListe = new ArrayList<SjablonPeriodeCore>();
-    sjablonPeriodeListe.add(sjablonPeriode);
+        singletonList(new SjablonInnholdCore(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(22)))));
 
     beregnUnderholdskostnadGrunnlagCore = new BeregnUnderholdskostnadGrunnlagCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01"),
         soknadsbarn, barnetilsynMedStonadPeriodeListe, nettoBarnetilsynPeriodeListe, forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);

@@ -25,16 +25,17 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 
 public class NettoBarnetilsynPeriodeImpl extends FellesPeriode implements NettoBarnetilsynPeriode {
 
+  private final NettoBarnetilsynBeregning nettoBarnetilsynBeregning;
+
   public NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning nettoBarnetilsynBeregning) {
     this.nettoBarnetilsynBeregning = nettoBarnetilsynBeregning;
   }
-
-  private final NettoBarnetilsynBeregning nettoBarnetilsynBeregning;
 
   public BeregnetNettoBarnetilsynResultat beregnPerioder(BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
     var justertFaktiskUtgiftPeriodeListe = beregnNettoBarnetilsynGrunnlag.getFaktiskUtgiftPeriodeListe()
         .stream()
         .map(FaktiskUtgiftPeriode::new)
@@ -68,7 +69,7 @@ public class NettoBarnetilsynPeriodeImpl extends FellesPeriode implements NettoB
 
       // Filtrerer vekk forekomster for barn som har fyllt 12 år i tillegg til der innsendt beløp ikke er større enn 0
       var faktiskUtgiftListe = justertFaktiskUtgiftPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(faktiskUtgiftPeriode -> faktiskUtgiftPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(faktiskUtgiftPeriode -> new FaktiskUtgift(faktiskUtgiftPeriode.getSoknadsbarnPersonId(), faktiskUtgiftPeriode.getReferanse(),
               beregnSoknadbarnAlder(faktiskUtgiftPeriode.getSoknadsbarnFodselsdato(), beregningsperiode.getDatoTil()),
               finnEndeligFaktiskUtgiftBelop(
@@ -77,7 +78,7 @@ public class NettoBarnetilsynPeriodeImpl extends FellesPeriode implements NettoB
           .collect(toList());
 
       var sjablonliste = justertSjablonPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
           .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode

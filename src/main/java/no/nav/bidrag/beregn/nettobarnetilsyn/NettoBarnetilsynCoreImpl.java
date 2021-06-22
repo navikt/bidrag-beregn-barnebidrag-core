@@ -25,11 +25,11 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.periode.NettoBarnetilsynPeriode;
 
 public class NettoBarnetilsynCoreImpl extends FellesCore implements NettoBarnetilsynCore {
 
+  private final NettoBarnetilsynPeriode nettoBarnetilsynPeriode;
+
   public NettoBarnetilsynCoreImpl(NettoBarnetilsynPeriode nettoBarnetilsynPeriode) {
     this.nettoBarnetilsynPeriode = nettoBarnetilsynPeriode;
   }
-
-  private final NettoBarnetilsynPeriode nettoBarnetilsynPeriode;
 
   public BeregnetNettoBarnetilsynResultatCore beregnNettoBarnetilsyn(BeregnNettoBarnetilsynGrunnlagCore beregnNettoBarnetilsynGrunnlagCore) {
     var beregnNettoBarnetilsynGrunnlag = mapTilBusinessObject(beregnNettoBarnetilsynGrunnlagCore);
@@ -64,8 +64,8 @@ public class NettoBarnetilsynCoreImpl extends FellesCore implements NettoBarneti
   }
 
   private BeregnetNettoBarnetilsynResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnetNettoBarnetilsynResultat resultat) {
-    return new BeregnetNettoBarnetilsynResultatCore(mapResultatPeriode(resultat.getBeregnetNettoBarnetilsynPeriodeListe()),
-        mapSjablonGrunnlagListe(resultat.getBeregnetNettoBarnetilsynPeriodeListe()), mapAvvik(avvikListe));
+    return new BeregnetNettoBarnetilsynResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+        mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {

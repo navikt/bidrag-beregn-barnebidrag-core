@@ -34,11 +34,11 @@ import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 
 public class BidragsevnePeriodeImpl extends FellesPeriode implements BidragsevnePeriode {
 
+  private final BidragsevneBeregning bidragsevneberegning;
+
   public BidragsevnePeriodeImpl(BidragsevneBeregning bidragsevneberegning) {
     this.bidragsevneberegning = bidragsevneberegning;
   }
-
-  private final BidragsevneBeregning bidragsevneberegning;
 
   public BeregnetBidragsevneResultat beregnPerioder(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag) {
 
@@ -94,36 +94,36 @@ public class BidragsevnePeriodeImpl extends FellesPeriode implements Bidragsevne
     for (Periode beregningsperiode : perioder) {
 
       var inntektListe = justertInntektPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(inntektPeriode -> inntektPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(inntektPeriode -> new Inntekt(inntektPeriode.getReferanse(), inntektPeriode.getType(), inntektPeriode.getBelop()))
           .collect(toList());
 
       var skatteklasse = justertSkatteklassePeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(skatteklassePeriode -> skatteklassePeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(skatteklassePeriode -> new Skatteklasse(skatteklassePeriode.getReferanse(), skatteklassePeriode.getSkatteklasse()))
           .findFirst()
           .orElse(null);
 
       var bostatus = justertBostatusPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(bostatusPeriode -> bostatusPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(bostatusPeriode -> new Bostatus(bostatusPeriode.getReferanse(), bostatusPeriode.getKode()))
           .findFirst()
           .orElse(null);
 
       var barnIHusstand = justertBarnIHusstandPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(barnIHusstandPeriode -> barnIHusstandPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(barnIHusstandPeriode -> new BarnIHusstand(barnIHusstandPeriode.getReferanse(), barnIHusstandPeriode.getAntallBarn()))
           .findFirst()
           .orElse(null);
 
       var saerfradrag = justertSaerfradragPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(saerfradragPeriode -> saerfradragPeriode.getPeriode().overlapperMed(beregningsperiode))
           .map(saerfradragPeriode -> new Saerfradrag(saerfradragPeriode.getReferanse(), saerfradragPeriode.getKode()))
           .findFirst()
           .orElse(null);
 
       var sjablonliste = justertSjablonPeriodeListe.stream()
-          .filter(i -> i.getPeriode().overlapperMed(beregningsperiode))
+          .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
           .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
@@ -143,14 +143,14 @@ public class BidragsevnePeriodeImpl extends FellesPeriode implements Bidragsevne
     }
 
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
-        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getPeriode(), inntektPeriode.getType(),
+        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getInntektPeriode(), inntektPeriode.getType(),
             inntektPeriode.getBelop(), false, false))
         .collect(toList()));
 
     return justertInntektPeriodeListe.stream()
-        .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getReferanse(), inntektGrunnlag.getPeriode(), inntektGrunnlag.getType(),
+        .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getReferanse(), inntektGrunnlag.getInntektPeriode(), inntektGrunnlag.getType(),
             inntektGrunnlag.getBelop()))
-        .sorted(comparing(inntektPeriode -> inntektPeriode.getPeriode().getDatoFom()))
+        .sorted(comparing(inntektPeriode -> inntektPeriode.getInntektPeriode().getDatoFom()))
         .collect(toList());
   }
 

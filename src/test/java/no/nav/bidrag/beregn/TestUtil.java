@@ -21,6 +21,9 @@ import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 public class TestUtil {
 
   public static final String INNTEKT_REFERANSE = "INNTEKT_REFERANSE";
+  public static final String INNTEKT_BP_REFERANSE = "INNTEKT_BP_REFERANSE";
+  public static final String INNTEKT_BM_REFERANSE = "INNTEKT_BM_REFERANSE";
+  public static final String INNTEKT_BB_REFERANSE = "INNTEKT_BB_REFERANSE";
   public static final String SKATTEKLASSE_REFERANSE = "SKATTEKLASSE_REFERANSE";
   public static final String BOSTATUS_REFERANSE = "BOSTATUS_REFERANSE";
   public static final String BARN_I_HUSSTAND_REFERANSE = "BARN_I_HUSSTAND_REFERANSE";
@@ -30,10 +33,9 @@ public class TestUtil {
   public static final String BARNETILSYN_MED_STONAD_REFERANSE = "BARNETILSYN_MED_STONAD_REFERANSE";
   public static final String NETTO_BARNETILSYN_REFERANSE = "NETTO_BARNETILSYN_REFERANSE";
   public static final String FORPLEINING_UTGIFT_REFERANSE = "FORPLEINING_UTGIFT_REFERANSE";
+  public static final String UNDERHOLDSKOSTNAD_REFERANSE = "UNDERHOLDSKOSTNAD_REFERANSE";
 
-  public static final String UTEN_BARNETRYGD = " ";
   public static final String ORDINAER_BARNETRYGD = "O";
-  public static final String FORHOYET_BARNETRYGD = "F";
 
   public static List<Sjablon> byggSjabloner() {
 

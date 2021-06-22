@@ -146,4 +146,6 @@ class UnderholdskostnadBeregningTest {
     var resultat = underholdskostnadberegning.beregn(grunnlagBeregning, ORDINAER_BARNETRYGD);
     assertThat(resultat.getBelop().compareTo(BigDecimal.valueOf(8684 - 17))).isZero();
   }
+
+  //TODO Legge til tester som bruker forhøyet barnetrygd eller ingen barnetrygd
 }

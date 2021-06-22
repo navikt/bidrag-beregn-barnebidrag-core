@@ -52,7 +52,7 @@ data class SaerfradragPeriodeCore(
 
 // Resultat
 data class BeregnetBidragsevneResultatCore(
-  val beregnetBidragsevnePeriodeListe: List<ResultatPeriodeCore>,
+  val resultatPeriodeListe: List<ResultatPeriodeCore>,
   val sjablonListe: List<SjablonResultatGrunnlagCore>,
   val avvikListe: List<AvvikCore>
 )

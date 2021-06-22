@@ -35,11 +35,11 @@ import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
 
 public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
 
+  private final BidragsevnePeriode bidragsevnePeriode;
+
   public BidragsevneCoreImpl(BidragsevnePeriode bidragsevnePeriode) {
     this.bidragsevnePeriode = bidragsevnePeriode;
   }
-
-  private final BidragsevnePeriode bidragsevnePeriode;
 
   public BeregnetBidragsevneResultatCore beregnBidragsevne(BeregnBidragsevneGrunnlagCore beregnBidragsevneGrunnlagCore) {
     var beregnBidragsevneGrunnlag = mapTilBusinessObject(beregnBidragsevneGrunnlagCore);
@@ -122,8 +122,8 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
   }
 
   private BeregnetBidragsevneResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnetBidragsevneResultat resultat) {
-    return new BeregnetBidragsevneResultatCore(mapResultatPeriode(resultat.getBeregnetBidragsevnePeriodeListe()),
-        mapSjablonGrunnlagListe(resultat.getBeregnetBidragsevnePeriodeListe()), mapAvvik(avvikListe));
+    return new BeregnetBidragsevneResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()),
+        mapSjablonGrunnlagListe(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
