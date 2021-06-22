@@ -14,7 +14,7 @@ data class BeregnNettoBarnetilsynGrunnlag(
   val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
-// Resultatperiode
+// Resultat periode
 data class BeregnetNettoBarnetilsynResultat(
   val beregnetNettoBarnetilsynPeriodeListe: List<ResultatPeriode>
 )

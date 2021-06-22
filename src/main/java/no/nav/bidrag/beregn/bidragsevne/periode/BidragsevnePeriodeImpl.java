@@ -21,6 +21,7 @@ import no.nav.bidrag.beregn.bidragsevne.bo.Saerfradrag;
 import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.Skatteklasse;
 import no.nav.bidrag.beregn.bidragsevne.bo.SkatteklassePeriode;
+import no.nav.bidrag.beregn.felles.FellesPeriode;
 import no.nav.bidrag.beregn.felles.InntektUtil;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
@@ -31,7 +32,7 @@ import no.nav.bidrag.beregn.felles.enums.SoknadType;
 import no.nav.bidrag.beregn.felles.inntekt.InntektPeriodeGrunnlag;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 
-public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
+public class BidragsevnePeriodeImpl extends FellesPeriode implements BidragsevnePeriode {
 
   public BidragsevnePeriodeImpl(BidragsevneBeregning bidragsevneberegning) {
     this.bidragsevneberegning = bidragsevneberegning;
@@ -87,15 +88,7 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
         .finnPerioder(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil());
 
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
-    if (perioder.size() > 1) {
-      if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnBidragsevneGrunnlag.getBeregnDatoTil())) &&
-          (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
-        perioder.remove(perioder.size() - 1);
-        perioder.remove(perioder.size() - 1);
-        perioder.add(nyPeriode);
-      }
-    }
+    mergeSluttperiode(perioder, beregnBidragsevneGrunnlag.getBeregnDatoTil());
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
@@ -163,58 +156,58 @@ public class BidragsevnePeriodeImpl implements BidragsevnePeriode {
 
 
   // Validerer at input-verdier til bidragsevneberegning er gyldige
-  public List<Avvik> validerInput(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag) {
+  public List<Avvik> validerInput(BeregnBidragsevneGrunnlag grunnlag) {
 
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
-    for (SjablonPeriode sjablonPeriode : beregnBidragsevneGrunnlag.getSjablonPeriodeListe()) {
+    for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
       sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
-    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(),
-        beregnBidragsevneGrunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe, false, false, false, false));
+    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe",
+        sjablonPeriodeListe, false, false, false, false));
 
     // Sjekk perioder for inntekt
     var inntektPeriodeListe = new ArrayList<Periode>();
-    for (InntektPeriode inntektPeriode : beregnBidragsevneGrunnlag.getInntektPeriodeListe()) {
+    for (InntektPeriode inntektPeriode : grunnlag.getInntektPeriodeListe()) {
       inntektPeriodeListe.add(inntektPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil(),
-        "inntektPeriodeListe", inntektPeriodeListe, false, true, false, true));
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "inntektPeriodeListe",
+        inntektPeriodeListe, false, true, false, true));
 
     // Sjekk perioder for skatteklasse
     var skatteklassePeriodeListe = new ArrayList<Periode>();
-    for (SkatteklassePeriode skatteklassePeriode : beregnBidragsevneGrunnlag.getSkatteklassePeriodeListe()) {
+    for (SkatteklassePeriode skatteklassePeriode : grunnlag.getSkatteklassePeriodeListe()) {
       skatteklassePeriodeListe.add(skatteklassePeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil(),
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "skatteklassePeriodeListe", skatteklassePeriodeListe, true, true, true, true));
 
     // Sjekk perioder for bostatus
     var bostatusPeriodeListe = new ArrayList<Periode>();
-    for (BostatusPeriode bostatusPeriode : beregnBidragsevneGrunnlag.getBostatusPeriodeListe()) {
+    for (BostatusPeriode bostatusPeriode : grunnlag.getBostatusPeriodeListe()) {
       bostatusPeriodeListe.add(bostatusPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil(),
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "bostatusPeriodeListe", bostatusPeriodeListe, true, true, true, true));
 
     // Sjekk perioder for barn i husstand
     var antallBarnIEgetHusholdPeriodeListe = new ArrayList<Periode>();
-    for (BarnIHusstandPeriode antallBarnIEgetHusholdPeriode : beregnBidragsevneGrunnlag.getBarnIHusstandPeriodeListe()) {
+    for (BarnIHusstandPeriode antallBarnIEgetHusholdPeriode : grunnlag.getBarnIHusstandPeriodeListe()) {
       antallBarnIEgetHusholdPeriodeListe.add(antallBarnIEgetHusholdPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil(),
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "barnIHusstandPeriodeListe", antallBarnIEgetHusholdPeriodeListe, false, false, false, true));
 
     // Sjekk perioder for særfradrag
     var saerfradragPeriodeListe = new ArrayList<Periode>();
-    for (SaerfradragPeriode saerfradragPeriode : beregnBidragsevneGrunnlag.getSaerfradragPeriodeListe()) {
+    for (SaerfradragPeriode saerfradragPeriode : grunnlag.getSaerfradragPeriodeListe()) {
       saerfradragPeriodeListe.add(saerfradragPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(beregnBidragsevneGrunnlag.getBeregnDatoFra(), beregnBidragsevneGrunnlag.getBeregnDatoTil(),
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
         "saerfradragPeriodeListe", saerfradragPeriodeListe, true, true, true, true));
 
     // Valider inntekter
-    var inntektGrunnlagListe = beregnBidragsevneGrunnlag.getInntektPeriodeListe().stream()
+    var inntektGrunnlagListe = grunnlag.getInntektPeriodeListe().stream()
         .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getPeriode(), inntektPeriode.getType(),
             inntektPeriode.getBelop(), false, false))
         .collect(toList());

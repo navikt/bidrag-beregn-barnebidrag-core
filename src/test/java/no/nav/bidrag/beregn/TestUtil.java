@@ -26,6 +26,14 @@ public class TestUtil {
   public static final String BARN_I_HUSSTAND_REFERANSE = "BARN_I_HUSSTAND_REFERANSE";
   public static final String SAERFRADRAG_REFERANSE = "SAERFRADRAG_REFERANSE";
   public static final String FAKTISK_UTGIFT_REFERANSE = "FAKTISK_UTGIFT_REFERANSE";
+  public static final String SOKNADSBARN_REFERANSE = "SOKNADSBARN_REFERANSE";
+  public static final String BARNETILSYN_MED_STONAD_REFERANSE = "BARNETILSYN_MED_STONAD_REFERANSE";
+  public static final String NETTO_BARNETILSYN_REFERANSE = "NETTO_BARNETILSYN_REFERANSE";
+  public static final String FORPLEINING_UTGIFT_REFERANSE = "FORPLEINING_UTGIFT_REFERANSE";
+
+  public static final String UTEN_BARNETRYGD = " ";
+  public static final String ORDINAER_BARNETRYGD = "O";
+  public static final String FORHOYET_BARNETRYGD = "F";
 
   public static List<Sjablon> byggSjabloner() {
 

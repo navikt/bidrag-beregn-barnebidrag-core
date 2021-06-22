@@ -21,7 +21,7 @@ data class BeregnBidragsevneGrunnlag(
   val sjablonPeriodeListe: List<SjablonPeriode>
 )
 
-// Resultatperiode
+// Resultat periode
 data class BeregnetBidragsevneResultat(
   val beregnetBidragsevnePeriodeListe: List<ResultatPeriode>
 )

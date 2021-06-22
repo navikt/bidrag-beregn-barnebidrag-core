@@ -9,6 +9,7 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import no.nav.bidrag.beregn.felles.FellesPeriode;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -22,7 +23,7 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgiftPeriode;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatPeriode;
 
-public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
+public class NettoBarnetilsynPeriodeImpl extends FellesPeriode implements NettoBarnetilsynPeriode {
 
   public NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning nettoBarnetilsynBeregning) {
     this.nettoBarnetilsynBeregning = nettoBarnetilsynBeregning;
@@ -60,15 +61,7 @@ public class NettoBarnetilsynPeriodeImpl implements NettoBarnetilsynPeriode {
         .finnPerioder(beregnNettoBarnetilsynGrunnlag.getBeregnDatoFra(), beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil());
 
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
-    if (perioder.size() > 1) {
-      if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil())) &&
-          (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFom(), null);
-        perioder.remove(perioder.size() - 1);
-        perioder.remove(perioder.size() - 1);
-        perioder.add(nyPeriode);
-      }
-    }
+    mergeSluttperiode(perioder, beregnNettoBarnetilsynGrunnlag.getBeregnDatoTil());
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
