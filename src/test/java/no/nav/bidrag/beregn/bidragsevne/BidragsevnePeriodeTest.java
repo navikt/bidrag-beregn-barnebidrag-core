@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Comparator.comparing;
 import static no.nav.bidrag.beregn.TestUtil.BARN_I_HUSSTAND_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.BOSTATUS_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.INNTEKT_REFERANSE;
@@ -15,7 +16,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.bidragsevne.bo.BarnIHusstandPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.BeregnBidragsevneGrunnlag;
@@ -666,12 +666,10 @@ class BidragsevnePeriodeTest {
 
 
   private void printGrunnlagResultat(BeregnetBidragsevneResultat beregnetBidragsevneResultat) {
-    beregnetBidragsevneResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
-        .forEach(sortedPR -> System.out
-            .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
-                + sortedPR.getPeriode().getDatoTil()
-                + "; " + "Beløp: " + sortedPR.getResultat().getBelop()));
+    beregnetBidragsevneResultat.getResultatPeriodeListe().stream()
+        .sorted(comparing(pR -> pR.getPeriode().getDatoFom()))
+        .forEach(sortedPR -> System.out.println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " +
+            "Dato til: " + sortedPR.getPeriode().getDatoTil() + "; " + "Beløp: " + sortedPR.getResultat().getBelop()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

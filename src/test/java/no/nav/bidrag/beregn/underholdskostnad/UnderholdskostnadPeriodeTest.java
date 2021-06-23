@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.underholdskostnad;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Comparator.comparing;
 import static no.nav.bidrag.beregn.TestUtil.BARNETILSYN_MED_STONAD_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.FORPLEINING_UTGIFT_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.NETTO_BARNETILSYN_REFERANSE;
@@ -12,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -362,14 +362,10 @@ public class UnderholdskostnadPeriodeTest {
   }
 
   private void printGrunnlagResultat(BeregnetUnderholdskostnadResultat beregnetUnderholdskostnadResultat) {
-    beregnetUnderholdskostnadResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
-        .forEach(sortedPR -> System.out
-            .println(
-                "Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
-                    + sortedPR.getPeriode().getDatoTil()
-                    + "; " + "Beløp: " + sortedPR.getResultat()
-                    .getBelop()));
+    beregnetUnderholdskostnadResultat.getResultatPeriodeListe().stream()
+        .sorted(comparing(pR -> pR.getPeriode().getDatoFom()))
+        .forEach(sortedPR -> System.out.println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " +
+            "Dato til: " + sortedPR.getPeriode().getDatoTil() + "; " + "Beløp: " + sortedPR.getResultat().getBelop()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

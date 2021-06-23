@@ -10,7 +10,4 @@ public interface SamvaersfradragBeregning {
   static SamvaersfradragBeregning getInstance(){
     return new SamvaersfradragBeregningImpl();
   }
-
 }
-
-

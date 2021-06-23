@@ -3,38 +3,37 @@ package no.nav.bidrag.beregn.kostnadsberegnetbidrag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import no.nav.bidrag.beregn.felles.FellesCore;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.dto.AvvikCore;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragGrunnlag;
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnKostnadsberegnetBidragResultat;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnetKostnadsberegnetBidragResultat;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.SamvaersfradragPeriode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.UnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BPsAndelUnderholdskostnadPeriodeCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BeregnKostnadsberegnetBidragGrunnlagCore;
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BeregnKostnadsberegnetBidragResultatCore;
+import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BeregnetKostnadsberegnetBidragResultatCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.ResultatBeregningCore;
-import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.ResultatGrunnlagCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.ResultatPeriodeCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.SamvaersfradragPeriodeCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.UnderholdskostnadPeriodeCore;
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.periode.KostnadsberegnetBidragPeriode;
 
-public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCore {
+public class KostnadsberegnetBidragCoreImpl extends FellesCore implements KostnadsberegnetBidragCore {
+
+  private final KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode;
 
   public KostnadsberegnetBidragCoreImpl(KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode) {
     this.kostnadsberegnetBidragPeriode = kostnadsberegnetBidragPeriode;
   }
 
-  private final KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode;
-
-  public BeregnKostnadsberegnetBidragResultatCore beregnKostnadsberegnetBidrag(
+  public BeregnetKostnadsberegnetBidragResultatCore beregnKostnadsberegnetBidrag(
       BeregnKostnadsberegnetBidragGrunnlagCore beregnKostnadsberegnetBidragGrunnlagCore) {
     var beregnKostnadsberegnetBidragGrunnlag = mapTilBusinessObject(beregnKostnadsberegnetBidragGrunnlagCore);
-    var beregnKostnadsberegnetBidragResultat = new BeregnKostnadsberegnetBidragResultat(Collections.emptyList());
+    var beregnKostnadsberegnetBidragResultat = new BeregnetKostnadsberegnetBidragResultat(Collections.emptyList());
     var avvikListe = kostnadsberegnetBidragPeriode.validerInput(beregnKostnadsberegnetBidragGrunnlag);
     if (avvikListe.isEmpty()) {
       beregnKostnadsberegnetBidragResultat = kostnadsberegnetBidragPeriode.beregnPerioder(beregnKostnadsberegnetBidragGrunnlag);
@@ -61,9 +60,9 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var underholdskostnadPeriodeListe = new ArrayList<UnderholdskostnadPeriode>();
     for (UnderholdskostnadPeriodeCore underholdskostnadPeriodeCore : underholdskostnadPeriodeListeCore) {
       underholdskostnadPeriodeListe.add(new UnderholdskostnadPeriode(
-          new Periode(underholdskostnadPeriodeCore.getUnderholdskostnadPeriodeDatoFraTil().getDatoFom(),
-              underholdskostnadPeriodeCore.getUnderholdskostnadPeriodeDatoFraTil().getDatoTil()),
-          underholdskostnadPeriodeCore.getUnderholdskostnadBelop()));
+          underholdskostnadPeriodeCore.getReferanse(),
+          new Periode(underholdskostnadPeriodeCore.getPeriode().getDatoFom(), underholdskostnadPeriodeCore.getPeriode().getDatoTil()),
+          underholdskostnadPeriodeCore.getBelop()));
     }
     return underholdskostnadPeriodeListe;
   }
@@ -73,9 +72,9 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<BPsAndelUnderholdskostnadPeriode>();
     for (BPsAndelUnderholdskostnadPeriodeCore bPsAndelUnderholdskostnadPeriodeCore : bPsAndelUnderholdskostnadPeriodeListeCore) {
       bPsAndelUnderholdskostnadPeriodeListe.add(new BPsAndelUnderholdskostnadPeriode(
-          new Periode(bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadPeriodeDatoFraTil().getDatoFom(),
-              bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadPeriodeDatoFraTil().getDatoTil()),
-          bPsAndelUnderholdskostnadPeriodeCore.getBPsAndelUnderholdskostnadProsent()));
+          bPsAndelUnderholdskostnadPeriodeCore.getReferanse(),
+          new Periode(bPsAndelUnderholdskostnadPeriodeCore.getPeriode().getDatoFom(), bPsAndelUnderholdskostnadPeriodeCore.getPeriode().getDatoTil()),
+          bPsAndelUnderholdskostnadPeriodeCore.getAndelProsent()));
     }
     return bPsAndelUnderholdskostnadPeriodeListe;
   }
@@ -84,39 +83,37 @@ public class KostnadsberegnetBidragCoreImpl implements KostnadsberegnetBidragCor
     var samvaersfradragPeriodeListe = new ArrayList<SamvaersfradragPeriode>();
     for (SamvaersfradragPeriodeCore samvaersfradragPeriodeCore : samvaersfradragPeriodeListeCore) {
       samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(
-          new Periode(samvaersfradragPeriodeCore.getSamvaersfradragDatoPeriodeFraTil().getDatoFom(),
-              samvaersfradragPeriodeCore.getSamvaersfradragDatoPeriodeFraTil().getDatoTil()),
-          samvaersfradragPeriodeCore.getSamvaersfradrag()));
+          samvaersfradragPeriodeCore.getReferanse(),
+          new Periode(samvaersfradragPeriodeCore.getPeriode().getDatoFom(), samvaersfradragPeriodeCore.getPeriode().getDatoTil()),
+          samvaersfradragPeriodeCore.getBelop()));
     }
     return samvaersfradragPeriodeListe;
   }
 
-  private BeregnKostnadsberegnetBidragResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnKostnadsberegnetBidragResultat resultat) {
-    return new BeregnKostnadsberegnetBidragResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
+  private BeregnetKostnadsberegnetBidragResultatCore mapFraBusinessObject(List<Avvik> avvikListe, BeregnetKostnadsberegnetBidragResultat resultat) {
+    return new BeregnetKostnadsberegnetBidragResultatCore(mapResultatPeriode(resultat.getResultatPeriodeListe()), mapAvvik(avvikListe));
   }
 
-  private List<AvvikCore> mapAvvik(List<Avvik> avvikListe) {
-    var avvikCoreListe = new ArrayList<AvvikCore>();
-    for (Avvik avvik : avvikListe) {
-      avvikCoreListe.add(new AvvikCore(avvik.getAvvikTekst(), avvik.getAvvikType().toString()));
-    }
-    return avvikCoreListe;
-  }
-
-  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> periodeResultatListe) {
+  private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
-    for (ResultatPeriode periodeResultat : periodeResultatListe) {
-      var kostnadsberegnetBidragResultat = periodeResultat.getResultatBeregning();
-      var kostnadsberegnetBidragResultatGrunnlag = periodeResultat.getResultatGrunnlag();
+    for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
+      var kostnadsberegnetBidragResultat = resultatPeriode.getResultat();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          periodeResultat.getSoknadsbarnPersonId(),
-          new PeriodeCore(periodeResultat.getResultatDatoFraTil().getDatoFom(), periodeResultat.getResultatDatoFraTil().getDatoTil()),
-          new ResultatBeregningCore(kostnadsberegnetBidragResultat.getResultatkostnadsberegnetbidragBelop()),
-          new ResultatGrunnlagCore(kostnadsberegnetBidragResultatGrunnlag.getUnderholdskostnadBelop(),
-              kostnadsberegnetBidragResultatGrunnlag.getBPsAndelUnderholdskostnadProsent(),
-              kostnadsberegnetBidragResultatGrunnlag.getSamvaersfradragBelop()
-          )));
+          resultatPeriode.getSoknadsbarnPersonId(),
+          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
+          new ResultatBeregningCore(kostnadsberegnetBidragResultat.getBelop()),
+          mapReferanseListe(resultatPeriode)));
     }
     return resultatPeriodeCoreListe;
+  }
+
+  private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {
+    var resultatGrunnlag = resultatPeriode.getGrunnlag();
+
+    var referanseListe = new ArrayList<String>();
+    referanseListe.add(resultatGrunnlag.getUnderholdskostnad().getReferanse());
+    referanseListe.add(resultatGrunnlag.getBPsAndelUnderholdskostnad().getReferanse());
+    referanseListe.add(resultatGrunnlag.getSamvaersfradrag().getReferanse());
+    return referanseListe;
   }
 }

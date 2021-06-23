@@ -1,6 +1,7 @@
 package no.nav.bidrag.beregn.samvaersfradrag;
 
 import static java.util.Collections.singletonList;
+import static java.util.Comparator.comparing;
 import static no.nav.bidrag.beregn.TestUtil.SAMVAERSKLASSE_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.SOKNADSBARN_REFERANSE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,7 +11,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -90,8 +90,7 @@ public class SamvaersfradragPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-04-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultat().getBelop()
-            .compareTo(BigDecimal.valueOf(1052))).isZero()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultat().getBelop().compareTo(BigDecimal.valueOf(1052))).isZero()
     );
 
     printGrunnlagResultat(resultat);
@@ -250,14 +249,11 @@ public class SamvaersfradragPeriodeTest {
   }
 
 
-  private void printGrunnlagResultat(
-      BeregnetSamvaersfradragResultat beregnetSamvaersfradragResultat) {
-    beregnetSamvaersfradragResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
-        .forEach(sortedPR -> System.out
-            .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
-                + sortedPR.getPeriode().getDatoTil()
-                + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultat().getBelop()));
+  private void printGrunnlagResultat(BeregnetSamvaersfradragResultat beregnetSamvaersfradragResultat) {
+    beregnetSamvaersfradragResultat.getResultatPeriodeListe().stream()
+        .sorted(comparing(pR -> pR.getPeriode().getDatoFom()))
+        .forEach(sortedPR -> System.out.println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " +
+            "Dato til: " + sortedPR.getPeriode().getDatoTil() + "; " + "Samvaersfradragsbeløp: " + sortedPR.getResultat().getBelop()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

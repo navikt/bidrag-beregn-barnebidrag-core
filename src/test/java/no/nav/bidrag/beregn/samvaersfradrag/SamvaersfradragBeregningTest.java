@@ -20,7 +20,7 @@ public class SamvaersfradragBeregningTest {
 
   private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
 
-  private final SamvaersfradragBeregning samvaersfradragberegning = SamvaersfradragBeregning.getInstance();
+  private final SamvaersfradragBeregning samvaersfradragBeregning = SamvaersfradragBeregning.getInstance();
 
   @DisplayName("Test av beregning av samvaersfradrag for fireåring")
   @Test
@@ -31,7 +31,7 @@ public class SamvaersfradragBeregningTest {
         sjablonPeriodeListe
     );
 
-    var resultat = samvaersfradragberegning.beregn(grunnlagBeregning);
+    var resultat = samvaersfradragBeregning.beregn(grunnlagBeregning);
     assertThat(resultat.getBelop().compareTo(BigDecimal.valueOf(2272))).isZero();
   }
 
@@ -44,7 +44,7 @@ public class SamvaersfradragBeregningTest {
         sjablonPeriodeListe
     );
 
-    var resultat = samvaersfradragberegning.beregn(grunnlagBeregning);
+    var resultat = samvaersfradragBeregning.beregn(grunnlagBeregning);
     assertThat(resultat.getBelop().compareTo(BigDecimal.valueOf(2716))).isZero();
   }
 
@@ -57,7 +57,7 @@ public class SamvaersfradragBeregningTest {
         sjablonPeriodeListe
     );
 
-    var resultat = samvaersfradragberegning.beregn(grunnlagBeregning);
+    var resultat = samvaersfradragBeregning.beregn(grunnlagBeregning);
     assertThat(resultat.getBelop().compareTo(BigDecimal.valueOf(457))).isZero();
   }
 }

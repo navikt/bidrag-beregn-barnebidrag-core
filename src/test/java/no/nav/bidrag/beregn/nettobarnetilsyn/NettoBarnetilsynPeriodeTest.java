@@ -2,6 +2,7 @@ package no.nav.bidrag.beregn.nettobarnetilsyn;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Comparator.comparing;
 import static no.nav.bidrag.beregn.TestUtil.FAKTISK_UTGIFT_REFERANSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -9,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
@@ -90,7 +90,7 @@ public class NettoBarnetilsynPeriodeTest {
     var beregnDatoTil = LocalDate.parse("2020-01-01");
 
     var faktiskUtgiftPeriodeListe = new ArrayList<FaktiskUtgiftPeriode>();
-    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1, FAKTISK_UTGIFT_REFERANSE, 
+    faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1, FAKTISK_UTGIFT_REFERANSE,
         new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2019-01-01")),
         LocalDate.parse("2008-03-17"), BigDecimal.valueOf(1000)));
     faktiskUtgiftPeriodeListe.add(new FaktiskUtgiftPeriode(1, FAKTISK_UTGIFT_REFERANSE,
@@ -605,12 +605,10 @@ public class NettoBarnetilsynPeriodeTest {
   }
 
   private void printGrunnlagResultat(BeregnetNettoBarnetilsynResultat beregnetNettoBarnetilsynResultat) {
-    beregnetNettoBarnetilsynResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
-        .forEach(sortedPR -> System.out
-            .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
-                + sortedPR.getPeriode().getDatoTil()
-                + "; " + "Beløp: " + sortedPR.getResultatListe()));
+    beregnetNettoBarnetilsynResultat.getResultatPeriodeListe().stream()
+        .sorted(comparing(pR -> pR.getPeriode().getDatoFom()))
+        .forEach(sortedPR -> System.out.println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " +
+            "Dato til: " + sortedPR.getPeriode().getDatoTil() + "; " + "Beløp: " + sortedPR.getResultatListe()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {

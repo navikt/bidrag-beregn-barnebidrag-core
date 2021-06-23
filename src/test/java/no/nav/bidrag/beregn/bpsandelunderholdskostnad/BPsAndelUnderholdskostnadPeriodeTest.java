@@ -3,6 +3,7 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static java.util.Comparator.comparing;
 import static no.nav.bidrag.beregn.TestUtil.INNTEKT_BB_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.INNTEKT_BM_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.INNTEKT_BP_REFERANSE;
@@ -15,7 +16,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnBPsAndelUnderholdskostnadGrunnlag;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.BeregnetBPsAndelUnderholdskostnadResultat;
@@ -664,14 +664,11 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
     return inntektPeriodeListe;
   }
 
-  private void printGrunnlagResultat(
-      BeregnetBPsAndelUnderholdskostnadResultat beregnetBPsAndelUnderholdskostnadResultat) {
-    beregnetBPsAndelUnderholdskostnadResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
-        .forEach(sortedPR -> System.out
-            .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
-                + sortedPR.getPeriode().getDatoTil()
-                + "; " + "Prosentandel: " + sortedPR.getResultat().getAndelProsent()));
+  private void printGrunnlagResultat(BeregnetBPsAndelUnderholdskostnadResultat beregnetBPsAndelUnderholdskostnadResultat) {
+    beregnetBPsAndelUnderholdskostnadResultat.getResultatPeriodeListe().stream()
+        .sorted(comparing(pR -> pR.getPeriode().getDatoFom()))
+        .forEach(sortedPR -> System.out.println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " +
+            "Dato til: " + sortedPR.getPeriode().getDatoTil() + "; " + "Prosentandel: " + sortedPR.getResultat().getAndelProsent()));
   }
 
   private void printAvvikListe(List<Avvik> avvikListe) {
