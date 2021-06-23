@@ -73,8 +73,7 @@ public class UnderholdskostnadCoreTest {
     byggUnderholdskostnadPeriodeResultat();
 
     when(underholdskostnadPeriodeMock.beregnPerioder(any())).thenReturn(underholdskostnadPeriodeResultat);
-    var beregnUnderholdskostnadResultatCore = underholdskostnadCore.beregnUnderholdskostnad(
-        beregnUnderholdskostnadGrunnlagCore);
+    var beregnUnderholdskostnadResultatCore = underholdskostnadCore.beregnUnderholdskostnad(beregnUnderholdskostnadGrunnlagCore);
 
     assertAll(
         () -> assertThat(beregnUnderholdskostnadResultatCore).isNotNull(),
@@ -121,17 +120,17 @@ public class UnderholdskostnadCoreTest {
     byggAvvik();
 
     when(underholdskostnadPeriodeMock.validerInput(any())).thenReturn(avvikListe);
-    var beregnbidragsevneResultatCore = underholdskostnadCore.beregnUnderholdskostnad(
-        beregnUnderholdskostnadGrunnlagCore);
+    var beregnunderholdskostnadResultatCore = underholdskostnadCore.beregnUnderholdskostnad(beregnUnderholdskostnadGrunnlagCore);
 
     assertAll(
-        () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).isNotEmpty(),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).hasSize(1),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
-            AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
-        () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
+        () -> assertThat(beregnunderholdskostnadResultatCore).isNotNull(),
+        () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe()).isNotEmpty(),
+        () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe()).hasSize(1),
+        () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe().get(0).getAvvikTekst())
+            .isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
+        () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe().get(0).getAvvikType())
+            .isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
+        () -> assertThat(beregnunderholdskostnadResultatCore.getResultatPeriodeListe()).isEmpty()
     );
   }
 

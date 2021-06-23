@@ -135,7 +135,7 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
           .orElse(null);
 
       var soknadsbarnAlder = new SoknadsbarnAlder(beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getReferanse(),
-          beregnSoknadbarnAlderOverstyrt(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFom()));
+          beregnSoknadsbarnAlderOverstyrt(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFom()));
 
       var sjablonliste = justertSjablonPeriodeListe.stream()
           .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
@@ -152,8 +152,8 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
     return new BeregnetUnderholdskostnadResultat(resultatPeriodeListe);
   }
 
-  private Integer beregnSoknadbarnAlderOverstyrt(BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag, LocalDate beregnDatoFra) {
-    LocalDate tempSoknadbarnFodselsdato = beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().withDayOfMonth(1).withMonth(7);
+  private Integer beregnSoknadsbarnAlderOverstyrt(BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag, LocalDate beregnDatoFra) {
+    var tempSoknadbarnFodselsdato = beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().withDayOfMonth(1).withMonth(7);
     return Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
   }
 

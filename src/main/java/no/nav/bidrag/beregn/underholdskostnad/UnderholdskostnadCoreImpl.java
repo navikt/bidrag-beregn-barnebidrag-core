@@ -129,8 +129,8 @@ public class UnderholdskostnadCoreImpl extends FellesCore implements Underholdsk
     return referanseListe;
   }
 
-  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> periodeResultatListe) {
-    return periodeResultatListe.stream()
+  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {
+    return resultatPeriodeListe.stream()
         .map(resultatPeriode -> mapSjablonListe(resultatPeriode.getResultat().getSjablonListe()))
         .flatMap(Collection::stream)
         .distinct()

@@ -152,8 +152,8 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
     return referanseListe;
   }
 
-  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> periodeResultatListe) {
-    return periodeResultatListe.stream()
+  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {
+    return resultatPeriodeListe.stream()
         .map(resultatPeriode -> mapSjablonListe(resultatPeriode.getResultat().getSjablonListe()))
         .flatMap(Collection::stream)
         .distinct()

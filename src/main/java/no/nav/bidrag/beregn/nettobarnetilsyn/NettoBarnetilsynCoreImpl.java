@@ -100,8 +100,8 @@ public class NettoBarnetilsynCoreImpl extends FellesCore implements NettoBarneti
     return referanseListe;
   }
 
-  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> periodeResultatListe) {
-    return periodeResultatListe.stream()
+  private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {
+    return resultatPeriodeListe.stream()
         .map(ResultatPeriode::getResultatListe)
         .flatMap(Collection::stream)
         .map(resultat -> mapSjablonListe(resultat.getSjablonListe()))

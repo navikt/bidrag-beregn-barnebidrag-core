@@ -2,46 +2,46 @@ package no.nav.bidrag.beregn.samvaersfradrag.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// Grunnlag periode
+// Grunnlag
 data class BeregnSamvaersfradragGrunnlagCore(
-    val beregnDatoFra: LocalDate,
-    val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
-    val soknadsbarnFodselsdato: LocalDate,
-    val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+  val beregnDatoFra: LocalDate,
+  val beregnDatoTil: LocalDate,
+  val soknadsbarn: SoknadsbarnCore,
+  val samvaersklassePeriodeListe: List<SamvaersklassePeriodeCore>,
+  var sjablonPeriodeListe: List<SjablonPeriodeCore>
+)
+
+data class SoknadsbarnCore(
+  val referanse: String,
+  val personId: Int,
+  val fodselsdato: LocalDate
 )
 
 data class SamvaersklassePeriodeCore(
-    val samvaersklassePeriodeDatoFraTil: PeriodeCore,
-    val samvaersklasse: String
+  val referanse: String,
+  val periode: PeriodeCore,
+  val samvaersklasse: String
 )
 
-// Resultatperiode
-data class BeregnSamvaersfradragResultatCore(
-    val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val avvikListe: List<AvvikCore>
+// Resultat
+data class BeregnetSamvaersfradragResultatCore(
+  val resultatPeriodeListe: List<ResultatPeriodeCore>,
+  val sjablonListe: List<SjablonResultatGrunnlagCore>,
+  val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val soknadsbarnPersonId: Int,
-    val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: ResultatGrunnlagCore
+  val soknadsbarnPersonId: Int,
+  val periode: PeriodeCore,
+  val resultat: ResultatBeregningCore,
+  val grunnlagReferanseListe: List<String>
 )
 
 data class ResultatBeregningCore(
-    val resultatSamvaersfradragBelop: BigDecimal
-)
-
-// Grunnlag beregning
-data class ResultatGrunnlagCore(
-    val soknadBarnAlder: Int,
-    val samvaersklasse: String,
-    val sjablonListe: List<SjablonNavnVerdiCore>
+  val belop: BigDecimal
 )
