@@ -13,8 +13,7 @@ data class FaktiskUtgiftPeriode(
   val belop: BigDecimal
 ) : PeriodisertGrunnlag {
 
-  constructor(faktiskUtgiftPeriode: FaktiskUtgiftPeriode)
-      : this(
+  constructor(faktiskUtgiftPeriode: FaktiskUtgiftPeriode) : this(
     faktiskUtgiftPeriode.soknadsbarnPersonId,
     faktiskUtgiftPeriode.referanse,
     faktiskUtgiftPeriode.faktiskUtgiftPeriode.justerDatoer(),

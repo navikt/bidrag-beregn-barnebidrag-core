@@ -125,7 +125,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
         () -> assertThat(beregnbidragsevneResultatCore).isNotNull(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).isNotEmpty(),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe()).hasSize(1),
-        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
+        () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikTekst()).isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnbidragsevneResultatCore.getAvvikListe().get(0).getAvvikType()).isEqualTo(
             AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnbidragsevneResultatCore.getResultatPeriodeListe()).isEmpty()
@@ -213,7 +213,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
 
   private void byggAvvik() {
     avvikListe = new ArrayList<>();
-    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFom", AvvikType.DATO_FOM_ETTER_DATO_TIL));
+    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
 
 }

@@ -137,12 +137,12 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
       var soknadsbarnAlder = new SoknadsbarnAlder(beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getReferanse(),
           beregnSoknadsbarnAlderOverstyrt(beregnUnderholdskostnadGrunnlag, beregningsperiode.getDatoFom()));
 
-      var sjablonliste = justertSjablonPeriodeListe.stream()
+      var sjablonListe = justertSjablonPeriodeListe.stream()
           .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
           .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var grunnlagBeregning = new GrunnlagBeregning(soknadsbarnAlder, barnetilsynMedStonad, nettoBarnetilsyn, forpleiningUtgift, sjablonliste);
+      var grunnlagBeregning = new GrunnlagBeregning(soknadsbarnAlder, barnetilsynMedStonad, nettoBarnetilsyn, forpleiningUtgift, sjablonListe);
 
       resultatPeriodeListe.add(new ResultatPeriode(beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getPersonId(), beregningsperiode,
           beregnUnderholdskostnad(grunnlagBeregning, beregningsperiode, soknadsbarnFodselsmaaned, datoRegelendringer, seksaarsbruddato),

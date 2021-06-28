@@ -127,7 +127,7 @@ public class UnderholdskostnadCoreTest {
         () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe()).isNotEmpty(),
         () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe()).hasSize(1),
         () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe().get(0).getAvvikTekst())
-            .isEqualTo("beregnDatoTil må være etter beregnDatoFom"),
+            .isEqualTo("beregnDatoTil må være etter beregnDatoFra"),
         () -> assertThat(beregnunderholdskostnadResultatCore.getAvvikListe().get(0).getAvvikType())
             .isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()),
         () -> assertThat(beregnunderholdskostnadResultatCore.getResultatPeriodeListe()).isEmpty()
@@ -206,7 +206,7 @@ public class UnderholdskostnadCoreTest {
 
   private void byggAvvik() {
     avvikListe = new ArrayList<>();
-    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFom", AvvikType.DATO_FOM_ETTER_DATO_TIL));
+    avvikListe.add(new Avvik("beregnDatoTil må være etter beregnDatoFra", AvvikType.DATO_FOM_ETTER_DATO_TIL));
   }
 
 }
