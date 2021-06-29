@@ -7,33 +7,34 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import no.nav.bidrag.beregn.felles.FellesPeriode;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragGrunnlag;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnSamvaersfradragResultat;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnetSamvaersfradragResultat;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.Samvaersklasse;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.SamvaersklassePeriode;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.SoknadsbarnAlder;
 
-public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
-
-  public SamvaersfradragPeriodeImpl(
-      SamvaersfradragBeregning samvaersfradragBeregning) {
-    this.samvaersfradragBeregning = samvaersfradragBeregning;
-  }
+public class SamvaersfradragPeriodeImpl extends FellesPeriode implements SamvaersfradragPeriode {
 
   private final SamvaersfradragBeregning samvaersfradragBeregning;
 
-  public BeregnSamvaersfradragResultat beregnPerioder(
-      BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag) {
+  public SamvaersfradragPeriodeImpl(SamvaersfradragBeregning samvaersfradragBeregning) {
+    this.samvaersfradragBeregning = samvaersfradragBeregning;
+  }
+
+  public BeregnetSamvaersfradragResultat beregnPerioder(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
     var justertSamvaersklassePeriodeListe = beregnSamvaersfradragGrunnlag.getSamvaersklassePeriodeListe()
         .stream()
         .map(SamvaersklassePeriode::new)
@@ -44,97 +45,80 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
         .map(SjablonPeriode::new)
         .collect(toCollection(ArrayList::new));
 
-    // Lager liste for å sikre brudd ved på barnets fødselsdato. Brudd-dato blir den 1 i påfølgende måned.
-    // Gjøres for hele beregningsperioden
-    LocalDate bruddatoAlder;
-
-    if (beregnSamvaersfradragGrunnlag.getSoknadsbarnFodselsdato().getDayOfMonth() == 1) {
-      bruddatoAlder = beregnSamvaersfradragGrunnlag.getSoknadsbarnFodselsdato()
-          .withYear(beregnSamvaersfradragGrunnlag.getBeregnDatoFra().getYear());
-    } else {
-      bruddatoAlder = beregnSamvaersfradragGrunnlag.getSoknadsbarnFodselsdato().plusMonths(1)
-          .withYear(beregnSamvaersfradragGrunnlag.getBeregnDatoFra().getYear())
-          .withDayOfMonth(1);
-    }
-
-    if (bruddatoAlder.isBefore(beregnSamvaersfradragGrunnlag.getBeregnDatoFra())) {
-      bruddatoAlder = bruddatoAlder.plusYears(1);
-    }
-
-//    System.out.println("BruddatoAlder: " + bruddatoAlder);
-
-    var bruddlisteAlderBarn = new ArrayList<Periode>();
-    bruddlisteAlderBarn.add(new Periode(bruddatoAlder, bruddatoAlder));
-    // Bygger opp liste med bruddpunkter i perioden mellom beregnFraDato og beregnTilDato,
-    // passer også på å ikke legge til bruddpunkt etter beregnTilDato
-
-    while (bruddatoAlder.plusYears(1).isBefore(beregnSamvaersfradragGrunnlag.getBeregnDatoTil())) {
-      bruddatoAlder = bruddatoAlder.plusYears(1);
-      bruddlisteAlderBarn.add(new Periode(bruddatoAlder, bruddatoAlder));
-    }
+    // Lager liste for å sikre brudd på barnets fødselsdato. Brudd-dato blir den 1. i påfølgende måned. Gjøres for hele beregningsperioden
+    var bruddlisteBarnAlder = settBruddListeBarnAlder(beregnSamvaersfradragGrunnlag);
 
     // Bygger opp liste over perioder
     List<Periode> perioder = new Periodiserer()
         .addBruddpunkt(beregnSamvaersfradragGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSamvaersklassePeriodeListe)
         .addBruddpunkter(justertSjablonPeriodeListe)
-        .addBruddpunkter(bruddlisteAlderBarn)
+        .addBruddpunkter(bruddlisteBarnAlder)
         .addBruddpunkt(beregnSamvaersfradragGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
         .finnPerioder(beregnSamvaersfradragGrunnlag.getBeregnDatoFra(), beregnSamvaersfradragGrunnlag.getBeregnDatoTil());
 
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
-    if (perioder.size() > 1) {
-      if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnSamvaersfradragGrunnlag.getBeregnDatoTil())) &&
-          (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
-        perioder.remove(perioder.size() - 1);
-        perioder.remove(perioder.size() - 1);
-        perioder.add(nyPeriode);
-      }
-    }
+    mergeSluttperiode(perioder, beregnSamvaersfradragGrunnlag.getBeregnDatoTil());
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
-      var samvaersklasse = justertSamvaersklassePeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(SamvaersklassePeriode::getSamvaersklasse).findFirst().orElse(null);
+      var samvaersklasse = justertSamvaersklassePeriodeListe.stream()
+          .filter(samvaersklassePeriode -> samvaersklassePeriode.getPeriode().overlapperMed(beregningsperiode))
+          .map(samvaersklassePeriode -> new Samvaersklasse(samvaersklassePeriode.getReferanse(), samvaersklassePeriode.getSamvaersklasse()))
+          .findFirst()
+          .orElse(null);
 
-      var alderBarn = beregnSoknadbarnAlder(beregnSamvaersfradragGrunnlag, beregningsperiode.getDatoFra());
+      var soknadsbarnAlder = new SoknadsbarnAlder(beregnSamvaersfradragGrunnlag.getSoknadsbarn().getReferanse(),
+          beregnSoknadsbarnAlder(beregnSamvaersfradragGrunnlag, beregningsperiode.getDatoFom()));
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
+      var sjablonliste = justertSjablonPeriodeListe.stream()
+          .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
+          .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var beregnSamvaersfradragGrunnlagPeriodisert = new GrunnlagBeregningPeriodisert(alderBarn,
-          samvaersklasse, sjablonliste);
+      var grunnlagBeregning = new GrunnlagBeregning(soknadsbarnAlder, samvaersklasse, sjablonliste);
 
       resultatPeriodeListe.add(new ResultatPeriode(
-          beregnSamvaersfradragGrunnlag.getSoknadsbarnPersonId(),
-          beregningsperiode,
-          samvaersfradragBeregning.beregn(beregnSamvaersfradragGrunnlagPeriodisert),
-          beregnSamvaersfradragGrunnlagPeriodisert));
-
+          beregnSamvaersfradragGrunnlag.getSoknadsbarn().getPersonId(), beregningsperiode, samvaersfradragBeregning.beregn(grunnlagBeregning),
+          grunnlagBeregning));
     }
 
-    //Slår sammen perioder med samme resultat
-    return new BeregnSamvaersfradragResultat(resultatPeriodeListe);
-
+    return new BeregnetSamvaersfradragResultat(resultatPeriodeListe);
   }
 
+  // Lager liste for å sikre brudd på barnets fødselsdato. Brudd-dato blir den 1. i påfølgende måned. Gjøres for hele beregningsperioden
+  private List<Periode> settBruddListeBarnAlder(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag) {
+    LocalDate bruddDatoAlder;
 
-  @Override
-  public Integer beregnSoknadbarnAlder(
-      BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag,
-      LocalDate beregnDatoFra) {
+    if (beregnSamvaersfradragGrunnlag.getSoknadsbarn().getFodselsdato().getDayOfMonth() == 1) {
+      bruddDatoAlder = beregnSamvaersfradragGrunnlag.getSoknadsbarn().getFodselsdato()
+          .withYear(beregnSamvaersfradragGrunnlag.getBeregnDatoFra().getYear());
+    } else {
+      bruddDatoAlder = beregnSamvaersfradragGrunnlag.getSoknadsbarn().getFodselsdato().plusMonths(1)
+          .withYear(beregnSamvaersfradragGrunnlag.getBeregnDatoFra().getYear())
+          .withDayOfMonth(1);
+    }
 
-    LocalDate tempSoknadbarnFodselsdato = beregnSamvaersfradragGrunnlag.getSoknadsbarnFodselsdato();
-    Integer beregnetAlder = Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
+    if (bruddDatoAlder.isBefore(beregnSamvaersfradragGrunnlag.getBeregnDatoFra())) {
+      bruddDatoAlder = bruddDatoAlder.plusYears(1);
+    }
 
-//    System.out.println("Beregnet alder: " + beregnetAlder);
+    // Bygger opp liste med bruddpunkter i perioden mellom beregnFraDato og beregnTilDato,
+    // passer også på å ikke legge til bruddpunkt etter beregnTilDato
+    var bruddlisteBarnAlder = new ArrayList<Periode>();
+    bruddlisteBarnAlder.add(new Periode(bruddDatoAlder, bruddDatoAlder));
 
-    return beregnetAlder;
+    while (bruddDatoAlder.plusYears(1).isBefore(beregnSamvaersfradragGrunnlag.getBeregnDatoTil())) {
+      bruddDatoAlder = bruddDatoAlder.plusYears(1);
+      bruddlisteBarnAlder.add(new Periode(bruddDatoAlder, bruddDatoAlder));
+    }
+    return bruddlisteBarnAlder;
+  }
+
+  private Integer beregnSoknadsbarnAlder(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag, LocalDate beregnDatoFra) {
+    var tempSoknadbarnFodselsdato = beregnSamvaersfradragGrunnlag.getSoknadsbarn().getFodselsdato();
+    return Period.between(tempSoknadbarnFodselsdato, beregnDatoFra).getYears();
   }
 
 
@@ -144,22 +128,19 @@ public class SamvaersfradragPeriodeImpl implements SamvaersfradragPeriode {
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
+      sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
-    var avvikListe = new ArrayList<>(
-        PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,
-            false, false, false, false));
+    var avvikListe = new ArrayList<>(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe",
+        sjablonPeriodeListe, false, false, false, false));
 
     // Sjekk perioder for samværsklasse
     var samvaersklassePeriodeListe = new ArrayList<Periode>();
     for (SamvaersklassePeriode samvaersklassePeriode : grunnlag.getSamvaersklassePeriodeListe()) {
-      samvaersklassePeriodeListe.add(samvaersklassePeriode.getDatoFraTil());
+      samvaersklassePeriodeListe.add(samvaersklassePeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"samvaersklassePeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "samvaersklassePeriodeListe",
         samvaersklassePeriodeListe, true, true, true, true));
 
     return avvikListe;
   }
 }
-
-

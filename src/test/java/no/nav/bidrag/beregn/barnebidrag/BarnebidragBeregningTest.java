@@ -1,5 +1,15 @@
 package no.nav.bidrag.beregn.barnebidrag;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static no.nav.bidrag.beregn.TestUtil.ANDRE_LOPENDE_BIDRAG_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.BARNETILLEGG_BM_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.BARNETILLEGG_BP_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.BARNETILLEGG_FORSVARET_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.BIDRAGSEVNE_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.DELT_BOSTED_REFERANSE;
+import static no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -7,15 +17,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
-import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregningImpl;
+import no.nav.bidrag.beregn.barnebidrag.beregning.BarnebidragBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidrag;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
 import no.nav.bidrag.beregn.barnebidrag.bo.Barnetillegg;
+import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaret;
 import no.nav.bidrag.beregn.barnebidrag.bo.Bidragsevne;
+import no.nav.bidrag.beregn.barnebidrag.bo.DeltBosted;
+import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
-import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
+import no.nav.bidrag.beregn.barnebidrag.bo.Samvaersfradrag;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,34 +35,34 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av beregning av barnebidrag")
 public class BarnebidragBeregningTest {
 
-  private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
-  private final List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe  = new ArrayList<>();
-  private final List<AndreLopendeBidrag> andreLopendeBidragListe  = new ArrayList<>();
+  private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
+
+  private final BarnebidragBeregning barnebidragBeregning = BarnebidragBeregning.getInstance();
 
   @DisplayName("Beregner ved full evne, ett barn, ingen barnetillegg")
   @Test
   void testBeregningEttBarnMedFullEvneIngenBarnetillegg() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-//    andreLopendeBidragListe.add(new AndreLopendeBidrag(2, BigDecimal.ZERO, BigDecimal.ZERO));
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(8000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(8000))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
     );
   }
 
@@ -58,129 +70,139 @@ public class BarnebidragBeregningTest {
       + "Endelig bidrag skal da settes likt barnetillegg for BP")
   @Test
   void testBeregning1BarnFullEvneBarnetilleggBP() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(1000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf((100))),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(1700), BigDecimal.valueOf(10)),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
-       false), BigDecimal.valueOf(100), false,
-        new Barnetillegg(BigDecimal.valueOf(1700), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
-    // 1700d-(1700d*10d/100)-100d
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1430))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1430))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
   }
 
   @DisplayName("Beregner ved full evne, to barn")
   @Test
   void testBeregning2BarnFullEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(20000), BigDecimal.valueOf(20000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(7000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
-            false), BigDecimal.ZERO,false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(20000), BigDecimal.valueOf(20000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(8000))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(7000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(8000))).isZero(),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(7000))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
     );
   }
 
   @DisplayName("Beregner for tre barn med for lav bidragsevne")
   @Test
   void testBeregning3BarnBegrensetAvBidragsevne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(5000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
-        false), BigDecimal.ZERO,false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(3000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
-        false),
-        BigDecimal.ZERO,false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        3,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(2000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_3", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(8000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2400))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.get(2).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1600))).isZero(),
-        () -> assertThat(resultat.get(2).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(2400))).isZero(),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(1600))).isZero(),
+        () -> assertThat(resultat.get(2).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
   @DisplayName("Beregner ved manglende evne, ett barn")
   @Test
   void testBeregning1BarnIkkeFullEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(2000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO,false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000), BigDecimal.valueOf(2000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
@@ -188,80 +210,90 @@ public class BarnebidragBeregningTest {
   @DisplayName("Beregner ved manglende evne, to barn")
   @Test
   void testBeregning2BarnIkkeFullEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(20000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(7000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(7000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(20000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(5330))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(4670))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(5330))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(4670))).isZero(),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
   @DisplayName("Beregner for tre barn som begrenses av 25%-regel")
   @Test
   void testBeregning3BarnBegrensetAv25ProsentAvInntekt() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(12000), BigDecimal.valueOf(8000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(5000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(5000),
-            false), BigDecimal.ZERO,false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(3000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(3000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        3,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(2000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_3", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(12000), BigDecimal.valueOf(8000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2400))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
-        () -> assertThat(resultat.get(2).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1600))).isZero(),
-        () -> assertThat(resultat.get(2).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(2400))).isZero(),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(1600))).isZero(),
+        () -> assertThat(resultat.get(2).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
 
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop()
-            .add(resultat.get(1).getResultatBarnebidragBelop())
-            .add(resultat.get(2).getResultatBarnebidragBelop())
+        () -> assertThat(resultat.get(0).getBelop()
+            .add(resultat.get(1).getBelop())
+            .add(resultat.get(2).getBelop())
             .compareTo(BigDecimal.valueOf(8000))).isZero()
     );
   }
@@ -271,26 +303,27 @@ public class BarnebidragBeregningTest {
       + "Det skal trekkes fra for samvær også her ")
   @Test
   void testBeregningBidragSettesLiktBarnetilleggBM() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(1000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(50)),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(1000),
-            false), BigDecimal.valueOf(50), false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(8000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(300))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(300))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
     );
   }
 
@@ -298,52 +331,54 @@ public class BarnebidragBeregningTest {
       + "Barnetillegg for BP overstyrer barnetilleggBM")
   @Test
   void testBeregningBidragSettesLiktBarnetilleggBP() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(200), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(200),
-            false), BigDecimal.ZERO,false,
-        new Barnetillegg(BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.valueOf(1000), BigDecimal.valueOf(10))));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(8000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(450))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(450))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
   }
 
   @DisplayName("Beregner at bidrag settes likt BPs andel av underholdskostnad minus samværsfradrag")
   @Test
   void testBeregningFradragSamvaer() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(8000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(2000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(200)),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(2000),
-            false), BigDecimal.valueOf(200), false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(8000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1800))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1800))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
     );
   }
 
@@ -352,34 +387,38 @@ public class BarnebidragBeregningTest {
       + "underholdskostnad minus netto barnetillegg for BM")
   @Test
   void testBeregning3BarnBarnetilleggBPogBM() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(12000), BigDecimal.valueOf(8000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(400), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.valueOf(400), BigDecimal.valueOf(10))));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(400),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.valueOf(400), BigDecimal.valueOf(10))));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(300), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.valueOf(100), BigDecimal.valueOf(10))));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(300),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.valueOf(100), BigDecimal.valueOf(10))));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(12000), BigDecimal.valueOf(8000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(450))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(290))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(450))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(290))).isZero(),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
     );
   }
 
@@ -387,26 +426,27 @@ public class BarnebidragBeregningTest {
       + "alt i beregningen")
   @Test
   void testBeregning1BarnBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(1000)),
+        new DeltBosted(DELT_BOSTED_REFERANSE, true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.valueOf(1000), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, true),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(4667))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(4667))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
@@ -414,198 +454,236 @@ public class BarnebidragBeregningTest {
       + "alt i beregningen")
   @Test
   void testBeregning3BarnBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        3,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, true),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
   @DisplayName("Beregner med barnetillegg fra forsvaret for tre barn. Test på at samværsfradrag trekkes fra endelig bidragsbeløp")
   @Test
   void testBeregningBarnetilleggForsvaretFratrekkSamvaersfradrag() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.valueOf(1000)),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(1000), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        3,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, true),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1667))).isZero(),
-        () -> assertThat(resultat.get(2).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(1667))).isZero(),
+        () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
   @DisplayName("Beregner med barnetillegg fra forsvaret for elleve barn. Sjekker avrunding")
   @Test
   void testBeregning11BarnBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        3,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        4,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_4", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_4", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_4", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_4", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_4", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(4,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        5,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_5", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_5", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_5", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_5", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_5", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(5,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        6,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_6", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_6", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_6", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_6", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_6", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(6,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        7,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_7", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_7", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_7", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_7", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_7", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(7,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        8,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_8", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_8", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_8", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_8", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_8", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(8,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        9,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_9", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_9", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_9", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_9", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_9", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(9,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        10,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_10", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_10", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_10", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_10", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_10", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(10,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        11,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_11", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_11", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_11", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_11", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_11", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(11,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false),BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, true),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(727))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(727))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
   @DisplayName("Beregner der delt bosted og barnetilleggBP er angitt, barnetillegget skal da ikke taes hensyn til")
   @Test
   void testBeregningDeltBostedOgBarnetilleggBP() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(1200));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000), BigDecimal.valueOf(1200)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(500))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(500))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(500))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(500))).isZero(),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
@@ -613,34 +691,38 @@ public class BarnebidragBeregningTest {
       + "BPs andel skal da være 0, bidrag skal beregnes til 0 og resultatkode BARNET_ER_SELVFORSORGET skal angis")
   @Test
   void testBeregningSelvforsorgetBarn() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(1200));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO, true),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.ZERO, BigDecimal.ZERO,
-            true), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000), BigDecimal.valueOf(1200)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.ZERO)).isZero(),
-        () -> assertThat(resultat.get(1).getResultatkode()).isEqualTo(ResultatKode.BARNET_ER_SELVFORSORGET)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.ZERO)).isZero(),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BARNET_ER_SELVFORSORGET)
     );
   }
 
@@ -648,26 +730,26 @@ public class BarnebidragBeregningTest {
       + "andel av U under 50%")
   @Test
   void testAtRiktigResultatkodeSettesVedDeltBostedOgAndelUnder50Prosent() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO, false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(0), BigDecimal.valueOf(0),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED)
-
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED)
     );
   }
 
@@ -675,26 +757,26 @@ public class BarnebidragBeregningTest {
       + "ingen andre faktorer har redusert bidraget ")
   @Test
   void testAtRiktigResultatkodeSettesVedDeltBostedOgAndelOver50Prosent() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.DELT_BOSTED)
-
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.DELT_BOSTED)
     );
   }
 
@@ -702,55 +784,55 @@ public class BarnebidragBeregningTest {
       + "at det er lav evne")
   @Test
   void testAtRiktigResultatkodeSettesVedDeltBostedOgAndelOver50ProsentVedBegrensetEvne() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(1200));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(1000), BigDecimal.valueOf(1200)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.clear();
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1000))).isZero()
-
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero()
     );
   }
 
   @DisplayName("Tester at resultatkode angir forholdsmessig fordeling når evne ikke dekker ny sak pluss løpende bidrag")
   @Test
   void testBegrensetEvneGirForholdsmessigFordeling() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(12000));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, false,
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(12000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        singletonList(new AndreLopendeBidrag(ANDRE_LOPENDE_BIDRAG_REFERANSE, 2, BigDecimal.valueOf(1900), BigDecimal.valueOf(500))),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.add(new AndreLopendeBidrag(2, BigDecimal.valueOf(1900), BigDecimal.valueOf(500)));
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(
             ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING),
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(8000))).isZero()
-
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(8000))).isZero()
     );
   }
 
@@ -759,69 +841,73 @@ public class BarnebidragBeregningTest {
       + "å dekke beregnet bidrag pluss løpende bidrag")
   @Test
   void testBegrensetEvneGirForholdsmessigFordelingBarnetilleggForsvaret() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(10000), BigDecimal.valueOf(10000));
+    var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        2,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.valueOf(1000)),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(2,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.valueOf(1000), true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
+        3,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
+        new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(3,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(80), BigDecimal.valueOf(8000),
-            false), BigDecimal.ZERO, true,
-        new Barnetillegg(BigDecimal.valueOf(10000), BigDecimal.ZERO),
-        new Barnetillegg(BigDecimal.ZERO, BigDecimal.ZERO)));
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.valueOf(10000)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, true),
+        singletonList(new AndreLopendeBidrag(ANDRE_LOPENDE_BIDRAG_REFERANSE, 2, BigDecimal.valueOf(3000), BigDecimal.valueOf(500))),
+        sjablonPeriodeListe);
 
-    andreLopendeBidragListe.add(new AndreLopendeBidrag(2, BigDecimal.valueOf(3000), BigDecimal.valueOf(500)));
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, true, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(1).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1667))).isZero(),
-        () -> assertThat(resultat.get(2).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
+        () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(1667))).isZero(),
+        () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING)
     );
   }
-
-
-
 
   @DisplayName("Tester fra John")
   @Test
   void testerFraJohn() {
-    BarnebidragBeregningImpl barnebidragBeregning = new BarnebidragBeregningImpl();
 
-    var bidragsevne = new Bidragsevne(BigDecimal.valueOf(136), BigDecimal.valueOf(8334));
+    var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
+        1,
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(42.9), BigDecimal.valueOf(3725), false),
+        new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(457)),
+        new DeltBosted(DELT_BOSTED_REFERANSE, false),
+        new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(2000), BigDecimal.valueOf(20)),
+        new Barnetillegg(BARNETILLEGG_BM_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO)));
 
-    andreLopendeBidragListe.clear();
+    var grunnlagBeregningPeriodisert = new GrunnlagBeregning(
+        new Bidragsevne(BIDRAGSEVNE_REFERANSE, BigDecimal.valueOf(136), BigDecimal.valueOf(8334)),
+        grunnlagBeregningPerBarnListe,
+        new BarnetilleggForsvaret(BARNETILLEGG_FORSVARET_REFERANSE, false),
+        emptyList(),
+        sjablonPeriodeListe);
 
-    grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(1,
-        new BPsAndelUnderholdskostnad(BigDecimal.valueOf(42.9),BigDecimal.valueOf(3725),
-            false), BigDecimal.valueOf(457), false,
-        new Barnetillegg(BigDecimal.valueOf(2000), BigDecimal.valueOf(20)),
-        new Barnetillegg(BigDecimal.valueOf(0), BigDecimal.valueOf(0))));
-
-    var grunnlagBeregningPeriodisert =  new GrunnlagBeregningPeriodisert(
-        bidragsevne, grunnlagBeregningPerBarnListe, false, andreLopendeBidragListe, sjablonListe);
-
-    List<ResultatBeregning> resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
+    var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getResultatBarnebidragBelop().compareTo(BigDecimal.valueOf(1140))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatkode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
+        () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1140))).isZero(),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
   }
 }

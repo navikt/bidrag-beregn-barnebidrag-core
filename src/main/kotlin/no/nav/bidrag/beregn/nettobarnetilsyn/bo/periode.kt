@@ -6,17 +6,22 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 data class FaktiskUtgiftPeriode(
-    val faktiskUtgiftSoknadsbarnPersonId: Int,
-    val faktiskUtgiftDatoFraTil: Periode,
-    val faktiskUtgiftSoknadsbarnFodselsdato: LocalDate,
-    val faktiskUtgiftBelop: BigDecimal) : PeriodisertGrunnlag {
-  constructor(faktiskUtgiftPeriode: FaktiskUtgiftPeriode)
-      : this(faktiskUtgiftPeriode.faktiskUtgiftSoknadsbarnPersonId,
-      faktiskUtgiftPeriode.faktiskUtgiftDatoFraTil.justerDatoer(),
-      faktiskUtgiftPeriode.faktiskUtgiftSoknadsbarnFodselsdato,
-      faktiskUtgiftPeriode.faktiskUtgiftBelop)
-  override fun getDatoFraTil(): Periode {
-    return faktiskUtgiftDatoFraTil
+  val soknadsbarnPersonId: Int,
+  val referanse: String,
+  val faktiskUtgiftPeriode: Periode,
+  val soknadsbarnFodselsdato: LocalDate,
+  val belop: BigDecimal
+) : PeriodisertGrunnlag {
+
+  constructor(faktiskUtgiftPeriode: FaktiskUtgiftPeriode) : this(
+    faktiskUtgiftPeriode.soknadsbarnPersonId,
+    faktiskUtgiftPeriode.referanse,
+    faktiskUtgiftPeriode.faktiskUtgiftPeriode.justerDatoer(),
+    faktiskUtgiftPeriode.soknadsbarnFodselsdato,
+    faktiskUtgiftPeriode.belop
+  )
+
+  override fun getPeriode(): Periode {
+    return faktiskUtgiftPeriode
   }
 }
-

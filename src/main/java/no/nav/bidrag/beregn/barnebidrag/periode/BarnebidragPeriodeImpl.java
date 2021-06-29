@@ -6,7 +6,6 @@ import static java.util.stream.Collectors.toList;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,38 +15,40 @@ import no.nav.bidrag.beregn.barnebidrag.bo.AndreLopendeBidragPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnad;
 import no.nav.bidrag.beregn.barnebidrag.bo.BPsAndelUnderholdskostnadPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.Barnetillegg;
+import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaret;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggForsvaretPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BarnetilleggPeriode;
-import no.nav.bidrag.beregn.barnebidrag.bo.Bidragsevne;
-import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragGrunnlag;
 import no.nav.bidrag.beregn.barnebidrag.bo.BeregnBarnebidragResultat;
+import no.nav.bidrag.beregn.barnebidrag.bo.Bidragsevne;
+import no.nav.bidrag.beregn.barnebidrag.bo.BidragsevnePeriode;
+import no.nav.bidrag.beregn.barnebidrag.bo.DeltBosted;
 import no.nav.bidrag.beregn.barnebidrag.bo.DeltBostedPeriode;
+import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
-import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.barnebidrag.bo.ResultatPeriode;
+import no.nav.bidrag.beregn.barnebidrag.bo.Samvaersfradrag;
 import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersfradragPeriode;
+import no.nav.bidrag.beregn.felles.FellesPeriode;
 import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
 
+public class BarnebidragPeriodeImpl extends FellesPeriode implements BarnebidragPeriode {
 
-public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
-  public BarnebidragPeriodeImpl(
-      BarnebidragBeregning barnebidragBeregning) {
+  private final BarnebidragBeregning barnebidragBeregning;
+
+  public BarnebidragPeriodeImpl(BarnebidragBeregning barnebidragBeregning) {
     this.barnebidragBeregning = barnebidragBeregning;
   }
 
-  private BarnebidragBeregning barnebidragBeregning;
-
-  public BeregnBarnebidragResultat beregnPerioder(
-      BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag) {
+  public BeregnBarnebidragResultat beregnPerioder(BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag) {
 
     var resultatPeriodeListe = new ArrayList<ResultatPeriode>();
 
+    // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::new)
     var justertBidragsevnePeriodeListe = beregnBarnebidragGrunnlag.getBidragsevnePeriodeListe()
         .stream()
         .map(BidragsevnePeriode::new)
@@ -106,39 +107,34 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
         .addBruddpunkter(justertAndreLopendeBidragPeriodeListe)
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkt(beregnBarnebidragGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
-        .finnPerioder(beregnBarnebidragGrunnlag.getBeregnDatoFra(),
-            beregnBarnebidragGrunnlag.getBeregnDatoTil());
+        .finnPerioder(beregnBarnebidragGrunnlag.getBeregnDatoFra(), beregnBarnebidragGrunnlag.getBeregnDatoTil());
 
     // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
-    if (perioder.size() > 1) {
-      if ((perioder.get(perioder.size() - 2).getDatoTil().equals(beregnBarnebidragGrunnlag.getBeregnDatoTil())) &&
-          (perioder.get(perioder.size() - 1).getDatoTil() == null)) {
-        var nyPeriode = new Periode(perioder.get(perioder.size() - 2).getDatoFra(), null);
-        perioder.remove(perioder.size() - 1);
-        perioder.remove(perioder.size() - 1);
-        perioder.add(nyPeriode);
-      }
-    }
+    mergeSluttperiode(perioder, beregnBarnebidragGrunnlag.getBeregnDatoTil());
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     for (Periode beregningsperiode : perioder) {
 
       HashSet<Integer> soknadsbarnPersonIdListe = lagSoknadsbarnPersonIdListe(beregnBarnebidragGrunnlag, beregningsperiode);
 
-      var bidragsevne = justertBidragsevnePeriodeListe.stream().filter(
-          i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getBidragsevneBelop(),
-              bidragsevnePeriode.getTjuefemProsentInntekt())).findFirst().orElse(null);
+      var bidragsevne = justertBidragsevnePeriodeListe.stream()
+          .filter(bidragsevnePeriode -> bidragsevnePeriode.getPeriode().overlapperMed(beregningsperiode))
+          .map(bidragsevnePeriode -> new Bidragsevne(bidragsevnePeriode.getReferanse(), bidragsevnePeriode.getBelop(),
+              bidragsevnePeriode.getTjuefemProsentInntekt()))
+          .findFirst()
+          .orElse(null);
 
-      var barnetilleggForsvaret = justertBarnetilleggForsvaretPeriodeListe.stream().filter(i ->
-          i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(BarnetilleggForsvaretPeriode::getBarnetilleggForsvaretIPeriode).findFirst().orElse(null);
+      var barnetilleggForsvaret = justertBarnetilleggForsvaretPeriodeListe.stream()
+          .filter(barnetilleggForsvaretPeriode -> barnetilleggForsvaretPeriode.getPeriode().overlapperMed(beregningsperiode))
+          .map(barnetilleggForsvaretPeriode -> new BarnetilleggForsvaret(barnetilleggForsvaretPeriode.getReferanse(),
+              barnetilleggForsvaretPeriode.getBarnetilleggForsvaretIPeriode()))
+          .findFirst()
+          .orElse(null);
 
-      var andreLopendeBidragListe = justertAndreLopendeBidragPeriodeListe.stream().filter(i ->
-          i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(andreLopendeBidragPeriode -> new AndreLopendeBidrag(
-              andreLopendeBidragPeriode.getBarnPersonId(),
-              andreLopendeBidragPeriode.getBidragBelop(),
+      var andreLopendeBidragListe = justertAndreLopendeBidragPeriodeListe.stream()
+          .filter(andreLopendeBidragPeriode -> andreLopendeBidragPeriode.getPeriode().overlapperMed(beregningsperiode))
+          .map(andreLopendeBidragPeriode -> new AndreLopendeBidrag(andreLopendeBidragPeriode.getReferanse(),
+              andreLopendeBidragPeriode.getBarnPersonId(), andreLopendeBidragPeriode.getBidragBelop(),
               andreLopendeBidragPeriode.getSamvaersfradragBelop()))
           .collect(toList());
 
@@ -147,127 +143,122 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
       for (Integer soknadsbarnPersonId : soknadsbarnPersonIdListe) {
 
         var bPsAndelUnderholdskostnad = justertBPsAndelUnderholdskostnadPeriodeListe.stream()
-            .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(bPsAndelUnderholdskostnadPeriode -> new BPsAndelUnderholdskostnad(
-                bPsAndelUnderholdskostnadPeriode.getBPsAndelUnderholdskostnadProsent(),
-                bPsAndelUnderholdskostnadPeriode.getBPsAndelUnderholdskostnadBelop(),
+            .filter(bPsAndelUnderholdskostnadPeriode -> bPsAndelUnderholdskostnadPeriode.getPeriode().overlapperMed(beregningsperiode))
+            .filter(bPsAndelUnderholdskostnadPeriode -> bPsAndelUnderholdskostnadPeriode.getSoknadsbarnPersonId() == soknadsbarnPersonId)
+            .map(bPsAndelUnderholdskostnadPeriode -> new BPsAndelUnderholdskostnad(bPsAndelUnderholdskostnadPeriode.getReferanse(),
+                bPsAndelUnderholdskostnadPeriode.getAndelProsent(), bPsAndelUnderholdskostnadPeriode.getAndelBelop(),
                 bPsAndelUnderholdskostnadPeriode.getBarnetErSelvforsorget()))
-            .findFirst().orElse(null);
+            .findFirst()
+            .orElse(null);
 
-        var samvaersfradrag = justertSamvaersfradragPeriodeListe.stream().filter(i ->
-            i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(SamvaersfradragPeriode::getSamvaersfradragBelop).findFirst().orElse(null);
+        var samvaersfradrag = justertSamvaersfradragPeriodeListe.stream()
+            .filter(samvaersfradragPeriode -> samvaersfradragPeriode.getPeriode().overlapperMed(beregningsperiode))
+            .filter(samvaersfradragPeriode -> samvaersfradragPeriode.getSoknadsbarnPersonId() == soknadsbarnPersonId)
+            .map(samvaersfradragPeriode -> new Samvaersfradrag(samvaersfradragPeriode.getReferanse(), samvaersfradragPeriode.getBelop()))
+            .findFirst()
+            .orElse(null);
 
-        var deltBosted = justertDeltBostedPeriodeListe.stream().filter(i ->
-            i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(DeltBostedPeriode::getDeltBostedIPeriode).findFirst().orElse(null);
+        var deltBosted = justertDeltBostedPeriodeListe.stream()
+            .filter(deltBostedPeriode -> deltBostedPeriode.getPeriode().overlapperMed(beregningsperiode))
+            .filter(deltBostedPeriode -> deltBostedPeriode.getSoknadsbarnPersonId() == soknadsbarnPersonId)
+            .map(deltBostedPeriode -> new DeltBosted(deltBostedPeriode.getReferanse(), deltBostedPeriode.getDeltBostedIPeriode()))
+            .findFirst()
+            .orElse(null);
 
         var barnetilleggBP = justertBarnetilleggBPPeriodeListe.stream()
-            .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(barnetilleggBPPeriode -> new Barnetillegg(barnetilleggBPPeriode.getBarnetilleggBelop(),
-                barnetilleggBPPeriode.getBarnetilleggSkattProsent())).findFirst().orElse(null);
+            .filter(barnetilleggBPPeriode -> barnetilleggBPPeriode.getPeriode().overlapperMed(beregningsperiode))
+            .filter(barnetilleggBPPeriode -> barnetilleggBPPeriode.getSoknadsbarnPersonId() == soknadsbarnPersonId)
+            .map(barnetilleggBPPeriode -> new Barnetillegg(barnetilleggBPPeriode.getReferanse(), barnetilleggBPPeriode.getBelop(),
+                barnetilleggBPPeriode.getSkattProsent()))
+            .findFirst()
+            .orElse(null);
 
         var barnetilleggBM = justertBarnetilleggBMPeriodeListe.stream()
-            .filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-            .filter(i -> i.getSoknadsbarnPersonId() == soknadsbarnPersonId)
-            .map(barnetilleggBMPeriode -> new Barnetillegg(barnetilleggBMPeriode.getBarnetilleggBelop(),
-                barnetilleggBMPeriode.getBarnetilleggSkattProsent())).findFirst().orElse(null);
+            .filter(barnetilleggBMPeriode -> barnetilleggBMPeriode.getPeriode().overlapperMed(beregningsperiode))
+            .filter(barnetilleggBMPeriode -> barnetilleggBMPeriode.getSoknadsbarnPersonId() == soknadsbarnPersonId)
+            .map(barnetilleggBMPeriode -> new Barnetillegg(barnetilleggBMPeriode.getReferanse(), barnetilleggBMPeriode.getBelop(),
+                barnetilleggBMPeriode.getSkattProsent()))
+            .findFirst()
+            .orElse(null);
 
-        // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50%
-        // så skal ikke bidrag beregnes
-        var andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent();
-        var andelBelop = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop() ;
-        var barnetErSelvforsorget = bPsAndelUnderholdskostnad.getBarnetErSelvforsorget() ;
-
-        if (deltBosted) {
-          if (bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent()
-              .compareTo(BigDecimal.valueOf(50)) > 0) {
-            andelProsent = bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent()
-                .subtract(BigDecimal.valueOf(50));
-
-            BigDecimal omregnetAndelBelop =
-                bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadBelop()
-                .divide(bPsAndelUnderholdskostnad.getBPsAndelUnderholdskostnadProsent(),
-                    new MathContext(10, RoundingMode.HALF_UP))
-                    .multiply(BigDecimal.valueOf(100));
-
-            omregnetAndelBelop = omregnetAndelBelop.multiply(andelProsent)
-                .divide(BigDecimal.valueOf(100),
-                    new MathContext(10, RoundingMode.HALF_UP));
-            andelBelop = omregnetAndelBelop;
-          } else {
-            andelProsent = BigDecimal.ZERO;
-            andelBelop = BigDecimal.ZERO;
-          }
+        // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50% skal ikke bidrag beregnes
+        if (deltBosted.getDeltBostedIPeriode()) {
+          bPsAndelUnderholdskostnad = justerForDeltBosted(bPsAndelUnderholdskostnad);
         }
 
-        grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId,
-            new BPsAndelUnderholdskostnad(andelProsent, andelBelop, barnetErSelvforsorget),
-            samvaersfradrag, deltBosted, barnetilleggBP, barnetilleggBM));
+        grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId, bPsAndelUnderholdskostnad, samvaersfradrag, deltBosted,
+            barnetilleggBP, barnetilleggBM));
       }
 
-      var sjablonliste = justertSjablonPeriodeListe.stream().filter(i -> i.getDatoFraTil().overlapperMed(beregningsperiode))
-          .map(sjablonPeriode -> new Sjablon(sjablonPeriode.getSjablon().getSjablonNavn(),
-              sjablonPeriode.getSjablon().getSjablonNokkelListe(),
-              sjablonPeriode.getSjablon().getSjablonInnholdListe())).collect(toList());
+      var sjablonliste = justertSjablonPeriodeListe.stream()
+          .filter(sjablonPeriode -> sjablonPeriode.getPeriode().overlapperMed(beregningsperiode))
+          .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var grunnlagBeregningPeriodisert = new GrunnlagBeregningPeriodisert(
-          bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, andreLopendeBidragListe, sjablonliste);
+      var grunnlagBeregning = new GrunnlagBeregning(bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, andreLopendeBidragListe,
+          sjablonliste);
 
-      if (barnetilleggForsvaret) {
-        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-            barnebidragBeregning.beregnVedBarnetilleggForsvaret(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
-      } else {
-        resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode,
-            barnebidragBeregning.beregn(grunnlagBeregningPeriodisert), grunnlagBeregningPeriodisert));
-
-      }
-
+      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, barnebidragBeregning.beregn(grunnlagBeregning), grunnlagBeregning));
     }
 
     return new BeregnBarnebidragResultat(resultatPeriodeListe);
   }
 
-  @Override
-  public HashSet<Integer> lagSoknadsbarnPersonIdListe(BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag,
-      Periode periode) {
+  private HashSet<Integer> lagSoknadsbarnPersonIdListe(BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag, Periode periode) {
     var soknadsbarnPersonIdListe = new HashSet<Integer>();
-    LocalDate tolvaarsdag;
 
-    for (BPsAndelUnderholdskostnadPeriode grunnlag: beregnBarnebidragGrunnlag.getBPsAndelUnderholdskostnadPeriodeListe()) {
-      if (grunnlag.getDatoFraTil().overlapperMed(periode)) {
+    for (BPsAndelUnderholdskostnadPeriode grunnlag : beregnBarnebidragGrunnlag.getBPsAndelUnderholdskostnadPeriodeListe()) {
+      if (grunnlag.getPeriode().overlapperMed(periode)) {
         soknadsbarnPersonIdListe.add(grunnlag.getSoknadsbarnPersonId());
       }
     }
-    for (SamvaersfradragPeriode grunnlag: beregnBarnebidragGrunnlag.getSamvaersfradragPeriodeListe()) {
-      if (grunnlag.getDatoFraTil().overlapperMed(periode)) {
+    for (SamvaersfradragPeriode grunnlag : beregnBarnebidragGrunnlag.getSamvaersfradragPeriodeListe()) {
+      if (grunnlag.getPeriode().overlapperMed(periode)) {
         soknadsbarnPersonIdListe.add(grunnlag.getSoknadsbarnPersonId());
       }
     }
-    for (DeltBostedPeriode grunnlag: beregnBarnebidragGrunnlag.getDeltBostedPeriodeListe()) {
-      if (grunnlag.getDatoFraTil().overlapperMed(periode)) {
+    for (DeltBostedPeriode grunnlag : beregnBarnebidragGrunnlag.getDeltBostedPeriodeListe()) {
+      if (grunnlag.getPeriode().overlapperMed(periode)) {
         soknadsbarnPersonIdListe.add(grunnlag.getSoknadsbarnPersonId());
       }
     }
-    for (BarnetilleggPeriode grunnlag: beregnBarnebidragGrunnlag.getBarnetilleggBPPeriodeListe()) {
-      if (grunnlag.getDatoFraTil().overlapperMed(periode)) {
+    for (BarnetilleggPeriode grunnlag : beregnBarnebidragGrunnlag.getBarnetilleggBPPeriodeListe()) {
+      if (grunnlag.getPeriode().overlapperMed(periode)) {
         soknadsbarnPersonIdListe.add(grunnlag.getSoknadsbarnPersonId());
       }
     }
-    for (BarnetilleggPeriode grunnlag: beregnBarnebidragGrunnlag.getBarnetilleggBMPeriodeListe()) {
-      if (grunnlag.getDatoFraTil().overlapperMed(periode)) {
+    for (BarnetilleggPeriode grunnlag : beregnBarnebidragGrunnlag.getBarnetilleggBMPeriodeListe()) {
+      if (grunnlag.getPeriode().overlapperMed(periode)) {
         soknadsbarnPersonIdListe.add(grunnlag.getSoknadsbarnPersonId());
       }
     }
 
     return soknadsbarnPersonIdListe;
   }
-  
+
+  // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50% skal ikke bidrag beregnes
+  private BPsAndelUnderholdskostnad justerForDeltBosted(BPsAndelUnderholdskostnad bPsAndelUnderholdskostnad) {
+    var andelProsent = bPsAndelUnderholdskostnad.getAndelProsent();
+    var andelBelop = bPsAndelUnderholdskostnad.getAndelBelop();
+
+    if (bPsAndelUnderholdskostnad.getAndelProsent().compareTo(BigDecimal.valueOf(50)) > 0) {
+      andelProsent = bPsAndelUnderholdskostnad.getAndelProsent()
+          .subtract(BigDecimal.valueOf(50));
+
+      andelBelop = bPsAndelUnderholdskostnad.getAndelBelop()
+          .divide(bPsAndelUnderholdskostnad.getAndelProsent(), new MathContext(10, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100))
+          .multiply(andelProsent)
+          .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP));
+    } else {
+      andelProsent = BigDecimal.ZERO;
+      andelBelop = BigDecimal.ZERO;
+    }
+
+    return new BPsAndelUnderholdskostnad(bPsAndelUnderholdskostnad.getReferanse(), andelProsent, andelBelop,
+        bPsAndelUnderholdskostnad.getBarnetErSelvforsorget());
+  }
+
 
   // Validerer at input-verdier til beregn-barnebidrag er gyldige
   public List<Avvik> validerInput(BeregnBarnebidragGrunnlag grunnlag) {
@@ -275,7 +266,7 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     // Sjekk perioder for sjablonliste
     var sjablonPeriodeListe = new ArrayList<Periode>();
     for (SjablonPeriode sjablonPeriode : grunnlag.getSjablonPeriodeListe()) {
-      sjablonPeriodeListe.add(sjablonPeriode.getDatoFraTil());
+      sjablonPeriodeListe.add(sjablonPeriode.getPeriode());
     }
     var avvikListe = new ArrayList<>(
         PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "sjablonPeriodeListe", sjablonPeriodeListe,
@@ -284,64 +275,58 @@ public class BarnebidragPeriodeImpl implements BarnebidragPeriode {
     // Sjekk perioder for bidragsevne
     var bidragsevnePeriodeListe = new ArrayList<Periode>();
     for (BidragsevnePeriode bidragsevnePeriode : grunnlag.getBidragsevnePeriodeListe()) {
-      bidragsevnePeriodeListe.add(bidragsevnePeriode.getDatoFraTil());
+      bidragsevnePeriodeListe.add(bidragsevnePeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),"bidragsevnePeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "bidragsevnePeriodeListe",
         bidragsevnePeriodeListe, false, false, true, true));
 
     // Sjekk perioder for BPs andel av underholdskostnad
     var bPsAndelUnderholdskostnadPeriodeListe = new ArrayList<Periode>();
     for (BPsAndelUnderholdskostnadPeriode bPsAndelUnderholdskostnadPeriode : grunnlag.getBPsAndelUnderholdskostnadPeriodeListe()) {
-      bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode.getDatoFraTil());
+      bPsAndelUnderholdskostnadPeriodeListe.add(bPsAndelUnderholdskostnadPeriode.getPeriode());
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "bPsAndelUnderholdskostnadPeriodeListe",
-        bPsAndelUnderholdskostnadPeriodeListe, false, false, true, true));
+        "bPsAndelUnderholdskostnadPeriodeListe", bPsAndelUnderholdskostnadPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for samværsfradrag
     var samvaersfradragPeriodeListe = new ArrayList<Periode>();
     for (SamvaersfradragPeriode samvaersfradragPeriode : grunnlag.getSamvaersfradragPeriodeListe()) {
-      samvaersfradragPeriodeListe.add(samvaersfradragPeriode.getDatoFraTil());
+      samvaersfradragPeriodeListe.add(samvaersfradragPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "samvaersfradragPeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "samvaersfradragPeriodeListe",
         samvaersfradragPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for delt bosted
     var deltBostedPeriodeListe = new ArrayList<Periode>();
     for (DeltBostedPeriode deltBostedPeriode : grunnlag.getDeltBostedPeriodeListe()) {
-      deltBostedPeriodeListe.add(deltBostedPeriode.getDatoFraTil());
+      deltBostedPeriodeListe.add(deltBostedPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "deltBostedPeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "deltBostedPeriodeListe",
         deltBostedPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg BP
     var barnetilleggBPPeriodeListe = new ArrayList<Periode>();
     for (BarnetilleggPeriode barnetilleggBPPeriode : grunnlag.getBarnetilleggBPPeriodeListe()) {
-      barnetilleggBPPeriodeListe.add(barnetilleggBPPeriode.getDatoFraTil());
+      barnetilleggBPPeriodeListe.add(barnetilleggBPPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "barnetilleggBPPeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "barnetilleggBPPeriodeListe",
         barnetilleggBPPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg BM
     var barnetilleggBMPeriodeListe = new ArrayList<Periode>();
     for (BarnetilleggPeriode barnetilleggBMPeriode : grunnlag.getBarnetilleggBMPeriodeListe()) {
-      barnetilleggBMPeriodeListe.add(barnetilleggBMPeriode.getDatoFraTil());
+      barnetilleggBMPeriodeListe.add(barnetilleggBMPeriode.getPeriode());
     }
-    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "barnetilleggBMPeriodeListe",
+    avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(), "barnetilleggBMPeriodeListe",
         barnetilleggBMPeriodeListe, false, false, true, true));
 
     // Sjekk perioder for barnetillegg fra forsvaret
     var barnetilleggForsvaretPeriodeListe = new ArrayList<Periode>();
     for (BarnetilleggForsvaretPeriode barnetilleggForsvaretPeriode : grunnlag.getBarnetilleggForsvaretPeriodeListe()) {
-      barnetilleggForsvaretPeriodeListe.add(barnetilleggForsvaretPeriode.getDatoFraTil());
+      barnetilleggForsvaretPeriodeListe.add(barnetilleggForsvaretPeriode.getPeriode());
     }
     avvikListe.addAll(PeriodeUtil.validerInputDatoer(grunnlag.getBeregnDatoFra(), grunnlag.getBeregnDatoTil(),
-        "barnetilleggForsvaretPeriodeListe",
-        barnetilleggForsvaretPeriodeListe, false, false, true, true));
+        "barnetilleggForsvaretPeriodeListe", barnetilleggForsvaretPeriodeListe, false, false, true, true));
 
     return avvikListe;
   }

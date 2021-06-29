@@ -5,36 +5,54 @@ import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
 import java.math.BigDecimal
 
 data class BarnetilsynMedStonadPeriode(
-    val barnetilsynMedStonadDatoFraTil: Periode,
-    val barnetilsynMedStonadTilsynType: String,
-    val barnetilsynStonadType: String) : PeriodisertGrunnlag {
-  constructor(barnetilsynMedStonadPeriode: BarnetilsynMedStonadPeriode)
-      : this(barnetilsynMedStonadPeriode.barnetilsynMedStonadDatoFraTil.justerDatoer(),
-      barnetilsynMedStonadPeriode.barnetilsynMedStonadTilsynType,
-      barnetilsynMedStonadPeriode.barnetilsynStonadType)
-  override fun getDatoFraTil(): Periode {
-    return barnetilsynMedStonadDatoFraTil
+  val referanse: String,
+  val barnetilsynMedStonadPeriode: Periode,
+  val tilsynType: String,
+  val stonadType: String
+) : PeriodisertGrunnlag {
+
+  constructor(barnetilsynMedStonadPeriode: BarnetilsynMedStonadPeriode) : this(
+    barnetilsynMedStonadPeriode.referanse,
+    barnetilsynMedStonadPeriode.barnetilsynMedStonadPeriode.justerDatoer(),
+    barnetilsynMedStonadPeriode.tilsynType,
+    barnetilsynMedStonadPeriode.stonadType
+  )
+
+  override fun getPeriode(): Periode {
+    return barnetilsynMedStonadPeriode
   }
 }
 
 data class NettoBarnetilsynPeriode(
-    val nettoBarnetilsynDatoFraTil: Periode,
-    val nettoBarnetilsynBelop: BigDecimal) : PeriodisertGrunnlag {
-  constructor(nettoBarnetilsynPeriode: NettoBarnetilsynPeriode)
-      : this(nettoBarnetilsynPeriode.nettoBarnetilsynDatoFraTil.justerDatoer(),
-      nettoBarnetilsynPeriode.nettoBarnetilsynBelop)
-  override fun getDatoFraTil(): Periode {
-    return nettoBarnetilsynDatoFraTil
+  val referanse: String,
+  val nettoBarnetilsynPeriode: Periode,
+  val belop: BigDecimal
+) : PeriodisertGrunnlag {
+
+  constructor(nettoBarnetilsynPeriode: NettoBarnetilsynPeriode) : this(
+    nettoBarnetilsynPeriode.referanse,
+    nettoBarnetilsynPeriode.nettoBarnetilsynPeriode.justerDatoer(),
+    nettoBarnetilsynPeriode.belop
+  )
+
+  override fun getPeriode(): Periode {
+    return nettoBarnetilsynPeriode
   }
 }
 
 data class ForpleiningUtgiftPeriode(
-    val forpleiningUtgiftDatoFraTil: Periode,
-    val forpleiningUtgiftBelop: BigDecimal) : PeriodisertGrunnlag {
-  constructor(forpleiningUtgiftPeriode: ForpleiningUtgiftPeriode)
-      : this(forpleiningUtgiftPeriode.forpleiningUtgiftDatoFraTil.justerDatoer(),
-      forpleiningUtgiftPeriode.forpleiningUtgiftBelop)
-  override fun getDatoFraTil(): Periode {
-    return forpleiningUtgiftDatoFraTil
+  val referanse: String,
+  val forpleiningUtgiftPeriode: Periode,
+  val belop: BigDecimal
+) : PeriodisertGrunnlag {
+
+  constructor(forpleiningUtgiftPeriode: ForpleiningUtgiftPeriode) : this(
+    forpleiningUtgiftPeriode.referanse,
+    forpleiningUtgiftPeriode.forpleiningUtgiftPeriode.justerDatoer(),
+    forpleiningUtgiftPeriode.belop
+  )
+
+  override fun getPeriode(): Periode {
+    return forpleiningUtgiftPeriode
   }
 }

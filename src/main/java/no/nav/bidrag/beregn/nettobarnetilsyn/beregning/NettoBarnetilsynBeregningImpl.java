@@ -1,6 +1,5 @@
 package no.nav.bidrag.beregn.nettobarnetilsyn.beregning;
 
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
@@ -12,46 +11,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import no.nav.bidrag.beregn.felles.FellesBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.FaktiskUtgift;
-import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning;
 
-public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning {
+public class NettoBarnetilsynBeregningImpl extends FellesBeregning implements NettoBarnetilsynBeregning {
 
   @Override
-  public List<ResultatBeregning> beregn(GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+  public List<ResultatBeregning> beregn(GrunnlagBeregning grunnlagBeregning) {
 
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
     var tempResultatBelop = BigDecimal.ZERO;
     var fradragsbelopPerBarn = BigDecimal.ZERO;
     var resultatBelop = BigDecimal.ZERO;
 
-    var faktiskUtgiftListeSummertPerBarn = grunnlagBeregningPeriodisert
-        .getFaktiskUtgiftListe()
-        .stream()
-        .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId,
-            reducing(BigDecimal.ZERO, FaktiskUtgift::getFaktiskUtgiftBelop, BigDecimal::add)));
+    // Summerer faktisk utgift pr barn
+    var faktiskUtgiftListeSummertPerBarn = grunnlagBeregning.getFaktiskUtgiftListe().stream()
+        .collect(groupingBy(FaktiskUtgift::getSoknadsbarnPersonId, reducing(BigDecimal.ZERO, FaktiskUtgift::getBelop, BigDecimal::add)));
 
     // Barn som er 13 år eller eldre skal ikke telles med ved henting av sjablon for maks tilsyn og fradrag
-    var listeMedBarnUnder13Aar = grunnlagBeregningPeriodisert
-        .getFaktiskUtgiftListe()
-        .stream()
-        .filter(i -> i.getSoknadsbarnAlder() < 13)
-        .collect(groupingBy(FaktiskUtgift::getFaktiskUtgiftSoknadsbarnPersonId,
-            reducing(BigDecimal.ZERO, FaktiskUtgift::getFaktiskUtgiftBelop, BigDecimal::add)));
+    var listeMedBarnUnder13Aar = grunnlagBeregning.getFaktiskUtgiftListe().stream()
+        .filter(faktiskUtgift -> faktiskUtgift.getSoknadsbarnAlder() < 13)
+        .collect(groupingBy(FaktiskUtgift::getSoknadsbarnPersonId, reducing(BigDecimal.ZERO, FaktiskUtgift::getBelop, BigDecimal::add)));
 
     var antallBarnIPerioden = listeMedBarnUnder13Aar.size();
-//    System.out.println("Totalt antall barn under 13 år i perioden: " + antallBarnIPerioden);
 
     // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe(), antallBarnIPerioden);
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe(), antallBarnIPerioden);
 
-    int antallBarnMedTilsynsutgift = 0;
+    var antallBarnMedTilsynsutgift = 0;
     var samletFaktiskUtgiftBelop = BigDecimal.ZERO;
     for (var tempFaktiskUtgift : faktiskUtgiftListeSummertPerBarn.entrySet()) {
       if (tempFaktiskUtgift.getValue().compareTo(BigDecimal.ZERO) > 0) {
@@ -59,12 +52,8 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         samletFaktiskUtgiftBelop = samletFaktiskUtgiftBelop.add(tempFaktiskUtgift.getValue());
       }
     }
-//    System.out.println("Antall barn med tilsynsutgifter i perioden: " + antallBarnMedTilsynsutgift);
 
     var maksTilsynsbelop = sjablonNavnVerdiMap.get(SjablonNavn.MAKS_TILSYN.getNavn());
-//    System.out.println("Maks tilsynsbeløp: " + maksTilsynsbelop);
-
-//    System.out.println("Samlet beløp for faktisk utgift: " + samletFaktiskUtgiftBelop);
 
     if (samletFaktiskUtgiftBelop.compareTo(maksTilsynsbelop) > 0) {
       fradragsbelopPerBarn = beregnFradragsbelopPerBarn(antallBarnMedTilsynsutgift, maksTilsynsbelop, sjablonNavnVerdiMap);
@@ -93,35 +82,26 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
       resultatBelop = tempResultatBelop;
       resultatBelop = resultatBelop.setScale(0, RoundingMode.HALF_UP);
 
-      resultatBeregningListe.add(new ResultatBeregning(faktiskUtgift.getKey(), resultatBelop, byggSjablonResultatListe(sjablonNavnVerdiMap)));
-//      System.out.println("Beregnet netto barnetilsynsbeløp: " + resultatBelop);
+      resultatBeregningListe.add(new ResultatBeregning(faktiskUtgift.getKey(), resultatBelop, byggSjablonResultatListe(sjablonNavnVerdiMap,
+          grunnlagBeregning.getSjablonListe())));
     }
 
     return resultatBeregningListe;
   }
 
-  @Override
-  public BigDecimal beregnFradragsbelopPerBarn(int antallBarnMedTilsynsutgift, BigDecimal tilsynsbelop, Map<String, BigDecimal> sjablonNavnVerdiMap) {
+  private BigDecimal beregnFradragsbelopPerBarn(int antallBarnMedTilsynsutgift, BigDecimal tilsynsbelop, Map<String, BigDecimal> sjablonNavnVerdiMap) {
 
     var maksFradrag = sjablonNavnVerdiMap.get(SjablonNavn.MAKS_FRADRAG.getNavn());
     var skattAlminneligInntektProsent = sjablonNavnVerdiMap.get(SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT.getNavn())
         .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP));
 
-//    System.out.println("Tilsynsbeløp: " + tilsynsbelop);
-//    System.out.println("Skattesats: " + skattAlminneligInntektProsent);
-//    System.out.println("Maks fradragsbeløp: " + maksFradrag);
-
     var fradragsbelop = tilsynsbelop.multiply(skattAlminneligInntektProsent);
-//    System.out.println("Beregnet fradragsbeløp for samlet tilsynsbeløp " + fradragsbelop);
 
     var maksFradragsbelop = maksFradrag.multiply(skattAlminneligInntektProsent);
 
     if (fradragsbelop.compareTo(maksFradragsbelop) > 0) {
       fradragsbelop = maksFradragsbelop;
     }
-
-//    System.out.println("Maks fradragsbeløp beregnet vha sjabloner: " + maksFradragsbelop);
-//    System.out.println("Endelig fradragsbeløp: " + fradragsbelop);
 
     var fradragsbelopPerBarn = BigDecimal.ZERO;
 
@@ -130,13 +110,15 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
           new MathContext(10, RoundingMode.HALF_UP));
     }
 
-//    System.out.println("Fradragsbeløp fordelt per barn: " + fradragsbelopPerBarn);
-
     return fradragsbelopPerBarn;
   }
 
   // Henter sjablonverdier
-  private Map<String, BigDecimal> hentSjablonVerdier(List<Sjablon> sjablonListe, int antallBarnIPerioden) {
+  private Map<String, BigDecimal> hentSjablonVerdier(List<SjablonPeriode> sjablonPeriodeListe, int antallBarnIPerioden) {
+
+    var sjablonListe = sjablonPeriodeListe.stream()
+        .map(SjablonPeriode::getSjablon)
+        .collect(toList());
 
     var sjablonNavnVerdiMap = new HashMap<String, BigDecimal>();
 
@@ -145,20 +127,13 @@ public class NettoBarnetilsynBeregningImpl implements NettoBarnetilsynBeregning 
         SjablonUtil.hentSjablonverdi(sjablonListe, SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT));
 
     // MaksTilsyn
-    sjablonNavnVerdiMap
-        .put(SjablonNavn.MAKS_TILSYN.getNavn(), SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.MAKS_TILSYN, antallBarnIPerioden));
+    sjablonNavnVerdiMap.put(SjablonNavn.MAKS_TILSYN.getNavn(),
+        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.MAKS_TILSYN, antallBarnIPerioden));
 
     // MaksFradrag
-    sjablonNavnVerdiMap
-        .put(SjablonNavn.MAKS_FRADRAG.getNavn(), SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.MAKS_FRADRAG, antallBarnIPerioden));
+    sjablonNavnVerdiMap.put(SjablonNavn.MAKS_FRADRAG.getNavn(),
+        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.MAKS_FRADRAG, antallBarnIPerioden));
 
     return sjablonNavnVerdiMap;
-  }
-
-  // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
-  private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
-    var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
-    sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
   }
 }

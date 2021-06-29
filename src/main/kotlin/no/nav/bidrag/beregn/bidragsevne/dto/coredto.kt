@@ -2,78 +2,68 @@ package no.nav.bidrag.beregn.bidragsevne.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.dto.SjablonNavnVerdiCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
+import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// Grunnlag periode
+// Grunnlag
 data class BeregnBidragsevneGrunnlagCore(
-    val beregnDatoFra: LocalDate,
-    val beregnDatoTil: LocalDate,
-    val inntektPeriodeListe: List<InntektPeriodeCore>,
-    val skatteklassePeriodeListe: List<SkatteklassePeriodeCore>,
-    val bostatusPeriodeListe: List<BostatusPeriodeCore>,
-    val antallBarnIEgetHusholdPeriodeListe: List<AntallBarnIEgetHusholdPeriodeCore>,
-    val saerfradragPeriodeListe: List<SaerfradragPeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+  val beregnDatoFra: LocalDate,
+  val beregnDatoTil: LocalDate,
+  val inntektPeriodeListe: List<InntektPeriodeCore>,
+  val skatteklassePeriodeListe: List<SkatteklassePeriodeCore>,
+  val bostatusPeriodeListe: List<BostatusPeriodeCore>,
+  val barnIHusstandPeriodeListe: List<BarnIHusstandPeriodeCore>,
+  val saerfradragPeriodeListe: List<SaerfradragPeriodeCore>,
+  var sjablonPeriodeListe: List<SjablonPeriodeCore>
 )
 
 data class InntektPeriodeCore(
-    val inntektPeriodeDatoFraTil: PeriodeCore,
-    val inntektType: String,
-    val inntektBelop: BigDecimal
+  val referanse: String,
+  val periode: PeriodeCore,
+  val type: String,
+  val belop: BigDecimal
 )
 
 data class SkatteklassePeriodeCore(
-    val skatteklassePeriodeDatoFraTil: PeriodeCore,
-    val skatteklasse: Int
+  val referanse: String,
+  val periode: PeriodeCore,
+  val skatteklasse: Int
 )
 
 data class BostatusPeriodeCore(
-    val bostatusPeriodeDatoFraTil: PeriodeCore,
-    val bostatusKode: String
+  val referanse: String,
+  val periode: PeriodeCore,
+  val kode: String
 )
 
-data class AntallBarnIEgetHusholdPeriodeCore(
-    val antallBarnIEgetHusholdPeriodeDatoFraTil: PeriodeCore,
-    val antallBarn: BigDecimal
+data class BarnIHusstandPeriodeCore(
+  val referanse: String,
+  val periode: PeriodeCore,
+  val antallBarn: Double
 )
 
 data class SaerfradragPeriodeCore(
-    val saerfradragPeriodeDatoFraTil: PeriodeCore,
-    val saerfradragKode: String
+  val referanse: String,
+  val periode: PeriodeCore,
+  val kode: String
 )
 
-
-// Resultatperiode
-data class BeregnBidragsevneResultatCore(
-    val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val avvikListe: List<AvvikCore>
+// Resultat
+data class BeregnetBidragsevneResultatCore(
+  val resultatPeriodeListe: List<ResultatPeriodeCore>,
+  val sjablonListe: List<SjablonResultatGrunnlagCore>,
+  val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: PeriodeCore,
-    val resultatBeregning: ResultatBeregningCore,
-    val resultatGrunnlag: ResultatGrunnlagCore
+  val periode: PeriodeCore,
+  val resultat: ResultatBeregningCore,
+  val grunnlagReferanseListe: List<String>
 )
 
 data class ResultatBeregningCore(
-    val resultatEvneBelop: BigDecimal,
-    val resultat25ProsentInntekt: BigDecimal
-)
-
-// Grunnlag beregning
-data class ResultatGrunnlagCore(
-    val inntektListe: List<InntektCore>,
-    val skatteklasse: Int,
-    val bostatusKode: String,
-    val antallEgneBarnIHusstand: BigDecimal,
-    val saerfradragkode: String,
-    val sjablonListe: List<SjablonNavnVerdiCore>
-)
-
-data class InntektCore(
-    val inntektType: String,
-    val inntektBelop: BigDecimal
+  val belop: BigDecimal,
+  val inntekt25Prosent: BigDecimal
 )

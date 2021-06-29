@@ -6,33 +6,41 @@ import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.math.BigDecimal
 
 data class InntektPeriode(
-    val inntektDatoFraTil: Periode,
-    val inntektType: InntektType,
-    val inntektBelop: BigDecimal,
-    val deltFordel: Boolean,
-    val skatteklasse2: Boolean) : PeriodisertGrunnlag {
+  val referanse: String,
+  val inntektPeriode: Periode,
+  val type: InntektType,
+  val belop: BigDecimal,
+  val deltFordel: Boolean,
+  val skatteklasse2: Boolean
+) : PeriodisertGrunnlag {
 
   constructor(inntektPeriode: InntektPeriode) : this(
-      inntektPeriode.inntektDatoFraTil.justerDatoer(),
-      inntektPeriode.inntektType,
-      inntektPeriode.inntektBelop,
-      inntektPeriode.deltFordel,
-      inntektPeriode.skatteklasse2)
+    inntektPeriode.referanse,
+    inntektPeriode.inntektPeriode.justerDatoer(),
+    inntektPeriode.type,
+    inntektPeriode.belop,
+    inntektPeriode.deltFordel,
+    inntektPeriode.skatteklasse2
+  )
 
-  override fun getDatoFraTil(): Periode {
-    return inntektDatoFraTil
+  override fun getPeriode(): Periode {
+    return inntektPeriode
   }
 }
 
 data class UnderholdskostnadPeriode(
-    val underholdskostnadDatoFraTil: Periode,
-    val underholdskostnadBelop: BigDecimal) : PeriodisertGrunnlag {
+  val referanse: String,
+  val underholdskostnadPeriode: Periode,
+  val belop: BigDecimal
+) : PeriodisertGrunnlag {
 
   constructor(underholdskostnadPeriode: UnderholdskostnadPeriode) : this(
-      underholdskostnadPeriode.underholdskostnadDatoFraTil.justerDatoer(),
-      underholdskostnadPeriode.underholdskostnadBelop)
+    underholdskostnadPeriode.referanse,
+    underholdskostnadPeriode.underholdskostnadPeriode.justerDatoer(),
+    underholdskostnadPeriode.belop
+  )
 
-  override fun getDatoFraTil(): Periode {
-    return underholdskostnadDatoFraTil
+  override fun getPeriode(): Periode {
+    return underholdskostnadPeriode
   }
 }

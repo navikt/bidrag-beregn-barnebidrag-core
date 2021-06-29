@@ -1,59 +1,51 @@
 package no.nav.bidrag.beregn.samvaersfradrag.beregning;
 
 import static java.util.Collections.singletonList;
-import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import no.nav.bidrag.beregn.felles.FellesBeregning;
 import no.nav.bidrag.beregn.felles.SjablonUtil;
-import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.felles.bo.SjablonNavnVerdi;
 import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
+import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonNokkelNavn;
-import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregningPeriodisert;
+import no.nav.bidrag.beregn.samvaersfradrag.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.samvaersfradrag.bo.ResultatBeregning;
 
-public class SamvaersfradragBeregningImpl implements SamvaersfradragBeregning {
+public class SamvaersfradragBeregningImpl extends FellesBeregning implements SamvaersfradragBeregning {
 
   @Override
-  public ResultatBeregning beregn(
-      GrunnlagBeregningPeriodisert grunnlagBeregningPeriodisert) {
+  public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning) {
 
     // Henter sjablonverdier
-    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregningPeriodisert.getSjablonListe(), grunnlagBeregningPeriodisert.getSamvaersklasse(),
-        grunnlagBeregningPeriodisert.getSoknadBarnAlder());
+    var sjablonNavnVerdiMap = hentSjablonVerdier(grunnlagBeregning.getSjablonListe(),
+        grunnlagBeregning.getSamvaersklasse().getSamvaersklasse(), grunnlagBeregning.getSoknadsbarn().getAlder());
 
     var belopFradrag = sjablonNavnVerdiMap.get(SjablonNavn.SAMVAERSFRADRAG.getNavn());
 
-//    System.out.println("Samværsfradrag: " + belopFradrag);
-//    System.out.println("Alder: " + grunnlagBeregningPeriodisert.getSoknadBarnAlder());
-
-    return new ResultatBeregning(belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap));
+    return new ResultatBeregning(belopFradrag, byggSjablonResultatListe(sjablonNavnVerdiMap, grunnlagBeregning.getSjablonListe()));
   }
 
   // Henter sjablonverdier
-  private Map<String, BigDecimal> hentSjablonVerdier(List<Sjablon> sjablonListe, String samvaersklasse, int soknadBarnAlder) {
+  private Map<String, BigDecimal> hentSjablonVerdier(List<SjablonPeriode> sjablonPeriodeListe, String samvaersklasse, int soknadBarnAlder) {
+
+    var sjablonListe = sjablonPeriodeListe.stream()
+        .map(SjablonPeriode::getSjablon)
+        .collect(toList());
 
     var sjablonNavnVerdiMap = new HashMap<String, BigDecimal>();
 
     // Samværsfradrag
-    sjablonNavnVerdiMap.put(SjablonNavn.SAMVAERSFRADRAG.getNavn(), SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.SAMVAERSFRADRAG,
-        singletonList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), samvaersklasse)), SjablonNokkelNavn.ALDER_TOM, soknadBarnAlder,
-        SjablonInnholdNavn.FRADRAG_BELOP));
+    sjablonNavnVerdiMap.put(SjablonNavn.SAMVAERSFRADRAG.getNavn(),
+        SjablonUtil.hentSjablonverdi(sjablonListe, SjablonNavn.SAMVAERSFRADRAG,
+            singletonList(new SjablonNokkel(SjablonNokkelNavn.SAMVAERSKLASSE.getNavn(), samvaersklasse)),
+            SjablonNokkelNavn.ALDER_TOM, soknadBarnAlder, SjablonInnholdNavn.FRADRAG_BELOP));
 
     return sjablonNavnVerdiMap;
-  }
-
-  // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
-  private List<SjablonNavnVerdi> byggSjablonResultatListe(Map<String, BigDecimal> sjablonNavnVerdiMap) {
-    var sjablonNavnVerdiListe = new ArrayList<SjablonNavnVerdi>();
-    sjablonNavnVerdiMap.forEach((sjablonNavn, sjablonVerdi) -> sjablonNavnVerdiListe.add(new SjablonNavnVerdi(sjablonNavn, sjablonVerdi)));
-    return sjablonNavnVerdiListe.stream().sorted(comparing(SjablonNavnVerdi::getSjablonNavn)).collect(toList());
   }
 }
