@@ -182,27 +182,12 @@ public class BarnebidragPeriodeImpl extends FellesPeriode implements Barnebidrag
             .orElse(null);
 
         // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50% skal ikke bidrag beregnes
-        var andelProsent = BigDecimal.ZERO;
-        var andelBelop = BigDecimal.ZERO;
-
         if (deltBosted.getDeltBostedIPeriode()) {
-          if (bPsAndelUnderholdskostnad.getAndelProsent().compareTo(BigDecimal.valueOf(50)) > 0) {
-            andelProsent = bPsAndelUnderholdskostnad.getAndelProsent()
-                .subtract(BigDecimal.valueOf(50));
-
-            andelBelop = bPsAndelUnderholdskostnad.getAndelBelop()
-                .divide(bPsAndelUnderholdskostnad.getAndelProsent(), new MathContext(10, RoundingMode.HALF_UP))
-                .multiply(BigDecimal.valueOf(100))
-                .multiply(andelProsent)
-                .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP));
-          }
+          bPsAndelUnderholdskostnad = justerForDeltBosted(bPsAndelUnderholdskostnad);
         }
 
-        var bPsAndelUnderholdskostnadJustert = new BPsAndelUnderholdskostnad(bPsAndelUnderholdskostnad.getReferanse(),
-            andelProsent, andelBelop, bPsAndelUnderholdskostnad.getBarnetErSelvforsorget());
-
-        grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId, bPsAndelUnderholdskostnadJustert,
-            samvaersfradrag, deltBosted, barnetilleggBP, barnetilleggBM));
+        grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(soknadsbarnPersonId, bPsAndelUnderholdskostnad, samvaersfradrag, deltBosted,
+            barnetilleggBP, barnetilleggBM));
       }
 
       var sjablonliste = justertSjablonPeriodeListe.stream()
@@ -210,11 +195,10 @@ public class BarnebidragPeriodeImpl extends FellesPeriode implements Barnebidrag
           .collect(toList());
 
       // Kaller beregningsmodulen for hver beregningsperiode
-      var grunnlagBeregningPeriodisert = new GrunnlagBeregning(bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret,
-          andreLopendeBidragListe, sjablonliste);
+      var grunnlagBeregning = new GrunnlagBeregning(bidragsevne, grunnlagBeregningPerBarnListe, barnetilleggForsvaret, andreLopendeBidragListe,
+          sjablonliste);
 
-      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, barnebidragBeregning.beregn(grunnlagBeregningPeriodisert),
-          grunnlagBeregningPeriodisert));
+      resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, barnebidragBeregning.beregn(grunnlagBeregning), grunnlagBeregning));
     }
 
     return new BeregnBarnebidragResultat(resultatPeriodeListe);
@@ -250,6 +234,29 @@ public class BarnebidragPeriodeImpl extends FellesPeriode implements Barnebidrag
     }
 
     return soknadsbarnPersonIdListe;
+  }
+
+  // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50% skal ikke bidrag beregnes
+  private BPsAndelUnderholdskostnad justerForDeltBosted(BPsAndelUnderholdskostnad bPsAndelUnderholdskostnad) {
+    var andelProsent = bPsAndelUnderholdskostnad.getAndelProsent();
+    var andelBelop = bPsAndelUnderholdskostnad.getAndelBelop();
+
+    if (bPsAndelUnderholdskostnad.getAndelProsent().compareTo(BigDecimal.valueOf(50)) > 0) {
+      andelProsent = bPsAndelUnderholdskostnad.getAndelProsent()
+          .subtract(BigDecimal.valueOf(50));
+
+      andelBelop = bPsAndelUnderholdskostnad.getAndelBelop()
+          .divide(bPsAndelUnderholdskostnad.getAndelProsent(), new MathContext(10, RoundingMode.HALF_UP))
+          .multiply(BigDecimal.valueOf(100))
+          .multiply(andelProsent)
+          .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP));
+    } else {
+      andelProsent = BigDecimal.ZERO;
+      andelBelop = BigDecimal.ZERO;
+    }
+
+    return new BPsAndelUnderholdskostnad(bPsAndelUnderholdskostnad.getReferanse(), andelProsent, andelBelop,
+        bPsAndelUnderholdskostnad.getBarnetErSelvforsorget());
   }
 
 

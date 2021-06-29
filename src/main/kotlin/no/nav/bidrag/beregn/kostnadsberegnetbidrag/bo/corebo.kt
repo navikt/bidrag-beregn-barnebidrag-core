@@ -6,35 +6,35 @@ import java.time.LocalDate
 
 // Grunnlag periode
 data class BeregnKostnadsberegnetBidragGrunnlag(
-    val beregnDatoFra: LocalDate,
-    val beregnDatoTil: LocalDate,
-    val soknadsbarnPersonId: Int,
-    val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriode>,
-    val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>?
+  val beregnDatoFra: LocalDate,
+  val beregnDatoTil: LocalDate,
+  val soknadsbarnPersonId: Int,
+  val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriode>,
+  val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
+  val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>?
 )
 
 // Resultat periode
 data class BeregnetKostnadsberegnetBidragResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+  val resultatPeriodeListe: List<ResultatPeriode>
 )
 
 data class ResultatPeriode(
-    val soknadsbarnPersonId: Int,
-    val periode: Periode,
-    val resultat: ResultatBeregning,
-    val grunnlag: GrunnlagBeregning
+  val soknadsbarnPersonId: Int,
+  val periode: Periode,
+  val resultat: ResultatBeregning,
+  val grunnlag: GrunnlagBeregning
 )
 
 data class ResultatBeregning(
-    val belop: BigDecimal
+  val belop: BigDecimal
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregning(
-    val underholdskostnad: Underholdskostnad,
-    val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
-    val samvaersfradrag: Samvaersfradrag
+  val underholdskostnad: Underholdskostnad,
+  val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
+  val samvaersfradrag: Samvaersfradrag
 )
 
 data class Underholdskostnad(

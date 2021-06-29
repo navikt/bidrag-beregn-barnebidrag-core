@@ -38,7 +38,6 @@ import no.nav.bidrag.beregn.felles.enums.AvvikType;
 import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
 import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -49,7 +48,6 @@ public class BarnebidragPeriodeTest {
   private final BarnebidragPeriode barnebidragPeriode = BarnebidragPeriode.getInstance();
 
   @Test
-  @Disabled
   @DisplayName("Test med ett barn og splitt på bidragsevne")
   void enkelTestEttBarnToBidragsevner() {
 
@@ -117,7 +115,6 @@ public class BarnebidragPeriodeTest {
   }
 
   @Test
-  @Disabled
   @DisplayName("Test med tre barn i to perioder, to barn i periode 3, barnetilleggForsvaret i siste periode")
   void testVariabeltAntallBarn() {
 
@@ -243,7 +240,6 @@ public class BarnebidragPeriodeTest {
   }
 
   @Test
-  @Disabled
   @DisplayName("Test med to barn i to perioder, der det ene barnet har delt bosted. Ved delt bosted skal BPs andel av underholdskostnad"
       + "reduseres med 50 prosentpoeng. I periode 2 blir andelen regnet om til under 50% og bidrag skal ikke beregnes for "
       + "dette barnet og hele evnen skal gis til det andre barnet")
