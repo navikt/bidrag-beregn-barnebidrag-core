@@ -95,7 +95,7 @@ public class BarnebidragPeriodeImpl extends FellesPeriode implements Barnebidrag
         .collect(toCollection(ArrayList::new));
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnBarnebidragGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertBidragsevnePeriodeListe)
         .addBruddpunkter(justertBPsAndelUnderholdskostnadPeriodeListe)

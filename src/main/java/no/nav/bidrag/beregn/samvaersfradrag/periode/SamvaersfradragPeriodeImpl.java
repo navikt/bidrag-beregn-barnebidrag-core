@@ -49,7 +49,7 @@ public class SamvaersfradragPeriodeImpl extends FellesPeriode implements Samvaer
     var bruddlisteBarnAlder = settBruddListeBarnAlder(beregnSamvaersfradragGrunnlag);
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnSamvaersfradragGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSamvaersklassePeriodeListe)
         .addBruddpunkter(justertSjablonPeriodeListe)

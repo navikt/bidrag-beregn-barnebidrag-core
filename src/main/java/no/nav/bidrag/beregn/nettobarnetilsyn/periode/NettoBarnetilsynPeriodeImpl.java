@@ -50,10 +50,10 @@ public class NettoBarnetilsynPeriodeImpl extends FellesPeriode implements NettoB
     // (overstyrt til 01.01 det året barnene fyller 13), konverterer det til ArrayList under.
     // Lager liste for å sikre brudd  01.01 året etter hvert barn i beregningen fyller 12 år.
     // Netto barnetilsyn er kun gyldig ut det året barnet fyller 12 år
-    ArrayList<Periode> bruddliste13Aar = new ArrayList<>(beregnSoknadbarn13aarsdagListe(beregnNettoBarnetilsynGrunnlag));
+    var bruddliste13Aar = new ArrayList<>(beregnSoknadbarn13aarsdagListe(beregnNettoBarnetilsynGrunnlag));
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnNettoBarnetilsynGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkter(justertFaktiskUtgiftPeriodeListe)

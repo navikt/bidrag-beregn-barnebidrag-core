@@ -74,7 +74,7 @@ public class BPsAndelUnderholdskostnadPeriodeImpl extends FellesPeriode implemen
     datoRegelendringer.add(new Periode(regelendringsdato, regelendringsdato));
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnBPsAndelUnderholdskostnadGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkter(datoRegelendringer)
