@@ -25,9 +25,23 @@ public class FellesBeregning {
 
   private Periode hentPeriode(List<SjablonPeriode> sjablonPeriodeListe, String sjablonNavn) {
     return sjablonPeriodeListe.stream()
-        .filter(sjablonPeriode -> sjablonPeriode.getSjablon().getNavn().equals(sjablonNavn))
+        .filter(sjablonPeriode -> sjablonPeriode.getSjablon().getNavn().equals(modifiserSjablonNavn(sjablonNavn)))
         .map(SjablonPeriode::getPeriode)
         .findFirst()
         .orElse(new Periode(LocalDate.MIN, LocalDate.MAX));
+  }
+
+  // Enkelte sjablonnavn må justeres for å finne riktig dato
+  private String modifiserSjablonNavn(String sjablonNavn) {
+    if (sjablonNavn.equals("UnderholdBeløp")) {
+      return "Bidragsevne";
+    }
+    if (sjablonNavn.equals("BoutgiftBeløp")) {
+      return "Bidragsevne";
+    }
+    if (sjablonNavn.startsWith("Trinnvis")) {
+      return "TrinnvisSkattesats";
+    }
+    return sjablonNavn;
   }
 }

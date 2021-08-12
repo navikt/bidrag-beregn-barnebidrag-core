@@ -76,7 +76,7 @@ public class BidragsevnePeriodeImpl extends FellesPeriode implements Bidragsevne
         .collect(toCollection(ArrayList::new));
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnBidragsevneGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertSjablonPeriodeListe)
         .addBruddpunkter(justertInntektPeriodeListe)
@@ -128,6 +128,7 @@ public class BidragsevnePeriodeImpl extends FellesPeriode implements Bidragsevne
 
       // Kaller beregningsmodulen for hver beregningsperiode
       var grunnlagBeregning = new GrunnlagBeregning(inntektListe, skatteklasse, bostatus, barnIHusstand, saerfradrag, sjablonliste);
+
       resultatPeriodeListe.add(new ResultatPeriode(beregningsperiode, bidragsevneberegning.beregn(grunnlagBeregning), grunnlagBeregning));
     }
 

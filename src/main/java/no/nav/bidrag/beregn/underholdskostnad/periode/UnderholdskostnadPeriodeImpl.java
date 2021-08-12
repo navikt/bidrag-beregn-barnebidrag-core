@@ -65,13 +65,13 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
         .collect(toCollection(ArrayList::new));
 
     // Barnetrygd skal ikke trekkes fra i barnets fødselsmåned, må derfor lage denne måneden som egen periode
-    Periode soknadsbarnFodselsmaaned = new Periode(
+    var soknadsbarnFodselsmaaned = new Periode(
         beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().withDayOfMonth(1),
         beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().withDayOfMonth(1).plusMonths(1));
 
     // Ny sjablon forhøyet barnetrygd for barn til og med fem år inntrer fra 01.07.2021
     // Det må derfor legges til brudd på denne datoen
-    Periode datoRegelendringer = new Periode(LocalDate.parse("2021-07-01"), LocalDate.parse("2021-07-01"));
+    var datoRegelendringer = new Periode(LocalDate.parse("2021-07-01"), LocalDate.parse("2021-07-01"));
 
     // Hvis barnet er født den første dagen i måneden legges 6 år til fødselsdatoen, hvis ikke så brukes påfølgende måned etter at barnet fyller 6 år.
     // Datoen brukes til å skape brudd på 6-årsdag, og til å sjekke om ordinær eller forhøyet barnetrygd skal brukes.

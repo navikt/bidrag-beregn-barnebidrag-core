@@ -46,7 +46,7 @@ public class ForholdsmessigFordelingPeriodeImpl implements ForholdsmessigFordeli
         .collect(toCollection(ArrayList::new));
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnForholdsmessigFordelingGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertBidragsevnePeriodeListe)
         .addBruddpunkter(justertBeregnedeBidragSakPeriodeListe)

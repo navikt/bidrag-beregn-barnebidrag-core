@@ -50,7 +50,7 @@ public class KostnadsberegnetBidragPeriodeImpl extends FellesPeriode implements 
         .collect(toCollection(ArrayList::new));
 
     // Bygger opp liste over perioder
-    List<Periode> perioder = new Periodiserer()
+    var perioder = new Periodiserer()
         .addBruddpunkt(beregnKostnadsberegnetBidragGrunnlag.getBeregnDatoFra()) //For å sikre bruddpunkt på start-beregning-fra-dato
         .addBruddpunkter(justertUnderholdskostnadPeriodeListe)
         .addBruddpunkter(justertBPsAndelUnderholdskostnadPeriodeListe)
