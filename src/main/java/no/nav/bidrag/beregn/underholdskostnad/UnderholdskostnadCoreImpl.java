@@ -126,7 +126,7 @@ public class UnderholdskostnadCoreImpl extends FellesCore implements Underholdsk
     referanseListe.add(resultatGrunnlag.getNettoBarnetilsyn().getReferanse());
     referanseListe.add(resultatGrunnlag.getForpleiningUtgift().getReferanse());
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe;
+    return referanseListe.stream().sorted().toList();
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {

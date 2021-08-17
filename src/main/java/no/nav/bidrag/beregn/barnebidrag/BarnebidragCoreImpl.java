@@ -235,7 +235,7 @@ public class BarnebidragCoreImpl extends FellesCore implements BarnebidragCore {
     resultatGrunnlag.getAndreLopendeBidragListe().forEach(andreLopendeBidrag -> referanseListe.add(andreLopendeBidrag.getReferanse()));
     referanseListe.addAll(mapGrunnlagPerBarn(resultatGrunnlag.getGrunnlagPerBarnListe()));
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe;
+    return referanseListe.stream().sorted().toList();
   }
 
   private List<String> mapGrunnlagPerBarn(List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe) {
