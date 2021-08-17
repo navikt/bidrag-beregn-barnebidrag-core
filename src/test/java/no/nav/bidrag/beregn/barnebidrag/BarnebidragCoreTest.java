@@ -101,21 +101,21 @@ public class BarnebidragCoreTest {
             .isEqualTo(LocalDate.parse("2018-01-01")),
 
         () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
-            .isEqualTo(BIDRAGSEVNE_REFERANSE),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
-            .isEqualTo(BARNETILLEGG_FORSVARET_REFERANSE),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
             .isEqualTo(ANDRE_LOPENDE_BIDRAG_REFERANSE),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
-            .isEqualTo(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
-            .isEqualTo(SAMVAERSFRADRAG_REFERANSE),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(5))
-            .isEqualTo(DELT_BOSTED_REFERANSE),
-        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(6))
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+            .isEqualTo(BARNETILLEGG_BM_REFERANSE),
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
             .isEqualTo(BARNETILLEGG_BP_REFERANSE),
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
+            .isEqualTo(BARNETILLEGG_FORSVARET_REFERANSE),
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
+            .isEqualTo(BIDRAGSEVNE_REFERANSE),
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(5))
+            .isEqualTo(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE),
+        () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(6))
+            .isEqualTo(DELT_BOSTED_REFERANSE),
         () -> assertThat(beregnBarnebidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(7))
-            .isEqualTo(BARNETILLEGG_BM_REFERANSE)
+            .isEqualTo(SAMVAERSFRADRAG_REFERANSE)
     );
   }
 

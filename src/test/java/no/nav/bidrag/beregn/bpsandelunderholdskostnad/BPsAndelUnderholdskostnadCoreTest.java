@@ -87,13 +87,13 @@ public class BPsAndelUnderholdskostnadCoreTest {
             .isEqualTo(BigDecimal.valueOf(10)),
 
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
-            .isEqualTo(UNDERHOLDSKOSTNAD_REFERANSE),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
-            .isEqualTo(INNTEKT_BP_REFERANSE),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
-            .isEqualTo(INNTEKT_BM_REFERANSE),
-        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
             .isEqualTo(INNTEKT_BB_REFERANSE),
+        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+            .isEqualTo(INNTEKT_BM_REFERANSE),
+        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
+            .isEqualTo(INNTEKT_BP_REFERANSE),
+        () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
+            .isEqualTo(UNDERHOLDSKOSTNAD_REFERANSE),
 
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),

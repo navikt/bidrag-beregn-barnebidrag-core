@@ -117,7 +117,7 @@ public class BPsAndelUnderholdskostnadCoreImpl extends FellesCore implements BPs
     resultatGrunnlag.getInntektBMListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     resultatGrunnlag.getInntektBBListe().forEach(inntekt -> referanseListe.add(inntekt.getReferanse()));
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe;
+    return referanseListe.stream().sorted().toList();
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {

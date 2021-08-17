@@ -97,15 +97,15 @@ public class BidragsevneCoreTest {
             .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
-            .isEqualTo(INNTEKT_REFERANSE),
-        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
-            .isEqualTo(SKATTEKLASSE_REFERANSE),
-        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
-            .isEqualTo(BOSTATUS_REFERANSE),
-        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
             .isEqualTo(BARN_I_HUSSTAND_REFERANSE),
-        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
+        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+            .isEqualTo(BOSTATUS_REFERANSE),
+        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
+            .isEqualTo(INNTEKT_REFERANSE),
+        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
             .isEqualTo(SAERFRADRAG_REFERANSE),
+        () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(4))
+            .isEqualTo(SKATTEKLASSE_REFERANSE),
 
         () -> assertThat(beregnBidragsevneResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),

@@ -97,7 +97,7 @@ public class NettoBarnetilsynCoreImpl extends FellesCore implements NettoBarneti
     var referanseListe = new ArrayList<String>();
     resultatGrunnlag.getFaktiskUtgiftListe().forEach(faktiskUtgift -> referanseListe.add(faktiskUtgift.getReferanse()));
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe;
+    return referanseListe.stream().sorted().toList();
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {

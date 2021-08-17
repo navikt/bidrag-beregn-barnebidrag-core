@@ -83,9 +83,9 @@ public class SamvaersfradragCoreTest {
             .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
-            .isEqualTo(SOKNADSBARN_REFERANSE),
-        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
             .isEqualTo(SAMVAERSKLASSE_REFERANSE),
+        () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+            .isEqualTo(SOKNADSBARN_REFERANSE),
 
         () -> assertThat(beregnSamvaersfradragResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),

@@ -92,7 +92,7 @@ public class SamvaersfradragCoreImpl extends FellesCore implements Samvaersfradr
     referanseListe.add(resultatGrunnlag.getSoknadsbarn().getReferanse());
     referanseListe.add(resultatGrunnlag.getSamvaersklasse().getReferanse());
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
-    return referanseListe;
+    return referanseListe.stream().sorted().toList();
   }
 
   private List<SjablonResultatGrunnlagCore> mapSjablonGrunnlagListe(List<ResultatPeriode> resultatPeriodeListe) {

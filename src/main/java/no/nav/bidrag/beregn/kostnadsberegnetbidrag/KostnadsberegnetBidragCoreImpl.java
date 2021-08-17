@@ -114,6 +114,6 @@ public class KostnadsberegnetBidragCoreImpl extends FellesCore implements Kostna
     referanseListe.add(resultatGrunnlag.getUnderholdskostnad().getReferanse());
     referanseListe.add(resultatGrunnlag.getBPsAndelUnderholdskostnad().getReferanse());
     referanseListe.add(resultatGrunnlag.getSamvaersfradrag().getReferanse());
-    return referanseListe;
+    return referanseListe.stream().sorted().toList();
   }
 }

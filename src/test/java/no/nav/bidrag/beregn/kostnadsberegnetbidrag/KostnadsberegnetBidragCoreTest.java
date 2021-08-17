@@ -78,11 +78,11 @@ public class KostnadsberegnetBidragCoreTest {
             .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
-            .isEqualTo(UNDERHOLDSKOSTNAD_REFERANSE),
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
             .isEqualTo(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE),
-        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
             .isEqualTo(SAMVAERSFRADRAG_REFERANSE),
+        () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
+            .isEqualTo(UNDERHOLDSKOSTNAD_REFERANSE),
 
         () -> assertThat(beregnKostnadsberegnetBidragResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),

@@ -89,13 +89,13 @@ public class UnderholdskostnadCoreTest {
             .isEqualTo(BigDecimal.valueOf(666)),
 
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
-            .isEqualTo(SOKNADSBARN_REFERANSE),
-        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
             .isEqualTo(BARNETILSYN_MED_STONAD_REFERANSE),
+        () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(1))
+            .isEqualTo(FORPLEINING_UTGIFT_REFERANSE),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(2))
             .isEqualTo(NETTO_BARNETILSYN_REFERANSE),
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(3))
-            .isEqualTo(FORPLEINING_UTGIFT_REFERANSE),
+            .isEqualTo(SOKNADSBARN_REFERANSE),
 
         () -> assertThat(beregnUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2018-01-01")),
