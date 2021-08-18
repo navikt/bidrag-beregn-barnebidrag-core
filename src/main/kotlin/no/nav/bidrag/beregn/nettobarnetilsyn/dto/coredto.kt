@@ -33,7 +33,7 @@ data class BeregnetNettoBarnetilsynResultatCore(
 data class ResultatPeriodeCore(
   val soknadsbarnPersonId: Int,
   val periode: PeriodeCore,
-  val resultatListe: ResultatBeregningCore,
+  val resultat: ResultatBeregningCore,
   val grunnlagReferanseListe: List<String>
 )
 
