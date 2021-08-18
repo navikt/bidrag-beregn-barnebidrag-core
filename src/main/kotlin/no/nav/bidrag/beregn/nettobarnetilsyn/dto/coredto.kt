@@ -31,12 +31,12 @@ data class BeregnetNettoBarnetilsynResultatCore(
 )
 
 data class ResultatPeriodeCore(
+  val soknadsbarnPersonId: Int,
   val periode: PeriodeCore,
-  val resultatListe: List<ResultatBeregningCore>,
+  val resultatListe: ResultatBeregningCore,
   val grunnlagReferanseListe: List<String>
 )
 
 data class ResultatBeregningCore(
-  val soknadsbarnPersonId: Int,
   val belop: BigDecimal
 )
