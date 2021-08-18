@@ -116,6 +116,7 @@ beregnetBidragPeriodeListe            | Bisys                           | Period
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.17.0  | Endret       | Fjernet liste i variabelnavn i dto
 0.16.0  | Endret       | Endret dto for barnebidrag og netto barnetilsyn (barn flyttet ett nivå opp)
 0.15.2  | Endret       | Lagt inn sortering på referanselister i output fra core
 0.15.1  | Endret       | Liten endring for å finne riktig dato på sjabloner + noen kosmetiske endringer
