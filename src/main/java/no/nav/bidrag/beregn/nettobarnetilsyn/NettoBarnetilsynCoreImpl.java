@@ -71,20 +71,16 @@ public class NettoBarnetilsynCoreImpl extends FellesCore implements NettoBarneti
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
-          mapResultatBeregning(resultatPeriode.getResultatListe()),
-          mapReferanseListe(resultatPeriode)));
+      var resultatBeregningListe = resultatPeriode.getResultatListe();
+      for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
+        resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+            resultatBeregning.getSoknadsbarnPersonId(),
+            new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
+            new ResultatBeregningCore(resultatBeregning.getBelop()),
+            mapReferanseListe(resultatPeriode)));
+      }
     }
     return resultatPeriodeCoreListe;
-  }
-
-  private List<ResultatBeregningCore> mapResultatBeregning(List<ResultatBeregning> resultatBeregningListe) {
-    var resultatBeregningListeCore = new ArrayList<ResultatBeregningCore>();
-    for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
-      resultatBeregningListeCore.add(new ResultatBeregningCore(resultatBeregning.getSoknadsbarnPersonId(), resultatBeregning.getBelop()));
-    }
-    return resultatBeregningListeCore;
   }
 
   private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {

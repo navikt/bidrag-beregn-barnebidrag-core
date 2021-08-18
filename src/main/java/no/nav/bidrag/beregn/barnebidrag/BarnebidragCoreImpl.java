@@ -205,24 +205,20 @@ public class BarnebidragCoreImpl extends FellesCore implements BarnebidragCore {
   private List<ResultatPeriodeCore> mapResultatPeriode(List<ResultatPeriode> resultatPeriodeListe) {
     var resultatPeriodeCoreListe = new ArrayList<ResultatPeriodeCore>();
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
-      resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
-          mapResultatBeregning(resultatPeriode.getResultatListe()),
-          mapReferanseListe(resultatPeriode)));
+      var resultatBeregningListe = resultatPeriode.getResultatListe();
+      for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
+        resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
+            resultatBeregning.getSoknadsbarnPersonId(),
+            new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
+            new ResultatBeregningCore(resultatBeregning.getBelop(), resultatBeregning.getKode().toString()),
+            mapReferanseListe(resultatPeriode, resultatBeregning.getSoknadsbarnPersonId())));
+      }
     }
     return resultatPeriodeCoreListe;
   }
 
-  private List<ResultatBeregningCore> mapResultatBeregning(List<ResultatBeregning> resultatBeregningListe) {
-    var resultatBeregningListeCore = new ArrayList<ResultatBeregningCore>();
-    for (ResultatBeregning resultatBeregning : resultatBeregningListe) {
-      resultatBeregningListeCore.add(new ResultatBeregningCore(resultatBeregning.getSoknadsbarnPersonId(), resultatBeregning.getBelop(),
-          resultatBeregning.getKode().toString()));
-    }
-    return resultatBeregningListeCore;
-  }
-
-  private List<String> mapReferanseListe(ResultatPeriode resultatPeriode) {
+  // Mapper ut felles grunnlag (som gjelder uavhengig av barn)
+  private List<String> mapReferanseListe(ResultatPeriode resultatPeriode, Integer soknadsbarnPersonId) {
     var resultatGrunnlag = resultatPeriode.getGrunnlag();
     var sjablonListe = resultatPeriode.getResultatListe().stream()
         .map(ResultatBeregning::getSjablonListe)
@@ -233,19 +229,22 @@ public class BarnebidragCoreImpl extends FellesCore implements BarnebidragCore {
     referanseListe.add(resultatGrunnlag.getBidragsevne().getReferanse());
     referanseListe.add(resultatGrunnlag.getBarnetilleggForsvaret().getReferanse());
     resultatGrunnlag.getAndreLopendeBidragListe().forEach(andreLopendeBidrag -> referanseListe.add(andreLopendeBidrag.getReferanse()));
-    referanseListe.addAll(mapGrunnlagPerBarn(resultatGrunnlag.getGrunnlagPerBarnListe()));
+    referanseListe.addAll(mapGrunnlagPerBarn(resultatGrunnlag.getGrunnlagPerBarnListe(), soknadsbarnPersonId));
     referanseListe.addAll(sjablonListe.stream().map(this::lagSjablonReferanse).distinct().collect(toList()));
     return referanseListe.stream().sorted().toList();
   }
 
-  private List<String> mapGrunnlagPerBarn(List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe) {
+  // Mapper ut grunnlag for det barnet som behandles
+  private List<String> mapGrunnlagPerBarn(List<GrunnlagBeregningPerBarn> grunnlagBeregningPerBarnListe, Integer soknadsbarnPersonId) {
     var referanseListe = new ArrayList<String>();
     for (GrunnlagBeregningPerBarn grunnlagBeregningPerBarn : grunnlagBeregningPerBarnListe) {
-      referanseListe.add(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getReferanse());
-      referanseListe.add(grunnlagBeregningPerBarn.getSamvaersfradrag().getReferanse());
-      referanseListe.add(grunnlagBeregningPerBarn.getDeltBosted().getReferanse());
-      referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBP().getReferanse());
-      referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBM().getReferanse());
+      if (grunnlagBeregningPerBarn.getSoknadsbarnPersonId() == soknadsbarnPersonId) {
+        referanseListe.add(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getReferanse());
+        referanseListe.add(grunnlagBeregningPerBarn.getSamvaersfradrag().getReferanse());
+        referanseListe.add(grunnlagBeregningPerBarn.getDeltBosted().getReferanse());
+        referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBP().getReferanse());
+        referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBM().getReferanse());
+      }
     }
     return referanseListe;
   }
