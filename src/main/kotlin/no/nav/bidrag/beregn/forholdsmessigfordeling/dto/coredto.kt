@@ -2,11 +2,10 @@ package no.nav.bidrag.beregn.forholdsmessigfordeling.dto
 
 import no.nav.bidrag.beregn.felles.dto.AvvikCore
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
 import java.math.BigDecimal
 import java.time.LocalDate
 
-// Grunnlag periode
+// Grunnlag
 data class BeregnForholdsmessigFordelingGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
@@ -15,25 +14,25 @@ data class BeregnForholdsmessigFordelingGrunnlagCore(
 )
 
 data class BidragsevnePeriodeCore(
-    val bidragsevneDatoFraTil: PeriodeCore,
-    val bidragsevneBelop: BigDecimal,
+    val periode: PeriodeCore,
+    val belop: BigDecimal,
     val tjuefemProsentInntekt: BigDecimal
 )
 
 data class BeregnetBidragSakPeriodeCore(
     val saksnr: Int,
-    val periodeDatoFraTil: PeriodeCore,
+    val periode: PeriodeCore,
     val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>
 )
 
-// Resultatperiode
+// Resultat
 data class BeregnForholdsmessigFordelingResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val avvikListe: List<AvvikCore>
 )
 
 data class ResultatPeriodeCore(
-    val resultatDatoFraTil: PeriodeCore,
+    val periode: PeriodeCore,
     val resultatBeregningListe: List<ResultatBeregningCore>,
     val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
 )
@@ -45,8 +44,8 @@ data class ResultatBeregningCore(
 
 data class ResultatPerBarnCore(
     val barnPersonId: Int,
-    val resultatBarnebidragBelop: BigDecimal,
-    val resultatkode: String
+    val belop: BigDecimal,
+    val kode: String
 )
 
 // Grunnlag beregning
@@ -56,7 +55,7 @@ data class GrunnlagBeregningPeriodisertCore(
 )
 
 data class BidragsevneCore(
-    val bidragsevneBelop: BigDecimal,
+    val belop: BigDecimal,
     val tjuefemProsentInntekt: BigDecimal
 )
 

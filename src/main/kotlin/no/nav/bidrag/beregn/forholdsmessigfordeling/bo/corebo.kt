@@ -19,7 +19,7 @@ data class BeregnForholdsmessigFordelingResultat(
 )
 
 data class ResultatPeriode(
-    val resultatDatoFraTil: Periode,
+    val periode: Periode,
     val resultatBeregningListe: List<ResultatBeregning>,
     val resultatGrunnlag: GrunnlagBeregningPeriodisert
 )
@@ -31,8 +31,8 @@ data class ResultatBeregning(
 
 data class ResultatPerBarn(
     val barnPersonId: Int,
-    val resultatBarnebidragBelop: BigDecimal,
-    val resultatkode: ResultatKode
+    val belop: BigDecimal,
+    val kode: ResultatKode
 )
 
 // Grunnlag beregning
@@ -42,7 +42,7 @@ data class GrunnlagBeregningPeriodisert(
 )
 
 data class Bidragsevne(
-    val bidragsevneBelop: BigDecimal,
+    val belop: BigDecimal,
     val tjuefemProsentInntekt: BigDecimal
 )
 
