@@ -22,11 +22,11 @@ public class ForholdsmessigFordelingBeregningImpl implements ForholdsmessigForde
     var resultatBeregningListe = new ArrayList<ResultatBeregning>();
 
     var endeligBidragsevne = BigDecimal.ZERO;
-    if (grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop().compareTo(
+    if (grunnlagBeregningPeriodisert.getBidragsevne().getBelop().compareTo(
         grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt()) > 0){
       endeligBidragsevne = grunnlagBeregningPeriodisert.getBidragsevne().getTjuefemProsentInntekt();
       } else {
-      endeligBidragsevne = grunnlagBeregningPeriodisert.getBidragsevne().getBidragsevneBelop();
+      endeligBidragsevne = grunnlagBeregningPeriodisert.getBidragsevne().getBelop();
     }
 
     var resultatkode = ResultatKode.KOSTNADSBEREGNET_BIDRAG;

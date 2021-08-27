@@ -70,9 +70,9 @@ public class ForholdsmessigFordelingCoreTest {
         () -> assertThat(beregnForholdsmessigFordelingResultatCore.getResultatPeriodeListe()).isNotEmpty(),
         () -> assertThat(beregnForholdsmessigFordelingResultatCore.getResultatPeriodeListe().size()).isEqualTo(1),
 
-        () -> assertThat(beregnForholdsmessigFordelingResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom())
+        () -> assertThat(beregnForholdsmessigFordelingResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2017-01-01")),
-        () -> assertThat(beregnForholdsmessigFordelingResultatCore.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil())
+        () -> assertThat(beregnForholdsmessigFordelingResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01"))
     );
   }

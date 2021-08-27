@@ -61,24 +61,24 @@ public class ForholdsmessigFordelingPeriodeTest {
     assertAll(
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(5),
 
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-06-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2020-06-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-09-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2020-09-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2020-11-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoFom()).isEqualTo(LocalDate.parse("2020-11-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getResultatDatoFraTil().getDatoTil()).isEqualTo(LocalDate.parse("2021-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-01-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2020-06-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-06-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2020-09-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-09-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2020-11-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-11-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2021-01-01")),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getSaksnr()).isEqualTo(1234567),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getSaksnr()).isEqualTo(7654321),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(1200))).isZero(),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBarnPersonId())
@@ -128,17 +128,17 @@ public class ForholdsmessigFordelingPeriodeTest {
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getSaksnr()).isEqualTo(1234567),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getSaksnr()).isEqualTo(7654321),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getResultatkode())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getKode())
             .isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(940))).isZero(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getResultatkode())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getKode())
         .isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getResultatBarnebidragBelop()
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(14060))).isZero(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getResultatkode())
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getKode())
             .isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBarnPersonId())
@@ -152,10 +152,10 @@ public class ForholdsmessigFordelingPeriodeTest {
   private void printGrunnlagResultat(
       BeregnForholdsmessigFordelingResultat beregnForholdsmessigFordelingResultat) {
     beregnForholdsmessigFordelingResultat.getResultatPeriodeListe().stream().sorted(
-        Comparator.comparing(pR -> pR.getResultatDatoFraTil().getDatoFom()))
+        Comparator.comparing(pR -> pR.getPeriode().getDatoFom()))
         .forEach(sortedPR -> System.out
-            .println("Dato fra: " + sortedPR.getResultatDatoFraTil().getDatoFom() + "; " + "Dato til: "
-                + sortedPR.getResultatDatoFraTil().getDatoTil()
+            .println("Dato fra: " + sortedPR.getPeriode().getDatoFom() + "; " + "Dato til: "
+                + sortedPR.getPeriode().getDatoTil()
                 + "; " + "Beløp: " + sortedPR.getResultatBeregningListe()));
   }
 

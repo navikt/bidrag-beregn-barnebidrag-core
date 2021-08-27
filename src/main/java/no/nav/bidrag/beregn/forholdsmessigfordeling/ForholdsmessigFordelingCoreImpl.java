@@ -71,9 +71,9 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     var bidragsevnePeriodeListe = new ArrayList<BidragsevnePeriode>();
     for (BidragsevnePeriodeCore bidragsevnePeriodeCore : bidragsevnePeriodeListeCore) {
       bidragsevnePeriodeListe.add(new BidragsevnePeriode(
-          new Periode(bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getDatoFom(),
-              bidragsevnePeriodeCore.getBidragsevneDatoFraTil().getDatoTil()),
-          bidragsevnePeriodeCore.getBidragsevneBelop(),
+          new Periode(bidragsevnePeriodeCore.getPeriode().getDatoFom(),
+              bidragsevnePeriodeCore.getPeriode().getDatoTil()),
+          bidragsevnePeriodeCore.getBelop(),
           bidragsevnePeriodeCore.getTjuefemProsentInntekt()));
     }
     return bidragsevnePeriodeListe.stream()
@@ -87,8 +87,8 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     for (BeregnetBidragSakPeriodeCore beregnetBidragSakPeriodeCore : beregnetBidragSakPeriodeListeCore) {
       beregnetBidragSakPeriodeListe.add(new BeregnetBidragSakPeriode(
           beregnetBidragSakPeriodeCore.getSaksnr(),
-          new Periode(beregnetBidragSakPeriodeCore.getPeriodeDatoFraTil().getDatoFom(),
-              beregnetBidragSakPeriodeCore.getPeriodeDatoFraTil().getDatoTil()),
+          new Periode(beregnetBidragSakPeriodeCore.getPeriode().getDatoFom(),
+              beregnetBidragSakPeriodeCore.getPeriode().getDatoTil()),
           mapGrunnlagPerBarnListe(beregnetBidragSakPeriodeCore.getGrunnlagPerBarnListe())));
     }
     return beregnetBidragSakPeriodeListe.stream()
@@ -124,10 +124,10 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     for (ResultatPeriode resultatPeriode : resultatPeriodeListe) {
 //      var forholdsmessigFordelingResultatGrunnlagListe = resultatPeriode.getResultatGrunnlagListe();
       resultatPeriodeCoreListe.add(new ResultatPeriodeCore(
-          new PeriodeCore(resultatPeriode.getResultatDatoFraTil().getDatoFom(), resultatPeriode.getResultatDatoFraTil().getDatoTil()),
+          new PeriodeCore(resultatPeriode.getPeriode().getDatoFom(), resultatPeriode.getPeriode().getDatoTil()),
           mapResultatBeregning(resultatPeriode.getResultatBeregningListe()),
           new GrunnlagBeregningPeriodisertCore(
-              new BidragsevneCore(resultatPeriode.getResultatGrunnlag().getBidragsevne().getBidragsevneBelop(),
+              new BidragsevneCore(resultatPeriode.getResultatGrunnlag().getBidragsevne().getBelop(),
               resultatPeriode.getResultatGrunnlag().getBidragsevne().getTjuefemProsentInntekt()),
           mapBeregnetBidragSak(resultatPeriode.getResultatGrunnlag().getBeregnetBidragSakListe()))));
     }
@@ -149,8 +149,8 @@ public class ForholdsmessigFordelingCoreImpl implements ForholdsmessigFordelingC
     for (ResultatPerBarn resultatPerBarn : resultatPerBarnListe) {
       resultatPerBarnListeCore.add(new ResultatPerBarnCore(
           resultatPerBarn.getBarnPersonId(),
-          resultatPerBarn.getResultatBarnebidragBelop(),
-          resultatPerBarn.getResultatkode().toString()));
+          resultatPerBarn.getBelop(),
+          resultatPerBarn.getKode().toString()));
     }
     return resultatPerBarnListeCore;
   }
