@@ -116,6 +116,7 @@ beregnetBidragPeriodeListe            | Bisys                           | Period
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.18.3  | Endret       | Ved bruk av forhøyet barnetrygd skal fødselsdato settes til 1/7
 0.18.2  | Endret       | Oppdatert til Java 17 + oppdatert andre avhengigheter (nytt forsøk)
 0.18.1  | Endret       | Oppdatert til Java 17 + oppdatert andre avhengigheter
 0.18.0  | Endret       | Endret dto og bo for forholdsmessig fordeling
