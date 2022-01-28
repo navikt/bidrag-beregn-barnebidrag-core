@@ -171,10 +171,9 @@ public class UnderholdskostnadPeriodeTest {
     printGrunnlagResultat(resultat);
   }
 
-
   @Test
-  @DisplayName("Test det trekkes fra forhøyet barnetrygd for barn under seks år etter 01.07.2021")
-  void testForhoyetBarneTrygd() {
+  @DisplayName("Test forhøyet barnetrygd. Barnet fyller 6 år etter at forhøyet barnetrygd er innført, men fødselsdato sette til 1/7. Gir ikke forhøyet barnetrygd")
+  void testForhoyetBarneTrygd1() {
 
     var beregnDatoFra = LocalDate.parse("2021-03-01");
     var beregnDatoTil = LocalDate.parse("2022-07-01");
@@ -210,31 +209,76 @@ public class UnderholdskostnadPeriodeTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
+        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(2),
+
+        // Første periode er før innføring av forhøyet barnetrygd -> ordinær barnetrygd brukes
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2021-03-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2021-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getBelop().compareTo(BigDecimal.valueOf(2000 - 1054))).isZero(),
+
+        // Forhøyet barnetrygd er innført, barnet regnes som 6 år fordi fødselsdato settes til 01.07. -> ordinær barnetrygd brukes
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2021-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isNull(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultat().getBelop().compareTo(BigDecimal.valueOf(2000 - 1054))).isZero()
+    );
+
+    printGrunnlagResultat(resultat);
+  }
+
+  @Test
+  @DisplayName("Test forhøyet barnetrygd. Barnet fyller 6 år året etter at forhøyet barnetrygd er innført")
+  void testForhoyetBarneTrygd2() {
+
+    var beregnDatoFra = LocalDate.parse("2021-03-01");
+    var beregnDatoTil = LocalDate.parse("2023-07-01");
+    var soknadsbarnFodselsdato = LocalDate.parse("2016-10-29");
+
+    var soknadsbarn = new Soknadsbarn(SOKNADSBARN_REFERANSE, 1, soknadsbarnFodselsdato);
+
+    var barnetilsynMedStonadPeriodeListe = singletonList(new BarnetilsynMedStonadPeriode(BARNETILSYN_MED_STONAD_REFERANSE,
+        new Periode(LocalDate.parse("2019-03-01"), null), "DU", "64"));
+
+    var nettoBarnetilsynPeriodeListe = singletonList(new NettoBarnetilsynPeriode(NETTO_BARNETILSYN_REFERANSE,
+        new Periode(LocalDate.parse("2018-04-01"), null), BigDecimal.valueOf(2000)));
+
+    var forpleiningUtgiftPeriodeListe = singletonList(new ForpleiningUtgiftPeriode(FORPLEINING_UTGIFT_REFERANSE,
+        new Periode(LocalDate.parse("2018-02-01"), null), BigDecimal.ZERO));
+
+    var sjablonPeriodeListe = new ArrayList<SjablonPeriode>();
+    sjablonPeriodeListe.add(new SjablonPeriode(
+        new Periode(LocalDate.parse("2018-01-01"), null),
+        new Sjablon(SjablonTallNavn.ORDINAER_BARNETRYGD_BELOP.getNavn(), emptyList(),
+            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                BigDecimal.valueOf(1054))))));
+    sjablonPeriodeListe.add(new SjablonPeriode(
+        new Periode(LocalDate.parse("2021-07-01"), null),
+        new Sjablon(SjablonTallNavn.FORHOYET_BARNETRYGD_BELOP.getNavn(), emptyList(),
+            singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(),
+                BigDecimal.valueOf(1354))))));
+
+    grunnlag = new BeregnUnderholdskostnadGrunnlag(beregnDatoFra, beregnDatoTil, soknadsbarn, barnetilsynMedStonadPeriodeListe,
+        nettoBarnetilsynPeriodeListe, forpleiningUtgiftPeriodeListe, sjablonPeriodeListe);
+
+    var resultat = underholdskostnadPeriode.beregnPerioder(grunnlag);
+
+    assertAll(
+        () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(3),
 
-        // Første periode er før innføring av forhøyet barnetrygd
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom())
-            .isEqualTo(LocalDate.parse("2021-03-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
-            .isEqualTo(LocalDate.parse("2021-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getBelop()
-            .compareTo(BigDecimal.valueOf(2000 - 1054))).isZero(),
+        // Første periode er før innføring av forhøyet barnetrygd -> ordinær barnetrygd brukes
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2021-03-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2021-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getBelop().compareTo(BigDecimal.valueOf(2000 - 1054))).isZero(),
 
-        // Forhøyet barnetrygd er innført, barnet er under seks år -> forhøyet barnetrygd brukes
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
-            .isEqualTo(LocalDate.parse("2021-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil())
-            .isEqualTo(LocalDate.parse("2021-11-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultat().getBelop()
-            .compareTo(BigDecimal.valueOf(2000 - 1354))).isZero(),
+        // Forhøyet barnetrygd er innført, barnet har ikke fylt 6 år -> forhøyet barnetrygd brukes
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2021-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2022-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultat().getBelop().compareTo(BigDecimal.valueOf(2000 - 1354))).isZero(),
 
-        // Forhøyet barnetrygd er innført, barnet har fyllt seks år -> ordinær barnetrygd brukes
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom())
-            .isEqualTo(LocalDate.parse("2021-11-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil())
-            .isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultat().getBelop()
-            .compareTo(BigDecimal.valueOf(2000 - 1054))).isZero()
+        // Forhøyet barnetrygd er innført, barnet regnes som 6 år fordi fødselsdato settes til 01.07. -> ordinær barnetrygd brukes
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2022-07-01")),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil()).isNull(),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultat().getBelop().compareTo(BigDecimal.valueOf(2000 - 1054))).isZero()
     );
 
     printGrunnlagResultat(resultat);

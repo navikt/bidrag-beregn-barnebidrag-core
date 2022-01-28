@@ -73,17 +73,13 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
     // Det må derfor legges til brudd på denne datoen
     var datoRegelendringer = new Periode(LocalDate.parse("2021-07-01"), LocalDate.parse("2021-07-01"));
 
-    // Hvis barnet er født den første dagen i måneden legges 6 år til fødselsdatoen, hvis ikke så brukes påfølgende måned etter at barnet fyller 6 år.
+    // For å beregne 6-års bruddato brukes 01.07. som fødselsdato.
     // Datoen brukes til å skape brudd på 6-årsdag, og til å sjekke om ordinær eller forhøyet barnetrygd skal brukes.
-    var seksaarsbruddato = beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().plusYears(6).plusMonths(1).withDayOfMonth(1);
+    var seksAarBruddDato = beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().plusYears(6).withMonth(7).withDayOfMonth(1);
+    var seksAarBruddPeriode = new Periode(seksAarBruddDato, seksAarBruddDato);
 
-    if (beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().getDayOfMonth() == 1) {
-      seksaarsbruddato = beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getFodselsdato().plusYears(6);
-    }
-
-    var maanedEtterSeksaarsdag = new Periode(seksaarsbruddato, seksaarsbruddato);
-
-    // Barnets fødselsdag og måned skal overstyres til 01.07. Lager liste for å sikre brudd ved ny alder fra 01.07 hvert år i beregningsperioden
+    // Barnets fødselsdag og måned skal overstyres til 01.07.
+    // Lager liste for å sikre brudd ved ny alder fra 01.07 hvert år i beregningsperioden (ifht. henting av riktige sjablonverdier).
     var bruddlisteBarnAlder = new ArrayList<Periode>();
     var tellerAar = beregnUnderholdskostnadGrunnlag.getBeregnDatoFra().getYear();
 
@@ -103,7 +99,7 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
         .addBruddpunkter(justertNettoBarnetilsynPeriodeListe)
         .addBruddpunkter(justertForpleiningUtgiftPeriodeListe)
         .addBruddpunkter(soknadsbarnFodselsmaaned)
-        .addBruddpunkter(maanedEtterSeksaarsdag)
+        .addBruddpunkter(seksAarBruddPeriode)
         .addBruddpunkter(datoRegelendringer)
         .addBruddpunkter(bruddlisteBarnAlder)
         .addBruddpunkt(beregnUnderholdskostnadGrunnlag.getBeregnDatoTil()) //For å sikre bruddpunkt på start-beregning-til-dato
@@ -145,7 +141,7 @@ public class UnderholdskostnadPeriodeImpl extends FellesPeriode implements Under
       var grunnlagBeregning = new GrunnlagBeregning(soknadsbarnAlder, barnetilsynMedStonad, nettoBarnetilsyn, forpleiningUtgift, sjablonListe);
 
       resultatPeriodeListe.add(new ResultatPeriode(beregnUnderholdskostnadGrunnlag.getSoknadsbarn().getPersonId(), beregningsperiode,
-          beregnUnderholdskostnad(grunnlagBeregning, beregningsperiode, soknadsbarnFodselsmaaned, datoRegelendringer, seksaarsbruddato),
+          beregnUnderholdskostnad(grunnlagBeregning, beregningsperiode, soknadsbarnFodselsmaaned, datoRegelendringer, seksAarBruddDato),
           grunnlagBeregning));
     }
 
