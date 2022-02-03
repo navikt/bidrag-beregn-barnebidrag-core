@@ -36,7 +36,7 @@
 
     <!-- dependencies -->
     <spring-boot.version>2.6.1</spring-boot.version>
-    <bidrag-beregn-felles.version>0.18.1</bidrag-beregn-felles.version>
+    <bidrag-beregn-felles.version>0.18.2</bidrag-beregn-felles.version>
   </properties>
 
   <distributionManagement>
