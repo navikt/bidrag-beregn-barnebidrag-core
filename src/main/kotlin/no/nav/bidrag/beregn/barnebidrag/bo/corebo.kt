@@ -60,8 +60,8 @@ data class GrunnlagBeregningPerBarn(
   val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
   val samvaersfradrag: Samvaersfradrag,
   val deltBosted: DeltBosted,
-  val barnetilleggBP: Barnetillegg,
-  val barnetilleggBM: Barnetillegg
+  val barnetilleggBP: Barnetillegg?,
+  val barnetilleggBM: Barnetillegg?
 )
 
 data class BPsAndelUnderholdskostnad(
