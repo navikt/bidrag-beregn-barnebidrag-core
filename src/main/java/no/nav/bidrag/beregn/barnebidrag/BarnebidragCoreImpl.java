@@ -242,8 +242,12 @@ public class BarnebidragCoreImpl extends FellesCore implements BarnebidragCore {
         referanseListe.add(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getReferanse());
         referanseListe.add(grunnlagBeregningPerBarn.getSamvaersfradrag().getReferanse());
         referanseListe.add(grunnlagBeregningPerBarn.getDeltBosted().getReferanse());
-        referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBP().getReferanse());
-        referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBM().getReferanse());
+        if (grunnlagBeregningPerBarn.getBarnetilleggBP() != null) {
+          referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBP().getReferanse());
+        }
+        if ( grunnlagBeregningPerBarn.getBarnetilleggBM() != null) {
+          referanseListe.add(grunnlagBeregningPerBarn.getBarnetilleggBM().getReferanse());
+        }
       }
     }
     return referanseListe;

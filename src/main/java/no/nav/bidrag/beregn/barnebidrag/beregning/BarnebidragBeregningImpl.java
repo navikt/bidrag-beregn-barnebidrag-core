@@ -60,15 +60,21 @@ public class BarnebidragBeregningImpl extends FellesBeregning implements Barnebi
       var tempBarnebidrag = BigDecimal.ZERO;
 
       // Beregner netto barnetillegg for BP og BM
-      var nettoBarnetilleggBP = grunnlagBeregningPerBarn.getBarnetilleggBP().getBelop()
-          .subtract((grunnlagBeregningPerBarn.getBarnetilleggBP().getBelop()
-              .multiply(grunnlagBeregningPerBarn.getBarnetilleggBP().getSkattProsent())
-              .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP))));
+      var nettoBarnetilleggBP = BigDecimal.ZERO;
+      if (grunnlagBeregningPerBarn.getBarnetilleggBP() != null) {
+        nettoBarnetilleggBP = grunnlagBeregningPerBarn.getBarnetilleggBP().getBelop()
+            .subtract((grunnlagBeregningPerBarn.getBarnetilleggBP().getBelop()
+                .multiply(grunnlagBeregningPerBarn.getBarnetilleggBP().getSkattProsent())
+                .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP))));
+      }
 
-      var nettoBarnetilleggBM = grunnlagBeregningPerBarn.getBarnetilleggBM().getBelop()
-          .subtract((grunnlagBeregningPerBarn.getBarnetilleggBM().getBelop()
-              .multiply(grunnlagBeregningPerBarn.getBarnetilleggBM().getSkattProsent())
-              .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP))));
+      var nettoBarnetilleggBM = BigDecimal.ZERO;
+      if (grunnlagBeregningPerBarn.getBarnetilleggBM() != null) {
+        nettoBarnetilleggBM = grunnlagBeregningPerBarn.getBarnetilleggBM().getBelop()
+            .subtract((grunnlagBeregningPerBarn.getBarnetilleggBM().getBelop()
+                .multiply(grunnlagBeregningPerBarn.getBarnetilleggBM().getSkattProsent())
+                .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP))));
+      }
 
       // Regner ut underholdskostnad ut fra andelsprosent og beløp. Skal ikke gjøres hvis disse er lik 0
       var underholdskostnad = BigDecimal.ZERO;
