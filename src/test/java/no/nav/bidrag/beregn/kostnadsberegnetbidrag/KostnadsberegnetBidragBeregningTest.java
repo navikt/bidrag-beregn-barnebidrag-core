@@ -24,7 +24,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningUtenSamvaer() {
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(10000)),
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(20)),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.20)),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO)
     );
 
@@ -38,7 +38,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testBeregningMedSamvaer() {
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(10000)),
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(20)),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.20)),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(100))
     );
 
@@ -51,7 +51,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesOpp() {
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(666)),
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(91)),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.91)),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO)
     );
 
@@ -64,7 +64,7 @@ public class KostnadsberegnetBidragBeregningTest {
   void testResultatRundesNed() {
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(17.2)),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.172)),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(100))
     );
 

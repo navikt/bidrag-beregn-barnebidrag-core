@@ -12,7 +12,7 @@ public class KostnadsberegnetBidragBeregningImpl implements KostnadsberegnetBidr
 
     var resultat = grunnlagBeregning.getUnderholdskostnad().getBelop()
         .multiply(grunnlagBeregning.getBPsAndelUnderholdskostnad().getAndelProsent())
-        .divide(BigDecimal.valueOf(100), -1, RoundingMode.HALF_UP)
+        .divide(BigDecimal.valueOf(1), -1, RoundingMode.HALF_UP)
         .subtract(grunnlagBeregning.getSamvaersfradrag().getBelop());
 
     return new ResultatBeregning(resultat);

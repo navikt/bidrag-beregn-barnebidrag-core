@@ -60,7 +60,7 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getAndelProsent())
-            .isEqualTo(BigDecimal.valueOf(35.2)),
+            .isEqualTo(BigDecimal.valueOf(0.352)),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-07-01")),
@@ -133,17 +133,17 @@ public class BPsAndelUnderholdskostnadPeriodeTest {
         // Gamle regler
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2008-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2008-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getAndelProsent()).isEqualTo(BigDecimal.valueOf(33.3)),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.333)),
 
         // Gamle regler
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2008-07-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2009-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getAndelProsent()).isEqualTo(BigDecimal.valueOf(33.3)),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultat().getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.333)),
 
         // Nye regler
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2009-01-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2009-06-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultat().getAndelProsent()).isEqualTo(BigDecimal.valueOf(42.9)),
+        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getResultat().getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.429)),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2009-06-01")),
         () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2009-07-01")),

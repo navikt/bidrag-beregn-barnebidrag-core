@@ -45,7 +45,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -101,7 +101,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -109,7 +109,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(7000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(7000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -138,7 +138,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(5000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(5000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -146,7 +146,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(3000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(3000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -154,7 +154,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         3,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(2000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(0.80), BigDecimal.valueOf(2000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_3", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -185,7 +185,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -214,7 +214,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -222,7 +222,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(7000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(7000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -252,7 +252,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(5000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(5000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -260,7 +260,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(3000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(3000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -268,7 +268,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         3,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(2000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(0.80), BigDecimal.valueOf(2000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_3", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -306,7 +306,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(1000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(1000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(50)),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -334,7 +334,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(200), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(200), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
@@ -361,7 +361,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(2000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(2000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(200)),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -391,7 +391,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(400), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(400), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(500), BigDecimal.valueOf(10)),
@@ -399,7 +399,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(300), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(300), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -429,7 +429,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(1000)),
         new DeltBosted(DELT_BOSTED_REFERANSE, true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -458,7 +458,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -466,7 +466,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -474,7 +474,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         3,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -502,7 +502,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -510,7 +510,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.valueOf(1000)),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -518,7 +518,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         3,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -548,7 +548,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -556,7 +556,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -564,7 +564,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         3,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -572,7 +572,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         4,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_4", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_4", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_4", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_4", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_4", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -580,7 +580,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         5,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_5", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_5", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_5", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_5", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_5", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -588,7 +588,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         6,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_6", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_6", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_6", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_6", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_6", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -596,7 +596,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         7,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_7", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_7", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_7", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_7", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_7", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -604,7 +604,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         8,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_8", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_8", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_8", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_8", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_8", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -612,7 +612,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         9,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_9", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_9", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_9", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_9", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_9", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -620,7 +620,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         10,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_10", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_10", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_10", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_10", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_10", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -628,7 +628,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         11,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_11", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_11", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_11", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_11", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_11", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -656,7 +656,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -664,7 +664,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(5000), BigDecimal.valueOf(10)),
@@ -695,7 +695,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.ZERO, BigDecimal.ZERO),
@@ -760,7 +760,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE, true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -787,7 +787,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE, true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -814,7 +814,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.ZERO, BigDecimal.ZERO),
@@ -845,7 +845,7 @@ public class BarnebidragBeregningTest {
     var grunnlagBeregningPerBarnListe = new ArrayList<GrunnlagBeregningPerBarn>();
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_1", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_1", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_1", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -853,7 +853,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         2,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_2", BigDecimal.valueOf(1000)),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_2", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_2", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -861,7 +861,7 @@ public class BarnebidragBeregningTest {
 
     grunnlagBeregningPerBarnListe.add(new GrunnlagBeregningPerBarn(
         3,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(80), BigDecimal.valueOf(8000), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3", BigDecimal.valueOf(0.80), BigDecimal.valueOf(8000), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE + "_3", BigDecimal.ZERO),
         new DeltBosted(DELT_BOSTED_REFERANSE + "_3", true),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE + "_3", BigDecimal.valueOf(10000), BigDecimal.ZERO),
@@ -890,7 +890,7 @@ public class BarnebidragBeregningTest {
 
     var grunnlagBeregningPerBarnListe = singletonList(new GrunnlagBeregningPerBarn(
         1,
-        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(42.9), BigDecimal.valueOf(3725), false),
+        new BPsAndelUnderholdskostnad(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(0.429), BigDecimal.valueOf(3725), false),
         new Samvaersfradrag(SAMVAERSFRADRAG_REFERANSE, BigDecimal.valueOf(457)),
         new DeltBosted(DELT_BOSTED_REFERANSE, false),
         new Barnetillegg(BARNETILLEGG_BP_REFERANSE, BigDecimal.valueOf(2000), BigDecimal.valueOf(20)),

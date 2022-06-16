@@ -41,7 +41,7 @@ public class KostnadsberegnetBidragPeriodeTest {
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-08-01")), BigDecimal.valueOf(1000)));
 
     var bPsAndelUnderholdskostnadPeriodeListe = singletonList(new BPsAndelUnderholdskostnadPeriode(BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")), BigDecimal.valueOf(20)));
+        new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")), BigDecimal.valueOf(0.20)));
 
     var samvaersfradragPeriodeListe = singletonList(new SamvaersfradragPeriode(SAMVAERSFRADRAG_REFERANSE,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2020-08-01")), BigDecimal.valueOf(100)));

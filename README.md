@@ -116,6 +116,7 @@ beregnetBidragPeriodeListe            | Bisys                           | Period
 
 Versjon | Endringstype | Beskrivelse
 --------|--------------|------------
+0.18.7  | Endret       | Endret andelProsent av BPsAndelUnderholdskostnad til å oppgis som et tall mellom 0 og 1
 0.18.6  | Endret       | Testing av opplasting til Nexus
 0.18.5  | Endret       | Ny versjon av bidrag-beregn-felles og BarnetilleggBM og BarnetilleggBP gjort valgfrie (optional)
 0.18.4  | Endret       | Ny versjon av bidrag-beregn-felles

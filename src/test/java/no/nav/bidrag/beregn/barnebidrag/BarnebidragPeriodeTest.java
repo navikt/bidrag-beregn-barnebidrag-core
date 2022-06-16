@@ -63,7 +63,7 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(17000), BigDecimal.valueOf(16000)));
 
     var bPsAndelUnderholdskostnadListe = singletonList(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.8), BigDecimal.valueOf(16000), false));
 
     var samvaersfradragPeriodeListe = singletonList(new SamvaersfradragPeriode(1, SAMVAERSFRADRAG_REFERANSE,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.ZERO));
@@ -138,11 +138,11 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(17000), BigDecimal.valueOf(16000)));
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1",
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")), BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")), BigDecimal.valueOf(0.80), BigDecimal.valueOf(16000), false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2",
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.80), BigDecimal.valueOf(16000), false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(3, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3",
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.80), BigDecimal.valueOf(16000), false));
 
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1, SAMVAERSFRADRAG_REFERANSE + "_1",
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-10-01")), BigDecimal.ZERO));
@@ -263,13 +263,13 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(1000), BigDecimal.valueOf(1600)));
 
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_1",
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")), BigDecimal.valueOf(40), BigDecimal.valueOf(4000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")), BigDecimal.valueOf(0.4), BigDecimal.valueOf(4000), false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_2",
-        new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(60), BigDecimal.valueOf(6000), false));
+        new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.6), BigDecimal.valueOf(6000), false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_3",
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")), BigDecimal.valueOf(60), BigDecimal.valueOf(6000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2019-11-01")), BigDecimal.valueOf(0.6), BigDecimal.valueOf(6000), false));
     bPsAndelUnderholdskostnadListe.add(new BPsAndelUnderholdskostnadPeriode(2, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE + "_4",
-        new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(40), BigDecimal.valueOf(4000), false));
+        new Periode(LocalDate.parse("2019-11-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.4), BigDecimal.valueOf(4000), false));
 
     samvaersfradragPeriodeListe.add(new SamvaersfradragPeriode(1, SAMVAERSFRADRAG_REFERANSE + "_1",
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.ZERO));
@@ -317,7 +317,7 @@ public class BarnebidragPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatListe().get(1).getBelop()
             .compareTo(BigDecimal.valueOf(200))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getGrunnlagPerBarnListe().get(1)
-            .getBPsAndelUnderholdskostnad().getAndelProsent().compareTo(BigDecimal.valueOf(10))).isZero(),
+            .getBPsAndelUnderholdskostnad().getAndelProsent().compareTo(BigDecimal.valueOf(0.1))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatListe().get(0).getKode())
             .isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
 
@@ -349,7 +349,7 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(5603), BigDecimal.valueOf(8334)));
 
     var bPsAndelUnderholdskostnadListe = singletonList(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(48.4), BigDecimal.valueOf(4203), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.484), BigDecimal.valueOf(4203), false));
 
     var samvaersfradragPeriodeListe = singletonList(new SamvaersfradragPeriode(1, SAMVAERSFRADRAG_REFERANSE,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.ZERO));
@@ -401,7 +401,7 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2018-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(359), BigDecimal.valueOf(11458)));
 
     var bPsAndelUnderholdskostnadListe = singletonList(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(56.4), BigDecimal.valueOf(4898), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.564), BigDecimal.valueOf(4898), false));
 
     var samvaersfradragPeriodeListe = singletonList(new SamvaersfradragPeriode(1, SAMVAERSFRADRAG_REFERANSE,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.ZERO));
@@ -456,7 +456,7 @@ public class BarnebidragPeriodeTest {
         new Periode(LocalDate.parse("2019-10-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(17000), BigDecimal.valueOf(16000)));
 
     var bPsAndelUnderholdskostnadListe = singletonList(new BPsAndelUnderholdskostnadPeriode(1, BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(80), BigDecimal.valueOf(16000), false));
+        new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(0.8), BigDecimal.valueOf(16000), false));
 
     var samvaersfradragPeriodeListe = singletonList(new SamvaersfradragPeriode(1, SAMVAERSFRADRAG_REFERANSE,
         new Periode(LocalDate.parse("2019-08-01"), LocalDate.parse("2020-01-01")), BigDecimal.ZERO));
