@@ -23,7 +23,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
   @Override
   public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning, Boolean beregnMedNyeRegler) {
 
-    var andelProsent = BigDecimal.ZERO;
+    var fordelingsnokkel = BigDecimal.ZERO;
     var andelBelop = BigDecimal.ZERO;
     var barnetErSelvforsorget = false;
 
@@ -54,17 +54,16 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
 
     } else {
       if (beregnMedNyeRegler) {
-        andelProsent = beregnMedNyeRegler(inntektBP, inntektBM, inntektBB, forskuddssatsBelop);
+        fordelingsnokkel = beregnMedNyeRegler(inntektBP, inntektBM, inntektBB, forskuddssatsBelop);
       } else {
-        andelProsent = beregnMedGamleRegler(inntektBP, inntektBM, inntektBB);
+        fordelingsnokkel = beregnMedGamleRegler(inntektBP, inntektBM, inntektBB);
       }
       andelBelop = grunnlagBeregning.getUnderholdskostnad().getBelop()
-          .multiply(andelProsent)
-          .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP))
+          .multiply(fordelingsnokkel)
           .setScale(0, RoundingMode.HALF_UP);
     }
 
-    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget,
+    return new ResultatBeregning(fordelingsnokkel, andelBelop, barnetErSelvforsorget,
         byggSjablonResultatListe(sjablonNavnVerdiMap, grunnlagBeregning.getSjablonListe()));
   }
 
@@ -76,56 +75,57 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
       inntektBB = BigDecimal.ZERO;
     }
 
-    var andelProsent = (inntektBP
-        .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100)))
-        .setScale(1, RoundingMode.HALF_UP);
+    var fordelingsnokkel = (inntektBP
+        .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10)))
+        .setScale(12, RoundingMode.HALF_UP);
 
     // Utregnet andel skal ikke være større en 5/6
-    if (andelProsent.compareTo(BigDecimal.valueOf(83.3333333333)) > 0) {
-      andelProsent = BigDecimal.valueOf(83.3333333333);
+    // Hvis beregnet fordelingsnøkkel blir større enn 5/6 returneres 12 desimaltall, ellers 3
+    if (fordelingsnokkel.compareTo(BigDecimal.valueOf(0.833333333333)) > 0) {
+      fordelingsnokkel = BigDecimal.valueOf(0.833333333333);
+      return fordelingsnokkel;
+    } else {
+      return fordelingsnokkel.setScale(3, RoundingMode.HALF_UP);
+
     }
 
-    return andelProsent;
+//    return fordelingsnokkel;
   }
 
   private BigDecimal beregnMedGamleRegler(BigDecimal inntektBP, BigDecimal inntektBM, BigDecimal inntektBB) {
 
-    var andelProsent = inntektBP
-        .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100));
+    // Med gamle regler skal beregnet fordelingsnøkkel rundes av til nærmeste sjettedel, men ikke over 5/6
+
+    var fordelingsnokkel = inntektBP
+        .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10, RoundingMode.HALF_UP));
 
     var sjettedeler = new ArrayList<BigDecimal>();
 
     sjettedeler.add(BigDecimal.valueOf(1)
-        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100)));
+        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP)));
     sjettedeler.add(BigDecimal.valueOf(2)
-        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100)));
+        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP)));
     sjettedeler.add(BigDecimal.valueOf(3)
-        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100)));
+        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP)));
     sjettedeler.add(BigDecimal.valueOf(4)
-        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100)));
+        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP)));
     sjettedeler.add(BigDecimal.valueOf(5)
-        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP))
-        .multiply(BigDecimal.valueOf(100)));
+        .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP)));
 
-    var finalAndel = andelProsent;
-    andelProsent = sjettedeler.stream()
+    var finalAndel = fordelingsnokkel;
+    fordelingsnokkel = sjettedeler.stream()
         .min(comparing(a -> finalAndel.subtract(a).abs()))
         .orElseThrow(() -> new IllegalArgumentException("Empty collection"));
 
     // Utregnet andel skal ikke være større enn 5/6
-    if (andelProsent.compareTo(BigDecimal.valueOf(83.3333333333)) >= 0) {
-      andelProsent = BigDecimal.valueOf(83.3333333333);
+    if (fordelingsnokkel.compareTo(BigDecimal.valueOf(0.833333333333)) >= 0) {
+      fordelingsnokkel = BigDecimal.valueOf(0.833333333333);
+      return fordelingsnokkel;
     } else {
-      andelProsent = andelProsent.setScale(1, RoundingMode.HALF_UP);
+      return fordelingsnokkel.setScale(3, RoundingMode.HALF_UP);
     }
-
-    return andelProsent;
+//
+//    return fordelingsnokkel;
   }
 
   // Henter sjablonverdier

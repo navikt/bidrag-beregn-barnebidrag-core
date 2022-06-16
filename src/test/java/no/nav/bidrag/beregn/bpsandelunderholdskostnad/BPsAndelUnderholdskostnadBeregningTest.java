@@ -43,7 +43,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(35.2)),
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.352)),
         () -> assertThat(resultat.getAndelBelop()).isEqualTo(BigDecimal.valueOf(3520))
     );
   }
@@ -79,7 +79,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(34.7)),
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.347)),
         () -> assertThat(resultat.getAndelBelop()).isEqualTo(BigDecimal.valueOf(347)),
         () -> assertThat(resultat.getBarnetErSelvforsorget()).isFalse()
     );
@@ -123,7 +123,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         // Beregnet andel skal bli 92,6%, overstyres til 5/6 (83,3333333333%)
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.833333333333))
     );
   }
 
@@ -142,7 +142,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(50.1))
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.501))
     );
   }
 
@@ -161,7 +161,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(50.0))
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.500).setScale(3))
     );
   }
 
@@ -180,7 +180,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(16.7))
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.167))
     );
   }
 
@@ -199,7 +199,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     assertAll(
         () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.833333333333))
     );
   }
 
@@ -219,7 +219,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     assertAll(
         () -> assertThat(resultat).isNotNull(),
         () -> assertThat(resultat.getAndelBelop()).isEqualTo(BigDecimal.valueOf(7796)),
-        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(83.3333333333))
+        () -> assertThat(resultat.getAndelProsent()).isEqualTo(BigDecimal.valueOf(0.833333333333))
     );
   }
 }
