@@ -123,7 +123,7 @@ public class BPsAndelUnderholdskostnadPeriodeImpl extends FellesPeriode implemen
       var grunnlagBeregning = new GrunnlagBeregning(underholdskostnad, inntektBPListe, inntektBMListe, inntektBBListe, sjablonliste);
 
       // Beregner med gamle regler hvis periodens beregntilogmeddato er 01.01.2009 eller tidligere
-      // Med gamle regler skal beregnet fordelingsnøkkel rundes av til nærmeste sjettedel, men ikke over 5/6
+      // Med gamle regler skal beregnet andelProsent rundes av til nærmeste sjettedel, men ikke over 5/6
       var brukNyeRegler = (beregningsperiode.getPeriode().getDatoTil() == null) ||
           (beregningsperiode.getPeriode().getDatoTil().isAfter(regelendringsdato));
 

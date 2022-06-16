@@ -84,7 +84,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2018-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getResultat().getAndelProsent())
-            .isEqualTo(BigDecimal.valueOf(10)),
+            .isEqualTo(BigDecimal.valueOf(0.10)),
 
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(0).getGrunnlagReferanseListe().get(0))
             .isEqualTo(INNTEKT_BB_REFERANSE),
@@ -100,14 +100,14 @@ public class BPsAndelUnderholdskostnadCoreTest {
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(1).getResultat().getAndelProsent())
-            .isEqualTo(BigDecimal.valueOf(20)),
+            .isEqualTo(BigDecimal.valueOf(0.20)),
 
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoFom())
             .isEqualTo(LocalDate.parse("2019-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getPeriode().getDatoTil())
             .isEqualTo(LocalDate.parse("2020-01-01")),
         () -> assertThat(beregnBPsAndelUnderholdskostnadResultatCore.getResultatPeriodeListe().get(2).getResultat().getAndelProsent())
-            .isEqualTo(BigDecimal.valueOf(30))
+            .isEqualTo(BigDecimal.valueOf(0.30))
     );
   }
 
@@ -168,7 +168,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(10), BigDecimal.valueOf(100), false,
+        new ResultatBeregning(BigDecimal.valueOf(0.10), BigDecimal.valueOf(100), false,
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
         new GrunnlagBeregning(
@@ -182,7 +182,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2018-01-01"), LocalDate.parse("2019-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(20), BigDecimal.valueOf(200), false,
+        new ResultatBeregning(BigDecimal.valueOf(0.20), BigDecimal.valueOf(200), false,
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
         new GrunnlagBeregning(
@@ -196,7 +196,7 @@ public class BPsAndelUnderholdskostnadCoreTest {
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2019-01-01"), LocalDate.parse("2020-01-01")),
-        new ResultatBeregning(BigDecimal.valueOf(30), BigDecimal.valueOf(300), false,
+        new ResultatBeregning(BigDecimal.valueOf(0.30), BigDecimal.valueOf(300), false,
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.FORSKUDDSSATS_BELOP.getNavn(), BigDecimal.valueOf(1600)))),
         new GrunnlagBeregning(

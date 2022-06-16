@@ -23,7 +23,7 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
   @Override
   public ResultatBeregning beregn(GrunnlagBeregning grunnlagBeregning, Boolean beregnMedNyeRegler) {
 
-    var fordelingsnokkel = BigDecimal.ZERO;
+    var andelProsent = BigDecimal.ZERO;
     var andelBelop = BigDecimal.ZERO;
     var barnetErSelvforsorget = false;
 
@@ -54,16 +54,16 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
 
     } else {
       if (beregnMedNyeRegler) {
-        fordelingsnokkel = beregnMedNyeRegler(inntektBP, inntektBM, inntektBB, forskuddssatsBelop);
+        andelProsent = beregnMedNyeRegler(inntektBP, inntektBM, inntektBB, forskuddssatsBelop);
       } else {
-        fordelingsnokkel = beregnMedGamleRegler(inntektBP, inntektBM, inntektBB);
+        andelProsent = beregnMedGamleRegler(inntektBP, inntektBM, inntektBB);
       }
       andelBelop = grunnlagBeregning.getUnderholdskostnad().getBelop()
-          .multiply(fordelingsnokkel)
+          .multiply(andelProsent)
           .setScale(0, RoundingMode.HALF_UP);
     }
 
-    return new ResultatBeregning(fordelingsnokkel, andelBelop, barnetErSelvforsorget,
+    return new ResultatBeregning(andelProsent, andelBelop, barnetErSelvforsorget,
         byggSjablonResultatListe(sjablonNavnVerdiMap, grunnlagBeregning.getSjablonListe()));
   }
 
@@ -75,28 +75,26 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
       inntektBB = BigDecimal.ZERO;
     }
 
-    var fordelingsnokkel = (inntektBP
+    var andelProsent = (inntektBP
         .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10)))
         .setScale(12, RoundingMode.HALF_UP);
 
     // Utregnet andel skal ikke være større en 5/6
-    // Hvis beregnet fordelingsnøkkel blir større enn 5/6 returneres 12 desimaltall, ellers 3
-    if (fordelingsnokkel.compareTo(BigDecimal.valueOf(0.833333333333)) > 0) {
-      fordelingsnokkel = BigDecimal.valueOf(0.833333333333);
-      return fordelingsnokkel;
+    // Hvis beregnet andelProsent blir større enn 5/6 returneres 12 desimaltall, ellers 3
+    if (andelProsent.compareTo(BigDecimal.valueOf(0.833333333333)) > 0) {
+      andelProsent = BigDecimal.valueOf(0.833333333333);
+      return andelProsent;
     } else {
-      return fordelingsnokkel.setScale(3, RoundingMode.HALF_UP);
+      return andelProsent.setScale(3, RoundingMode.HALF_UP);
 
     }
-
-//    return fordelingsnokkel;
   }
 
   private BigDecimal beregnMedGamleRegler(BigDecimal inntektBP, BigDecimal inntektBM, BigDecimal inntektBB) {
 
     // Med gamle regler skal beregnet fordelingsnøkkel rundes av til nærmeste sjettedel, men ikke over 5/6
 
-    var fordelingsnokkel = inntektBP
+    var andelProsent = inntektBP
         .divide(inntektBP.add(inntektBM).add(inntektBB), new MathContext(10, RoundingMode.HALF_UP));
 
     var sjettedeler = new ArrayList<BigDecimal>();
@@ -112,20 +110,18 @@ public class BPsAndelUnderholdskostnadBeregningImpl extends FellesBeregning impl
     sjettedeler.add(BigDecimal.valueOf(5)
         .divide(BigDecimal.valueOf(6), new MathContext(12, RoundingMode.HALF_UP)));
 
-    var finalAndel = fordelingsnokkel;
-    fordelingsnokkel = sjettedeler.stream()
+    var finalAndel = andelProsent;
+    andelProsent = sjettedeler.stream()
         .min(comparing(a -> finalAndel.subtract(a).abs()))
         .orElseThrow(() -> new IllegalArgumentException("Empty collection"));
 
     // Utregnet andel skal ikke være større enn 5/6
-    if (fordelingsnokkel.compareTo(BigDecimal.valueOf(0.833333333333)) >= 0) {
-      fordelingsnokkel = BigDecimal.valueOf(0.833333333333);
-      return fordelingsnokkel;
+    if (andelProsent.compareTo(BigDecimal.valueOf(0.833333333333)) >= 0) {
+      andelProsent = BigDecimal.valueOf(0.833333333333);
+      return andelProsent;
     } else {
-      return fordelingsnokkel.setScale(3, RoundingMode.HALF_UP);
+      return andelProsent.setScale(3, RoundingMode.HALF_UP);
     }
-//
-//    return fordelingsnokkel;
   }
 
   // Henter sjablonverdier

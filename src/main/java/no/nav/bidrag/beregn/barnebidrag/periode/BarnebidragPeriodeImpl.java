@@ -238,24 +238,23 @@ public class BarnebidragPeriodeImpl extends FellesPeriode implements Barnebidrag
 
   // Ved delt bosted skal andel av underholdskostnad reduseres med 50 prosentpoeng. Blir andelen under 50% skal ikke bidrag beregnes
   private BPsAndelUnderholdskostnad justerForDeltBosted(BPsAndelUnderholdskostnad bPsAndelUnderholdskostnad) {
-    var andelProsent = bPsAndelUnderholdskostnad.getAndelProsent();
+    var andelProsentJustert = bPsAndelUnderholdskostnad.getAndelProsent();
     var andelBelop = bPsAndelUnderholdskostnad.getAndelBelop();
 
-    if (bPsAndelUnderholdskostnad.getAndelProsent().compareTo(BigDecimal.valueOf(50)) > 0) {
-      andelProsent = bPsAndelUnderholdskostnad.getAndelProsent()
-          .subtract(BigDecimal.valueOf(50));
+    if (bPsAndelUnderholdskostnad.getAndelProsent().compareTo(BigDecimal.valueOf(0.5)) > 0) {
+      andelProsentJustert = bPsAndelUnderholdskostnad.getAndelProsent()
+          .subtract(BigDecimal.valueOf(0.5));
 
       andelBelop = bPsAndelUnderholdskostnad.getAndelBelop()
           .divide(bPsAndelUnderholdskostnad.getAndelProsent(), new MathContext(10, RoundingMode.HALF_UP))
-          .multiply(BigDecimal.valueOf(100))
-          .multiply(andelProsent)
-          .divide(BigDecimal.valueOf(100), new MathContext(10, RoundingMode.HALF_UP));
+          .multiply(andelProsentJustert)
+      ;
     } else {
-      andelProsent = BigDecimal.ZERO;
+      andelProsentJustert = BigDecimal.ZERO;
       andelBelop = BigDecimal.ZERO;
     }
 
-    return new BPsAndelUnderholdskostnad(bPsAndelUnderholdskostnad.getReferanse(), andelProsent, andelBelop,
+    return new BPsAndelUnderholdskostnad(bPsAndelUnderholdskostnad.getReferanse(), andelProsentJustert, andelBelop,
         bPsAndelUnderholdskostnad.getBarnetErSelvforsorget());
   }
 

@@ -82,7 +82,6 @@ public class BarnebidragBeregningImpl extends FellesBeregning implements Barnebi
           (grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getAndelBelop().compareTo(BigDecimal.ZERO) > 0)) {
         underholdskostnad = grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getAndelBelop()
             .divide(grunnlagBeregningPerBarn.getBPsAndelUnderholdskostnad().getAndelProsent(), new MathContext(10, RoundingMode.HALF_UP))
-            .multiply(BigDecimal.valueOf(100))
             .setScale(0, RoundingMode.HALF_UP);
       }
 
