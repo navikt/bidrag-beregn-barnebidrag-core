@@ -29,9 +29,8 @@ import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore;
-import no.nav.bidrag.beregn.felles.enums.BostatusKode;
-import no.nav.bidrag.beregn.felles.enums.InntektType;
-import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
+import no.nav.bidrag.domain.enums.BostatusKode;
+import no.nav.bidrag.domain.enums.SaerfradragKode;
 
 public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
 
@@ -70,7 +69,7 @@ public class BidragsevneCoreImpl extends FellesCore implements BidragsevneCore {
       inntektPeriodeListe.add(new InntektPeriode(
           inntektPeriodeCore.getReferanse(),
           new Periode(inntektPeriodeCore.getPeriode().getDatoFom(), inntektPeriodeCore.getPeriode().getDatoTil()),
-          InntektType.valueOf(inntektPeriodeCore.getType()),
+          inntektPeriodeCore.getType(),
           inntektPeriodeCore.getBelop()));
     }
     return inntektPeriodeListe;

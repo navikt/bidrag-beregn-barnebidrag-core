@@ -3,7 +3,6 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
-import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -54,7 +53,7 @@ data class Underholdskostnad(
 
 data class Inntekt(
   val referanse: String,
-  val type: InntektType,
+  val type: String,
   val belop: BigDecimal,
   val deltFordel: Boolean,
   val skatteklasse2: Boolean

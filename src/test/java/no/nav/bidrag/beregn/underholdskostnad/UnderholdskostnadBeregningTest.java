@@ -25,7 +25,7 @@ class UnderholdskostnadBeregningTest {
 
   private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
 
-  private final UnderholdskostnadBeregning underholdskostnadberegning = UnderholdskostnadBeregning.getInstance();
+  private final UnderholdskostnadBeregning underholdskostnadberegning = UnderholdskostnadBeregning.Companion.getInstance();
 
   @DisplayName("Test av beregning av underholdskostnad når barnet er 3 år gammelt")
   @Test

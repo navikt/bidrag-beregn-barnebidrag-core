@@ -2,15 +2,14 @@ package no.nav.bidrag.beregn.bidragsevne.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.beregn.felles.enums.BostatusKode
-import no.nav.bidrag.beregn.felles.enums.InntektType
-import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
+import no.nav.bidrag.domain.enums.BostatusKode
+import no.nav.bidrag.domain.enums.SaerfradragKode
 import java.math.BigDecimal
 
 data class InntektPeriode(
   val referanse: String,
   val inntektPeriode: Periode,
-  val type: InntektType,
+  val type: String,
   val belop: BigDecimal
 ) : PeriodisertGrunnlag {
 

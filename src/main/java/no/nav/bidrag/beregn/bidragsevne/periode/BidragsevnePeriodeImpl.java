@@ -22,15 +22,16 @@ import no.nav.bidrag.beregn.bidragsevne.bo.SaerfradragPeriode;
 import no.nav.bidrag.beregn.bidragsevne.bo.Skatteklasse;
 import no.nav.bidrag.beregn.bidragsevne.bo.SkatteklassePeriode;
 import no.nav.bidrag.beregn.felles.FellesPeriode;
-import no.nav.bidrag.beregn.felles.InntektUtil;
-import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.enums.Rolle;
-import no.nav.bidrag.beregn.felles.enums.SoknadType;
 import no.nav.bidrag.beregn.felles.inntekt.InntektPeriodeGrunnlag;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
+import no.nav.bidrag.beregn.felles.util.InntektUtil;
+import no.nav.bidrag.beregn.felles.util.PeriodeUtil;
+import no.nav.bidrag.domain.enums.Formaal;
+import no.nav.bidrag.domain.enums.InntektType;
+import no.nav.bidrag.domain.enums.Rolle;
 
 public class BidragsevnePeriodeImpl extends FellesPeriode implements BidragsevnePeriode {
 
@@ -144,12 +145,12 @@ public class BidragsevnePeriodeImpl extends FellesPeriode implements Bidragsevne
     }
 
     var justertInntektPeriodeListe = InntektUtil.justerInntekter(inntektPeriodeListe.stream()
-        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getInntektPeriode(), inntektPeriode.getType(),
+        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getInntektPeriode(), InntektType.valueOf(inntektPeriode.getType()),
             inntektPeriode.getBelop(), false, false))
         .collect(toList()));
 
     return justertInntektPeriodeListe.stream()
-        .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getReferanse(), inntektGrunnlag.getInntektPeriode(), inntektGrunnlag.getType(),
+        .map(inntektGrunnlag -> new InntektPeriode(inntektGrunnlag.getReferanse(), inntektGrunnlag.getInntektPeriode(), inntektGrunnlag.getType().toString(),
             inntektGrunnlag.getBelop()))
         .sorted(comparing(inntektPeriode -> inntektPeriode.getInntektPeriode().getDatoFom()))
         .collect(toList());
@@ -209,10 +210,10 @@ public class BidragsevnePeriodeImpl extends FellesPeriode implements Bidragsevne
 
     // Valider inntekter
     var inntektGrunnlagListe = grunnlag.getInntektPeriodeListe().stream()
-        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getPeriode(), inntektPeriode.getType(),
+        .map(inntektPeriode -> new InntektPeriodeGrunnlag(inntektPeriode.getReferanse(), inntektPeriode.getPeriode(), InntektType.valueOf(inntektPeriode.getType()),
             inntektPeriode.getBelop(), false, false))
         .collect(toList());
-    avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, SoknadType.BIDRAG, Rolle.BIDRAGSPLIKTIG));
+    avvikListe.addAll(InntektUtil.validerInntekter(inntektGrunnlagListe, Formaal.BIDRAG, Rolle.BIDRAGSPLIKTIG));
 
     return avvikListe;
   }

@@ -23,7 +23,6 @@ import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonResultatGrunnlagCore;
-import no.nav.bidrag.beregn.felles.enums.InntektType;
 
 public class BPsAndelUnderholdskostnadCoreImpl extends FellesCore implements BPsAndelUnderholdskostnadCore {
 
@@ -67,7 +66,7 @@ public class BPsAndelUnderholdskostnadCoreImpl extends FellesCore implements BPs
       inntektPeriodeListe.add(new InntektPeriode(
           inntektPeriodeCore.getReferanse(),
           new Periode(inntektPeriodeCore.getPeriode().getDatoFom(), inntektPeriodeCore.getPeriode().getDatoTil()),
-          InntektType.valueOf(inntektPeriodeCore.getType()),
+          inntektPeriodeCore.getType(),
           inntektPeriodeCore.getBelop(),
           inntektPeriodeCore.getDeltFordel(),
           inntektPeriodeCore.getSkatteklasse2()));

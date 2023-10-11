@@ -28,7 +28,7 @@ import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.barnebidrag.bo.GrunnlagBeregningPerBarn;
 import no.nav.bidrag.beregn.barnebidrag.bo.Samvaersfradrag;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +37,7 @@ public class BarnebidragBeregningTest {
 
   private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
 
-  private final BarnebidragBeregning barnebidragBeregning = BarnebidragBeregning.getInstance();
+  private final BarnebidragBeregning barnebidragBeregning = BarnebidragBeregning.Companion.getInstance();
 
   @DisplayName("Beregner ved full evne, ett barn, ingen barnetillegg")
   @Test
@@ -62,7 +62,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(8000))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)
     );
   }
 
@@ -90,7 +90,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1430))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
   }
 
@@ -127,7 +127,7 @@ public class BarnebidragBeregningTest {
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(8000))).isZero(),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(7000))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)
     );
   }
 
@@ -171,11 +171,11 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(2400))).isZero(),
-        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(1600))).isZero(),
-        () -> assertThat(resultat.get(2).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(2).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
@@ -202,7 +202,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
@@ -239,9 +239,9 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(5330))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(4670))).isZero(),
-        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
@@ -285,11 +285,11 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(2400))).isZero(),
-        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
         () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(1600))).isZero(),
-        () -> assertThat(resultat.get(2).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
+        () -> assertThat(resultat.get(2).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT),
 
         () -> assertThat(resultat.get(0).getBelop()
             .add(resultat.get(1).getBelop())
@@ -323,7 +323,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(300))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
     );
   }
 
@@ -351,7 +351,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(450))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
   }
 
@@ -378,7 +378,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1800))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.KOSTNADSBEREGNET_BIDRAG)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)
     );
   }
 
@@ -416,9 +416,9 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(450))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(290))).isZero(),
-        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM)
     );
   }
 
@@ -446,7 +446,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(4667))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
@@ -491,7 +491,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
@@ -537,7 +537,7 @@ public class BarnebidragBeregningTest {
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(1667))).isZero(),
         () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
@@ -645,7 +645,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(727))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET)
     );
   }
 
@@ -681,9 +681,9 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(500))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(500))).isZero(),
-        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE)
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE)
     );
   }
 
@@ -720,9 +720,9 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.ZERO)).isZero(),
-        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKode.BARNET_ER_SELVFORSORGET)
+        () -> assertThat(resultat.get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.BARNET_ER_SELVFORSORGET)
     );
   }
 
@@ -749,7 +749,7 @@ public class BarnebidragBeregningTest {
     var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BARNEBIDRAG_IKKE_BEREGNET_DELT_BOSTED)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED)
     );
   }
 
@@ -776,7 +776,7 @@ public class BarnebidragBeregningTest {
     var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.DELT_BOSTED)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.DELT_BOSTED)
     );
   }
 
@@ -803,7 +803,7 @@ public class BarnebidragBeregningTest {
     var resultat = barnebidragBeregning.beregn(grunnlagBeregningPeriodisert);
 
     assertAll(
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_REDUSERT_AV_EVNE),
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE),
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero()
     );
   }
@@ -831,7 +831,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getKode()).isEqualTo(
-            ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING),
+            ResultatKodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING),
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(8000))).isZero()
     );
   }
@@ -880,7 +880,7 @@ public class BarnebidragBeregningTest {
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
         () -> assertThat(resultat.get(1).getBelop().compareTo(BigDecimal.valueOf(1667))).isZero(),
         () -> assertThat(resultat.get(2).getBelop().compareTo(BigDecimal.valueOf(2667))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING)
     );
   }
 
@@ -907,7 +907,7 @@ public class BarnebidragBeregningTest {
 
     assertAll(
         () -> assertThat(resultat.get(0).getBelop().compareTo(BigDecimal.valueOf(1140))).isZero(),
-        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKode.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
+        () -> assertThat(resultat.get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP)
     );
   }
 }

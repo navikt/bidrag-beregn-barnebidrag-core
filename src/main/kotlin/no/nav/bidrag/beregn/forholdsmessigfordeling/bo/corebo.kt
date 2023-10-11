@@ -1,7 +1,7 @@
 package no.nav.bidrag.beregn.forholdsmessigfordeling.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -32,7 +32,7 @@ data class ResultatBeregning(
 data class ResultatPerBarn(
     val barnPersonId: Int,
     val belop: BigDecimal,
-    val kode: ResultatKode
+    val kode: ResultatKodeBarnebidrag
 )
 
 // Grunnlag beregning

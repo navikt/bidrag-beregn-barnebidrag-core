@@ -2,13 +2,12 @@ package no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.beregn.felles.enums.InntektType
 import java.math.BigDecimal
 
 data class InntektPeriode(
   val referanse: String,
   val inntektPeriode: Periode,
-  val type: InntektType,
+  val type: String,
   val belop: BigDecimal,
   val deltFordel: Boolean,
   val skatteklasse2: Boolean

@@ -12,6 +12,6 @@ public interface KostnadsberegnetBidragPeriode {
   List<Avvik> validerInput(BeregnKostnadsberegnetBidragGrunnlag beregnKostnadsberegnetBidragGrunnlag);
 
   static KostnadsberegnetBidragPeriode getInstance() {
-    return new KostnadsberegnetBidragPeriodeImpl(KostnadsberegnetBidragBeregning.getInstance());
+    return new KostnadsberegnetBidragPeriodeImpl(KostnadsberegnetBidragBeregning.Companion.getInstance());
   }
 }

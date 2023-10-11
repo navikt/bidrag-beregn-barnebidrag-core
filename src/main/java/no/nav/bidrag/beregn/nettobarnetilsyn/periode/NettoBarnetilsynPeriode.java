@@ -12,6 +12,6 @@ public interface NettoBarnetilsynPeriode {
   List<Avvik> validerInput(BeregnNettoBarnetilsynGrunnlag beregnNettoBarnetilsynGrunnlag);
 
   static NettoBarnetilsynPeriode getInstance() {
-    return new NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning.getInstance());
+    return new NettoBarnetilsynPeriodeImpl(NettoBarnetilsynBeregning.Companion.getInstance());
   }
 }

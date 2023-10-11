@@ -113,6 +113,7 @@ Disse erstatter beregninger i BBM.
 
 | Versjon | Endringstype | Beskrivelse                                                                                                                                     |
 |---------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 0.19.0  | Endret       | Skrevet om til Kotlin og refaktorert kode del 1 (Beregning-klassene)                                                                            |
 | 0.18.8  | Endret       | Oppdaterte avhegigheter (Snyk)                                                                                                                  |
 | 0.18.7  | Endret       | Endret andelProsent av BPsAndelUnderholdskostnad til å oppgis som et tall mellom 0 og 1                                                         |
 | 0.18.6  | Endret       | Testing av opplasting til Nexus                                                                                                                 |

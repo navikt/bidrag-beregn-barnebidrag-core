@@ -12,6 +12,6 @@ public interface BarnebidragPeriode {
   List<Avvik> validerInput(BeregnBarnebidragGrunnlag beregnBarnebidragGrunnlag);
 
   static BarnebidragPeriode getInstance() {
-    return new BarnebidragPeriodeImpl(BarnebidragBeregning.getInstance());
+    return new BarnebidragPeriodeImpl(BarnebidragBeregning.Companion.getInstance());
   }
 }

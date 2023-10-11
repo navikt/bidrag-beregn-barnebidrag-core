@@ -17,7 +17,6 @@ import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Inntekt;
 import no.nav.bidrag.beregn.bpsandelunderholdskostnad.bo.Underholdskostnad;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.enums.InntektType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +25,7 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
   private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
 
-  private final BPsAndelUnderholdskostnadBeregning bPsAndelUnderholdskostnadBeregning = BPsAndelUnderholdskostnadBeregning.getInstance();
+  private final BPsAndelUnderholdskostnadBeregning bPsAndelUnderholdskostnadBeregning = BPsAndelUnderholdskostnadBeregning.Companion.getInstance();
 
   @DisplayName("Beregning med inntekter for alle parter")
   @Test
@@ -34,9 +33,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(10000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(217666), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(217666), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(400000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.valueOf(40000), false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, true);
@@ -56,17 +55,17 @@ public class BPsAndelUnderholdskostnadBeregningTest {
     var inntektBMListe = new ArrayList<Inntekt>();
     var inntektBBListe = new ArrayList<Inntekt>();
 
-    inntektBPListe.add(new Inntekt(INNTEKT_BP_REFERANSE + "_1", InntektType.LONN_SKE, BigDecimal.valueOf(200000), false, false));
-    inntektBPListe.add(new Inntekt(INNTEKT_BP_REFERANSE + "_2", InntektType.LONN_SKE, BigDecimal.valueOf(17666), false, false));
-    inntektBMListe.add(new Inntekt(INNTEKT_BM_REFERANSE + "_1", InntektType.LONN_SKE, BigDecimal.valueOf(100000), false, false));
-    inntektBMListe.add(new Inntekt(INNTEKT_BM_REFERANSE + "_2", InntektType.LONN_SKE, BigDecimal.valueOf(200000), false, false));
-    inntektBMListe.add(new Inntekt(INNTEKT_BM_REFERANSE + "_3", InntektType.LONN_SKE, BigDecimal.valueOf(100000), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_1", InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_2", InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_3", InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_4", InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_5", InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
-    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_6", InntektType.LONN_SKE, BigDecimal.valueOf(10000), false, false));
+    inntektBPListe.add(new Inntekt(INNTEKT_BP_REFERANSE + "_1", "LONN_SKE", BigDecimal.valueOf(200000), false, false));
+    inntektBPListe.add(new Inntekt(INNTEKT_BP_REFERANSE + "_2", "LONN_SKE", BigDecimal.valueOf(17666), false, false));
+    inntektBMListe.add(new Inntekt(INNTEKT_BM_REFERANSE + "_1", "LONN_SKE", BigDecimal.valueOf(100000), false, false));
+    inntektBMListe.add(new Inntekt(INNTEKT_BM_REFERANSE + "_2", "LONN_SKE", BigDecimal.valueOf(200000), false, false));
+    inntektBMListe.add(new Inntekt(INNTEKT_BM_REFERANSE + "_3", "LONN_SKE", BigDecimal.valueOf(100000), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_1", "LONN_SKE", BigDecimal.valueOf(10000), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_2", "LONN_SKE", BigDecimal.valueOf(10000), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_3", "LONN_SKE", BigDecimal.valueOf(10000), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_4", "LONN_SKE", BigDecimal.valueOf(10000), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_5", "LONN_SKE", BigDecimal.valueOf(10000), false, false));
+    inntektBBListe.add(new Inntekt(INNTEKT_BB_REFERANSE + "_6", "LONN_SKE", BigDecimal.valueOf(10000), false, false));
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
@@ -91,9 +90,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(217666), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(400000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(217666), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(400000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.valueOf(400000), false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, true);
@@ -113,9 +112,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(1000000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(40000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(1000000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(40000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.valueOf(40000), false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, true);
@@ -133,9 +132,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(502000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(500000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.ZERO, false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(502000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(500000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.ZERO, false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, true);
@@ -152,9 +151,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(502000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(500000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.ZERO, false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(502000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(500000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.ZERO, false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, false);
@@ -171,9 +170,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(2000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(500000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(1000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(2000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(500000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.valueOf(1000), false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, false);
@@ -190,9 +189,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(1000)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(2000000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(2000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(1000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(2000000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(2000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.valueOf(1000), false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, false);
@@ -209,9 +208,9 @@ public class BPsAndelUnderholdskostnadBeregningTest {
 
     var grunnlagBeregning = new GrunnlagBeregning(
         new Underholdskostnad(UNDERHOLDSKOSTNAD_REFERANSE, BigDecimal.valueOf(9355)),
-        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(600000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(100000), false, false)),
-        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.ZERO, false, false)),
+        singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(600000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(100000), false, false)),
+        singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.ZERO, false, false)),
         sjablonPeriodeListe);
 
     var resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlagBeregning, false);

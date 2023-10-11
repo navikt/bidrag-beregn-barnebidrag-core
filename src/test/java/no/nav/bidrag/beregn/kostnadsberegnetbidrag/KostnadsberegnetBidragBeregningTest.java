@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av beregning av kostnadsberegnet bidrag")
 public class KostnadsberegnetBidragBeregningTest {
 
-  private final KostnadsberegnetBidragBeregning kostnadsberegnetBidragBeregning = KostnadsberegnetBidragBeregning.getInstance();
+  private final KostnadsberegnetBidragBeregning kostnadsberegnetBidragBeregning = KostnadsberegnetBidragBeregning.Companion.getInstance();
 
   @DisplayName("Test av beregning av kostnadsberegnet bidrag")
   @Test

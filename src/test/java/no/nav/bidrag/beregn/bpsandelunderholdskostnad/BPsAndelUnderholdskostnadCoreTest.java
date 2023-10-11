@@ -34,10 +34,9 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
-import no.nav.bidrag.beregn.felles.enums.AvvikType;
-import no.nav.bidrag.beregn.felles.enums.InntektType;
-import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.domain.enums.AvvikType;
+import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn;
+import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -139,15 +138,15 @@ public class BPsAndelUnderholdskostnadCoreTest {
         new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), BigDecimal.valueOf(1000)));
 
     var inntektBPPeriodeListe = singletonList(new InntektPeriodeCore(INNTEKT_BP_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), BigDecimal.valueOf(111),
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), "LONN_SKE", BigDecimal.valueOf(111),
         false, false));
 
     var inntektBMPeriodeListe = singletonList(new InntektPeriodeCore(INNTEKT_BM_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), BigDecimal.valueOf(222),
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), "LONN_SKE", BigDecimal.valueOf(222),
         false, false));
 
     var inntektBBPeriodeListe = singletonList(new InntektPeriodeCore(INNTEKT_BB_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), InntektType.LONN_SKE.toString(), BigDecimal.valueOf(333),
+        new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")), "LONN_SKE", BigDecimal.valueOf(333),
         false, false));
 
     var sjablonPeriodeListe = singletonList(new SjablonPeriodeCore(new PeriodeCore(LocalDate.parse("2017-01-01"), LocalDate.parse("2020-01-01")),
@@ -162,9 +161,9 @@ public class BPsAndelUnderholdskostnadCoreTest {
   private void byggBPsAndelUnderholdskostnadPeriodeResultat() {
     List<ResultatPeriode> periodeResultatListe = new ArrayList<>();
 
-    var inntektBPListe = singletonList(new Inntekt(INNTEKT_BP_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(111), false, false));
-    var inntektBMListe = singletonList(new Inntekt(INNTEKT_BM_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(222), false, false));
-    var inntektBBListe = singletonList(new Inntekt(INNTEKT_BB_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(333), false, false));
+    var inntektBPListe = singletonList(new Inntekt(INNTEKT_BP_REFERANSE, "LONN_SKE", BigDecimal.valueOf(111), false, false));
+    var inntektBMListe = singletonList(new Inntekt(INNTEKT_BM_REFERANSE, "LONN_SKE", BigDecimal.valueOf(222), false, false));
+    var inntektBBListe = singletonList(new Inntekt(INNTEKT_BB_REFERANSE, "LONN_SKE", BigDecimal.valueOf(333), false, false));
 
     periodeResultatListe.add(new ResultatPeriode(1,
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),

@@ -20,7 +20,7 @@ public class SamvaersfradragBeregningTest {
 
   private final List<SjablonPeriode> sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe();
 
-  private final SamvaersfradragBeregning samvaersfradragBeregning = SamvaersfradragBeregning.getInstance();
+  private final SamvaersfradragBeregning samvaersfradragBeregning = SamvaersfradragBeregning.Companion.getInstance();
 
   @DisplayName("Test av beregning av samvaersfradrag for fireåring")
   @Test

@@ -6,10 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import java.math.BigDecimal;
 import java.util.List;
 import no.nav.bidrag.beregn.TestUtil;
-import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
-import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.felles.util.SjablonUtil;
+import no.nav.bidrag.domain.enums.sjablon.SjablonNavn;
+import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ class BidragsevneBeregningGrunnlagTest {
 
     assertAll(
         () -> assertThat(sjablonverdiInntekt).isEqualTo(BigDecimal.valueOf(22)),
-        () -> assertThat(sortertTrinnvisSkattesatsListe.size()).isEqualTo(4),
+        () -> assertThat(sortertTrinnvisSkattesatsListe).hasSize(4),
         () -> assertThat(sortertTrinnvisSkattesatsListe.get(0).getInntektGrense()).isEqualTo(BigDecimal.valueOf(180800)),
         () -> assertThat(sortertTrinnvisSkattesatsListe.get(0).getSats()).isEqualTo(BigDecimal.valueOf(1.9))
     );

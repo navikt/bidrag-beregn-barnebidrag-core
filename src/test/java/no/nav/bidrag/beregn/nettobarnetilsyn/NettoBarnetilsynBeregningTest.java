@@ -22,7 +22,7 @@ class NettoBarnetilsynBeregningTest {
 
   private List<SjablonPeriode> sjablonPeriodeListe;
 
-  private final NettoBarnetilsynBeregning nettoBarnetilsynBeregning = NettoBarnetilsynBeregning.getInstance();
+  private final NettoBarnetilsynBeregning nettoBarnetilsynBeregning = NettoBarnetilsynBeregning.Companion.getInstance();
 
   @BeforeEach
   void byggSjablonPeriodeListe() {

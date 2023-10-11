@@ -13,7 +13,7 @@ public interface ForholdsmessigFordelingPeriode {
   List<Avvik> validerInput(BeregnForholdsmessigFordelingGrunnlag beregnForholdsmessigFordelingGrunnlag);
 
   static ForholdsmessigFordelingPeriode getInstance() {
-    return new ForholdsmessigFordelingPeriodeImpl(ForholdsmessigFordelingBeregning.getInstance());
+    return new ForholdsmessigFordelingPeriodeImpl(ForholdsmessigFordelingBeregning.Companion.getInstance());
   }
 
 }
