@@ -14,8 +14,6 @@ import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
-import no.nav.bidrag.beregn.felles.enums.AvvikType;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingResultat;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.Bidragsevne;
@@ -29,6 +27,8 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakPeriode
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BidragsevnePeriodeCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.GrunnlagPerBarnCore;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.periode.ForholdsmessigFordelingPeriode;
+import no.nav.bidrag.domain.enums.AvvikType;
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -123,7 +123,7 @@ public class ForholdsmessigFordelingCoreTest {
     periodeResultatListe.add(new ResultatPeriode(
         new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("2018-01-01")),
         Arrays.asList(new ResultatBeregning(1, Arrays.asList(
-            new ResultatPerBarn(1, BigDecimal.valueOf(1), ResultatKode.KOSTNADSBEREGNET_BIDRAG)))),
+            new ResultatPerBarn(1, BigDecimal.valueOf(1), ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)))),
         new GrunnlagBeregningPeriodisert(new Bidragsevne(BigDecimal.valueOf(1000), BigDecimal.valueOf(12000)),
             singletonList(new BeregnetBidragSak(1, singletonList(new GrunnlagPerBarn(1, BigDecimal.valueOf(1000))))))));
 

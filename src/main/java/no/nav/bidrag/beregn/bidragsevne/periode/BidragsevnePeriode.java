@@ -12,6 +12,6 @@ public interface BidragsevnePeriode {
     List<Avvik> validerInput(BeregnBidragsevneGrunnlag beregnBidragsevneGrunnlag);
 
     static BidragsevnePeriode getInstance() {
-        return new BidragsevnePeriodeImpl(BidragsevneBeregning.getInstance());
+        return new BidragsevnePeriodeImpl(BidragsevneBeregning.Companion.getInstance());
     }
 }

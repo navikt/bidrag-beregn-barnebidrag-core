@@ -21,17 +21,16 @@ import no.nav.bidrag.beregn.bidragsevne.bo.GrunnlagBeregning;
 import no.nav.bidrag.beregn.bidragsevne.bo.Inntekt;
 import no.nav.bidrag.beregn.bidragsevne.bo.Saerfradrag;
 import no.nav.bidrag.beregn.bidragsevne.bo.Skatteklasse;
-import no.nav.bidrag.beregn.felles.SjablonUtil;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.Sjablon;
 import no.nav.bidrag.beregn.felles.bo.SjablonInnhold;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
-import no.nav.bidrag.beregn.felles.enums.BostatusKode;
-import no.nav.bidrag.beregn.felles.enums.InntektType;
-import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
-import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.beregn.felles.util.SjablonUtil;
+import no.nav.bidrag.domain.enums.BostatusKode;
+import no.nav.bidrag.domain.enums.SaerfradragKode;
+import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn;
+import no.nav.bidrag.domain.enums.sjablon.SjablonNavn;
+import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ class BidragsevneBeregningTest {
   private final List<Sjablon> sjablonListe = TestUtil.byggSjabloner();
   private List<SjablonPeriode> sjablonPeriodeListe;
 
-  private final BidragsevneBeregning bidragsevneBeregning = BidragsevneBeregning.getInstance();
+  private final BidragsevneBeregning bidragsevneBeregning = BidragsevneBeregning.Companion.getInstance();
 
   @BeforeEach
   void byggSjablonPeriodeListe() {
@@ -53,7 +52,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal beregne bidragsevne med inntekt 1000000")
   void skalBeregneBidragsevneMedInntekt1000000() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(1000000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(1000000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
@@ -68,7 +67,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal beregne bidragsevne med inntekt 520000")
   void skalBeregneBidragsevneMedInntekt520000() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(520000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(520000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
@@ -86,7 +85,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal beregne bidragsevne med inntekt 600000")
   void skalBeregneBidragsevneMedInntekt600000() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(600000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(600000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 0),
@@ -101,7 +100,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal beregne bidragsevne med inntekt 666000")
   void skalBeregneBidragsevneMedInntekt666000() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
@@ -116,7 +115,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal beregne bidragsevne lik 0 når evne er negativ")
   void skalBeregneBidragsevneLik0NaarEvneErNegativ() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(100000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(100000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
@@ -135,7 +134,7 @@ class BidragsevneBeregningTest {
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
@@ -154,7 +153,7 @@ class BidragsevneBeregningTest {
         new Sjablon(SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.getNavn(), emptyList(),
             singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(12000))))));
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 2),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
@@ -169,7 +168,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal bruke halvt barn pga delt bosted")
   void skalBrukeHalvtBarnPgaDeltBosted() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 2),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 0.5),
@@ -188,7 +187,7 @@ class BidragsevneBeregningTest {
         new Sjablon(SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.getNavn(), emptyList(),
             singletonList(new SjablonInnhold(SjablonInnholdNavn.SJABLON_VERDI.getNavn(), BigDecimal.valueOf(24000))))));
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 2),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
@@ -203,7 +202,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal bruke halvt særfradrag")
   void skalBrukeHalvtSaerfradrag() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.ALENE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),
@@ -218,7 +217,7 @@ class BidragsevneBeregningTest {
   @DisplayName("Skal bruke bostatus med andre")
   void skalBrukeBostatusMedAndre() {
     var grunnlagBeregning = new GrunnlagBeregning(
-        singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+        singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
         new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
         new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
         new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 3),

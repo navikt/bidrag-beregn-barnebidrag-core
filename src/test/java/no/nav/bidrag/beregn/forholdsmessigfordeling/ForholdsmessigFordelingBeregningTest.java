@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.beregning.ForholdsmessigFordelingBeregningImpl;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSak;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.Bidragsevne;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagBeregningPeriodisert;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagPerBarn;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.ResultatBeregning;
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +42,7 @@ public class ForholdsmessigFordelingBeregningTest {
         () -> assertThat(resultat.get(0).getSaksnr()).isEqualTo(1234567),
         () -> assertThat(resultat.size()).isEqualTo(1),
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING)
     );
   }
 
@@ -71,7 +71,7 @@ public class ForholdsmessigFordelingBeregningTest {
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(1).getBelop().compareTo(BigDecimal.valueOf(2000))).isZero(),
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(2).getBelop().compareTo(BigDecimal.valueOf(3000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING)
     );
   }
 
@@ -102,7 +102,7 @@ public class ForholdsmessigFordelingBeregningTest {
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(1000))).isZero(),
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(1).getBelop().compareTo(BigDecimal.valueOf(2000))).isZero(),
         () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(3000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING)
     );
   }
 
@@ -136,9 +136,9 @@ public class ForholdsmessigFordelingBeregningTest {
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(670))).isZero(),
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(1).getBelop().compareTo(BigDecimal.valueOf(1330))).isZero(),
         () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(4000))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(1).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
     );
   }
 
@@ -166,8 +166,8 @@ public class ForholdsmessigFordelingBeregningTest {
 
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(2060))).isZero(),
         () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(3600))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
     );
   }
 
@@ -200,8 +200,8 @@ public class ForholdsmessigFordelingBeregningTest {
         () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(1460))).isZero(),
         () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(2550))).isZero(),
         () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(0).getBelop().compareTo(BigDecimal.valueOf(1640))).isZero(),
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
     );
   }
 
@@ -246,12 +246,12 @@ public class ForholdsmessigFordelingBeregningTest {
         () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(1).getBelop().compareTo(BigDecimal.valueOf(1550))).isZero(),
         () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(2).getBelop().compareTo(BigDecimal.valueOf(1240))).isZero(),
 
-        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(1).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(1).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
-        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(2).getKode()).isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
+        () -> assertThat(resultat.get(0).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(1).getResultatPerBarnListe().get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(0).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(1).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        () -> assertThat(resultat.get(2).getResultatPerBarnListe().get(2).getKode()).isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET)
     );
   }
 }

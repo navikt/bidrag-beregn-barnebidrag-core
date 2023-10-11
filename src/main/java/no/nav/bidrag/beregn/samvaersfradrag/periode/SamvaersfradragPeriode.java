@@ -12,6 +12,6 @@ public interface SamvaersfradragPeriode {
   List<Avvik> validerInput(BeregnSamvaersfradragGrunnlag beregnSamvaersfradragGrunnlag);
 
   static SamvaersfradragPeriode getInstance() {
-    return new SamvaersfradragPeriodeImpl(SamvaersfradragBeregning.getInstance());
+    return new SamvaersfradragPeriodeImpl(SamvaersfradragBeregning.Companion.getInstance());
   }
 }

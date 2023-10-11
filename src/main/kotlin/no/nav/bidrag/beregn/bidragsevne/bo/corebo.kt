@@ -3,9 +3,8 @@ package no.nav.bidrag.beregn.bidragsevne.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
-import no.nav.bidrag.beregn.felles.enums.BostatusKode
-import no.nav.bidrag.beregn.felles.enums.InntektType
-import no.nav.bidrag.beregn.felles.enums.SaerfradragKode
+import no.nav.bidrag.domain.enums.BostatusKode
+import no.nav.bidrag.domain.enums.SaerfradragKode
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -49,9 +48,9 @@ data class GrunnlagBeregning(
 )
 
 data class Inntekt(
-  val referanse: String,
-  val type: InntektType,
-  val belop: BigDecimal
+    val referanse: String,
+    val type: String,
+    val belop: BigDecimal
 )
 
 data class Skatteklasse(

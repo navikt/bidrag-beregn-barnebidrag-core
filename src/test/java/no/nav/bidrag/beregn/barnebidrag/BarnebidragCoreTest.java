@@ -49,10 +49,10 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
-import no.nav.bidrag.beregn.felles.enums.AvvikType;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
-import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.domain.enums.AvvikType;
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag;
+import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn;
+import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -185,7 +185,7 @@ public class BarnebidragCoreTest {
         singletonList(new ResultatBeregning(
             1,
             BigDecimal.valueOf(1),
-            ResultatKode.KOSTNADSBEREGNET_BIDRAG,
+            ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG,
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22))))),
         new GrunnlagBeregning(

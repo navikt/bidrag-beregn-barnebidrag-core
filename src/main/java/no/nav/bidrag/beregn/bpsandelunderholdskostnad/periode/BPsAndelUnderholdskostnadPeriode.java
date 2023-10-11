@@ -12,6 +12,6 @@ public interface BPsAndelUnderholdskostnadPeriode {
   List<Avvik> validerInput(BeregnBPsAndelUnderholdskostnadGrunnlag beregnBPsAndelUnderholdskostnadGrunnlag);
 
   static BPsAndelUnderholdskostnadPeriode getInstance() {
-    return new BPsAndelUnderholdskostnadPeriodeImpl(BPsAndelUnderholdskostnadBeregning.getInstance());
+    return new BPsAndelUnderholdskostnadPeriodeImpl(BPsAndelUnderholdskostnadBeregning.Companion.getInstance());
   }
 }

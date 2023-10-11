@@ -3,7 +3,7 @@ package no.nav.bidrag.beregn.barnebidrag.bo
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
-import no.nav.bidrag.beregn.felles.enums.ResultatKode
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -36,7 +36,7 @@ data class ResultatPeriode(
 data class ResultatBeregning(
   val soknadsbarnPersonId: Int,
   val belop: BigDecimal,
-  val kode: ResultatKode,
+  val kode: ResultatKodeBarnebidrag,
   val sjablonListe: List<SjablonPeriodeNavnVerdi>
 )
 

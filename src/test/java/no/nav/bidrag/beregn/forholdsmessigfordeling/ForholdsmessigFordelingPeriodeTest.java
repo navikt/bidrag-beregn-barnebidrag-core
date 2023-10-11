@@ -11,13 +11,13 @@ import java.util.Comparator;
 import java.util.List;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
-import no.nav.bidrag.beregn.felles.enums.ResultatKode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingGrunnlag;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigFordelingResultat;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnetBidragSakPeriode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BidragsevnePeriode;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.GrunnlagPerBarn;
 import no.nav.bidrag.beregn.forholdsmessigfordeling.periode.ForholdsmessigFordelingPeriode;
+import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -131,15 +131,15 @@ public class ForholdsmessigFordelingPeriodeTest {
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(1000))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getKode())
-            .isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING),
+            .isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_INGEN_ENDRING),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(940))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getKode())
-        .isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+        .isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getBelop()
             .compareTo(BigDecimal.valueOf(14060))).isZero(),
         () -> assertThat(resultat.getResultatPeriodeListe().get(1).getResultatBeregningListe().get(1).getResultatPerBarnListe().get(0).getKode())
-            .isEqualTo(ResultatKode.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
+            .isEqualTo(ResultatKodeBarnebidrag.FORHOLDSMESSIG_FORDELING_BIDRAGSBELOP_ENDRET),
 
         () -> assertThat(resultat.getResultatPeriodeListe().get(0).getResultatBeregningListe().get(0).getResultatPerBarnListe().get(0).getBarnPersonId())
             .isEqualTo(1)

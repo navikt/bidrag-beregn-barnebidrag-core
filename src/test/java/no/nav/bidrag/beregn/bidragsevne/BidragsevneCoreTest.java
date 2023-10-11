@@ -41,12 +41,11 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi;
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore;
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore;
-import no.nav.bidrag.beregn.felles.enums.AvvikType;
-import no.nav.bidrag.beregn.felles.enums.BostatusKode;
-import no.nav.bidrag.beregn.felles.enums.InntektType;
-import no.nav.bidrag.beregn.felles.enums.SaerfradragKode;
-import no.nav.bidrag.beregn.felles.enums.SjablonInnholdNavn;
-import no.nav.bidrag.beregn.felles.enums.SjablonTallNavn;
+import no.nav.bidrag.domain.enums.AvvikType;
+import no.nav.bidrag.domain.enums.BostatusKode;
+import no.nav.bidrag.domain.enums.SaerfradragKode;
+import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn;
+import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -147,7 +146,7 @@ public class BidragsevneCoreTest {
   private void byggBidragsevnePeriodeGrunnlagCore() {
 
     var inntektPeriodeListe = singletonList(new InntektPeriodeCore(INNTEKT_REFERANSE,
-        new PeriodeCore(LocalDate.parse("2017-01-01"), null), InntektType.LONN_SKE.toString(), BigDecimal.valueOf(666000)));
+        new PeriodeCore(LocalDate.parse("2017-01-01"), null), "LONN_SKE", BigDecimal.valueOf(666000)));
 
     var skatteklassePeriodeListe = singletonList(new SkatteklassePeriodeCore(SKATTEKLASSE_REFERANSE,
         new PeriodeCore(LocalDate.parse("2017-01-01"), null), 1));
@@ -179,7 +178,7 @@ public class BidragsevneCoreTest {
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(
-            singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(666000))),
+            singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(666000))),
             new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
             new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
             new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
@@ -194,7 +193,7 @@ public class BidragsevneCoreTest {
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(
-            singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
+            singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(500000))),
             new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
             new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
             new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),
@@ -209,7 +208,7 @@ public class BidragsevneCoreTest {
             singletonList(new SjablonPeriodeNavnVerdi(new Periode(LocalDate.parse("2017-01-01"), LocalDate.parse("9999-12-31")),
                 SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.getNavn(), BigDecimal.valueOf(22)))),
         new GrunnlagBeregning(
-            singletonList(new Inntekt(INNTEKT_REFERANSE, InntektType.LONN_SKE, BigDecimal.valueOf(500000))),
+            singletonList(new Inntekt(INNTEKT_REFERANSE, "LONN_SKE", BigDecimal.valueOf(500000))),
             new Skatteklasse(SKATTEKLASSE_REFERANSE, 1),
             new Bostatus(BOSTATUS_REFERANSE, BostatusKode.MED_ANDRE),
             new BarnIHusstand(BARN_I_HUSSTAND_REFERANSE, 1),

@@ -12,6 +12,6 @@ public interface UnderholdskostnadPeriode {
   List<Avvik> validerInput(BeregnUnderholdskostnadGrunnlag beregnUnderholdskostnadGrunnlag);
 
   static UnderholdskostnadPeriode getInstance() {
-    return new UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning.getInstance());
+    return new UnderholdskostnadPeriodeImpl(UnderholdskostnadBeregning.Companion.getInstance());
   }
 }

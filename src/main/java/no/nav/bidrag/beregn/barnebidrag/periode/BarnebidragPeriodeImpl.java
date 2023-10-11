@@ -30,11 +30,11 @@ import no.nav.bidrag.beregn.barnebidrag.bo.ResultatPeriode;
 import no.nav.bidrag.beregn.barnebidrag.bo.Samvaersfradrag;
 import no.nav.bidrag.beregn.barnebidrag.bo.SamvaersfradragPeriode;
 import no.nav.bidrag.beregn.felles.FellesPeriode;
-import no.nav.bidrag.beregn.felles.PeriodeUtil;
 import no.nav.bidrag.beregn.felles.bo.Avvik;
 import no.nav.bidrag.beregn.felles.bo.Periode;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.beregn.felles.periode.Periodiserer;
+import no.nav.bidrag.beregn.felles.util.PeriodeUtil;
 
 public class BarnebidragPeriodeImpl extends FellesPeriode implements BarnebidragPeriode {
 
