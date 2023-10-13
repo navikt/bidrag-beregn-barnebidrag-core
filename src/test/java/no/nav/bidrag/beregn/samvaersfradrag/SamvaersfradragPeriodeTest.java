@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av periodisert beregning av samværsfradrag")
 public class SamvaersfradragPeriodeTest {
 
-  private final SamvaersfradragPeriode samvaersfradragPeriode = SamvaersfradragPeriode.getInstance();
+  private final SamvaersfradragPeriode samvaersfradragPeriode = SamvaersfradragPeriode.Companion.getInstance();
 
   @Test
   @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene, "

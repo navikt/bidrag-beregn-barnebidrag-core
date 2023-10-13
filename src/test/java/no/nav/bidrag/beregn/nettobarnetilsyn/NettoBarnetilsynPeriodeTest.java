@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 public class NettoBarnetilsynPeriodeTest {
 
-  private final NettoBarnetilsynPeriode nettoBarnetilsynPeriode = NettoBarnetilsynPeriode.getInstance();
+  private final NettoBarnetilsynPeriode nettoBarnetilsynPeriode = NettoBarnetilsynPeriode.Companion.getInstance();
 
   @Test
   @DisplayName("Test av periodisering for ett barn. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")

@@ -9,6 +9,6 @@ public interface SamvaersfradragCore {
   BeregnetSamvaersfradragResultatCore beregnSamvaersfradrag(BeregnSamvaersfradragGrunnlagCore beregnSamvaersfradragGrunnlagCore);
 
   static SamvaersfradragCore getInstance() {
-    return new SamvaersfradragCoreImpl(SamvaersfradragPeriode.getInstance());
+    return new SamvaersfradragCoreImpl(SamvaersfradragPeriode.Companion.getInstance());
   }
 }

@@ -45,7 +45,7 @@ public class BarnebidragPeriodeTest {
 
   public ArrayList<SjablonPeriode> sjablonPeriodeListe = new ArrayList<>();
 
-  private final BarnebidragPeriode barnebidragPeriode = BarnebidragPeriode.getInstance();
+  private final BarnebidragPeriode barnebidragPeriode = BarnebidragPeriode.Companion.getInstance();
 
   @Test
   @DisplayName("Test med ett barn og splitt på bidragsevne")

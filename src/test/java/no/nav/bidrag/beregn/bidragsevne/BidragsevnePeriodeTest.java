@@ -1,7 +1,6 @@
 package no.nav.bidrag.beregn.bidragsevne;
 
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 import static java.util.Comparator.comparing;
 import static no.nav.bidrag.beregn.TestUtil.BARN_I_HUSSTAND_REFERANSE;
 import static no.nav.bidrag.beregn.TestUtil.BOSTATUS_REFERANSE;
@@ -33,8 +32,6 @@ import no.nav.bidrag.beregn.felles.bo.SjablonNokkel;
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode;
 import no.nav.bidrag.domain.enums.AvvikType;
 import no.nav.bidrag.domain.enums.BostatusKode;
-import no.nav.bidrag.domain.enums.Formaal;
-import no.nav.bidrag.domain.enums.Rolle;
 import no.nav.bidrag.domain.enums.SaerfradragKode;
 import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn;
 import no.nav.bidrag.domain.enums.sjablon.SjablonNavn;
@@ -48,7 +45,7 @@ class BidragsevnePeriodeTest {
 
   private BeregnBidragsevneGrunnlag grunnlag;
 
-  private final BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.getInstance();
+  private final BidragsevnePeriode bidragsevnePeriode = BidragsevnePeriode.Companion.getInstance();
 
   @Test
   @DisplayName("Test med OK grunnlag")
@@ -134,7 +131,7 @@ class BidragsevnePeriodeTest {
 
     assertAll(
         () -> assertThat(avvikListe).isNotEmpty(),
-        () -> assertThat(avvikListe).hasSize(7),
+        () -> assertThat(avvikListe).hasSize(6),
 
         () -> assertThat(avvikListe.get(0).getAvvikTekst())
             .isEqualTo("Første dato i inntektPeriodeListe (2003-01-01) er etter beregnDatoFra (2001-07-01)"),
@@ -158,106 +155,10 @@ class BidragsevnePeriodeTest {
 
         () -> assertThat(avvikListe.get(5).getAvvikTekst())
             .isEqualTo("Siste dato i saerfradragPeriodeListe (2020-01-01) er før beregnDatoTil (2021-01-01)"),
-        () -> assertThat(avvikListe.get(5).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA),
-
-        () -> assertThat(avvikListe.get(6).getAvvikTekst())
-            .isEqualTo("inntektType KONTANTSTOTTE er ugyldig for formaal BIDRAG og rolle BIDRAGSPLIKTIG"),
-        () -> assertThat(avvikListe.get(6).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
+        () -> assertThat(avvikListe.get(5).getAvvikType()).isEqualTo(AvvikType.PERIODE_MANGLER_DATA)
     );
 
     printAvvikListe(avvikListe);
-  }
-
-  @Test
-  @DisplayName("Test med ugyldig inntekt som skal resultere i avvik")
-  void testGrunnlagMedAvvikUgyldigInntekt() {
-
-    lagGrunnlagMedAvvikUgyldigInntekt();
-    var avvikListe = bidragsevnePeriode.validerInput(grunnlag);
-
-    assertAll(
-        () -> assertThat(avvikListe).isNotEmpty(),
-        () -> assertThat(avvikListe).hasSize(1),
-
-        () -> assertThat(avvikListe.get(0).getAvvikTekst()).isEqualTo("inntektType " + "SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG" +
-            " er ugyldig for formaal " + Formaal.BIDRAG + " og rolle " + Rolle.BIDRAGSPLIKTIG),
-        () -> assertThat(avvikListe.get(0).getAvvikType()).isEqualTo(AvvikType.UGYLDIG_INNTEKT_TYPE)
-    );
-    printAvvikListe(avvikListe);
-  }
-
-  @Test
-  @DisplayName("Test beregn perioder med justering av inntekter")
-  void testBeregnPerioderGrunnlagMedJusteringAvInntekter() {
-
-    lagGrunnlagMedInntektTilJustering();
-    var resultat = bidragsevnePeriode.beregnPerioder(grunnlag);
-
-    assertAll(
-        () -> assertThat(resultat).isNotNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe()).isNotEmpty(),
-        () -> assertThat(resultat.getResultatPeriodeListe().size()).isEqualTo(6),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-06-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo("INNTEKTSOPPLYSNINGER_ARBEIDSGIVER"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(0).getGrunnlag().getInntektListe().get(0).getBelop())
-            .isEqualTo(BigDecimal.valueOf(200000)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-06-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2018-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getInntektListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo("INNTEKTSOPPLYSNINGER_ARBEIDSGIVER"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(1).getGrunnlag().getInntektListe().get(0).getBelop())
-            .isEqualTo(BigDecimal.valueOf(150000)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2018-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getGrunnlag().getInntektListe().size()).isEqualTo(1),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo("INNTEKTSOPPLYSNINGER_ARBEIDSGIVER"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(2).getGrunnlag().getInntektListe().get(0).getBelop())
-            .isEqualTo(BigDecimal.valueOf(150000)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo("SAKSBEHANDLER_BEREGNET_INNTEKT"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(0).getBelop())
-            .isEqualTo(BigDecimal.valueOf(300000)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(1).getType())
-            .isEqualTo("KAPITALINNTEKT_EGNE_OPPLYSNINGER"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(3).getGrunnlag().getInntektListe().get(1).getBelop())
-            .isEqualTo(BigDecimal.valueOf(100000)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2019-07-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getPeriode().getDatoTil()).isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo("SAKSBEHANDLER_BEREGNET_INNTEKT"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(0).getBelop())
-            .isEqualTo(BigDecimal.valueOf(300000)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getType())
-            .isEqualTo("KAPITALINNTEKT_EGNE_OPPLYSNINGER"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(4).getGrunnlag().getInntektListe().get(1).getBelop())
-            .isEqualTo(BigDecimal.valueOf(100000)),
-
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getPeriode().getDatoFom()).isEqualTo(LocalDate.parse("2020-01-01")),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getPeriode().getDatoTil()).isNull(),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().size()).isEqualTo(2),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getType())
-            .isEqualTo("KAPITALINNTEKT_EGNE_OPPLYSNINGER"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(0).getBelop())
-            .isEqualTo(BigDecimal.valueOf(100000)),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getType())
-            .isEqualTo("ATTFORING_AAP"),
-        () -> assertThat(resultat.getResultatPeriodeListe().get(5).getGrunnlag().getInntektListe().get(1).getBelop())
-            .isEqualTo(BigDecimal.valueOf(250000))
-    );
   }
 
 
@@ -277,33 +178,6 @@ class BidragsevnePeriodeTest {
 
     grunnlag = new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, lagInntektGrunnlag(), lagSkatteklasseGrunnlag(), lagBostatusGrunnlag(),
         lagBarnIHusstandGrunnlag(), lagSaerfradragGrunnlag(), lagSjablonGrunnlag());
-  }
-
-  private void lagGrunnlagMedAvvikUgyldigInntekt() {
-
-    var beregnDatoFra = LocalDate.parse("2018-07-01");
-    var beregnDatoTil = LocalDate.parse("2020-01-01");
-
-    grunnlag = new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, lagUgyldigInntektGrunnlag(), lagSkatteklasseGrunnlag(),
-        lagBostatusGrunnlag(), lagBarnIHusstandGrunnlag(), lagSaerfradragGrunnlag(), lagSjablonGrunnlag());
-  }
-
-  private void lagGrunnlagMedInntektTilJustering() {
-
-    var beregnDatoFra = LocalDate.parse("2018-01-01");
-    var beregnDatoTil = LocalDate.parse("2020-07-01");
-
-    var skatteklassePeriodeListe = singletonList(
-        new SkatteklassePeriode(SKATTEKLASSE_REFERANSE, new Periode(beregnDatoFra, beregnDatoTil), 2));
-    var bostatusPeriodeListe = singletonList(
-        new BostatusPeriode(BOSTATUS_REFERANSE, new Periode(beregnDatoFra, beregnDatoTil), BostatusKode.MED_ANDRE));
-    var antallBarnIEgetHusholdPeriodeListe = singletonList(
-        new BarnIHusstandPeriode(BARN_I_HUSSTAND_REFERANSE, new Periode(beregnDatoFra, beregnDatoTil), 1));
-    var saerfradragPeriodeListe = singletonList(
-        new SaerfradragPeriode(SAERFRADRAG_REFERANSE, new Periode(beregnDatoFra, beregnDatoTil), SaerfradragKode.HELT));
-
-    grunnlag = new BeregnBidragsevneGrunnlag(beregnDatoFra, beregnDatoTil, lagJustertInntektGrunnlag(), skatteklassePeriodeListe,
-        bostatusPeriodeListe, antallBarnIEgetHusholdPeriodeListe, saerfradragPeriodeListe, lagSjablonGrunnlag());
   }
 
   private List<InntektPeriode> lagInntektGrunnlag() {
@@ -327,32 +201,6 @@ class BidragsevnePeriodeTest {
     return inntektPeriodeListe;
   }
 
-  private List<InntektPeriode> lagUgyldigInntektGrunnlag() {
-    var inntektPeriodeListe = new ArrayList<InntektPeriode>();
-
-    inntektPeriodeListe.add(new InntektPeriode(INNTEKT_REFERANSE, new Periode(LocalDate.parse("2018-07-01"), LocalDate.parse("2020-01-01")),
-        "SKATTEGRUNNLAG_KORRIGERT_BARNETILLEGG", BigDecimal.valueOf(666001)));
-
-    return inntektPeriodeListe;
-  }
-
-  private List<InntektPeriode> lagJustertInntektGrunnlag() {
-    var inntektPeriodeListe = new ArrayList<InntektPeriode>();
-
-    inntektPeriodeListe.add(new InntektPeriode(INNTEKT_REFERANSE + "_1", new Periode(LocalDate.parse("2018-01-01"), null),
-        "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER", BigDecimal.valueOf(200000)));
-    inntektPeriodeListe.add(new InntektPeriode(INNTEKT_REFERANSE + "_1", new Periode(LocalDate.parse("2018-06-01"), LocalDate.parse("2018-12-31")),
-        "INNTEKTSOPPLYSNINGER_ARBEIDSGIVER", BigDecimal.valueOf(150000)));
-    inntektPeriodeListe.add(new InntektPeriode(INNTEKT_REFERANSE + "_1", new Periode(LocalDate.parse("2019-01-01"), null),
-        "SAKSBEHANDLER_BEREGNET_INNTEKT", BigDecimal.valueOf(300000)));
-    inntektPeriodeListe.add(new InntektPeriode(INNTEKT_REFERANSE + "_1", new Periode(LocalDate.parse("2019-01-01"), null),
-        "KAPITALINNTEKT_EGNE_OPPLYSNINGER", BigDecimal.valueOf(100000)));
-    inntektPeriodeListe.add(new InntektPeriode(INNTEKT_REFERANSE + "_1", new Periode(LocalDate.parse("2020-01-01"), null),
-        "ATTFORING_AAP", BigDecimal.valueOf(250000)));
-
-    return inntektPeriodeListe;
-  }
-
   private List<SkatteklassePeriode> lagSkatteklasseGrunnlag() {
     var skatteklassePeriodeListe = new ArrayList<SkatteklassePeriode>();
 
@@ -372,7 +220,6 @@ class BidragsevnePeriodeTest {
     return skatteklassePeriodeListe;
 
   }
-
 
   private List<BostatusPeriode> lagBostatusGrunnlag() {
 

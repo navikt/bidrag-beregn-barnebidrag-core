@@ -10,6 +10,6 @@ public interface BPsAndelUnderholdskostnadCore {
       BeregnBPsAndelUnderholdskostnadGrunnlagCore beregnBPsAndelUnderholdskostnadGrunnlagCore);
 
   static BPsAndelUnderholdskostnadCore getInstance() {
-    return new BPsAndelUnderholdskostnadCoreImpl(BPsAndelUnderholdskostnadPeriode.getInstance());
+    return new BPsAndelUnderholdskostnadCoreImpl(BPsAndelUnderholdskostnadPeriode.Companion.getInstance());
   }
 }

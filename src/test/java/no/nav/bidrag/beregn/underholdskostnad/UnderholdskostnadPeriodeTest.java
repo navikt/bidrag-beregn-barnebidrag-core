@@ -39,7 +39,7 @@ public class UnderholdskostnadPeriodeTest {
 
   private BeregnUnderholdskostnadGrunnlag grunnlag;
 
-  private final UnderholdskostnadPeriode underholdskostnadPeriode = UnderholdskostnadPeriode.getInstance();
+  private final UnderholdskostnadPeriode underholdskostnadPeriode = UnderholdskostnadPeriode.Companion.getInstance();
 
   @Test
   @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")

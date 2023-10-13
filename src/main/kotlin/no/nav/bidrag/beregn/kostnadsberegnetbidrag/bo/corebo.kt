@@ -51,3 +51,13 @@ data class Samvaersfradrag(
   val referanse: String,
   val belop: BigDecimal
 )
+
+
+// Hjelpeklasser
+data class BeregnKostnadsberegnetBidragListeGrunnlag(
+  val periodeResultatListe: MutableList<ResultatPeriode> = mutableListOf(),
+  var justertUnderholdskostnadPeriodeListe: List<UnderholdskostnadPeriode> = listOf(),
+  var justertBPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode> = listOf(),
+  var justertSamvaersfradragPeriodeListe: List<SamvaersfradragPeriode> = listOf(),
+  var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+)

@@ -10,6 +10,6 @@ public interface KostnadsberegnetBidragCore {
       BeregnKostnadsberegnetBidragGrunnlagCore beregnKostnadsberegnetBidragGrunnlagCore);
 
   static KostnadsberegnetBidragCore getInstance() {
-    return new KostnadsberegnetBidragCoreImpl(KostnadsberegnetBidragPeriode.getInstance());
+    return new KostnadsberegnetBidragCoreImpl(KostnadsberegnetBidragPeriode.Companion.getInstance());
   }
 }

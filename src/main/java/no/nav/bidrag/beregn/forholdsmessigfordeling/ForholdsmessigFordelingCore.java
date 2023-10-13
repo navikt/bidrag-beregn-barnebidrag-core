@@ -11,7 +11,7 @@ public interface ForholdsmessigFordelingCore {
       BeregnForholdsmessigFordelingGrunnlagCore beregnForholdsmessigFordelingGrunnlagCore);
 
   static ForholdsmessigFordelingCore getInstance() {
-    return new ForholdsmessigFordelingCoreImpl(ForholdsmessigFordelingPeriode.getInstance());
+    return new ForholdsmessigFordelingCoreImpl(ForholdsmessigFordelingPeriode.Companion.getInstance());
   }
 }
 

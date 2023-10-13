@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 public class ForholdsmessigFordelingPeriodeTest {
 
-  private final ForholdsmessigFordelingPeriode forholdsmessigFordelingPeriode = ForholdsmessigFordelingPeriode.getInstance();
+  private final ForholdsmessigFordelingPeriode forholdsmessigFordelingPeriode = ForholdsmessigFordelingPeriode.Companion.getInstance();
 
   @Test
   @DisplayName("Test periodisering med to saker med to perioder og ett barn hver og full evne")
