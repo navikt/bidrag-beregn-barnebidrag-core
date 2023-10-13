@@ -10,7 +10,7 @@ public interface BarnebidragCore {
   BeregnetBarnebidragResultatCore beregnBarnebidrag(BeregnBarnebidragGrunnlagCore beregnBarnebidragGrunnlagCore);
 
   static BarnebidragCore getInstance() {
-    return new BarnebidragCoreImpl(BarnebidragPeriode.getInstance());
+    return new BarnebidragCoreImpl(BarnebidragPeriode.Companion.getInstance());
   }
 }
 

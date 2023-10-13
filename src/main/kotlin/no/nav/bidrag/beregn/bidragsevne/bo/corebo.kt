@@ -72,3 +72,16 @@ data class Saerfradrag(
   val referanse: String,
   val kode: SaerfradragKode
 )
+
+
+// Hjelpeklasser
+data class BeregnBidragsevneListeGrunnlag(
+  val periodeResultatListe: MutableList<ResultatPeriode> = mutableListOf(),
+  var justertInntektPeriodeListe: List<InntektPeriode> = listOf(),
+  var justertSkatteklassePeriodeListe: List<SkatteklassePeriode> = listOf(),
+  var justertBostatusPeriodeListe: List<BostatusPeriode> = listOf(),
+  var justertBarnIHusstandPeriodeListe: List<BarnIHusstandPeriode> = listOf(),
+  var justertSaerfradragPeriodeListe: List<SaerfradragPeriode> = listOf(),
+  var justertSjablonPeriodeListe: List<SjablonPeriode> = listOf(),
+  var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+)

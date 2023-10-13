@@ -69,3 +69,14 @@ data class ForpleiningUtgift(
   val referanse: String,
   val belop: BigDecimal
 )
+
+
+// Hjelpeklasser
+data class BeregnUnderholdskostnadListeGrunnlag(
+  val periodeResultatListe: MutableList<ResultatPeriode> = mutableListOf(),
+  var justertBarnetilsynMedStonadPeriodeListe: List<BarnetilsynMedStonadPeriode> = listOf(),
+  var justertNettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriode> = listOf(),
+  var justertForpleiningUtgiftPeriodeListe: List<ForpleiningUtgiftPeriode> = listOf(),
+  var justertSjablonPeriodeListe: List<SjablonPeriode> = listOf(),
+  var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+)

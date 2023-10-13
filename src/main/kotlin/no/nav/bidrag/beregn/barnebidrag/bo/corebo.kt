@@ -98,3 +98,19 @@ data class AndreLopendeBidrag(
   val bidragBelop: BigDecimal,
   val samvaersfradragBelop: BigDecimal
 )
+
+
+// Hjelpeklasser
+data class BeregnBarnebidragListeGrunnlag(
+  val periodeResultatListe: MutableList<ResultatPeriode> = mutableListOf(),
+  var justertBidragsevnePeriodeListe: List<BidragsevnePeriode> = listOf(),
+  var justertBPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode> = listOf(),
+  var justertDeltBostedPeriodeListe: List<DeltBostedPeriode> = listOf(),
+  var justertSamvaersfradragPeriodeListe: List<SamvaersfradragPeriode> = listOf(),
+  var justertBarnetilleggBPPeriodeListe: List<BarnetilleggPeriode> = listOf(),
+  var justertBarnetilleggBMPeriodeListe: List<BarnetilleggPeriode> = listOf(),
+  var justertBarnetilleggForsvaretPeriodeListe: List<BarnetilleggForsvaretPeriode> = listOf(),
+  var justertAndreLopendeBidragPeriodeListe: List<AndreLopendeBidragPeriode> = listOf(),
+  var justertSjablonPeriodeListe: List<SjablonPeriode> = listOf(),
+  var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+)

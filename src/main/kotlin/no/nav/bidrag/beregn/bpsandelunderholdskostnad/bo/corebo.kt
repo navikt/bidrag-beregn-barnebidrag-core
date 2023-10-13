@@ -58,3 +58,16 @@ data class Inntekt(
   val deltFordel: Boolean,
   val skatteklasse2: Boolean
 )
+
+
+// Hjelpeklasser
+data class BeregnBPsAndelUnderholdskostnadListeGrunnlag(
+  val periodeResultatListe: MutableList<ResultatPeriode> = mutableListOf(),
+  var justertUnderholdskostnadPeriodeListe: List<UnderholdskostnadPeriode> = listOf(),
+  var justertInntektBPPeriodeListe: List<InntektPeriode> = listOf(),
+  var justertInntektBMPeriodeListe: List<InntektPeriode> = listOf(),
+  var justertInntektBBPeriodeListe: List<InntektPeriode> = listOf(),
+  var justertSjablonPeriodeListe: List<SjablonPeriode> = listOf(),
+  var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+)
+

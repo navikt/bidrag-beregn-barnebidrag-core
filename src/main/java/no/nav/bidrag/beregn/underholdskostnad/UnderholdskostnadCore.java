@@ -9,6 +9,6 @@ public interface UnderholdskostnadCore {
   BeregnetUnderholdskostnadResultatCore beregnUnderholdskostnad(BeregnUnderholdskostnadGrunnlagCore beregnUnderholdskostnadGrunnlagCore);
 
   static UnderholdskostnadCore getInstance() {
-    return new UnderholdskostnadCoreImpl(UnderholdskostnadPeriode.getInstance());
+    return new UnderholdskostnadCoreImpl(UnderholdskostnadPeriode.Companion.getInstance());
   }
 }

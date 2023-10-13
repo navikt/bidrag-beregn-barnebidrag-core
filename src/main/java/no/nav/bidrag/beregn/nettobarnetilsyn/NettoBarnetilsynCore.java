@@ -9,6 +9,6 @@ public interface NettoBarnetilsynCore {
   BeregnetNettoBarnetilsynResultatCore beregnNettoBarnetilsyn(BeregnNettoBarnetilsynGrunnlagCore beregnNettoBarnetilsynGrunnlagCore);
 
   static NettoBarnetilsynCore getInstance() {
-    return new NettoBarnetilsynCoreImpl(NettoBarnetilsynPeriode.getInstance());
+    return new NettoBarnetilsynCoreImpl(NettoBarnetilsynPeriode.Companion.getInstance());
   }
 }

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Test av periodisert beregning av kostnadsberegnet bidrag")
 public class KostnadsberegnetBidragPeriodeTest {
 
-  private final KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode = KostnadsberegnetBidragPeriode.getInstance();
+  private final KostnadsberegnetBidragPeriode kostnadsberegnetBidragPeriode = KostnadsberegnetBidragPeriode.Companion.getInstance();
 
   @DisplayName("Test av periodisering. Periodene i grunnlaget skal gjenspeiles i resultatperiodene")
   @Test
