@@ -150,7 +150,8 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
         beregnetBidragSakListe.forEach {
             beregnetBidragSakListeCore.add(
                 BeregnetBidragSakCore(
-                    saksnr = it.saksnr, grunnlagPerBarnListe = mapGrunnlagPerBarn(it.grunnlagPerBarnListe)
+                    saksnr = it.saksnr,
+                    grunnlagPerBarnListe = mapGrunnlagPerBarn(it.grunnlagPerBarnListe)
                 )
             )
         }

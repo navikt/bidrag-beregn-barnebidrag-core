@@ -19,7 +19,8 @@ import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.SamvaersfradragPeriodeCor
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.UnderholdskostnadPeriodeCore
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.periode.KostnadsberegnetBidragPeriode
 
-class KostnadsberegnetBidragCoreImpl(private val kostnadsberegnetBidragPeriode: KostnadsberegnetBidragPeriode) : FellesCore(),
+class KostnadsberegnetBidragCoreImpl(private val kostnadsberegnetBidragPeriode: KostnadsberegnetBidragPeriode) :
+    FellesCore(),
     KostnadsberegnetBidragCore {
     override fun beregnKostnadsberegnetBidrag(grunnlag: BeregnKostnadsberegnetBidragGrunnlagCore): BeregnetKostnadsberegnetBidragResultatCore {
         val beregnKostnadsberegnetBidragGrunnlag = mapTilBusinessObject(grunnlag)

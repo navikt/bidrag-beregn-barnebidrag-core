@@ -33,8 +33,8 @@ class SamvaersfradragPeriodeImpl(private val samvaersfradragBeregning: Samvaersf
 
         // Bygger opp liste over perioder
         val perioder = Periodiserer()
-            .addBruddpunkt(grunnlag.beregnDatoFra) //For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(grunnlag.beregnDatoTil) //For å sikre bruddpunkt på start-beregning-til-dato
+            .addBruddpunkt(grunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+            .addBruddpunkt(grunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
             .addBruddpunkter(bruddlisteBarnAlder)
             .addBruddpunkter(justertSamvaersklassePeriodeListe)
             .addBruddpunkter(justertSjablonPeriodeListe)

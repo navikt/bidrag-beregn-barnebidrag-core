@@ -113,6 +113,7 @@ Disse erstatter beregninger i BBM.
 
 | Versjon | Endringstype | Beskrivelse                                                                                                                                     |
 |---------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1.0.0   | Endret       | Skrevet om til Kotlin og refaktorert kode del 4 (Testklasser + pom.xml)                                                                         |
 | 0.19.2  | Endret       | Skrevet om til Kotlin og refaktorert kode del 3 (Core-klassene)                                                                                 |
 | 0.19.1  | Endret       | Skrevet om til Kotlin og refaktorert kode del 2 (Periode-klassene)                                                                              |
 | 0.19.0  | Endret       | Skrevet om til Kotlin og refaktorert kode del 1 (Beregning-klassene)                                                                            |

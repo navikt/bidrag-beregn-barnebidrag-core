@@ -10,10 +10,8 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
-
 open class BPsAndelUnderholdskostnadBeregningImpl : FellesBeregning(), BPsAndelUnderholdskostnadBeregning {
     override fun beregn(grunnlag: GrunnlagBeregning, beregnMedNyeRegler: Boolean): ResultatBeregning {
-
         var andelProsent = BigDecimal.ZERO
         var andelBelop = BigDecimal.ZERO
         var barnetErSelvforsorget = false
@@ -48,7 +46,6 @@ open class BPsAndelUnderholdskostnadBeregningImpl : FellesBeregning(), BPsAndelU
     }
 
     private fun beregnMedNyeRegler(inntektBP: BigDecimal, inntektBM: BigDecimal, inntektBB: BigDecimal, forskuddsatsBelop: BigDecimal): BigDecimal {
-
         val justertInntektBB = maxOf(inntektBB - (forskuddsatsBelop * BigDecimal.valueOf(30)), BigDecimal.ZERO)
 
         val andelProsent = inntektBP
@@ -64,7 +61,6 @@ open class BPsAndelUnderholdskostnadBeregningImpl : FellesBeregning(), BPsAndelU
     }
 
     private fun beregnMedGamleRegler(inntektBP: BigDecimal, inntektBM: BigDecimal, inntektBB: BigDecimal): BigDecimal {
-
         // Med gamle regler skal beregnet fordelingsnøkkel rundes av til nærmeste sjettedel, men ikke over 5/6
         var andelProsent = inntektBP
             .divide((inntektBP + inntektBM + inntektBB), MathContext(10, RoundingMode.HALF_UP))
@@ -86,7 +82,6 @@ open class BPsAndelUnderholdskostnadBeregningImpl : FellesBeregning(), BPsAndelU
 
     // Henter sjablonverdier
     private fun hentSjablonVerdier(sjablonPeriodeListe: List<SjablonPeriode>): Map<String, BigDecimal> {
-
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }
 

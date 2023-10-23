@@ -13,7 +13,6 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
-
 open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
 
     override fun beregn(grunnlag: GrunnlagBeregning): List<ResultatBeregning> {
@@ -118,11 +117,11 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
             // Hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
             if (grunnlag.bidragsevne.bidragsevneBelop < (tempBarnebidrag + totaltBelopLopendeBidrag) &&
                 resultatkode !in setOf(
-                    ResultatKodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED,
-                    ResultatKodeBarnebidrag.BARNET_ER_SELVFORSORGET,
-                    ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP,
-                    ResultatKodeBarnebidrag.INGEN_EVNE
-                )
+                        ResultatKodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED,
+                        ResultatKodeBarnebidrag.BARNET_ER_SELVFORSORGET,
+                        ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP,
+                        ResultatKodeBarnebidrag.INGEN_EVNE
+                    )
             ) {
                 resultatkode = ResultatKodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING
             }
@@ -158,7 +157,6 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
         }
 
     private fun beregnMedBarnetilleggForsvaret(grunnlag: GrunnlagBeregning): List<ResultatBeregning> {
-
         // Henter sjablonverdier
         val sjablonNavnVerdiMap = hentSjablonVerdier(grunnlag.sjablonListe)
         val barnetilleggForsvaretForsteBarn = sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP.navn] ?: BigDecimal.ZERO
@@ -182,8 +180,10 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
         // Sjekker om bidragsevne dekker beregnet bidrag + løpende bidragsbeløp + samværsfradrag.
         // Hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
         val resultatkode =
-            if (grunnlag.bidragsevne.bidragsevneBelop < (barnetilleggForsvaretPerBarn
-                    * BigDecimal.valueOf(grunnlag.grunnlagPerBarnListe.size.toLong()) + totaltBelopLopendeBidrag)
+            if (grunnlag.bidragsevne.bidragsevneBelop < (
+                barnetilleggForsvaretPerBarn
+                    * BigDecimal.valueOf(grunnlag.grunnlagPerBarnListe.size.toLong()) + totaltBelopLopendeBidrag
+                )
             ) {
                 ResultatKodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING
             } else {
@@ -207,7 +207,6 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
 
     // Henter sjablonverdier
     private fun hentSjablonVerdier(sjablonPeriodeListe: List<SjablonPeriode>): Map<String, BigDecimal> {
-
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }
 
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
@@ -221,4 +220,3 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
         return sjablonNavnVerdiMap
     }
 }
-

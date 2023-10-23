@@ -84,7 +84,6 @@ class BidragsevnePeriodeImpl(private val bidragsevneberegning: BidragsevneBeregn
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     private fun beregnBidragsevnePerPeriode(grunnlag: BeregnBidragsevneListeGrunnlag) {
-
         grunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
             val inntektListe = grunnlag.justertInntektPeriodeListe

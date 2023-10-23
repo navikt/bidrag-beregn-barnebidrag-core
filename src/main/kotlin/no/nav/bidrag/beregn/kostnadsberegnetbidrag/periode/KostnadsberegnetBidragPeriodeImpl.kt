@@ -18,7 +18,8 @@ import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.SamvaersfradragPeriode
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.Underholdskostnad
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.UnderholdskostnadPeriode
 
-class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregning: KostnadsberegnetBidragBeregning) : FellesPeriode(),
+class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregning: KostnadsberegnetBidragBeregning) :
+    FellesPeriode(),
     KostnadsberegnetBidragPeriode {
 
     override fun beregnPerioder(grunnlag: BeregnKostnadsberegnetBidragGrunnlag): BeregnetKostnadsberegnetBidragResultat {
@@ -61,8 +62,8 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
     ) {
         // Bygger opp liste over perioder
         beregnKostnadsberegnetBidragListeGrunnlag.bruddPeriodeListe = Periodiserer()
-            .addBruddpunkt(periodeGrunnlag.beregnDatoFra) //For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(periodeGrunnlag.beregnDatoTil) //For å sikre bruddpunkt på start-beregning-til-dato
+            .addBruddpunkt(periodeGrunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+            .addBruddpunkt(periodeGrunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
             .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertUnderholdskostnadPeriodeListe)
             .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertBPsAndelUnderholdskostnadPeriodeListe)
             .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertSamvaersfradragPeriodeListe)
@@ -72,7 +73,6 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     private fun beregnKostnadsberegnetBidragPerPeriode(grunnlag: BeregnKostnadsberegnetBidragListeGrunnlag, soknadsbarnPersonId: Int) {
-
         grunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
             val underholdskostnad = grunnlag.justertUnderholdskostnadPeriodeListe
@@ -154,4 +154,3 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
         return avvikListe
     }
 }
-

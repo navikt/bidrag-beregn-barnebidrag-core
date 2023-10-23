@@ -20,7 +20,6 @@ import java.math.RoundingMode
 open class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
 
     override fun beregn(grunnlag: GrunnlagBeregning): ResultatBeregning {
-
         // Henter sjablonverdier
         val sjablonNavnVerdiMap = hentSjablonVerdier(
             sjablonPeriodeListe = grunnlag.sjablonListe,
@@ -55,8 +54,10 @@ open class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
 
         // Trekker fra skatt
         var forelopigBidragsevne =
-            inntekt - (inntektMinusFradrag * (sjablonNavnVerdiMap[SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn] ?: BigDecimal.ZERO)
-                .divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP)))
+            inntekt - (
+                inntektMinusFradrag * (sjablonNavnVerdiMap[SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT.navn] ?: BigDecimal.ZERO)
+                    .divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP))
+                )
 
         // Trekker fra trygdeavgift
         forelopigBidragsevne -= inntekt * (sjablonNavnVerdiMap[SjablonTallNavn.TRYGDEAVGIFT_PROSENT.navn] ?: BigDecimal.ZERO)
@@ -70,8 +71,10 @@ open class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
         forelopigBidragsevne -= (sjablonNavnVerdiMap[SjablonInnholdNavn.UNDERHOLD_BELOP.navn] ?: BigDecimal.ZERO) * BigDecimal.valueOf(12)
 
         // Trekker fra midler til underhold egne barn i egen husstand
-        forelopigBidragsevne -= (sjablonNavnVerdiMap[SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.navn]
-            ?: BigDecimal.ZERO) * BigDecimal.valueOf(grunnlag.barnIHusstand.antallBarn) * BigDecimal.valueOf(12)
+        forelopigBidragsevne -= (
+            sjablonNavnVerdiMap[SjablonTallNavn.UNDERHOLD_EGNE_BARN_I_HUSSTAND_BELOP.navn]
+                ?: BigDecimal.ZERO
+            ) * BigDecimal.valueOf(grunnlag.barnIHusstand.antallBarn) * BigDecimal.valueOf(12)
 
         // Sjekker om og kalkulerer eventuell fordel særfradrag
         forelopigBidragsevne = when (grunnlag.saerfradrag.kode) {
@@ -105,7 +108,6 @@ open class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
         minstefradragInntektSjablonBelop: BigDecimal,
         minstefradragInntektSjablonProsent: BigDecimal
     ): BigDecimal {
-
         // Legger sammen inntektene
         val inntekt = grunnlag.inntektListe.fold(BigDecimal.ZERO) { total, inntekt -> total + inntekt.belop }
 
@@ -115,7 +117,6 @@ open class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
     }
 
     private fun beregnSkattetrinnBelop(grunnlag: GrunnlagBeregning): BigDecimal {
-
         // Legger sammen inntektene
         val inntekt = grunnlag.inntektListe.fold(BigDecimal.ZERO) { total, inntekt -> total + inntekt.belop }
 
@@ -157,7 +158,6 @@ open class BidragsevneBeregningImpl : FellesBeregning(), BidragsevneBeregning {
         bostatusKode: BostatusKode,
         skatteklasse: Int
     ): Map<String, BigDecimal> {
-
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }
 

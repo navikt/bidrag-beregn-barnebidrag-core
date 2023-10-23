@@ -21,8 +21,8 @@ import no.nav.bidrag.beregn.felles.util.PeriodeUtil.validerBeregnPeriodeInput
 import no.nav.bidrag.beregn.felles.util.PeriodeUtil.validerInputDatoer
 import java.time.LocalDate
 
-
-class BPsAndelUnderholdskostnadPeriodeImpl(private val bPsAndelUnderholdskostnadBeregning: BPsAndelUnderholdskostnadBeregning) : FellesPeriode(),
+class BPsAndelUnderholdskostnadPeriodeImpl(private val bPsAndelUnderholdskostnadBeregning: BPsAndelUnderholdskostnadBeregning) :
+    FellesPeriode(),
     BPsAndelUnderholdskostnadPeriode {
 
     private val regelendringsdato = LocalDate.parse("2009-01-01")
@@ -99,7 +99,6 @@ class BPsAndelUnderholdskostnadPeriodeImpl(private val bPsAndelUnderholdskostnad
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     private fun beregnBPsAndelUnderholdskostnadPerPeriode(grunnlag: BeregnBPsAndelUnderholdskostnadListeGrunnlag, soknadsbarnPersonId: Int) {
-
         grunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
             val underholdskostnad = grunnlag.justertUnderholdskostnadPeriodeListe
@@ -278,4 +277,3 @@ class BPsAndelUnderholdskostnadPeriodeImpl(private val bPsAndelUnderholdskostnad
         return avvikListe
     }
 }
-

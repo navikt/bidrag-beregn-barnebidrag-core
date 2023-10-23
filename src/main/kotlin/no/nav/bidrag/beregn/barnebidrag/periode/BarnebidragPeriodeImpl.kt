@@ -106,7 +106,6 @@ class BarnebidragPeriodeImpl(private val barnebidragBeregning: BarnebidragBeregn
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     private fun beregnBarnebidragPerPeriode(grunnlag: BeregnBarnebidragListeGrunnlag) {
-
         grunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
             val soknadsbarnPersonIdListe = lagSoknadsbarnPersonIdListe(grunnlag = grunnlag, periode = beregningsperiode)
