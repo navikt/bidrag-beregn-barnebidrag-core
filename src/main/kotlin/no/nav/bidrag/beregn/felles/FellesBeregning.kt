@@ -6,7 +6,6 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import java.math.BigDecimal
 import java.time.LocalDate
 
-
 open class FellesBeregning {
 
     // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
@@ -14,7 +13,6 @@ open class FellesBeregning {
         sjablonNavnVerdiMap: Map<String, BigDecimal>,
         sjablonPeriodeListe: List<SjablonPeriode>
     ): List<SjablonPeriodeNavnVerdi> {
-
         val sjablonPeriodeNavnVerdiListe = mutableListOf<SjablonPeriodeNavnVerdi>()
         sjablonNavnVerdiMap.forEach { (sjablonNavn: String, sjablonVerdi: BigDecimal) ->
             sjablonPeriodeNavnVerdiListe.add(
@@ -47,7 +45,9 @@ open class FellesBeregning {
 
             else -> if (sjablonNavn.startsWith("Trinnvis")) {
                 "TrinnvisSkattesats"
-            } else sjablonNavn
+            } else {
+                sjablonNavn
+            }
         }
     }
 }

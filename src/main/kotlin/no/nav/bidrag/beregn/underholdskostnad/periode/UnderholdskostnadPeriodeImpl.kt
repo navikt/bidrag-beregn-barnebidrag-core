@@ -135,7 +135,6 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
         datoRegelendringer: Periode,
         seksAarBruddDato: LocalDate
     ) {
-
         beregnUnderholdskostnadListeGrunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
             val barnetilsynMedStonad = beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe

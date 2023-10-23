@@ -17,7 +17,6 @@ open class UnderholdskostnadBeregningImpl : FellesBeregning(), Underholdskostnad
     // Ordinær barnetrygd: Beregner for perioder frem til 01.07.2021
     // Forhøyet barnetrygd: Beregner for perioder fra 01.07.2021 og fremover, inkluderer både ordinær og forhøyet barnetrygd
     override fun beregn(grunnlag: GrunnlagBeregning, barnetrygdIndikator: String): ResultatBeregning {
-
         // Henter sjablonverdier
         val sjablonNavnVerdiMap = hentSjablonVerdier(
             sjablonPeriodeListe = grunnlag.sjablonListe,
@@ -26,12 +25,12 @@ open class UnderholdskostnadBeregningImpl : FellesBeregning(), Underholdskostnad
             stonadType = grunnlag.barnetilsynMedStonad.stonadType,
             barnetrygdIndikator = barnetrygdIndikator
         )
-        val beregnetUnderholdskostnad = (sjablonNavnVerdiMap[SjablonNavn.FORBRUKSUTGIFTER.navn] ?: BigDecimal.ZERO) //Forbruksutgifter
-            .add(sjablonNavnVerdiMap[SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP.navn] ?: BigDecimal.ZERO) //Boutgifter
-            .add(sjablonNavnVerdiMap[SjablonNavn.BARNETILSYN.navn] ?: BigDecimal.ZERO) //Barnetilsyn
-            .add(grunnlag.nettoBarnetilsyn.belop) //Netto barnetilsyn
-            .subtract(hentBarnetrygdBelop(sjablonNavnVerdiMap, barnetrygdIndikator)) //Barnetrygd
-            .subtract(grunnlag.forpleiningUtgift.belop) //Forpleiningsutgifter
+        val beregnetUnderholdskostnad = (sjablonNavnVerdiMap[SjablonNavn.FORBRUKSUTGIFTER.navn] ?: BigDecimal.ZERO) // Forbruksutgifter
+            .add(sjablonNavnVerdiMap[SjablonTallNavn.BOUTGIFTER_BIDRAGSBARN_BELOP.navn] ?: BigDecimal.ZERO) // Boutgifter
+            .add(sjablonNavnVerdiMap[SjablonNavn.BARNETILSYN.navn] ?: BigDecimal.ZERO) // Barnetilsyn
+            .add(grunnlag.nettoBarnetilsyn.belop) // Netto barnetilsyn
+            .subtract(hentBarnetrygdBelop(sjablonNavnVerdiMap, barnetrygdIndikator)) // Barnetrygd
+            .subtract(grunnlag.forpleiningUtgift.belop) // Forpleiningsutgifter
 
         return ResultatBeregning(
             belop = maxOf(beregnetUnderholdskostnad, BigDecimal.ZERO),
@@ -48,9 +47,12 @@ open class UnderholdskostnadBeregningImpl : FellesBeregning(), Underholdskostnad
 
     // Henter sjablonverdier
     private fun hentSjablonVerdier(
-        sjablonPeriodeListe: List<SjablonPeriode>, soknadBarnAlder: Int, tilsynType: String, stonadType: String, barnetrygdIndikator: String
+        sjablonPeriodeListe: List<SjablonPeriode>,
+        soknadBarnAlder: Int,
+        tilsynType: String,
+        stonadType: String,
+        barnetrygdIndikator: String
     ): Map<String, BigDecimal> {
-
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }
 
@@ -78,11 +80,11 @@ open class UnderholdskostnadBeregningImpl : FellesBeregning(), Underholdskostnad
         sjablonNokkelListe.add(SjablonNokkel(navn = SjablonNokkelNavn.STONAD_TYPE.navn, verdi = stonadType))
 
         sjablonNavnVerdiMap[SjablonNavn.BARNETILSYN.navn] = hentSjablonverdi(
-                sjablonListe = sjablonListe,
-                sjablonNavn = SjablonNavn.BARNETILSYN,
-                sjablonNokkelListe = sjablonNokkelListe,
-                sjablonInnholdNavn = SjablonInnholdNavn.BARNETILSYN_BELOP
-            )
+            sjablonListe = sjablonListe,
+            sjablonNavn = SjablonNavn.BARNETILSYN,
+            sjablonNokkelListe = sjablonNokkelListe,
+            sjablonInnholdNavn = SjablonInnholdNavn.BARNETILSYN_BELOP
+        )
 
         return sjablonNavnVerdiMap
     }

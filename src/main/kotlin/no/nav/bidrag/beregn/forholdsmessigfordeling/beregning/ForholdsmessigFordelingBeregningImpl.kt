@@ -8,10 +8,8 @@ import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
-
 class ForholdsmessigFordelingBeregningImpl : ForholdsmessigFordelingBeregning {
     override fun beregn(grunnlag: GrunnlagBeregningPeriodisert): List<ResultatBeregning> {
-
         val resultatBeregningListe = mutableListOf<ResultatBeregning>()
 
         val endeligBidragsevne = minOf(grunnlag.bidragsevne.belop, grunnlag.bidragsevne.tjuefemProsentInntekt)
@@ -24,7 +22,6 @@ class ForholdsmessigFordelingBeregningImpl : ForholdsmessigFordelingBeregning {
 
         // Gjør forholdsmessig fordeling
         if (samletBidragsbelopAlleSaker > endeligBidragsevne) {
-
             grunnlag.beregnetBidragSakListe.forEach { beregnetBidragSak ->
                 val samletBidragsbelopSak = grunnlag.beregnetBidragSakListe
                     .filter { it.saksnr == beregnetBidragSak.saksnr }

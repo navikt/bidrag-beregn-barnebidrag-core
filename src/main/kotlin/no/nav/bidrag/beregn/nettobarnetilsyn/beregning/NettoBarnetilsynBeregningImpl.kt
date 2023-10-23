@@ -13,7 +13,6 @@ import java.math.RoundingMode
 
 class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregning {
     override fun beregn(grunnlag: GrunnlagBeregning): List<ResultatBeregning> {
-
         val resultatBeregningListe = mutableListOf<ResultatBeregning>()
 
         // Summerer faktisk utgift pr barn
@@ -87,7 +86,6 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
         tilsynsbelop: BigDecimal,
         sjablonNavnVerdiMap: Map<String, BigDecimal>
     ): BigDecimal {
-
         val maksFradrag = sjablonNavnVerdiMap[SjablonNavn.MAKS_FRADRAG.navn] ?: BigDecimal.ZERO
         val skattAlminneligInntektProsent = (sjablonNavnVerdiMap[SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT.navn] ?: BigDecimal.ZERO)
             .divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP))
@@ -106,7 +104,6 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
 
     // Henter sjablonverdier
     private fun hentSjablonVerdier(sjablonPeriodeListe: List<SjablonPeriode>, antallBarnIPerioden: Int): Map<String, BigDecimal> {
-
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }
 
@@ -123,4 +120,3 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
         return sjablonNavnVerdiMap
     }
 }
-

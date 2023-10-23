@@ -3,7 +3,6 @@ package no.nav.bidrag.beregn.felles
 import no.nav.bidrag.beregn.felles.bo.Periode
 import java.time.LocalDate
 
-
 abstract class FellesPeriode {
     protected fun mergeSluttperiode(periodeListe: MutableList<Periode>, datoTil: LocalDate) {
         if (periodeListe.size > 1) {

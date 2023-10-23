@@ -35,8 +35,8 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
 
         // Bygger opp liste over perioder
         val perioder = Periodiserer()
-            .addBruddpunkt(grunnlag.beregnDatoFra) //For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(grunnlag.beregnDatoTil) //For å sikre bruddpunkt på start-beregning-til-dato
+            .addBruddpunkt(grunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+            .addBruddpunkt(grunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
             .addBruddpunkter(bruddliste13Aar)
             .addBruddpunkter(justertFaktiskUtgiftPeriodeListe)
             .addBruddpunkter(justertSjablonPeriodeListe)
@@ -91,18 +91,16 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
         return trettenaarsdagListe.toList()
     }
 
-    private fun beregnSoknadbarnAlder(fodselsdato: LocalDate, beregnTil: LocalDate?): Int {
-        return Period.between(fodselsdato.withDayOfMonth(1).withMonth(1), beregnTil!!.minusDays(1)).years
-    }
+    private fun beregnSoknadbarnAlder(fodselsdato: LocalDate, beregnTil: LocalDate?) =
+        Period.between(fodselsdato.withDayOfMonth(1).withMonth(1), beregnTil!!.minusDays(1)).years
 
     // Setter beløp for faktisk utgift til 0 hvis barnet er over 12 år
-    private fun finnEndeligFaktiskUtgiftBelop(alder: Int, faktiskUtgift: BigDecimal): BigDecimal {
-        return if (alder > 12) {
+    private fun finnEndeligFaktiskUtgiftBelop(alder: Int, faktiskUtgift: BigDecimal) =
+        if (alder > 12) {
             BigDecimal.ZERO
         } else {
             faktiskUtgift
         }
-    }
 
     // Validerer at input-verdier til NettoBarnetilsynsberegning er gyldige
     override fun validerInput(grunnlag: BeregnNettoBarnetilsynGrunnlag): List<Avvik> {

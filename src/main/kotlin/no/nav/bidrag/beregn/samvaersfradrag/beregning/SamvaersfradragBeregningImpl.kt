@@ -13,7 +13,6 @@ import java.math.BigDecimal
 
 class SamvaersfradragBeregningImpl : FellesBeregning(), SamvaersfradragBeregning {
     override fun beregn(grunnlag: GrunnlagBeregning): ResultatBeregning {
-
         // Henter sjablonverdier
         val sjablonNavnVerdiMap = hentSjablonVerdier(
             sjablonPeriodeListe = grunnlag.sjablonListe,
@@ -31,7 +30,6 @@ class SamvaersfradragBeregningImpl : FellesBeregning(), SamvaersfradragBeregning
 
     // Henter sjablonverdier
     private fun hentSjablonVerdier(sjablonPeriodeListe: List<SjablonPeriode>, samvaersklasse: String, soknadBarnAlder: Int): Map<String, BigDecimal> {
-
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
         val sjablonListe = sjablonPeriodeListe.map { it.sjablon }
 

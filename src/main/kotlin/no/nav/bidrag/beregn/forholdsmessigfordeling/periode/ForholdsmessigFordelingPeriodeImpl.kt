@@ -31,8 +31,8 @@ class ForholdsmessigFordelingPeriodeImpl(
 
         // Bygger opp liste over perioder
         val perioder = Periodiserer()
-            .addBruddpunkt(grunnlag.beregnDatoFra) //For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(grunnlag.beregnDatoTil) //For å sikre bruddpunkt på start-beregning-til-dato
+            .addBruddpunkt(grunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+            .addBruddpunkt(grunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
             .addBruddpunkter(justertBidragsevnePeriodeListe)
             .addBruddpunkter(justertBeregnedeBidragSakPeriodeListe)
             .finnPerioder(beregnDatoFom = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil)
@@ -73,7 +73,6 @@ class ForholdsmessigFordelingPeriodeImpl(
 
     // Validerer at input-verdier er gyldige
     override fun validerInput(grunnlag: BeregnForholdsmessigFordelingGrunnlag): List<Avvik> {
-
         val avvikListe = validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
 
         avvikListe.addAll(
