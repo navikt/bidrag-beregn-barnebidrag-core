@@ -37,7 +37,7 @@
     <!-- dependencies -->
     <spring-boot.version>3.0.6</spring-boot.version>
     <bidrag-beregn-felles.version>1.0.3</bidrag-beregn-felles.version>
-    <bidrag-domain.version>20230914102523_8f6d6ef</bidrag-domain.version>
+    <bidrag-domain.version>1.20230217084842_f5279fd</bidrag-domain.version>
   </properties>
 
   <repositories>
