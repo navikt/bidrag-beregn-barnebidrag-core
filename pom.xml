@@ -115,7 +115,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.3</version>
         <configuration>
           <argLine>--enable-preview</argLine>
         </configuration>
