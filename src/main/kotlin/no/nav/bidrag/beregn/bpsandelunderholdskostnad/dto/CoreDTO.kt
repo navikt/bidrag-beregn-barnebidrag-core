@@ -16,13 +16,13 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlagCore(
     val inntektBPPeriodeListe: List<InntektPeriodeCore>,
     val inntektBMPeriodeListe: List<InntektPeriodeCore>,
     val inntektBBPeriodeListe: List<InntektPeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>,
 )
 
 data class UnderholdskostnadPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 data class InntektPeriodeCore(
@@ -31,25 +31,25 @@ data class InntektPeriodeCore(
     val type: String,
     val belop: BigDecimal,
     val deltFordel: Boolean,
-    val skatteklasse2: Boolean
+    val skatteklasse2: Boolean,
 )
 
 // Resultat
 data class BeregnetBPsAndelUnderholdskostnadResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val sjablonListe: List<SjablonResultatGrunnlagCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     val soknadsbarnPersonId: Int,
     val periode: PeriodeCore,
     val resultat: ResultatBeregningCore,
-    val grunnlagReferanseListe: List<String>
+    val grunnlagReferanseListe: List<String>,
 )
 
 data class ResultatBeregningCore(
     val andelProsent: BigDecimal,
     val andelBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
+    val barnetErSelvforsorget: Boolean,
 )

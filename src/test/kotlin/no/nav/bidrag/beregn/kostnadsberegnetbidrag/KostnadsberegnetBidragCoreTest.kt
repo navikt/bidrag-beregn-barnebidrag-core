@@ -1,7 +1,7 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag
 
 import no.nav.bidrag.beregn.TestUtil.BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE
-import no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE
+import no.nav.bidrag.beregn.TestUtil.SAMVÆRSFRADRAG_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.UNDERHOLDSKOSTNAD_REFERANSE
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
@@ -18,7 +18,7 @@ import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.BeregnKostnadsberegnetBid
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.SamvaersfradragPeriodeCore
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.dto.UnderholdskostnadPeriodeCore
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.periode.KostnadsberegnetBidragPeriode
-import no.nav.bidrag.domain.enums.AvvikType
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -35,7 +35,6 @@ import java.time.LocalDate
 
 @ExtendWith(MockitoExtension::class)
 class KostnadsberegnetBidragCoreTest {
-
     private lateinit var kostnadsberegnetBidragCoreWithMock: KostnadsberegnetBidragCore
 
     @Mock
@@ -58,42 +57,76 @@ class KostnadsberegnetBidragCoreTest {
 
         `when`(kostnadsberegnetBidragPeriodeMock.beregnPerioder(any())).thenReturn(kostnadsberegnetBidragPeriodeResultat)
 
-        val beregnKostnadsberegnetBidragResultatCore = kostnadsberegnetBidragCoreWithMock.beregnKostnadsberegnetBidrag(
-            beregnKostnadsberegnetBidragGrunnlagCore
-        )
+        val beregnKostnadsberegnetBidragResultatCore =
+            kostnadsberegnetBidragCoreWithMock.beregnKostnadsberegnetBidrag(
+                beregnKostnadsberegnetBidragGrunnlagCore,
+            )
 
         assertAll(
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore).isNotNull() },
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.avvikListe).isEmpty() },
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe).isNotEmpty() },
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe.size).isEqualTo(3) },
-
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].periode.datoFom).isEqualTo(LocalDate.parse("2017-01-01")) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2018-01-01")) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].resultat.belop).isEqualTo(BigDecimal.valueOf(666)) },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2017-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2018-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].resultat.belop,
+                ).isEqualTo(BigDecimal.valueOf(666))
+            },
             Executable {
                 assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[0]).isEqualTo(
-                    BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE
+                    BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
                 )
             },
             Executable {
                 assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[1]).isEqualTo(
-                    SAMVAERSFRADRAG_REFERANSE
+                    SAMVÆRSFRADRAG_REFERANSE,
                 )
             },
             Executable {
                 assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[2]).isEqualTo(
-                    UNDERHOLDSKOSTNAD_REFERANSE
+                    UNDERHOLDSKOSTNAD_REFERANSE,
                 )
             },
-
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[1].periode.datoFom).isEqualTo(LocalDate.parse("2018-01-01")) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[1].periode.datoTil).isEqualTo(LocalDate.parse("2019-01-01")) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[1].resultat.belop).isEqualTo(BigDecimal.valueOf(667)) },
-
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[2].periode.datoFom).isEqualTo(LocalDate.parse("2019-01-01")) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[2].periode.datoTil).isEqualTo(LocalDate.parse("2020-01-01")) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[2].resultat.belop).isEqualTo(BigDecimal.valueOf(668)) }
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[1].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2018-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[1].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2019-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[1].resultat.belop,
+                ).isEqualTo(BigDecimal.valueOf(667))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[2].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2019-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[2].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2020-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe[2].resultat.belop,
+                ).isEqualTo(BigDecimal.valueOf(668))
+            },
         )
     }
 
@@ -105,105 +138,138 @@ class KostnadsberegnetBidragCoreTest {
 
         `when`(kostnadsberegnetBidragPeriodeMock.validerInput(any())).thenReturn(avvikListe)
 
-        val beregnKostnadsberegnetBidragResultatCore = kostnadsberegnetBidragCoreWithMock.beregnKostnadsberegnetBidrag(
-            beregnKostnadsberegnetBidragGrunnlagCore
-        )
+        val beregnKostnadsberegnetBidragResultatCore =
+            kostnadsberegnetBidragCoreWithMock.beregnKostnadsberegnetBidrag(
+                beregnKostnadsberegnetBidragGrunnlagCore,
+            )
 
         assertAll(
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore).isNotNull() },
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.avvikListe).isNotEmpty() },
             Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.avvikListe).hasSize(1) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.avvikListe[0].avvikTekst).isEqualTo("beregnDatoTil må være etter beregnDatoFra") },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.avvikListe[0].avvikType).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()) },
-            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe).isEmpty() }
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.avvikListe[0].avvikTekst,
+                ).isEqualTo("beregnDatoTil må være etter beregnDatoFra")
+            },
+            Executable {
+                assertThat(
+                    beregnKostnadsberegnetBidragResultatCore.avvikListe[0].avvikType,
+                ).isEqualTo(Avvikstype.DATO_FOM_ETTER_DATO_TIL.toString())
+            },
+            Executable { assertThat(beregnKostnadsberegnetBidragResultatCore.resultatPeriodeListe).isEmpty() },
         )
     }
 
     private fun byggKostnadsberegnetBidragPeriodeGrunnlagCore() {
-        val underholdskostnadPeriodeListe = listOf(
-            UnderholdskostnadPeriodeCore(
-                referanse = UNDERHOLDSKOSTNAD_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                belop = BigDecimal.valueOf(10000)
+        val underholdskostnadPeriodeListe =
+            listOf(
+                UnderholdskostnadPeriodeCore(
+                    referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    belop = BigDecimal.valueOf(10000),
+                ),
             )
-        )
 
-        val bPsAndelUnderholdskostnadPeriodeListe = listOf(
-            BPsAndelUnderholdskostnadPeriodeCore(
-                referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                andelProsent = BigDecimal.valueOf(20)
+        val bPsAndelUnderholdskostnadPeriodeListe =
+            listOf(
+                BPsAndelUnderholdskostnadPeriodeCore(
+                    referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    andelProsent = BigDecimal.valueOf(20),
+                ),
             )
-        )
 
-        val samvaersfradragPeriodeListe = listOf(
-            SamvaersfradragPeriodeCore(
-                referanse = SAMVAERSFRADRAG_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                belop = BigDecimal.valueOf(100)
+        val samvaersfradragPeriodeListe =
+            listOf(
+                SamvaersfradragPeriodeCore(
+                    referanse = SAMVÆRSFRADRAG_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    belop = BigDecimal.valueOf(100),
+                ),
             )
-        )
 
-        beregnKostnadsberegnetBidragGrunnlagCore = BeregnKostnadsberegnetBidragGrunnlagCore(
-            beregnDatoFra = LocalDate.parse("2017-01-01"),
-            beregnDatoTil = LocalDate.parse("2020-01-01"),
-            soknadsbarnPersonId = 1,
-            underholdskostnadPeriodeListe = underholdskostnadPeriodeListe,
-            bPsAndelUnderholdskostnadPeriodeListe = bPsAndelUnderholdskostnadPeriodeListe,
-            samvaersfradragPeriodeListe = samvaersfradragPeriodeListe
-        )
+        beregnKostnadsberegnetBidragGrunnlagCore =
+            BeregnKostnadsberegnetBidragGrunnlagCore(
+                beregnDatoFra = LocalDate.parse("2017-01-01"),
+                beregnDatoTil = LocalDate.parse("2020-01-01"),
+                soknadsbarnPersonId = 1,
+                underholdskostnadPeriodeListe = underholdskostnadPeriodeListe,
+                bPsAndelUnderholdskostnadPeriodeListe = bPsAndelUnderholdskostnadPeriodeListe,
+                samvaersfradragPeriodeListe = samvaersfradragPeriodeListe,
+            )
     }
 
     private fun byggKostnadsberegnetBidragPeriodeResultat() {
-        val periodeResultatListe = listOf(
-            ResultatPeriode(
-                soknadsbarnPersonId = 1,
-                periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
-                resultat = ResultatBeregning(belop = BigDecimal.valueOf(666)),
-                grunnlag = GrunnlagBeregning(
-                    underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(10000)),
-                    bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
-                        referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                        andelProsent = BigDecimal.valueOf(20)
+        val periodeResultatListe =
+            listOf(
+                ResultatPeriode(
+                    soknadsbarnPersonId = 1,
+                    periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
+                    resultat = ResultatBeregning(belop = BigDecimal.valueOf(666)),
+                    grunnlag =
+                    GrunnlagBeregning(
+                        underholdskostnad =
+                        Underholdskostnad(
+                            referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                            belop = BigDecimal.valueOf(10000),
+                        ),
+                        bPsAndelUnderholdskostnad =
+                        BPsAndelUnderholdskostnad(
+                            referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
+                            andelProsent = BigDecimal.valueOf(20),
+                        ),
+                        samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100)),
                     ),
-                    samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100))
-                )
-            ),
-            ResultatPeriode(
-                soknadsbarnPersonId = 1,
-                periode = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2019-01-01")),
-                resultat = ResultatBeregning(belop = BigDecimal.valueOf(667)),
-                grunnlag = GrunnlagBeregning(
-                    underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(10000)),
-                    bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
-                        referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                        andelProsent = BigDecimal.valueOf(20)
+                ),
+                ResultatPeriode(
+                    soknadsbarnPersonId = 1,
+                    periode = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2019-01-01")),
+                    resultat = ResultatBeregning(belop = BigDecimal.valueOf(667)),
+                    grunnlag =
+                    GrunnlagBeregning(
+                        underholdskostnad =
+                        Underholdskostnad(
+                            referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                            belop = BigDecimal.valueOf(10000),
+                        ),
+                        bPsAndelUnderholdskostnad =
+                        BPsAndelUnderholdskostnad(
+                            referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
+                            andelProsent = BigDecimal.valueOf(20),
+                        ),
+                        samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100)),
                     ),
-                    samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100))
-                )
-            ),
-            ResultatPeriode(
-                soknadsbarnPersonId = 1,
-                periode = Periode(datoFom = LocalDate.parse("2019-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                resultat = ResultatBeregning(belop = BigDecimal.valueOf(668)),
-                grunnlag = GrunnlagBeregning(
-                    underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(10000)),
-                    bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
-                        referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                        andelProsent = BigDecimal.valueOf(20)
+                ),
+                ResultatPeriode(
+                    soknadsbarnPersonId = 1,
+                    periode = Periode(datoFom = LocalDate.parse("2019-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    resultat = ResultatBeregning(belop = BigDecimal.valueOf(668)),
+                    grunnlag =
+                    GrunnlagBeregning(
+                        underholdskostnad =
+                        Underholdskostnad(
+                            referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                            belop = BigDecimal.valueOf(10000),
+                        ),
+                        bPsAndelUnderholdskostnad =
+                        BPsAndelUnderholdskostnad(
+                            referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
+                            andelProsent = BigDecimal.valueOf(20),
+                        ),
+                        samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100)),
                     ),
-                    samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100))
-                )
+                ),
             )
-        )
 
         kostnadsberegnetBidragPeriodeResultat = BeregnetKostnadsberegnetBidragResultat(periodeResultatListe)
     }
 
     private fun byggAvvik() {
-        avvikListe = listOf(
-            Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = AvvikType.DATO_FOM_ETTER_DATO_TIL)
-        )
+        avvikListe =
+            listOf(
+                Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = Avvikstype.DATO_FOM_ETTER_DATO_TIL),
+            )
     }
 
     companion object MockitoHelper {

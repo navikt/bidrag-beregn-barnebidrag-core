@@ -34,29 +34,27 @@ class UnderholdskostnadCoreImpl(private val underholdskostnadPeriode: Underholds
         return mapFraBusinessObject(avvikListe, beregnUnderholdskostnadResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnUnderholdskostnadGrunnlagCore) =
-        BeregnUnderholdskostnadGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            soknadsbarn = mapSoknadsbarn(grunnlag.soknadsbarn),
-            barnetilsynMedStonadPeriodeListe = mapBarnetilsynMedStonadPeriodeListe(grunnlag.barnetilsynMedStonadPeriodeListe),
-            nettoBarnetilsynPeriodeListe = mapNettoBarnetilsynPeriodeListe(grunnlag.nettoBarnetilsynPeriodeListe),
-            forpleiningUtgiftPeriodeListe = mapForpleiningUtgiftPeriodeListe(grunnlag.forpleiningUtgiftPeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnUnderholdskostnadGrunnlagCore) = BeregnUnderholdskostnadGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        soknadsbarn = mapSoknadsbarn(grunnlag.soknadsbarn),
+        barnetilsynMedStonadPeriodeListe = mapBarnetilsynMedStonadPeriodeListe(grunnlag.barnetilsynMedStonadPeriodeListe),
+        nettoBarnetilsynPeriodeListe = mapNettoBarnetilsynPeriodeListe(grunnlag.nettoBarnetilsynPeriodeListe),
+        forpleiningUtgiftPeriodeListe = mapForpleiningUtgiftPeriodeListe(grunnlag.forpleiningUtgiftPeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
-    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetUnderholdskostnadResultat) =
-        BeregnetUnderholdskostnadResultatCore(
-            resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
-        )
+    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetUnderholdskostnadResultat) = BeregnetUnderholdskostnadResultatCore(
+        resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
+        sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
+        avvikListe = mapAvvik(avvikListe),
+    )
 
     private fun mapSoknadsbarn(soknadsbarnCore: SoknadsbarnCore) =
         Soknadsbarn(soknadsbarnCore.referanse, soknadsbarnCore.personId, soknadsbarnCore.fodselsdato)
 
     private fun mapBarnetilsynMedStonadPeriodeListe(
-        barnetilsynMedStonadPeriodeListeCore: List<BarnetilsynMedStonadPeriodeCore>
+        barnetilsynMedStonadPeriodeListeCore: List<BarnetilsynMedStonadPeriodeCore>,
     ): List<BarnetilsynMedStonadPeriode> {
         val barnetilsynMedStonadPeriodeListe = mutableListOf<BarnetilsynMedStonadPeriode>()
         barnetilsynMedStonadPeriodeListeCore.forEach {
@@ -65,8 +63,8 @@ class UnderholdskostnadCoreImpl(private val underholdskostnadPeriode: Underholds
                     referanse = it.referanse,
                     barnetilsynMedStonadPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     tilsynType = it.tilsynType,
-                    stonadType = it.stonadType
-                )
+                    stonadType = it.stonadType,
+                ),
             )
         }
         return barnetilsynMedStonadPeriodeListe
@@ -79,22 +77,24 @@ class UnderholdskostnadCoreImpl(private val underholdskostnadPeriode: Underholds
                 NettoBarnetilsynPeriode(
                     referanse = it.referanse,
                     nettoBarnetilsynPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    belop = it.belop
-                )
+                    belop = it.belop,
+                ),
             )
         }
         return nettoBarnetilsynPeriodeListe
     }
 
-    private fun mapForpleiningUtgiftPeriodeListe(forpleiningUtgiftPeriodeListeCore: List<ForpleiningUtgiftPeriodeCore>): List<ForpleiningUtgiftPeriode> {
+    private fun mapForpleiningUtgiftPeriodeListe(
+        forpleiningUtgiftPeriodeListeCore: List<ForpleiningUtgiftPeriodeCore>,
+    ): List<ForpleiningUtgiftPeriode> {
         val forpleiningUtgiftPeriodeListe = mutableListOf<ForpleiningUtgiftPeriode>()
         forpleiningUtgiftPeriodeListeCore.forEach {
             forpleiningUtgiftPeriodeListe.add(
                 ForpleiningUtgiftPeriode(
                     referanse = it.referanse,
                     forpleiningUtgiftPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    belop = it.belop
-                )
+                    belop = it.belop,
+                ),
             )
         }
         return forpleiningUtgiftPeriodeListe
@@ -108,8 +108,8 @@ class UnderholdskostnadCoreImpl(private val underholdskostnadPeriode: Underholds
                     soknadsbarnPersonId = it.soknadsbarnPersonId,
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     resultat = ResultatBeregningCore(it.resultat.belop),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe
@@ -127,8 +127,7 @@ class UnderholdskostnadCoreImpl(private val underholdskostnadPeriode: Underholds
         return referanseListe.sorted()
     }
 
-    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) =
-        resultatPeriodeListe
-            .flatMap { mapSjablonListe(it.resultat.sjablonListe) }
-            .distinct()
+    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) = resultatPeriodeListe
+        .flatMap { mapSjablonListe(it.resultat.sjablonListe) }
+        .distinct()
 }

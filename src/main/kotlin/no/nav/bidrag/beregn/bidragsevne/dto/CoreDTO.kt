@@ -16,54 +16,54 @@ data class BeregnBidragsevneGrunnlagCore(
     val bostatusPeriodeListe: List<BostatusPeriodeCore>,
     val barnIHusstandPeriodeListe: List<BarnIHusstandPeriodeCore>,
     val saerfradragPeriodeListe: List<SaerfradragPeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>,
 )
 
 data class InntektPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
     val type: String,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 data class SkatteklassePeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val skatteklasse: Int
+    val skatteklasse: Int,
 )
 
 data class BostatusPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val kode: String
+    val kode: String,
 )
 
 data class BarnIHusstandPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val antallBarn: Double
+    val antallBarn: Double,
 )
 
 data class SaerfradragPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val kode: String
+    val kode: String,
 )
 
 // Resultat
 data class BeregnetBidragsevneResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val sjablonListe: List<SjablonResultatGrunnlagCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     val periode: PeriodeCore,
     val resultat: ResultatBeregningCore,
-    val grunnlagReferanseListe: List<String>
+    val grunnlagReferanseListe: List<String>,
 )
 
 data class ResultatBeregningCore(
     val belop: BigDecimal,
-    val inntekt25Prosent: BigDecimal
+    val inntekt25Prosent: BigDecimal,
 )

@@ -15,26 +15,26 @@ data class BeregnBPsAndelUnderholdskostnadGrunnlag(
     val inntektBPPeriodeListe: List<InntektPeriode>,
     val inntektBMPeriodeListe: List<InntektPeriode>,
     val inntektBBPeriodeListe: List<InntektPeriode>,
-    val sjablonPeriodeListe: List<SjablonPeriode>
+    val sjablonPeriodeListe: List<SjablonPeriode>,
 )
 
 // Resultat periode
 data class BeregnetBPsAndelUnderholdskostnadResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+    val resultatPeriodeListe: List<ResultatPeriode>,
 )
 
 data class ResultatPeriode(
     val soknadsbarnPersonId: Int,
     val periode: Periode,
     val resultat: ResultatBeregning,
-    val grunnlag: GrunnlagBeregning
+    val grunnlag: GrunnlagBeregning,
 )
 
 data class ResultatBeregning(
     val andelProsent: BigDecimal,
     val andelBelop: BigDecimal,
     val barnetErSelvforsorget: Boolean,
-    val sjablonListe: List<SjablonPeriodeNavnVerdi>
+    val sjablonListe: List<SjablonPeriodeNavnVerdi>,
 )
 
 // Grunnlag beregning
@@ -43,12 +43,12 @@ data class GrunnlagBeregning(
     val inntektBPListe: List<Inntekt>,
     val inntektBMListe: List<Inntekt>,
     val inntektBBListe: List<Inntekt>,
-    val sjablonListe: List<SjablonPeriode>
+    val sjablonListe: List<SjablonPeriode>,
 )
 
 data class Underholdskostnad(
     val referanse: String,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 data class Inntekt(
@@ -56,7 +56,7 @@ data class Inntekt(
     val type: String,
     val belop: BigDecimal,
     val deltFordel: Boolean,
-    val skatteklasse2: Boolean
+    val skatteklasse2: Boolean,
 )
 
 // Hjelpeklasser
@@ -67,5 +67,5 @@ data class BeregnBPsAndelUnderholdskostnadListeGrunnlag(
     var justertInntektBMPeriodeListe: List<InntektPeriode> = listOf(),
     var justertInntektBBPeriodeListe: List<InntektPeriode> = listOf(),
     var justertSjablonPeriodeListe: List<SjablonPeriode> = listOf(),
-    var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+    var bruddPeriodeListe: MutableList<Periode> = mutableListOf(),
 )

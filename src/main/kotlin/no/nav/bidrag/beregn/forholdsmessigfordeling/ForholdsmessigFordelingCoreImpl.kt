@@ -39,18 +39,17 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
         return mapFraBusinessObject(avvikListe, beregnForholdsmessigFordelingResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnForholdsmessigFordelingGrunnlagCore) =
-        BeregnForholdsmessigFordelingGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            bidragsevnePeriodeListe = mapBidragsevnePeriodeListe(grunnlag.bidragsevnePeriodeListe),
-            beregnetBidragPeriodeListe = mapBeregnetBidragSakPeriodeListe(grunnlag.beregnetBidragPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnForholdsmessigFordelingGrunnlagCore) = BeregnForholdsmessigFordelingGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        bidragsevnePeriodeListe = mapBidragsevnePeriodeListe(grunnlag.bidragsevnePeriodeListe),
+        beregnetBidragPeriodeListe = mapBeregnetBidragSakPeriodeListe(grunnlag.beregnetBidragPeriodeListe),
+    )
 
     private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnForholdsmessigFordelingResultat) =
         BeregnForholdsmessigFordelingResultatCore(
             resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
+            avvikListe = mapAvvik(avvikListe),
         )
 
     private fun mapBidragsevnePeriodeListe(bidragsevnePeriodeListeCore: List<BidragsevnePeriodeCore>): List<BidragsevnePeriode> {
@@ -60,15 +59,15 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
                 BidragsevnePeriode(
                     bidragsevneDatoFraTil = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     bidragsevneBelop = it.belop,
-                    tjuefemProsentInntekt = it.tjuefemProsentInntekt
-                )
+                    tjuefemProsentInntekt = it.tjuefemProsentInntekt,
+                ),
             )
         }
         return bidragsevnePeriodeListe.sortedBy { it.bidragsevneDatoFraTil.datoFom }
     }
 
     private fun mapBeregnetBidragSakPeriodeListe(
-        beregnetBidragSakPeriodeListeCore: List<BeregnetBidragSakPeriodeCore>
+        beregnetBidragSakPeriodeListeCore: List<BeregnetBidragSakPeriodeCore>,
     ): List<BeregnetBidragSakPeriode> {
         val beregnetBidragSakPeriodeListe = mutableListOf<BeregnetBidragSakPeriode>()
         beregnetBidragSakPeriodeListeCore.forEach {
@@ -76,8 +75,8 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
                 BeregnetBidragSakPeriode(
                     saksnr = it.saksnr,
                     periodeDatoFraTil = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    grunnlagPerBarnListe = mapGrunnlagPerBarnListe(it.grunnlagPerBarnListe)
-                )
+                    grunnlagPerBarnListe = mapGrunnlagPerBarnListe(it.grunnlagPerBarnListe),
+                ),
             )
         }
         return beregnetBidragSakPeriodeListe.sortedBy { it.periodeDatoFraTil.datoFom }
@@ -87,7 +86,7 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
         val grunnlagPerBarnListe = mutableListOf<GrunnlagPerBarn>()
         grunnlagPerBarnListeCore.forEach {
             grunnlagPerBarnListe.add(
-                GrunnlagPerBarn(barnPersonId = it.barnPersonId, bidragBelop = it.bidragBelop)
+                GrunnlagPerBarn(barnPersonId = it.barnPersonId, bidragBelop = it.bidragBelop),
             )
         }
         return grunnlagPerBarnListe
@@ -108,14 +107,16 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
                 ResultatPeriodeCore(
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     resultatBeregningListe = mapResultatBeregning(it.resultatBeregningListe),
-                    resultatGrunnlag = GrunnlagBeregningPeriodisertCore(
-                        bidragsevne = BidragsevneCore(
+                    resultatGrunnlag =
+                    GrunnlagBeregningPeriodisertCore(
+                        bidragsevne =
+                        BidragsevneCore(
                             belop = it.resultatGrunnlag.bidragsevne.belop,
-                            tjuefemProsentInntekt = it.resultatGrunnlag.bidragsevne.tjuefemProsentInntekt
+                            tjuefemProsentInntekt = it.resultatGrunnlag.bidragsevne.tjuefemProsentInntekt,
                         ),
-                        beregnetBidragSakListe = mapBeregnetBidragSak(it.resultatGrunnlag.beregnetBidragSakListe)
-                    )
-                )
+                        beregnetBidragSakListe = mapBeregnetBidragSak(it.resultatGrunnlag.beregnetBidragSakListe),
+                    ),
+                ),
             )
         }
         return resultatPeriodeCoreListe
@@ -125,7 +126,7 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
         val resultatBeregningListeCore = mutableListOf<ResultatBeregningCore>()
         resultatBeregningListe.forEach {
             resultatBeregningListeCore.add(
-                ResultatBeregningCore(saksnr = it.saksnr, resultatPerBarnListe = mapResultatPerBarn(it.resultatPerBarnListe))
+                ResultatBeregningCore(saksnr = it.saksnr, resultatPerBarnListe = mapResultatPerBarn(it.resultatPerBarnListe)),
             )
         }
         return resultatBeregningListeCore
@@ -138,8 +139,8 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
                 ResultatPerBarnCore(
                     barnPersonId = it.barnPersonId,
                     belop = it.belop,
-                    kode = it.kode.toString()
-                )
+                    kode = it.kode.toString(),
+                ),
             )
         }
         return resultatPerBarnListeCore
@@ -151,8 +152,8 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
             beregnetBidragSakListeCore.add(
                 BeregnetBidragSakCore(
                     saksnr = it.saksnr,
-                    grunnlagPerBarnListe = mapGrunnlagPerBarn(it.grunnlagPerBarnListe)
-                )
+                    grunnlagPerBarnListe = mapGrunnlagPerBarn(it.grunnlagPerBarnListe),
+                ),
             )
         }
         return beregnetBidragSakListeCore
@@ -162,7 +163,7 @@ class ForholdsmessigFordelingCoreImpl(private val forholdsmessigFordelingPeriode
         val grunnlagPerBarnListeCore = mutableListOf<GrunnlagPerBarnCore>()
         grunnlagPerBarnListe.forEach {
             grunnlagPerBarnListeCore.add(
-                GrunnlagPerBarnCore(barnPersonId = it.barnPersonId, bidragBelop = it.bidragBelop)
+                GrunnlagPerBarnCore(barnPersonId = it.barnPersonId, bidragBelop = it.bidragBelop),
             )
         }
         return grunnlagPerBarnListeCore

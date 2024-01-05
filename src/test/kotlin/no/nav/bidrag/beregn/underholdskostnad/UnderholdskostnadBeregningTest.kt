@@ -1,6 +1,6 @@
 package no.nav.bidrag.beregn.underholdskostnad
 
-import no.nav.bidrag.beregn.TestUtil.BARNETILSYN_MED_STONAD_REFERANSE
+import no.nav.bidrag.beregn.TestUtil.BARNETILSYN_MED_STØNAD_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.FORPLEINING_UTGIFT_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.NETTO_BARNETILSYN_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.ORDINAER_BARNETRYGD
@@ -19,7 +19,6 @@ import java.math.BigDecimal
 
 @DisplayName("Test av beregning av underholdskostnad")
 internal class UnderholdskostnadBeregningTest {
-
     private val sjablonPeriodeListe = byggSjablonPeriodeListe()
     private val underholdskostnadberegning = getInstance()
 
@@ -29,10 +28,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 3),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -46,10 +50,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 7),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -63,10 +72,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 10),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -80,10 +94,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 11),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -97,10 +116,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 12),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -114,10 +138,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 11),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "DU", stonadType = "64"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "DU",
+                    stonadType = "64",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -131,10 +160,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 11),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.valueOf(666)),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.ZERO),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)
@@ -148,10 +182,15 @@ internal class UnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 11),
-                barnetilsynMedStonad = BarnetilsynMedStonad(referanse = BARNETILSYN_MED_STONAD_REFERANSE, tilsynType = "Ingen", stonadType = "Ingen"),
+                barnetilsynMedStonad =
+                BarnetilsynMedStonad(
+                    referanse = BARNETILSYN_MED_STØNAD_REFERANSE,
+                    tilsynType = "Ingen",
+                    stonadType = "Ingen",
+                ),
                 nettoBarnetilsyn = NettoBarnetilsyn(referanse = NETTO_BARNETILSYN_REFERANSE, belop = BigDecimal.ZERO),
                 forpleiningUtgift = ForpleiningUtgift(referanse = FORPLEINING_UTGIFT_REFERANSE, belop = BigDecimal.valueOf(17)),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = underholdskostnadberegning.beregn(grunnlag = grunnlagBeregning, barnetrygdIndikator = ORDINAER_BARNETRYGD)

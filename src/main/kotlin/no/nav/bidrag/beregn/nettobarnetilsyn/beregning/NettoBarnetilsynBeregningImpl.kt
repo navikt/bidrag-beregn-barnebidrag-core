@@ -5,8 +5,8 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil.hentSjablonverdi
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.GrunnlagBeregning
 import no.nav.bidrag.beregn.nettobarnetilsyn.bo.ResultatBeregning
-import no.nav.bidrag.domain.enums.sjablon.SjablonNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
@@ -16,19 +16,21 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
         val resultatBeregningListe = mutableListOf<ResultatBeregning>()
 
         // Summerer faktisk utgift pr barn
-        val faktiskUtgiftListeSummertPerBarn = grunnlag.faktiskUtgiftListe
-            .groupBy { it.soknadsbarnPersonId }
-            .mapValues { (_, faktiskUtgift) ->
-                faktiskUtgift.map { it.belop }.fold(BigDecimal.ZERO, BigDecimal::add)
-            }
+        val faktiskUtgiftListeSummertPerBarn =
+            grunnlag.faktiskUtgiftListe
+                .groupBy { it.soknadsbarnPersonId }
+                .mapValues { (_, faktiskUtgift) ->
+                    faktiskUtgift.map { it.belop }.fold(BigDecimal.ZERO, BigDecimal::add)
+                }
 
         // Barn som er 13 år eller eldre skal ikke telles med ved henting av sjablon for maks tilsyn og fradrag
-        val listeMedBarnUnder13Aar = grunnlag.faktiskUtgiftListe
-            .filter { it.soknadsbarnAlder < 13 }
-            .groupBy { it.soknadsbarnPersonId }
-            .mapValues { (_, faktiskUtgift) ->
-                faktiskUtgift.map { it.belop }.fold(BigDecimal.ZERO, BigDecimal::add)
-            }
+        val listeMedBarnUnder13Aar =
+            grunnlag.faktiskUtgiftListe
+                .filter { it.soknadsbarnAlder < 13 }
+                .groupBy { it.soknadsbarnPersonId }
+                .mapValues { (_, faktiskUtgift) ->
+                    faktiskUtgift.map { it.belop }.fold(BigDecimal.ZERO, BigDecimal::add)
+                }
 
         val antallBarnIPerioden = listeMedBarnUnder13Aar.size
 
@@ -47,19 +49,21 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
 
         val maksTilsynsbelop = sjablonNavnVerdiMap[SjablonNavn.MAKS_TILSYN.navn] ?: BigDecimal.ZERO
 
-        val fradragsbelopPerBarn = beregnFradragsbelopPerBarn(
-            antallBarnMedTilsynsutgift = antallBarnMedTilsynsutgift,
-            tilsynsbelop = minOf(samletFaktiskUtgiftBelop, maksTilsynsbelop),
-            sjablonNavnVerdiMap = sjablonNavnVerdiMap
-        )
+        val fradragsbelopPerBarn =
+            beregnFradragsbelopPerBarn(
+                antallBarnMedTilsynsutgift = antallBarnMedTilsynsutgift,
+                tilsynsbelop = minOf(samletFaktiskUtgiftBelop, maksTilsynsbelop),
+                sjablonNavnVerdiMap = sjablonNavnVerdiMap,
+            )
 
         // Finner prosentandel av totalbeløp og beregner så andel av maks tilsynsbeløp
         faktiskUtgiftListeSummertPerBarn.forEach { (key, value) ->
-            var resultatBelop = if (samletFaktiskUtgiftBelop > maksTilsynsbelop) {
-                value.divide(samletFaktiskUtgiftBelop, MathContext(2, RoundingMode.HALF_UP)) * maksTilsynsbelop
-            } else {
-                value
-            }
+            var resultatBelop =
+                if (samletFaktiskUtgiftBelop > maksTilsynsbelop) {
+                    value.divide(samletFaktiskUtgiftBelop, MathContext(2, RoundingMode.HALF_UP)) * maksTilsynsbelop
+                } else {
+                    value
+                }
 
             // Trekker fra beregnet fradragsbeløp
             resultatBelop -= fradragsbelopPerBarn
@@ -73,8 +77,12 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
                 ResultatBeregning(
                     soknadsbarnPersonId = key,
                     belop = resultatBelop.setScale(0, RoundingMode.HALF_UP),
-                    sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap = sjablonNavnVerdiMap, sjablonPeriodeListe = grunnlag.sjablonListe)
-                )
+                    sjablonListe =
+                    byggSjablonResultatListe(
+                        sjablonNavnVerdiMap = sjablonNavnVerdiMap,
+                        sjablonPeriodeListe = grunnlag.sjablonListe,
+                    ),
+                ),
             )
         }
 
@@ -84,11 +92,12 @@ class NettoBarnetilsynBeregningImpl : FellesBeregning(), NettoBarnetilsynBeregni
     private fun beregnFradragsbelopPerBarn(
         antallBarnMedTilsynsutgift: Int,
         tilsynsbelop: BigDecimal,
-        sjablonNavnVerdiMap: Map<String, BigDecimal>
+        sjablonNavnVerdiMap: Map<String, BigDecimal>,
     ): BigDecimal {
         val maksFradrag = sjablonNavnVerdiMap[SjablonNavn.MAKS_FRADRAG.navn] ?: BigDecimal.ZERO
-        val skattAlminneligInntektProsent = (sjablonNavnVerdiMap[SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT.navn] ?: BigDecimal.ZERO)
-            .divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP))
+        val skattAlminneligInntektProsent =
+            (sjablonNavnVerdiMap[SjablonTallNavn.SKATT_ALMINNELIG_INNTEKT_PROSENT.navn] ?: BigDecimal.ZERO)
+                .divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP))
 
         val maksFradragsbelop = maksFradrag * skattAlminneligInntektProsent
         val fradragsbelop = minOf((tilsynsbelop * skattAlminneligInntektProsent), maksFradragsbelop)

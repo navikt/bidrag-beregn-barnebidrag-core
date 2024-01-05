@@ -23,25 +23,28 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
         val resultatPeriodeListe = mutableListOf<ResultatPeriode>()
 
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode::it)
-        val justertFaktiskUtgiftPeriodeListe = grunnlag.faktiskUtgiftPeriodeListe
-            .map { FaktiskUtgiftPeriode(it) }
+        val justertFaktiskUtgiftPeriodeListe =
+            grunnlag.faktiskUtgiftPeriodeListe
+                .map { FaktiskUtgiftPeriode(it) }
 
-        val justertSjablonPeriodeListe = grunnlag.sjablonPeriodeListe
-            .map { SjablonPeriode(it) }
+        val justertSjablonPeriodeListe =
+            grunnlag.sjablonPeriodeListe
+                .map { SjablonPeriode(it) }
 
         // Netto barnetilsyn er kun gyldig ut det året barnet fyller 12 år.
         // Lager liste for å sikre brudd  01.01 året etter hvert barn i beregningen fyller 12 år.
         val bruddliste13Aar = beregnSoknadbarn13aarsdagListe(grunnlag)
 
         // Bygger opp liste over perioder
-        val perioder = Periodiserer()
-            .addBruddpunkt(grunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(grunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
-            .addBruddpunkter(bruddliste13Aar)
-            .addBruddpunkter(justertFaktiskUtgiftPeriodeListe)
-            .addBruddpunkter(justertSjablonPeriodeListe)
-            .finnPerioder(grunnlag.beregnDatoFra, grunnlag.beregnDatoTil)
-            .toMutableList()
+        val perioder =
+            Periodiserer()
+                .addBruddpunkt(grunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+                .addBruddpunkt(grunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
+                .addBruddpunkter(bruddliste13Aar)
+                .addBruddpunkter(justertFaktiskUtgiftPeriodeListe)
+                .addBruddpunkter(justertSjablonPeriodeListe)
+                .finnPerioder(grunnlag.beregnDatoFra, grunnlag.beregnDatoTil)
+                .toMutableList()
 
         // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
         mergeSluttperiode(periodeListe = perioder, datoTil = grunnlag.beregnDatoTil)
@@ -50,22 +53,33 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
         perioder.forEach { beregningsperiode ->
 
             // Filtrerer vekk forekomster for barn som har fylt 12 år i tillegg til der innsendt beløp ikke er større enn 0
-            val faktiskUtgiftListe = justertFaktiskUtgiftPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map {
-                    FaktiskUtgift(
-                        soknadsbarnPersonId = it.soknadsbarnPersonId,
-                        referanse = it.referanse,
-                        soknadsbarnAlder = beregnSoknadbarnAlder(fodselsdato = it.soknadsbarnFodselsdato, beregnTil = beregningsperiode.datoTil),
-                        belop = finnEndeligFaktiskUtgiftBelop(
-                            alder = beregnSoknadbarnAlder(fodselsdato = it.soknadsbarnFodselsdato, beregnTil = beregningsperiode.datoTil),
-                            faktiskUtgift = it.belop
+            val faktiskUtgiftListe =
+                justertFaktiskUtgiftPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map {
+                        FaktiskUtgift(
+                            soknadsbarnPersonId = it.soknadsbarnPersonId,
+                            referanse = it.referanse,
+                            soknadsbarnAlder =
+                            beregnSoknadbarnAlder(
+                                fodselsdato = it.soknadsbarnFodselsdato,
+                                beregnTil = beregningsperiode.datoTil,
+                            ),
+                            belop =
+                            finnEndeligFaktiskUtgiftBelop(
+                                alder =
+                                beregnSoknadbarnAlder(
+                                    fodselsdato = it.soknadsbarnFodselsdato,
+                                    beregnTil = beregningsperiode.datoTil,
+                                ),
+                                faktiskUtgift = it.belop,
+                            ),
                         )
-                    )
-                }
+                    }
 
-            val sjablonliste = justertSjablonPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+            val sjablonliste =
+                justertSjablonPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
 
             // Kaller beregningsmodulen for hver beregningsperiode
             val grunnlagBeregning = GrunnlagBeregning(faktiskUtgiftListe = faktiskUtgiftListe, sjablonListe = sjablonliste)
@@ -74,8 +88,8 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
                 ResultatPeriode(
                     periode = beregningsperiode,
                     resultatListe = nettoBarnetilsynBeregning.beregn(grunnlagBeregning),
-                    grunnlag = grunnlagBeregning
-                )
+                    grunnlag = grunnlagBeregning,
+                ),
             )
         }
 
@@ -95,16 +109,19 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
         Period.between(fodselsdato.withDayOfMonth(1).withMonth(1), beregnTil!!.minusDays(1)).years
 
     // Setter beløp for faktisk utgift til 0 hvis barnet er over 12 år
-    private fun finnEndeligFaktiskUtgiftBelop(alder: Int, faktiskUtgift: BigDecimal) =
-        if (alder > 12) {
-            BigDecimal.ZERO
-        } else {
-            faktiskUtgift
-        }
+    private fun finnEndeligFaktiskUtgiftBelop(alder: Int, faktiskUtgift: BigDecimal) = if (alder > 12) {
+        BigDecimal.ZERO
+    } else {
+        faktiskUtgift
+    }
 
     // Validerer at input-verdier til NettoBarnetilsynsberegning er gyldige
     override fun validerInput(grunnlag: BeregnNettoBarnetilsynGrunnlag): List<Avvik> {
-        val avvikListe = validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
+        val avvikListe =
+            validerBeregnPeriodeInput(
+                beregnDatoFom = grunnlag.beregnDatoFra,
+                beregnDatoTil = grunnlag.beregnDatoTil,
+            ).toMutableList()
 
         avvikListe.addAll(
             validerInputDatoer(
@@ -112,11 +129,12 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "faktiskUtgiftPeriodeListe",
                 periodeListe = grunnlag.faktiskUtgiftPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -125,11 +143,12 @@ class NettoBarnetilsynPeriodeImpl(private val nettoBarnetilsynBeregning: NettoBa
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "sjablonPeriodeListe",
                 periodeListe = grunnlag.sjablonPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = false
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         return avvikListe

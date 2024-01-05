@@ -28,23 +28,22 @@ abstract class FellesCore {
             sjablonPeriodeListe.add(
                 SjablonPeriode(
                     sjablonPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    sjablon = Sjablon(navn = it.navn, nokkelListe = sjablonNokkelListe, innholdListe = sjablonInnholdListe)
-                )
+                    sjablon = Sjablon(navn = it.navn, nokkelListe = sjablonNokkelListe, innholdListe = sjablonInnholdListe),
+                ),
             )
         }
         return sjablonPeriodeListe
     }
 
-    protected fun mapSjablonListe(sjablonListe: List<SjablonPeriodeNavnVerdi>) =
-        sjablonListe
-            .map {
-                SjablonResultatGrunnlagCore(
-                    referanse = lagSjablonReferanse(it),
-                    periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    navn = it.navn,
-                    verdi = it.verdi
-                )
-            }
+    protected fun mapSjablonListe(sjablonListe: List<SjablonPeriodeNavnVerdi>) = sjablonListe
+        .map {
+            SjablonResultatGrunnlagCore(
+                referanse = lagSjablonReferanse(it),
+                periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
+                navn = it.navn,
+                verdi = it.verdi,
+            )
+        }
 
     protected fun lagSjablonReferanse(sjablon: SjablonPeriodeNavnVerdi) =
         "Sjablon_${sjablon.navn}_${sjablon.periode.datoFom.format(DateTimeFormatter.ofPattern("yyyyMMdd"))}"

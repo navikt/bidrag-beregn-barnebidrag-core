@@ -11,35 +11,35 @@ data class BeregnNettoBarnetilsynGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     var faktiskUtgiftPeriodeListe: List<FaktiskUtgiftPeriode>,
-    val sjablonPeriodeListe: List<SjablonPeriode>
+    val sjablonPeriodeListe: List<SjablonPeriode>,
 )
 
 // Resultat periode
 data class BeregnetNettoBarnetilsynResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+    val resultatPeriodeListe: List<ResultatPeriode>,
 )
 
 data class ResultatPeriode(
     val periode: Periode,
     val resultatListe: List<ResultatBeregning>,
-    val grunnlag: GrunnlagBeregning
+    val grunnlag: GrunnlagBeregning,
 )
 
 data class ResultatBeregning(
     val soknadsbarnPersonId: Int,
     val belop: BigDecimal,
-    val sjablonListe: List<SjablonPeriodeNavnVerdi>
+    val sjablonListe: List<SjablonPeriodeNavnVerdi>,
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregning(
     val faktiskUtgiftListe: List<FaktiskUtgift>,
-    val sjablonListe: List<SjablonPeriode>
+    val sjablonListe: List<SjablonPeriode>,
 )
 
 data class FaktiskUtgift(
     val soknadsbarnPersonId: Int,
     val referanse: String,
     val soknadsbarnAlder: Int,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )

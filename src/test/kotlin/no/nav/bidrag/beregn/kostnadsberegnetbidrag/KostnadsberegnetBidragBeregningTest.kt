@@ -1,7 +1,7 @@
 package no.nav.bidrag.beregn.kostnadsberegnetbidrag
 
 import no.nav.bidrag.beregn.TestUtil.BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE
-import no.nav.bidrag.beregn.TestUtil.SAMVAERSFRADRAG_REFERANSE
+import no.nav.bidrag.beregn.TestUtil.SAMVÆRSFRADRAG_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.UNDERHOLDSKOSTNAD_REFERANSE
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.beregning.KostnadsberegnetBidragBeregning.Companion.getInstance
 import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BPsAndelUnderholdskostnad
@@ -15,7 +15,6 @@ import java.math.BigDecimal
 
 @DisplayName("Test av beregning av kostnadsberegnet bidrag")
 internal class KostnadsberegnetBidragBeregningTest {
-
     private val kostnadsberegnetBidragBeregning = getInstance()
 
     @DisplayName("Test av beregning av kostnadsberegnet bidrag")
@@ -24,11 +23,12 @@ internal class KostnadsberegnetBidragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(10000)),
-                bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
+                bPsAndelUnderholdskostnad =
+                BPsAndelUnderholdskostnad(
                     referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                    andelProsent = BigDecimal.valueOf(0.20)
+                    andelProsent = BigDecimal.valueOf(0.20),
                 ),
-                samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.ZERO)
+                samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.ZERO),
             )
 
         val (belop) = kostnadsberegnetBidragBeregning.beregn(grunnlagBeregning)
@@ -42,11 +42,12 @@ internal class KostnadsberegnetBidragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(10000)),
-                bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
+                bPsAndelUnderholdskostnad =
+                BPsAndelUnderholdskostnad(
                     referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                    andelProsent = BigDecimal.valueOf(0.20)
+                    andelProsent = BigDecimal.valueOf(0.20),
                 ),
-                samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100))
+                samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100)),
             )
 
         val (belop) = kostnadsberegnetBidragBeregning.beregn(grunnlagBeregning)
@@ -60,11 +61,12 @@ internal class KostnadsberegnetBidragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(666)),
-                bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
+                bPsAndelUnderholdskostnad =
+                BPsAndelUnderholdskostnad(
                     referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                    andelProsent = BigDecimal.valueOf(0.91)
+                    andelProsent = BigDecimal.valueOf(0.91),
                 ),
-                samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.ZERO)
+                samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.ZERO),
             )
 
         val (belop) = kostnadsberegnetBidragBeregning.beregn(grunnlagBeregning)
@@ -78,11 +80,12 @@ internal class KostnadsberegnetBidragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                bPsAndelUnderholdskostnad = BPsAndelUnderholdskostnad(
+                bPsAndelUnderholdskostnad =
+                BPsAndelUnderholdskostnad(
                     referanse = BP_ANDEL_UNDERHOLDSKOSTNAD_REFERANSE,
-                    andelProsent = BigDecimal.valueOf(0.172)
+                    andelProsent = BigDecimal.valueOf(0.172),
                 ),
-                samvaersfradrag = Samvaersfradrag(referanse = SAMVAERSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100))
+                samvaersfradrag = Samvaersfradrag(referanse = SAMVÆRSFRADRAG_REFERANSE, belop = BigDecimal.valueOf(100)),
             )
 
         val (belop) = kostnadsberegnetBidragBeregning.beregn(grunnlagBeregning)

@@ -2,22 +2,21 @@ package no.nav.bidrag.beregn.bidragsevne.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.bo.PeriodisertGrunnlag
-import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.SaerfradragKode
+import no.nav.bidrag.domene.enums.beregning.Særfradragskode
+import no.nav.bidrag.domene.enums.person.Bostatuskode
 import java.math.BigDecimal
 
 data class InntektPeriode(
     val referanse: String,
     val inntektPeriode: Periode,
     val type: String,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(inntektPeriode: InntektPeriode) : this(
         inntektPeriode.referanse,
         inntektPeriode.inntektPeriode.justerDatoer(),
         inntektPeriode.type,
-        inntektPeriode.belop
+        inntektPeriode.belop,
     )
 
     override fun getPeriode(): Periode {
@@ -28,13 +27,12 @@ data class InntektPeriode(
 data class SkatteklassePeriode(
     val referanse: String,
     val skatteklassePeriode: Periode,
-    val skatteklasse: Int
+    val skatteklasse: Int,
 ) : PeriodisertGrunnlag {
-
     constructor(skatteklassePeriode: SkatteklassePeriode) : this(
         skatteklassePeriode.referanse,
         skatteklassePeriode.skatteklassePeriode.justerDatoer(),
-        skatteklassePeriode.skatteklasse
+        skatteklassePeriode.skatteklasse,
     )
 
     override fun getPeriode(): Periode {
@@ -45,13 +43,12 @@ data class SkatteklassePeriode(
 data class BostatusPeriode(
     val referanse: String,
     val bostatusPeriode: Periode,
-    val kode: BostatusKode
+    val kode: Bostatuskode,
 ) : PeriodisertGrunnlag {
-
     constructor(bostatusPeriode: BostatusPeriode) : this(
         bostatusPeriode.referanse,
         bostatusPeriode.bostatusPeriode.justerDatoer(),
-        bostatusPeriode.kode
+        bostatusPeriode.kode,
     )
 
     override fun getPeriode(): Periode {
@@ -62,13 +59,12 @@ data class BostatusPeriode(
 data class BarnIHusstandPeriode(
     val referanse: String,
     val barnIHusstandPeriode: Periode,
-    val antallBarn: Double
+    val antallBarn: Double,
 ) : PeriodisertGrunnlag {
-
     constructor(barnIHusstandPeriode: BarnIHusstandPeriode) : this(
         barnIHusstandPeriode.referanse,
         barnIHusstandPeriode.barnIHusstandPeriode.justerDatoer(),
-        barnIHusstandPeriode.antallBarn
+        barnIHusstandPeriode.antallBarn,
     )
 
     override fun getPeriode(): Periode {
@@ -79,13 +75,12 @@ data class BarnIHusstandPeriode(
 data class SaerfradragPeriode(
     val referanse: String,
     val saerfradragPeriode: Periode,
-    val kode: SaerfradragKode
+    val kode: Særfradragskode,
 ) : PeriodisertGrunnlag {
-
     constructor(saerfradragPeriode: SaerfradragPeriode) : this(
         saerfradragPeriode.referanse,
         saerfradragPeriode.saerfradragPeriode.justerDatoer(),
-        saerfradragPeriode.kode
+        saerfradragPeriode.kode,
     )
 
     override fun getPeriode(): Periode {

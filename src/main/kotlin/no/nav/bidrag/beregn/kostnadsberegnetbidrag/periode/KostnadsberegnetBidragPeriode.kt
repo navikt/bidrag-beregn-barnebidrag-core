@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.BeregnetKostnadsberegnetBi
 
 interface KostnadsberegnetBidragPeriode {
     fun beregnPerioder(grunnlag: BeregnKostnadsberegnetBidragGrunnlag): BeregnetKostnadsberegnetBidragResultat
+
     fun validerInput(grunnlag: BeregnKostnadsberegnetBidragGrunnlag): List<Avvik>
 
     companion object {

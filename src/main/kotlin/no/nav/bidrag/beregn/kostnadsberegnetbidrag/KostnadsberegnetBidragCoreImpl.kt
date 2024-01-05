@@ -34,38 +34,42 @@ class KostnadsberegnetBidragCoreImpl(private val kostnadsberegnetBidragPeriode: 
         return mapFraBusinessObject(avvikListe, beregnKostnadsberegnetBidragResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnKostnadsberegnetBidragGrunnlagCore) =
-        BeregnKostnadsberegnetBidragGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            soknadsbarnPersonId = grunnlag.soknadsbarnPersonId,
-            underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(grunnlag.underholdskostnadPeriodeListe),
-            bPsAndelUnderholdskostnadPeriodeListe = mapBPsAndelUnderholdskostnadPeriodeListe(grunnlag.bPsAndelUnderholdskostnadPeriodeListe),
-            samvaersfradragPeriodeListe = mapSamvaersfradragPeriodeListe(grunnlag.samvaersfradragPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnKostnadsberegnetBidragGrunnlagCore) = BeregnKostnadsberegnetBidragGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        soknadsbarnPersonId = grunnlag.soknadsbarnPersonId,
+        underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(grunnlag.underholdskostnadPeriodeListe),
+        bPsAndelUnderholdskostnadPeriodeListe =
+        mapBPsAndelUnderholdskostnadPeriodeListe(
+            grunnlag.bPsAndelUnderholdskostnadPeriodeListe,
+        ),
+        samvaersfradragPeriodeListe = mapSamvaersfradragPeriodeListe(grunnlag.samvaersfradragPeriodeListe),
+    )
 
     private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetKostnadsberegnetBidragResultat) =
         BeregnetKostnadsberegnetBidragResultatCore(
             resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
+            avvikListe = mapAvvik(avvikListe),
         )
 
-    private fun mapUnderholdskostnadPeriodeListe(underholdskostnadPeriodeListeCore: List<UnderholdskostnadPeriodeCore>): List<UnderholdskostnadPeriode> {
+    private fun mapUnderholdskostnadPeriodeListe(
+        underholdskostnadPeriodeListeCore: List<UnderholdskostnadPeriodeCore>,
+    ): List<UnderholdskostnadPeriode> {
         val underholdskostnadPeriodeListe = mutableListOf<UnderholdskostnadPeriode>()
         underholdskostnadPeriodeListeCore.forEach {
             underholdskostnadPeriodeListe.add(
                 UnderholdskostnadPeriode(
                     referanse = it.referanse,
                     underholdskostnadPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    belop = it.belop
-                )
+                    belop = it.belop,
+                ),
             )
         }
         return underholdskostnadPeriodeListe
     }
 
     private fun mapBPsAndelUnderholdskostnadPeriodeListe(
-        bPsAndelUnderholdskostnadPeriodeListeCore: List<BPsAndelUnderholdskostnadPeriodeCore>
+        bPsAndelUnderholdskostnadPeriodeListeCore: List<BPsAndelUnderholdskostnadPeriodeCore>,
     ): List<BPsAndelUnderholdskostnadPeriode> {
         val bPsAndelUnderholdskostnadPeriodeListe = mutableListOf<BPsAndelUnderholdskostnadPeriode>()
         bPsAndelUnderholdskostnadPeriodeListeCore.forEach {
@@ -73,8 +77,8 @@ class KostnadsberegnetBidragCoreImpl(private val kostnadsberegnetBidragPeriode: 
                 BPsAndelUnderholdskostnadPeriode(
                     referanse = it.referanse,
                     bPsAndelUnderholdskostnadPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    andelProsent = it.andelProsent
-                )
+                    andelProsent = it.andelProsent,
+                ),
             )
         }
         return bPsAndelUnderholdskostnadPeriodeListe
@@ -86,7 +90,7 @@ class KostnadsberegnetBidragCoreImpl(private val kostnadsberegnetBidragPeriode: 
             SamvaersfradragPeriode(
                 referanse = it.referanse,
                 samvaersfradragPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                belop = it.belop
+                belop = it.belop,
             )
         }
         return samvaersfradragPeriodeListe
@@ -100,8 +104,8 @@ class KostnadsberegnetBidragCoreImpl(private val kostnadsberegnetBidragPeriode: 
                     soknadsbarnPersonId = it.soknadsbarnPersonId,
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     resultat = ResultatBeregningCore(it.resultat.belop),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe

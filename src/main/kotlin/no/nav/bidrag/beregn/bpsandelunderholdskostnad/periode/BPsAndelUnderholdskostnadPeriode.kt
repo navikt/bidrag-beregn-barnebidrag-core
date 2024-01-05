@@ -7,9 +7,12 @@ import no.nav.bidrag.beregn.felles.bo.Avvik
 
 interface BPsAndelUnderholdskostnadPeriode {
     fun beregnPerioder(grunnlag: BeregnBPsAndelUnderholdskostnadGrunnlag): BeregnetBPsAndelUnderholdskostnadResultat
+
     fun validerInput(grunnlag: BeregnBPsAndelUnderholdskostnadGrunnlag): List<Avvik>
 
     companion object {
-        fun getInstance(): BPsAndelUnderholdskostnadPeriode = BPsAndelUnderholdskostnadPeriodeImpl(BPsAndelUnderholdskostnadBeregning.getInstance())
+        fun getInstance(): BPsAndelUnderholdskostnadPeriode = BPsAndelUnderholdskostnadPeriodeImpl(
+            BPsAndelUnderholdskostnadBeregning.getInstance(),
+        )
     }
 }

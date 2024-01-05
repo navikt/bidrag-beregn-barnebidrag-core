@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.felles.bo.Avvik
 
 interface BidragsevnePeriode {
     fun beregnPerioder(grunnlag: BeregnBidragsevneGrunnlag): BeregnetBidragsevneResultat
+
     fun validerInput(grunnlag: BeregnBidragsevneGrunnlag): List<Avvik>
 
     companion object {

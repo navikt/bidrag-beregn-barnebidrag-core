@@ -7,11 +7,10 @@ import java.math.BigDecimal
 import java.time.LocalDate
 
 open class FellesBeregning {
-
     // Mapper ut sjablonverdier til ResultatBeregning (dette for å sikre at kun sjabloner som faktisk er brukt legges ut i grunnlaget for beregning)
     protected fun byggSjablonResultatListe(
         sjablonNavnVerdiMap: Map<String, BigDecimal>,
-        sjablonPeriodeListe: List<SjablonPeriode>
+        sjablonPeriodeListe: List<SjablonPeriode>,
     ): List<SjablonPeriodeNavnVerdi> {
         val sjablonPeriodeNavnVerdiListe = mutableListOf<SjablonPeriodeNavnVerdi>()
         sjablonNavnVerdiMap.forEach { (sjablonNavn: String, sjablonVerdi: BigDecimal) ->
@@ -19,8 +18,8 @@ open class FellesBeregning {
                 SjablonPeriodeNavnVerdi(
                     periode = hentPeriode(sjablonPeriodeListe = sjablonPeriodeListe, sjablonNavn = sjablonNavn),
                     navn = sjablonNavn,
-                    verdi = sjablonVerdi
-                )
+                    verdi = sjablonVerdi,
+                ),
             )
         }
 
@@ -43,11 +42,12 @@ open class FellesBeregning {
                 "Bidragsevne"
             }
 
-            else -> if (sjablonNavn.startsWith("Trinnvis")) {
-                "TrinnvisSkattesats"
-            } else {
-                sjablonNavn
-            }
+            else ->
+                if (sjablonNavn.startsWith("Trinnvis")) {
+                    "TrinnvisSkattesats"
+                } else {
+                    sjablonNavn
+                }
         }
     }
 }

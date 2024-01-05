@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.samvaersfradrag.bo.BeregnetSamvaersfradragResultat
 
 interface SamvaersfradragPeriode {
     fun beregnPerioder(grunnlag: BeregnSamvaersfradragGrunnlag): BeregnetSamvaersfradragResultat
+
     fun validerInput(grunnlag: BeregnSamvaersfradragGrunnlag): List<Avvik>
 
     companion object {
