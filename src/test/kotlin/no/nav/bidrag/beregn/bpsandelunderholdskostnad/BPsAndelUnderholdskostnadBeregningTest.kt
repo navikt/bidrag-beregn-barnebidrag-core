@@ -18,7 +18,6 @@ import java.math.BigDecimal
 
 @DisplayName("Test av beregning av BPs andel av underholdskostnad")
 class BPsAndelUnderholdskostnadBeregningTest {
-
     private val sjablonPeriodeListe = byggSjablonPeriodeListe()
     private val bPsAndelUnderholdskostnadBeregning = getInstance()
 
@@ -28,34 +27,37 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(10000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(217666),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(400000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(40000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = true)
@@ -63,7 +65,7 @@ class BPsAndelUnderholdskostnadBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.352)) },
-            Executable { assertThat(resultat.andelBelop).isEqualTo(BigDecimal.valueOf(3520)) }
+            Executable { assertThat(resultat.andelBelop).isEqualTo(BigDecimal.valueOf(3520)) },
         )
     }
 
@@ -79,8 +81,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(200000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBPListe.add(
             Inntekt(
@@ -88,8 +90,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(17666),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBMListe.add(
             Inntekt(
@@ -97,8 +99,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(100000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBMListe.add(
             Inntekt(
@@ -106,8 +108,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(200000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBMListe.add(
             Inntekt(
@@ -115,8 +117,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(100000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBBListe.add(
             Inntekt(
@@ -124,8 +126,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBBListe.add(
             Inntekt(
@@ -133,8 +135,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBBListe.add(
             Inntekt(
@@ -142,8 +144,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBBListe.add(
             Inntekt(
@@ -151,8 +153,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBBListe.add(
             Inntekt(
@@ -160,8 +162,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         inntektBBListe.add(
             Inntekt(
@@ -169,8 +171,8 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 type = "LONN_SKE",
                 belop = BigDecimal.valueOf(10000),
                 deltFordel = false,
-                skatteklasse2 = false
-            )
+                skatteklasse2 = false,
+            ),
         )
         val grunnlagBeregning =
             GrunnlagBeregning(
@@ -178,7 +180,7 @@ class BPsAndelUnderholdskostnadBeregningTest {
                 inntektBPListe = inntektBPListe,
                 inntektBMListe = inntektBMListe,
                 inntektBBListe = inntektBBListe,
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = true)
@@ -187,7 +189,7 @@ class BPsAndelUnderholdskostnadBeregningTest {
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.347)) },
             Executable { assertThat(resultat.andelBelop).isEqualTo(BigDecimal.valueOf(347)) },
-            Executable { assertThat(resultat.barnetErSelvforsorget).isFalse() }
+            Executable { assertThat(resultat.barnetErSelvforsorget).isFalse() },
         )
     }
 
@@ -197,34 +199,37 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(217666),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(400000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(400000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = true)
@@ -233,53 +238,56 @@ class BPsAndelUnderholdskostnadBeregningTest {
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.ZERO) },
             Executable { assertThat(resultat.andelBelop).isEqualTo(BigDecimal.ZERO) },
-            Executable { assertThat(resultat.barnetErSelvforsorget).isTrue() }
+            Executable { assertThat(resultat.barnetErSelvforsorget).isTrue() },
         )
     }
 
     @DisplayName(
-        "Test at beregnet andel ikke settes høyere enn 5/6 (83,3333333333). Legger inn 10 desimaler for å få likt resultat som i Bidragskalkulator"
+        "Test at beregnet andel ikke settes høyere enn 5/6 (83,3333333333). Legger inn 10 desimaler for å få likt resultat som i Bidragskalkulator",
     )
     @Test
     fun testAtMaksAndelSettes() {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(1000000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(40000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(40000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = true)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() }, // Beregnet andel skal bli 92,6%, overstyres til 5/6 (83,3333333333%)
-            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.833333333333)) }
+            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.833333333333)) },
         )
     }
 
@@ -289,41 +297,44 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(502000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(500000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.ZERO,
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = true)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.501)) }
+            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.501)) },
         )
     }
 
@@ -333,41 +344,44 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(502000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(500000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.ZERO,
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = false)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.500).setScale(3)) }
+            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.500).setScale(3)) },
         )
     }
 
@@ -377,41 +391,44 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(2000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(500000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(1000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = false)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.167)) }
+            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.167)) },
         )
     }
 
@@ -421,41 +438,44 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(2000000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(2000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(1000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = false)
 
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.833333333333)) }
+            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.833333333333)) },
         )
     }
 
@@ -465,34 +485,37 @@ class BPsAndelUnderholdskostnadBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(9355)),
-                inntektBPListe = listOf(
+                inntektBPListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BP_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(600000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBMListe = listOf(
+                inntektBMListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BM_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.valueOf(100000),
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                inntektBBListe = listOf(
+                inntektBBListe =
+                listOf(
                     Inntekt(
                         referanse = INNTEKT_BB_REFERANSE,
                         type = "LONN_SKE",
                         belop = BigDecimal.ZERO,
                         deltFordel = false,
-                        skatteklasse2 = false
-                    )
+                        skatteklasse2 = false,
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = bPsAndelUnderholdskostnadBeregning.beregn(grunnlag = grunnlagBeregning, beregnMedNyeRegler = false)
@@ -500,7 +523,7 @@ class BPsAndelUnderholdskostnadBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.andelBelop).isEqualTo(BigDecimal.valueOf(7796)) },
-            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.833333333333)) }
+            Executable { assertThat(resultat.andelProsent).isEqualTo(BigDecimal.valueOf(0.833333333333)) },
         )
     }
 }

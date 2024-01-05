@@ -1,7 +1,7 @@
 package no.nav.bidrag.beregn.forholdsmessigfordeling.bo
 
 import no.nav.bidrag.beregn.felles.bo.Periode
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeBarnebidrag
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -10,48 +10,48 @@ data class BeregnForholdsmessigFordelingGrunnlag(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val bidragsevnePeriodeListe: List<BidragsevnePeriode>,
-    val beregnetBidragPeriodeListe: List<BeregnetBidragSakPeriode>
+    val beregnetBidragPeriodeListe: List<BeregnetBidragSakPeriode>,
 )
 
 // Resultatperiode
 data class BeregnForholdsmessigFordelingResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+    val resultatPeriodeListe: List<ResultatPeriode>,
 )
 
 data class ResultatPeriode(
     val periode: Periode,
     val resultatBeregningListe: List<ResultatBeregning>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisert
+    val resultatGrunnlag: GrunnlagBeregningPeriodisert,
 )
 
 data class ResultatBeregning(
     val saksnr: Int,
-    val resultatPerBarnListe: List<ResultatPerBarn>
+    val resultatPerBarnListe: List<ResultatPerBarn>,
 )
 
 data class ResultatPerBarn(
     val barnPersonId: Int,
     val belop: BigDecimal,
-    val kode: ResultatKodeBarnebidrag
+    val kode: ResultatkodeBarnebidrag,
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisert(
     val bidragsevne: Bidragsevne,
-    val beregnetBidragSakListe: List<BeregnetBidragSak>
+    val beregnetBidragSakListe: List<BeregnetBidragSak>,
 )
 
 data class Bidragsevne(
     val belop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal
+    val tjuefemProsentInntekt: BigDecimal,
 )
 
 data class BeregnetBidragSak(
     val saksnr: Int,
-    val grunnlagPerBarnListe: List<GrunnlagPerBarn>
+    val grunnlagPerBarnListe: List<GrunnlagPerBarn>,
 )
 
 data class GrunnlagPerBarn(
     val barnPersonId: Int,
-    val bidragBelop: BigDecimal
+    val bidragBelop: BigDecimal,
 )

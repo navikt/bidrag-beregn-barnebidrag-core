@@ -11,45 +11,45 @@ data class BeregnKostnadsberegnetBidragGrunnlag(
     val soknadsbarnPersonId: Int,
     val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriode>,
     val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>?
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriode>?,
 )
 
 // Resultat periode
 data class BeregnetKostnadsberegnetBidragResultat(
-    val resultatPeriodeListe: List<ResultatPeriode>
+    val resultatPeriodeListe: List<ResultatPeriode>,
 )
 
 data class ResultatPeriode(
     val soknadsbarnPersonId: Int,
     val periode: Periode,
     val resultat: ResultatBeregning,
-    val grunnlag: GrunnlagBeregning
+    val grunnlag: GrunnlagBeregning,
 )
 
 data class ResultatBeregning(
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregning(
     val underholdskostnad: Underholdskostnad,
     val bPsAndelUnderholdskostnad: BPsAndelUnderholdskostnad,
-    val samvaersfradrag: Samvaersfradrag
+    val samvaersfradrag: Samvaersfradrag,
 )
 
 data class Underholdskostnad(
     val referanse: String,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 data class BPsAndelUnderholdskostnad(
     val referanse: String,
-    val andelProsent: BigDecimal
+    val andelProsent: BigDecimal,
 )
 
 data class Samvaersfradrag(
     val referanse: String,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 // Hjelpeklasser
@@ -58,5 +58,5 @@ data class BeregnKostnadsberegnetBidragListeGrunnlag(
     var justertUnderholdskostnadPeriodeListe: List<UnderholdskostnadPeriode> = listOf(),
     var justertBPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriode> = listOf(),
     var justertSamvaersfradragPeriodeListe: List<SamvaersfradragPeriode> = listOf(),
-    var bruddPeriodeListe: MutableList<Periode> = mutableListOf()
+    var bruddPeriodeListe: MutableList<Periode> = mutableListOf(),
 )

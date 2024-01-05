@@ -8,14 +8,13 @@ data class BarnetilsynMedStonadPeriode(
     val referanse: String,
     val barnetilsynMedStonadPeriode: Periode,
     val tilsynType: String,
-    val stonadType: String
+    val stonadType: String,
 ) : PeriodisertGrunnlag {
-
     constructor(barnetilsynMedStonadPeriode: BarnetilsynMedStonadPeriode) : this(
         barnetilsynMedStonadPeriode.referanse,
         barnetilsynMedStonadPeriode.barnetilsynMedStonadPeriode.justerDatoer(),
         barnetilsynMedStonadPeriode.tilsynType,
-        barnetilsynMedStonadPeriode.stonadType
+        barnetilsynMedStonadPeriode.stonadType,
     )
 
     override fun getPeriode(): Periode {
@@ -26,13 +25,12 @@ data class BarnetilsynMedStonadPeriode(
 data class NettoBarnetilsynPeriode(
     val referanse: String,
     val nettoBarnetilsynPeriode: Periode,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(nettoBarnetilsynPeriode: NettoBarnetilsynPeriode) : this(
         nettoBarnetilsynPeriode.referanse,
         nettoBarnetilsynPeriode.nettoBarnetilsynPeriode.justerDatoer(),
-        nettoBarnetilsynPeriode.belop
+        nettoBarnetilsynPeriode.belop,
     )
 
     override fun getPeriode(): Periode {
@@ -43,13 +41,12 @@ data class NettoBarnetilsynPeriode(
 data class ForpleiningUtgiftPeriode(
     val referanse: String,
     val forpleiningUtgiftPeriode: Periode,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(forpleiningUtgiftPeriode: ForpleiningUtgiftPeriode) : this(
         forpleiningUtgiftPeriode.referanse,
         forpleiningUtgiftPeriode.forpleiningUtgiftPeriode.justerDatoer(),
-        forpleiningUtgiftPeriode.belop
+        forpleiningUtgiftPeriode.belop,
     )
 
     override fun getPeriode(): Periode {

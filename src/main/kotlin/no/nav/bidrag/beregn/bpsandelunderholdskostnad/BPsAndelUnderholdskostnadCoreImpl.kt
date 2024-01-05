@@ -20,7 +20,7 @@ import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 class BPsAndelUnderholdskostnadCoreImpl(private val bPsAndelunderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode) :
     FellesCore(), BPsAndelUnderholdskostnadCore {
     override fun beregnBPsAndelUnderholdskostnad(
-        grunnlag: BeregnBPsAndelUnderholdskostnadGrunnlagCore
+        grunnlag: BeregnBPsAndelUnderholdskostnadGrunnlagCore,
     ): BeregnetBPsAndelUnderholdskostnadResultatCore {
         val beregnBPsAndelUnderholdskostnadGrunnlag = mapTilBusinessObject(grunnlag)
         val avvikListe = bPsAndelunderholdskostnadPeriode.validerInput(beregnBPsAndelUnderholdskostnadGrunnlag)
@@ -33,23 +33,22 @@ class BPsAndelUnderholdskostnadCoreImpl(private val bPsAndelunderholdskostnadPer
         return mapFraBusinessObject(avvikListe, beregnBPsAndelUnderholdskostnadResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnBPsAndelUnderholdskostnadGrunnlagCore) =
-        BeregnBPsAndelUnderholdskostnadGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            soknadsbarnPersonId = grunnlag.soknadsbarnPersonId,
-            underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(grunnlag.underholdskostnadPeriodeListe),
-            inntektBPPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBPPeriodeListe),
-            inntektBMPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBMPeriodeListe),
-            inntektBBPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBBPeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnBPsAndelUnderholdskostnadGrunnlagCore) = BeregnBPsAndelUnderholdskostnadGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        soknadsbarnPersonId = grunnlag.soknadsbarnPersonId,
+        underholdskostnadPeriodeListe = mapUnderholdskostnadPeriodeListe(grunnlag.underholdskostnadPeriodeListe),
+        inntektBPPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBPPeriodeListe),
+        inntektBMPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBMPeriodeListe),
+        inntektBBPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektBBPeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
     private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetBPsAndelUnderholdskostnadResultat) =
         BeregnetBPsAndelUnderholdskostnadResultatCore(
             resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
             sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
+            avvikListe = mapAvvik(avvikListe),
         )
 
     private fun mapInntektPeriodeListe(inntektPeriodeListeCore: List<InntektPeriodeCore>): List<InntektPeriode> {
@@ -62,22 +61,24 @@ class BPsAndelUnderholdskostnadCoreImpl(private val bPsAndelunderholdskostnadPer
                     it.type,
                     it.belop,
                     it.deltFordel,
-                    it.skatteklasse2
-                )
+                    it.skatteklasse2,
+                ),
             )
         }
         return inntektPeriodeListe
     }
 
-    private fun mapUnderholdskostnadPeriodeListe(underholdskostnadPeriodeListeCore: List<UnderholdskostnadPeriodeCore>): List<UnderholdskostnadPeriode> {
+    private fun mapUnderholdskostnadPeriodeListe(
+        underholdskostnadPeriodeListeCore: List<UnderholdskostnadPeriodeCore>,
+    ): List<UnderholdskostnadPeriode> {
         val underholdskostnadPeriodeListe = mutableListOf<UnderholdskostnadPeriode>()
         underholdskostnadPeriodeListeCore.forEach {
             underholdskostnadPeriodeListe.add(
                 UnderholdskostnadPeriode(
                     it.referanse,
                     Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    it.belop
-                )
+                    it.belop,
+                ),
             )
         }
         return underholdskostnadPeriodeListe
@@ -91,13 +92,14 @@ class BPsAndelUnderholdskostnadCoreImpl(private val bPsAndelunderholdskostnadPer
                 ResultatPeriodeCore(
                     soknadsbarnPersonId = it.soknadsbarnPersonId,
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    resultat = ResultatBeregningCore(
+                    resultat =
+                    ResultatBeregningCore(
                         andelProsent = andelProsent,
                         andelBelop = andelBelop,
-                        barnetErSelvforsorget = barnetErSelvforsorget
+                        barnetErSelvforsorget = barnetErSelvforsorget,
                     ),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe
@@ -121,8 +123,7 @@ class BPsAndelUnderholdskostnadCoreImpl(private val bPsAndelunderholdskostnadPer
         return referanseListe.sorted()
     }
 
-    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) =
-        resultatPeriodeListe
-            .flatMap { mapSjablonListe(it.resultat.sjablonListe) }
-            .distinct()
+    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) = resultatPeriodeListe
+        .flatMap { mapSjablonListe(it.resultat.sjablonListe) }
+        .distinct()
 }

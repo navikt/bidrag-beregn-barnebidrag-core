@@ -15,48 +15,48 @@ data class BeregnUnderholdskostnadGrunnlagCore(
     val barnetilsynMedStonadPeriodeListe: List<BarnetilsynMedStonadPeriodeCore>,
     var nettoBarnetilsynPeriodeListe: List<NettoBarnetilsynPeriodeCore>,
     val forpleiningUtgiftPeriodeListe: List<ForpleiningUtgiftPeriodeCore>,
-    var sjablonPeriodeListe: List<SjablonPeriodeCore>
+    var sjablonPeriodeListe: List<SjablonPeriodeCore>,
 )
 
 data class SoknadsbarnCore(
     val referanse: String,
     val personId: Int,
-    val fodselsdato: LocalDate
+    val fodselsdato: LocalDate,
 )
 
 data class BarnetilsynMedStonadPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
     val tilsynType: String,
-    val stonadType: String
+    val stonadType: String,
 )
 
 data class NettoBarnetilsynPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 data class ForpleiningUtgiftPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 // Resultat
 data class BeregnetUnderholdskostnadResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
     val sjablonListe: List<SjablonResultatGrunnlagCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     val soknadsbarnPersonId: Int,
     val periode: PeriodeCore,
     val resultat: ResultatBeregningCore,
-    val grunnlagReferanseListe: List<String>
+    val grunnlagReferanseListe: List<String>,
 )
 
 data class ResultatBeregningCore(
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )

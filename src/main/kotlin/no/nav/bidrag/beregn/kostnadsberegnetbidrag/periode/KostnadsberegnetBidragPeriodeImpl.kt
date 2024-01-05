@@ -21,12 +21,14 @@ import no.nav.bidrag.beregn.kostnadsberegnetbidrag.bo.UnderholdskostnadPeriode
 class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregning: KostnadsberegnetBidragBeregning) :
     FellesPeriode(),
     KostnadsberegnetBidragPeriode {
-
     override fun beregnPerioder(grunnlag: BeregnKostnadsberegnetBidragGrunnlag): BeregnetKostnadsberegnetBidragResultat {
         val beregnKostnadsberegnetBidragListeGrunnlag = BeregnKostnadsberegnetBidragListeGrunnlag()
 
         // Juster datoer
-        justerDatoerGrunnlagslister(periodeGrunnlag = grunnlag, beregnKostnadsberegnetBidragListeGrunnlag = beregnKostnadsberegnetBidragListeGrunnlag)
+        justerDatoerGrunnlagslister(
+            periodeGrunnlag = grunnlag,
+            beregnKostnadsberegnetBidragListeGrunnlag = beregnKostnadsberegnetBidragListeGrunnlag,
+        )
 
         // Lag bruddperioder
         lagBruddperioder(periodeGrunnlag = grunnlag, beregnKostnadsberegnetBidragListeGrunnlag = beregnKostnadsberegnetBidragListeGrunnlag)
@@ -42,75 +44,87 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
 
     private fun justerDatoerGrunnlagslister(
         periodeGrunnlag: BeregnKostnadsberegnetBidragGrunnlag,
-        beregnKostnadsberegnetBidragListeGrunnlag: BeregnKostnadsberegnetBidragListeGrunnlag
+        beregnKostnadsberegnetBidragListeGrunnlag: BeregnKostnadsberegnetBidragListeGrunnlag,
     ) {
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode(it))
-        beregnKostnadsberegnetBidragListeGrunnlag.justertUnderholdskostnadPeriodeListe = periodeGrunnlag.underholdskostnadPeriodeListe
-            .map { UnderholdskostnadPeriode(it) }
+        beregnKostnadsberegnetBidragListeGrunnlag.justertUnderholdskostnadPeriodeListe =
+            periodeGrunnlag.underholdskostnadPeriodeListe
+                .map { UnderholdskostnadPeriode(it) }
 
-        beregnKostnadsberegnetBidragListeGrunnlag.justertBPsAndelUnderholdskostnadPeriodeListe = periodeGrunnlag.bPsAndelUnderholdskostnadPeriodeListe
-            .map { BPsAndelUnderholdskostnadPeriode(it) }
+        beregnKostnadsberegnetBidragListeGrunnlag.justertBPsAndelUnderholdskostnadPeriodeListe =
+            periodeGrunnlag.bPsAndelUnderholdskostnadPeriodeListe
+                .map { BPsAndelUnderholdskostnadPeriode(it) }
 
-        beregnKostnadsberegnetBidragListeGrunnlag.justertSamvaersfradragPeriodeListe = periodeGrunnlag.samvaersfradragPeriodeListe!!
-            .map { SamvaersfradragPeriode(it) }
+        beregnKostnadsberegnetBidragListeGrunnlag.justertSamvaersfradragPeriodeListe =
+            periodeGrunnlag.samvaersfradragPeriodeListe!!
+                .map { SamvaersfradragPeriode(it) }
     }
 
     // Lager bruddperioder ved å løpe gjennom alle periodelistene
     private fun lagBruddperioder(
         periodeGrunnlag: BeregnKostnadsberegnetBidragGrunnlag,
-        beregnKostnadsberegnetBidragListeGrunnlag: BeregnKostnadsberegnetBidragListeGrunnlag
+        beregnKostnadsberegnetBidragListeGrunnlag: BeregnKostnadsberegnetBidragListeGrunnlag,
     ) {
         // Bygger opp liste over perioder
-        beregnKostnadsberegnetBidragListeGrunnlag.bruddPeriodeListe = Periodiserer()
-            .addBruddpunkt(periodeGrunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(periodeGrunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
-            .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertUnderholdskostnadPeriodeListe)
-            .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertBPsAndelUnderholdskostnadPeriodeListe)
-            .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertSamvaersfradragPeriodeListe)
-            .finnPerioder(beregnDatoFom = periodeGrunnlag.beregnDatoFra, beregnDatoTil = periodeGrunnlag.beregnDatoTil)
-            .toMutableList()
+        beregnKostnadsberegnetBidragListeGrunnlag.bruddPeriodeListe =
+            Periodiserer()
+                .addBruddpunkt(periodeGrunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+                .addBruddpunkt(periodeGrunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
+                .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertUnderholdskostnadPeriodeListe)
+                .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertBPsAndelUnderholdskostnadPeriodeListe)
+                .addBruddpunkter(beregnKostnadsberegnetBidragListeGrunnlag.justertSamvaersfradragPeriodeListe)
+                .finnPerioder(beregnDatoFom = periodeGrunnlag.beregnDatoFra, beregnDatoTil = periodeGrunnlag.beregnDatoTil)
+                .toMutableList()
     }
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
     private fun beregnKostnadsberegnetBidragPerPeriode(grunnlag: BeregnKostnadsberegnetBidragListeGrunnlag, soknadsbarnPersonId: Int) {
         grunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
-            val underholdskostnad = grunnlag.justertUnderholdskostnadPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map { Underholdskostnad(referanse = it.referanse, belop = it.belop) }
-                .firstOrNull()
+            val underholdskostnad =
+                grunnlag.justertUnderholdskostnadPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map { Underholdskostnad(referanse = it.referanse, belop = it.belop) }
+                    .firstOrNull()
 
-            val bPsAndelUnderholdskostnad = grunnlag.justertBPsAndelUnderholdskostnadPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map { BPsAndelUnderholdskostnad(referanse = it.referanse, andelProsent = it.andelProsent) }
-                .firstOrNull()
+            val bPsAndelUnderholdskostnad =
+                grunnlag.justertBPsAndelUnderholdskostnadPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map { BPsAndelUnderholdskostnad(referanse = it.referanse, andelProsent = it.andelProsent) }
+                    .firstOrNull()
 
-            val samvaersfradrag = grunnlag.justertSamvaersfradragPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map { Samvaersfradrag(referanse = it.referanse, belop = it.belop) }
-                .firstOrNull()
+            val samvaersfradrag =
+                grunnlag.justertSamvaersfradragPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map { Samvaersfradrag(referanse = it.referanse, belop = it.belop) }
+                    .firstOrNull()
 
             // Kaller beregningsmodulen for hver beregningsperiode
-            val grunnlagBeregning = GrunnlagBeregning(
-                underholdskostnad = underholdskostnad!!,
-                bPsAndelUnderholdskostnad = bPsAndelUnderholdskostnad!!,
-                samvaersfradrag = samvaersfradrag!!
-            )
+            val grunnlagBeregning =
+                GrunnlagBeregning(
+                    underholdskostnad = underholdskostnad!!,
+                    bPsAndelUnderholdskostnad = bPsAndelUnderholdskostnad!!,
+                    samvaersfradrag = samvaersfradrag!!,
+                )
 
             grunnlag.periodeResultatListe.add(
                 ResultatPeriode(
                     soknadsbarnPersonId = soknadsbarnPersonId,
                     periode = beregningsperiode,
                     resultat = kostnadsberegnetBidragBeregning.beregn(grunnlagBeregning),
-                    grunnlag = grunnlagBeregning
-                )
+                    grunnlag = grunnlagBeregning,
+                ),
             )
         }
     }
 
     // Validerer at input-verdier er gyldige
     override fun validerInput(grunnlag: BeregnKostnadsberegnetBidragGrunnlag): List<Avvik> {
-        val avvikListe = PeriodeUtil.validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
+        val avvikListe =
+            PeriodeUtil.validerBeregnPeriodeInput(
+                beregnDatoFom = grunnlag.beregnDatoFra,
+                beregnDatoTil = grunnlag.beregnDatoTil,
+            ).toMutableList()
 
         avvikListe.addAll(
             validerInputDatoer(
@@ -118,11 +132,12 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "underholdskostnadPeriodeListe",
                 periodeListe = grunnlag.underholdskostnadPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -131,11 +146,12 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "bPsAndelUnderholdskostnadPeriodeListe",
                 periodeListe = grunnlag.bPsAndelUnderholdskostnadPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = false,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -144,11 +160,12 @@ class KostnadsberegnetBidragPeriodeImpl(private val kostnadsberegnetBidragBeregn
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "samværsfradragPeriodeListe",
                 periodeListe = grunnlag.samvaersfradragPeriodeListe!!.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = false
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = false,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = false,
+                sjekkBeregnPeriode = false,
+            ),
         )
 
         return avvikListe

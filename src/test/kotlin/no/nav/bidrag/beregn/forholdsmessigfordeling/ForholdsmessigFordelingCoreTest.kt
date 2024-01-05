@@ -16,8 +16,8 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BeregnetBidragSakPeriode
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.BidragsevnePeriodeCore
 import no.nav.bidrag.beregn.forholdsmessigfordeling.dto.GrunnlagPerBarnCore
 import no.nav.bidrag.beregn.forholdsmessigfordeling.periode.ForholdsmessigFordelingPeriode
-import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeBarnebidrag
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -34,7 +34,6 @@ import java.time.LocalDate
 
 @ExtendWith(MockitoExtension::class)
 internal class ForholdsmessigFordelingCoreTest {
-
     private lateinit var forholdsmessigFordelingCoreWithMock: ForholdsmessigFordelingCore
 
     @Mock
@@ -57,17 +56,26 @@ internal class ForholdsmessigFordelingCoreTest {
 
         `when`(forholdsmessigFordelingPeriodeMock.beregnPerioder(any())).thenReturn(beregnForholdsmessigFordelingResultat)
 
-        val beregnForholdsmessigFordelingResultatCore = forholdsmessigFordelingCoreWithMock.beregnForholdsmessigFordeling(
-            beregnForholdsmessigFordelingGrunnlagCore
-        )
+        val beregnForholdsmessigFordelingResultatCore =
+            forholdsmessigFordelingCoreWithMock.beregnForholdsmessigFordeling(
+                beregnForholdsmessigFordelingGrunnlagCore,
+            )
 
         assertAll(
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore).isNotNull() },
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore.avvikListe).isEmpty() },
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe).isNotEmpty() },
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe.size).isEqualTo(1) },
-            Executable { assertThat(beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe[0].periode.datoFom).isEqualTo(LocalDate.parse("2017-01-01")) },
-            Executable { assertThat(beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2018-01-01")) }
+            Executable {
+                assertThat(
+                    beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe[0].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2017-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe[0].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2018-01-01"))
+            },
         )
     }
 
@@ -79,76 +87,101 @@ internal class ForholdsmessigFordelingCoreTest {
 
         `when`(forholdsmessigFordelingPeriodeMock.validerInput(any())).thenReturn(avvikListe)
 
-        val beregnForholdsmessigFordelingResultatCore = forholdsmessigFordelingCoreWithMock.beregnForholdsmessigFordeling(
-            beregnForholdsmessigFordelingGrunnlagCore
-        )
+        val beregnForholdsmessigFordelingResultatCore =
+            forholdsmessigFordelingCoreWithMock.beregnForholdsmessigFordeling(
+                beregnForholdsmessigFordelingGrunnlagCore,
+            )
 
         assertAll(
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore).isNotNull() },
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore.avvikListe).isNotEmpty() },
             Executable { assertThat(beregnForholdsmessigFordelingResultatCore.avvikListe).hasSize(1) },
-            Executable { assertThat(beregnForholdsmessigFordelingResultatCore.avvikListe[0].avvikTekst).isEqualTo("beregnDatoTil må være etter beregnDatoFra") },
-            Executable { assertThat(beregnForholdsmessigFordelingResultatCore.avvikListe[0].avvikType).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()) },
-            Executable { assertThat(beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe).isEmpty() }
+            Executable {
+                assertThat(
+                    beregnForholdsmessigFordelingResultatCore.avvikListe[0].avvikTekst,
+                ).isEqualTo("beregnDatoTil må være etter beregnDatoFra")
+            },
+            Executable {
+                assertThat(
+                    beregnForholdsmessigFordelingResultatCore.avvikListe[0].avvikType,
+                ).isEqualTo(Avvikstype.DATO_FOM_ETTER_DATO_TIL.toString())
+            },
+            Executable { assertThat(beregnForholdsmessigFordelingResultatCore.resultatPeriodeListe).isEmpty() },
         )
     }
 
     private fun byggForholdsmessigFordelingPeriodeGrunnlagCore() {
-        val bidragsevnePeriodeListe = listOf(
-            BidragsevnePeriodeCore(
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
-                belop = BigDecimal.valueOf(100000),
-                tjuefemProsentInntekt = BigDecimal.valueOf(20000)
+        val bidragsevnePeriodeListe =
+            listOf(
+                BidragsevnePeriodeCore(
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
+                    belop = BigDecimal.valueOf(100000),
+                    tjuefemProsentInntekt = BigDecimal.valueOf(20000),
+                ),
             )
-        )
 
-        val beregnetBidragSakPeriodeListe = listOf(
-            BeregnetBidragSakPeriodeCore(
-                saksnr = 1,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
-                grunnlagPerBarnListe = listOf(GrunnlagPerBarnCore(barnPersonId = 1, bidragBelop = BigDecimal.valueOf(20000)))
+        val beregnetBidragSakPeriodeListe =
+            listOf(
+                BeregnetBidragSakPeriodeCore(
+                    saksnr = 1,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = null),
+                    grunnlagPerBarnListe = listOf(GrunnlagPerBarnCore(barnPersonId = 1, bidragBelop = BigDecimal.valueOf(20000))),
+                ),
             )
-        )
 
-        beregnForholdsmessigFordelingGrunnlagCore = BeregnForholdsmessigFordelingGrunnlagCore(
-            beregnDatoFra = LocalDate.parse("2017-01-01"),
-            beregnDatoTil = LocalDate.parse("2020-01-01"),
-            bidragsevnePeriodeListe = bidragsevnePeriodeListe,
-            beregnetBidragPeriodeListe = beregnetBidragSakPeriodeListe
-        )
+        beregnForholdsmessigFordelingGrunnlagCore =
+            BeregnForholdsmessigFordelingGrunnlagCore(
+                beregnDatoFra = LocalDate.parse("2017-01-01"),
+                beregnDatoTil = LocalDate.parse("2020-01-01"),
+                bidragsevnePeriodeListe = bidragsevnePeriodeListe,
+                beregnetBidragPeriodeListe = beregnetBidragSakPeriodeListe,
+            )
     }
 
     private fun byggForholdsmessigFordelingPeriodeResultat() {
-        val periodeResultatListe = listOf(
-            ResultatPeriode(
-                periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
-                resultatBeregningListe = listOf(
-                    ResultatBeregning(
-                        saksnr = 1,
-                        resultatPerBarnListe = listOf(
-                            ResultatPerBarn(barnPersonId = 1, belop = BigDecimal.valueOf(1), kode = ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)
-                        )
-                    )
-                ),
-                resultatGrunnlag = GrunnlagBeregningPeriodisert(
-                    bidragsevne = Bidragsevne(belop = BigDecimal.valueOf(1000), tjuefemProsentInntekt = BigDecimal.valueOf(12000)),
-                    beregnetBidragSakListe = listOf(
-                        BeregnetBidragSak(
+        val periodeResultatListe =
+            listOf(
+                ResultatPeriode(
+                    periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
+                    resultatBeregningListe =
+                    listOf(
+                        ResultatBeregning(
                             saksnr = 1,
-                            grunnlagPerBarnListe = listOf(GrunnlagPerBarn(barnPersonId = 1, bidragBelop = BigDecimal.valueOf(1000)))
-                        )
-                    )
-                )
+                            resultatPerBarnListe =
+                            listOf(
+                                ResultatPerBarn(
+                                    barnPersonId = 1,
+                                    belop = BigDecimal.valueOf(1),
+                                    kode = ResultatkodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG,
+                                ),
+                            ),
+                        ),
+                    ),
+                    resultatGrunnlag =
+                    GrunnlagBeregningPeriodisert(
+                        bidragsevne = Bidragsevne(belop = BigDecimal.valueOf(1000), tjuefemProsentInntekt = BigDecimal.valueOf(12000)),
+                        beregnetBidragSakListe =
+                        listOf(
+                            BeregnetBidragSak(
+                                saksnr = 1,
+                                grunnlagPerBarnListe =
+                                listOf(
+                                    GrunnlagPerBarn(barnPersonId = 1, bidragBelop = BigDecimal.valueOf(1000)),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
             )
-        )
 
         beregnForholdsmessigFordelingResultat = BeregnForholdsmessigFordelingResultat(periodeResultatListe)
     }
 
     private fun byggAvvik() {
-        avvikListe = listOf(
-            Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = AvvikType.DATO_FOM_ETTER_DATO_TIL)
-        )
+        avvikListe =
+            listOf(
+                Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = Avvikstype.DATO_FOM_ETTER_DATO_TIL),
+            )
     }
 
     companion object MockitoHelper {

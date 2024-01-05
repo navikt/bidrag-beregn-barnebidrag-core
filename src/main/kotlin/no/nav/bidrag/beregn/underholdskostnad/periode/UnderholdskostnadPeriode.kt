@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.BeregnetUnderholdskostnadResult
 
 interface UnderholdskostnadPeriode {
     fun beregnPerioder(grunnlag: BeregnUnderholdskostnadGrunnlag): BeregnetUnderholdskostnadResultat
+
     fun validerInput(grunnlag: BeregnUnderholdskostnadGrunnlag): List<Avvik>
 
     companion object {

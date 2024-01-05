@@ -7,6 +7,7 @@ import no.nav.bidrag.beregn.nettobarnetilsyn.bo.BeregnetNettoBarnetilsynResultat
 
 interface NettoBarnetilsynPeriode {
     fun beregnPerioder(grunnlag: BeregnNettoBarnetilsynGrunnlag): BeregnetNettoBarnetilsynResultat
+
     fun validerInput(grunnlag: BeregnNettoBarnetilsynGrunnlag): List<Avvik>
 
     companion object {

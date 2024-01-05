@@ -7,10 +7,11 @@ import java.math.RoundingMode
 
 class KostnadsberegnetBidragBeregningImpl : KostnadsberegnetBidragBeregning {
     override fun beregn(grunnlag: GrunnlagBeregning): ResultatBeregning {
-        val resultat = grunnlag.underholdskostnad.belop
-            .multiply(grunnlag.bPsAndelUnderholdskostnad.andelProsent)
-            .divide(BigDecimal.valueOf(1), -1, RoundingMode.HALF_UP)
-            .subtract(grunnlag.samvaersfradrag.belop)
+        val resultat =
+            grunnlag.underholdskostnad.belop
+                .multiply(grunnlag.bPsAndelUnderholdskostnad.andelProsent)
+                .divide(BigDecimal.valueOf(1), -1, RoundingMode.HALF_UP)
+                .subtract(grunnlag.samvaersfradrag.belop)
 
         return ResultatBeregning(resultat)
     }

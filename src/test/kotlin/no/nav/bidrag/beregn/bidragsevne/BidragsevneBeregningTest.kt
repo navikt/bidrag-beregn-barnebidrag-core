@@ -20,11 +20,11 @@ import no.nav.bidrag.beregn.felles.bo.SjablonInnhold
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil.hentSjablonverdi
 import no.nav.bidrag.beregn.felles.util.SjablonUtil.hentTrinnvisSkattesats
-import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.SaerfradragKode
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.Særfradragskode
+import no.nav.bidrag.domene.enums.person.Bostatuskode
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.DisplayName
@@ -35,7 +35,6 @@ import java.time.LocalDate
 
 @DisplayName("Test av beregning av bidragsevne")
 internal class BidragsevneBeregningTest {
-
     private val sjablonListe = byggSjabloner()
     private var sjablonPeriodeListe = byggSjablonPeriodeListe().toMutableList()
     private val bidragsevneBeregning = getInstance()
@@ -47,10 +46,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(1000000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -65,17 +64,17 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(520000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop, inntekt25Prosent) = bidragsevneBeregning.beregn(grunnlagBeregning)
 
         assertAll(
             Executable { assertThat(BigDecimal.valueOf(8322)).isEqualTo(belop) },
-            Executable { assertThat(BigDecimal.valueOf(10833)).isEqualTo(inntekt25Prosent) }
+            Executable { assertThat(BigDecimal.valueOf(10833)).isEqualTo(inntekt25Prosent) },
         )
     }
 
@@ -86,10 +85,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(600000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 0.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HELT),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.HELT),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -104,10 +103,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 3.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -122,10 +121,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(100000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.IKKE_MED_FORELDER),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 1.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HELT),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.HELT),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -139,21 +138,25 @@ internal class BidragsevneBeregningTest {
         sjablonPeriodeListe.add(
             SjablonPeriode(
                 sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                sjablon = Sjablon(
-                    navn = SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.navn,
+                sjablon =
+                Sjablon(
+                    navn = SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELØP.navn,
                     nokkelListe = emptyList(),
-                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(12000)))
-                )
-            )
+                    innholdListe =
+                    listOf(
+                        SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(12000)),
+                    ),
+                ),
+            ),
         )
         val grunnlagBeregning =
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 3.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -168,21 +171,25 @@ internal class BidragsevneBeregningTest {
             0,
             SjablonPeriode(
                 sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                sjablon = Sjablon(
-                    navn = SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELOP.navn,
+                sjablon =
+                Sjablon(
+                    navn = SjablonTallNavn.FORDEL_SKATTEKLASSE2_BELØP.navn,
                     nokkelListe = emptyList(),
-                    innholdListe = listOf(element = SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(12000)))
-                )
-            )
+                    innholdListe =
+                    listOf(
+                        element = SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(12000)),
+                    ),
+                ),
+            ),
         )
         val grunnlagBeregning =
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 2),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 3.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -197,10 +204,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 2),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.IKKE_MED_FORELDER),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 0.5),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -215,21 +222,25 @@ internal class BidragsevneBeregningTest {
             0,
             SjablonPeriode(
                 sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                sjablon = Sjablon(
-                    navn = SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELOP.navn,
+                sjablon =
+                Sjablon(
+                    navn = SjablonTallNavn.PERSONFRADRAG_KLASSE2_BELØP.navn,
                     nokkelListe = emptyList(),
-                    innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(24000)))
-                )
-            )
+                    innholdListe =
+                    listOf(
+                        SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(24000)),
+                    ),
+                ),
+            ),
         )
         val grunnlagBeregning =
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 2),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 3.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.INGEN),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.INGEN),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -244,10 +255,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.ALENE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.ALENE),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 3.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HALVT),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.HALVT),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -262,10 +273,10 @@ internal class BidragsevneBeregningTest {
             GrunnlagBeregning(
                 inntektListe = listOf(Inntekt(referanse = INNTEKT_REFERANSE, type = "LONN_SKE", belop = BigDecimal.valueOf(666000))),
                 skatteklasse = Skatteklasse(referanse = SKATTEKLASSE_REFERANSE, skatteklasse = 1),
-                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = BostatusKode.MED_ANDRE),
+                bostatus = Bostatus(referanse = BOSTATUS_REFERANSE, kode = Bostatuskode.IKKE_MED_FORELDER),
                 barnIHusstand = BarnIHusstand(referanse = BARN_I_HUSSTAND_REFERANSE, antallBarn = 3.0),
-                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = SaerfradragKode.HALVT),
-                sjablonListe = sjablonPeriodeListe
+                saerfradrag = Saerfradrag(referanse = SAERFRADRAG_REFERANSE, kode = Særfradragskode.HALVT),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = bidragsevneBeregning.beregn(grunnlagBeregning)
@@ -276,17 +287,19 @@ internal class BidragsevneBeregningTest {
     @Test
     @DisplayName("Skal hente sjablonverdier for trinnvis skattesats")
     fun skalhenteSjablonverdierForTrinnvisSkattesats() {
-        val sjablonVerdiSkattesats = hentSjablonverdi(
-            sjablonListe = sjablonListe,
-            sjablonTallNavn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT
-        )
-        val sortertTrinnvisSkattesatsListe = hentTrinnvisSkattesats(sjablonListe = sjablonListe, sjablonNavn = SjablonNavn.TRINNVIS_SKATTESATS)
+        val sjablonVerdiSkattesats =
+            hentSjablonverdi(
+                sjablonListe = sjablonListe,
+                sjablonTallNavn = SjablonTallNavn.SKATTESATS_ALMINNELIG_INNTEKT_PROSENT,
+            )
+        val sortertTrinnvisSkattesatsListe =
+            hentTrinnvisSkattesats(sjablonListe = sjablonListe, sjablonNavn = SjablonNavn.TRINNVIS_SKATTESATS)
 
         assertAll(
             Executable { assertThat(sjablonVerdiSkattesats).isEqualTo(BigDecimal.valueOf(22)) },
             Executable { assertThat(sortertTrinnvisSkattesatsListe.size).isEqualTo(4) },
             Executable { assertThat(sortertTrinnvisSkattesatsListe[0].inntektGrense).isEqualTo(BigDecimal.valueOf(180800)) },
-            Executable { assertThat(sortertTrinnvisSkattesatsListe[0].sats).isEqualTo(BigDecimal.valueOf(1.9)) }
+            Executable { assertThat(sortertTrinnvisSkattesatsListe[0].sats).isEqualTo(BigDecimal.valueOf(1.9)) },
         )
     }
 }

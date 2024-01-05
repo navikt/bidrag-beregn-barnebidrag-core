@@ -8,14 +8,13 @@ data class BidragsevnePeriode(
     val referanse: String,
     val bidragsevnePeriode: Periode,
     val belop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal
+    val tjuefemProsentInntekt: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(bidragsevnePeriode: BidragsevnePeriode) : this(
         bidragsevnePeriode.referanse,
         bidragsevnePeriode.bidragsevnePeriode.justerDatoer(),
         bidragsevnePeriode.belop,
-        bidragsevnePeriode.tjuefemProsentInntekt
+        bidragsevnePeriode.tjuefemProsentInntekt,
     )
 
     override fun getPeriode(): Periode {
@@ -29,16 +28,15 @@ data class BPsAndelUnderholdskostnadPeriode(
     val bPsAndelUnderholdskostnadPeriode: Periode,
     val andelProsent: BigDecimal,
     val andelBelop: BigDecimal,
-    val barnetErSelvforsorget: Boolean
+    val barnetErSelvforsorget: Boolean,
 ) : PeriodisertGrunnlag {
-
     constructor(bPsAndelUnderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode) : this(
         bPsAndelUnderholdskostnadPeriode.soknadsbarnPersonId,
         bPsAndelUnderholdskostnadPeriode.referanse,
         bPsAndelUnderholdskostnadPeriode.bPsAndelUnderholdskostnadPeriode.justerDatoer(),
         bPsAndelUnderholdskostnadPeriode.andelProsent,
         bPsAndelUnderholdskostnadPeriode.andelBelop,
-        bPsAndelUnderholdskostnadPeriode.barnetErSelvforsorget
+        bPsAndelUnderholdskostnadPeriode.barnetErSelvforsorget,
     )
 
     override fun getPeriode(): Periode {
@@ -50,14 +48,13 @@ data class SamvaersfradragPeriode(
     val soknadsbarnPersonId: Int,
     val referanse: String,
     val samvaersfradragPeriode: Periode,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(samvaersfradragPeriode: SamvaersfradragPeriode) : this(
         samvaersfradragPeriode.soknadsbarnPersonId,
         samvaersfradragPeriode.referanse,
         samvaersfradragPeriode.samvaersfradragPeriode.justerDatoer(),
-        samvaersfradragPeriode.belop
+        samvaersfradragPeriode.belop,
     )
 
     override fun getPeriode(): Periode {
@@ -69,14 +66,13 @@ data class DeltBostedPeriode(
     val soknadsbarnPersonId: Int,
     val referanse: String,
     val deltBostedPeriode: Periode,
-    val deltBostedIPeriode: Boolean
+    val deltBostedIPeriode: Boolean,
 ) : PeriodisertGrunnlag {
-
     constructor(deltBostedPeriode: DeltBostedPeriode) : this(
         deltBostedPeriode.soknadsbarnPersonId,
         deltBostedPeriode.referanse,
         deltBostedPeriode.deltBostedPeriode.justerDatoer(),
-        deltBostedPeriode.deltBostedIPeriode
+        deltBostedPeriode.deltBostedIPeriode,
     )
 
     override fun getPeriode(): Periode {
@@ -89,15 +85,14 @@ data class BarnetilleggPeriode(
     val referanse: String,
     val barnetilleggPeriode: Periode,
     val belop: BigDecimal,
-    val skattProsent: BigDecimal
+    val skattProsent: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(barnetilleggPeriode: BarnetilleggPeriode) : this(
         barnetilleggPeriode.soknadsbarnPersonId,
         barnetilleggPeriode.referanse,
         barnetilleggPeriode.barnetilleggPeriode.justerDatoer(),
         barnetilleggPeriode.belop,
-        barnetilleggPeriode.skattProsent
+        barnetilleggPeriode.skattProsent,
     )
 
     override fun getPeriode(): Periode {
@@ -108,13 +103,12 @@ data class BarnetilleggPeriode(
 data class BarnetilleggForsvaretPeriode(
     val referanse: String,
     val barnetilleggForsvaretPeriode: Periode,
-    val barnetilleggForsvaretIPeriode: Boolean
+    val barnetilleggForsvaretIPeriode: Boolean,
 ) : PeriodisertGrunnlag {
-
     constructor(barnetilleggForsvaretPeriode: BarnetilleggForsvaretPeriode) : this(
         barnetilleggForsvaretPeriode.referanse,
         barnetilleggForsvaretPeriode.barnetilleggForsvaretPeriode.justerDatoer(),
-        barnetilleggForsvaretPeriode.barnetilleggForsvaretIPeriode
+        barnetilleggForsvaretPeriode.barnetilleggForsvaretIPeriode,
     )
 
     override fun getPeriode(): Periode {
@@ -127,15 +121,14 @@ data class AndreLopendeBidragPeriode(
     val andreLopendeBidragPeriode: Periode,
     val barnPersonId: Int,
     val bidragBelop: BigDecimal,
-    val samvaersfradragBelop: BigDecimal
+    val samvaersfradragBelop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(andreLopendeBidragPeriode: AndreLopendeBidragPeriode) : this(
         andreLopendeBidragPeriode.referanse,
         andreLopendeBidragPeriode.andreLopendeBidragPeriode.justerDatoer(),
         andreLopendeBidragPeriode.barnPersonId,
         andreLopendeBidragPeriode.bidragBelop,
-        andreLopendeBidragPeriode.samvaersfradragBelop
+        andreLopendeBidragPeriode.samvaersfradragBelop,
     )
 
     override fun getPeriode(): Periode {

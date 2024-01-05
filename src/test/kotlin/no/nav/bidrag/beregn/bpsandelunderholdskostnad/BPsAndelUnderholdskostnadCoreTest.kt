@@ -23,9 +23,9 @@ import no.nav.bidrag.beregn.felles.bo.SjablonPeriodeNavnVerdi
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
 import no.nav.bidrag.beregn.felles.dto.SjablonInnholdCore
 import no.nav.bidrag.beregn.felles.dto.SjablonPeriodeCore
-import no.nav.bidrag.domain.enums.AvvikType
-import no.nav.bidrag.domain.enums.sjablon.SjablonInnholdNavn
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.Avvikstype
+import no.nav.bidrag.domene.enums.sjablon.SjablonInnholdNavn
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -42,7 +42,6 @@ import java.time.LocalDate
 
 @ExtendWith(MockitoExtension::class)
 class BPsAndelUnderholdskostnadCoreTest {
-
     private lateinit var bPsAndelunderholdskostnadCoreWithMock: BPsAndelUnderholdskostnadCore
 
     @Mock
@@ -65,65 +64,87 @@ class BPsAndelUnderholdskostnadCoreTest {
 
         `when`(bPsAndelunderholdskostnadPeriodeMock.beregnPerioder(any())).thenReturn(bPsAndelunderholdskostnadPeriodeResultat)
 
-        val beregnBPsAndelUnderholdskostnadResultatCore = bPsAndelunderholdskostnadCoreWithMock.beregnBPsAndelUnderholdskostnad(
-            beregnBPsAndelUnderholdskostnadGrunnlagCore
-        )
+        val beregnBPsAndelUnderholdskostnadResultatCore =
+            bPsAndelunderholdskostnadCoreWithMock.beregnBPsAndelUnderholdskostnad(
+                beregnBPsAndelUnderholdskostnadGrunnlagCore,
+            )
 
         assertAll(
             Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore).isNotNull() },
             Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.avvikListe).isEmpty() },
             Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe).isNotEmpty() },
             Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe.size).isEqualTo(3) },
-
-            Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].periode.datoFom).isEqualTo(LocalDate.parse("2017-01-01")) },
-            Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].periode.datoTil).isEqualTo(LocalDate.parse("2018-01-01")) },
+            Executable {
+                assertThat(
+                    beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2017-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2018-01-01"))
+            },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].resultat.andelProsent).isEqualTo(
                     BigDecimal.valueOf(
-                        0.10
-                    )
+                        0.10,
+                    ),
                 )
             },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[0]).isEqualTo(
-                    INNTEKT_BB_REFERANSE
+                    INNTEKT_BB_REFERANSE,
                 )
             },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[1]).isEqualTo(
-                    INNTEKT_BM_REFERANSE
+                    INNTEKT_BM_REFERANSE,
                 )
             },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[2]).isEqualTo(
-                    INNTEKT_BP_REFERANSE
+                    INNTEKT_BP_REFERANSE,
                 )
             },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[0].grunnlagReferanseListe[4]).isEqualTo(
-                    UNDERHOLDSKOSTNAD_REFERANSE
+                    UNDERHOLDSKOSTNAD_REFERANSE,
                 )
             },
-
-            Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[1].periode.datoFom).isEqualTo(LocalDate.parse("2018-01-01")) },
-            Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[1].periode.datoTil).isEqualTo(LocalDate.parse("2019-01-01")) },
+            Executable {
+                assertThat(
+                    beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[1].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2018-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[1].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2019-01-01"))
+            },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[1].resultat.andelProsent).isEqualTo(
                     BigDecimal.valueOf(
-                        0.20
-                    )
+                        0.20,
+                    ),
                 )
             },
-
-            Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[2].periode.datoFom).isEqualTo(LocalDate.parse("2019-01-01")) },
-            Executable { assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[2].periode.datoTil).isEqualTo(LocalDate.parse("2020-01-01")) },
+            Executable {
+                assertThat(
+                    beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[2].periode.datoFom,
+                ).isEqualTo(LocalDate.parse("2019-01-01"))
+            },
+            Executable {
+                assertThat(
+                    beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[2].periode.datoTil,
+                ).isEqualTo(LocalDate.parse("2020-01-01"))
+            },
             Executable {
                 assertThat(beregnBPsAndelUnderholdskostnadResultatCore.resultatPeriodeListe[2].resultat.andelProsent).isEqualTo(
                     BigDecimal.valueOf(
-                        0.30
-                    )
+                        0.30,
+                    ),
                 )
-            }
+            },
         )
     }
 
@@ -135,219 +156,299 @@ class BPsAndelUnderholdskostnadCoreTest {
 
         `when`(bPsAndelunderholdskostnadPeriodeMock.validerInput(any())).thenReturn(avvikListe)
 
-        val beregnbidragsevneResultatCore = bPsAndelunderholdskostnadCoreWithMock.beregnBPsAndelUnderholdskostnad(
-            beregnBPsAndelUnderholdskostnadGrunnlagCore
-        )
+        val beregnbidragsevneResultatCore =
+            bPsAndelunderholdskostnadCoreWithMock.beregnBPsAndelUnderholdskostnad(
+                beregnBPsAndelUnderholdskostnadGrunnlagCore,
+            )
 
         assertAll(
             Executable { assertThat(beregnbidragsevneResultatCore).isNotNull() },
             Executable { assertThat(beregnbidragsevneResultatCore.avvikListe).isNotEmpty() },
             Executable { assertThat(beregnbidragsevneResultatCore.avvikListe).hasSize(1) },
-            Executable { assertThat(beregnbidragsevneResultatCore.avvikListe[0].avvikTekst).isEqualTo("beregnDatoTil må være etter beregnDatoFra") },
-            Executable { assertThat(beregnbidragsevneResultatCore.avvikListe[0].avvikType).isEqualTo(AvvikType.DATO_FOM_ETTER_DATO_TIL.toString()) },
-            Executable { assertThat(beregnbidragsevneResultatCore.resultatPeriodeListe).isEmpty() }
+            Executable {
+                assertThat(
+                    beregnbidragsevneResultatCore.avvikListe[0].avvikTekst,
+                ).isEqualTo("beregnDatoTil må være etter beregnDatoFra")
+            },
+            Executable {
+                assertThat(
+                    beregnbidragsevneResultatCore.avvikListe[0].avvikType,
+                ).isEqualTo(Avvikstype.DATO_FOM_ETTER_DATO_TIL.toString())
+            },
+            Executable { assertThat(beregnbidragsevneResultatCore.resultatPeriodeListe).isEmpty() },
         )
     }
 
     private fun byggBPsAndelUnderholdskostnadPeriodeGrunnlagCore() {
-        val underholdskostnadPeriodeListe = listOf(
-            UnderholdskostnadPeriodeCore(
-                referanse = UNDERHOLDSKOSTNAD_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                belop = BigDecimal.valueOf(1000)
+        val underholdskostnadPeriodeListe =
+            listOf(
+                UnderholdskostnadPeriodeCore(
+                    referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    belop = BigDecimal.valueOf(1000),
+                ),
             )
-        )
 
-        val inntektBPPeriodeListe = listOf(
-            InntektPeriodeCore(
-                referanse = INNTEKT_BP_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                type = "LONN_SKE",
-                belop = BigDecimal.valueOf(111),
-                deltFordel = false,
-                skatteklasse2 = false
+        val inntektBPPeriodeListe =
+            listOf(
+                InntektPeriodeCore(
+                    referanse = INNTEKT_BP_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    type = "LONN_SKE",
+                    belop = BigDecimal.valueOf(111),
+                    deltFordel = false,
+                    skatteklasse2 = false,
+                ),
             )
-        )
 
-        val inntektBMPeriodeListe = listOf(
-            InntektPeriodeCore(
-                referanse = INNTEKT_BM_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                type = "LONN_SKE",
-                belop = BigDecimal.valueOf(222),
-                deltFordel = false,
-                skatteklasse2 = false
+        val inntektBMPeriodeListe =
+            listOf(
+                InntektPeriodeCore(
+                    referanse = INNTEKT_BM_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    type = "LONN_SKE",
+                    belop = BigDecimal.valueOf(222),
+                    deltFordel = false,
+                    skatteklasse2 = false,
+                ),
             )
-        )
 
-        val inntektBBPeriodeListe = listOf(
-            InntektPeriodeCore(
-                referanse = INNTEKT_BB_REFERANSE,
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                type = "LONN_SKE",
-                belop = BigDecimal.valueOf(333),
-                deltFordel = false,
-                skatteklasse2 = false
+        val inntektBBPeriodeListe =
+            listOf(
+                InntektPeriodeCore(
+                    referanse = INNTEKT_BB_REFERANSE,
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    type = "LONN_SKE",
+                    belop = BigDecimal.valueOf(333),
+                    deltFordel = false,
+                    skatteklasse2 = false,
+                ),
             )
-        )
 
-        val sjablonPeriodeListe = listOf(
-            SjablonPeriodeCore(
-                periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                nokkelListe = emptyList(),
-                innholdListe = listOf(SjablonInnholdCore(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
+        val sjablonPeriodeListe =
+            listOf(
+                SjablonPeriodeCore(
+                    periode = PeriodeCore(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                    nokkelListe = emptyList(),
+                    innholdListe =
+                    listOf(
+                        SjablonInnholdCore(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)),
+                    ),
+                ),
             )
-        )
-        beregnBPsAndelUnderholdskostnadGrunnlagCore = BeregnBPsAndelUnderholdskostnadGrunnlagCore(
-            LocalDate.parse("2017-01-01"),
-            LocalDate.parse("2020-01-01"),
-            1,
-            underholdskostnadPeriodeListe,
-            inntektBPPeriodeListe,
-            inntektBMPeriodeListe,
-            inntektBBPeriodeListe,
-            sjablonPeriodeListe
-        )
+        beregnBPsAndelUnderholdskostnadGrunnlagCore =
+            BeregnBPsAndelUnderholdskostnadGrunnlagCore(
+                LocalDate.parse("2017-01-01"),
+                LocalDate.parse("2020-01-01"),
+                1,
+                underholdskostnadPeriodeListe,
+                inntektBPPeriodeListe,
+                inntektBMPeriodeListe,
+                inntektBBPeriodeListe,
+                sjablonPeriodeListe,
+            )
     }
 
     private fun byggBPsAndelUnderholdskostnadPeriodeResultat() {
-        val inntektBPListe = listOf(
-            Inntekt(
-                referanse = INNTEKT_BP_REFERANSE,
-                type = "LONN_SKE",
-                belop = BigDecimal.valueOf(111),
-                deltFordel = false,
-                skatteklasse2 = false
-            )
-        )
-
-        val inntektBMListe = listOf(
-            Inntekt(
-                referanse = INNTEKT_BM_REFERANSE,
-                type = "LONN_SKE",
-                belop = BigDecimal.valueOf(222),
-                deltFordel = false,
-                skatteklasse2 = false
-            )
-        )
-
-        val inntektBBListe = listOf(
-            Inntekt(
-                referanse = INNTEKT_BB_REFERANSE,
-                type = "LONN_SKE",
-                belop = BigDecimal.valueOf(333),
-                deltFordel = false,
-                skatteklasse2 = false
-            )
-        )
-
-        val periodeResultatListe = listOf(
-            ResultatPeriode(
-                soknadsbarnPersonId = 1,
-                periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
-                resultat = ResultatBeregning(
-                    andelProsent = BigDecimal.valueOf(0.10),
-                    andelBelop = BigDecimal.valueOf(100),
-                    barnetErSelvforsorget = false,
-                    sjablonListe = listOf(
-                        SjablonPeriodeNavnVerdi(
-                            periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                            navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                            verdi = BigDecimal.valueOf(1600)
-                        )
-                    )
+        val inntektBPListe =
+            listOf(
+                Inntekt(
+                    referanse = INNTEKT_BP_REFERANSE,
+                    type = "LONN_SKE",
+                    belop = BigDecimal.valueOf(111),
+                    deltFordel = false,
+                    skatteklasse2 = false,
                 ),
-                grunnlag = GrunnlagBeregning(
-                    underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                    inntektBPListe = inntektBPListe,
-                    inntektBMListe = inntektBMListe,
-                    inntektBBListe = inntektBBListe,
-                    sjablonListe = listOf(
-                        SjablonPeriode(
-                            sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                            sjablon = Sjablon(
-                                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                                nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1600)))
-                            )
-                        )
-                    )
-                )
-            ),
-            ResultatPeriode(
-                soknadsbarnPersonId = 1,
-                periode = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2019-01-01")),
-                resultat = ResultatBeregning(
-                    andelProsent = BigDecimal.valueOf(0.20),
-                    andelBelop = BigDecimal.valueOf(200),
-                    barnetErSelvforsorget = false,
-                    sjablonListe = listOf(
-                        SjablonPeriodeNavnVerdi(
-                            periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                            navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                            verdi = BigDecimal.valueOf(1600)
-                        )
-                    )
-                ),
-                grunnlag = GrunnlagBeregning(
-                    underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                    inntektBPListe = inntektBPListe,
-                    inntektBMListe = inntektBMListe,
-                    inntektBBListe = inntektBBListe,
-                    sjablonListe = listOf(
-                        SjablonPeriode(
-                            sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                            sjablon = Sjablon(
-                                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                                nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1640)))
-                            )
-                        )
-                    )
-                )
-            ),
-            ResultatPeriode(
-                soknadsbarnPersonId = 1,
-                periode = Periode(datoFom = LocalDate.parse("2019-01-01"), datoTil = LocalDate.parse("2020-01-01")),
-                resultat = ResultatBeregning(
-                    andelProsent = BigDecimal.valueOf(0.30),
-                    andelBelop = BigDecimal.valueOf(300),
-                    barnetErSelvforsorget = false,
-                    sjablonListe = listOf(
-                        SjablonPeriodeNavnVerdi(
-                            periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                            navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                            verdi = BigDecimal.valueOf(1600)
-                        )
-                    )
-                ),
-                grunnlag = GrunnlagBeregning(
-                    underholdskostnad = Underholdskostnad(referanse = UNDERHOLDSKOSTNAD_REFERANSE, belop = BigDecimal.valueOf(1000)),
-                    inntektBPListe = inntektBPListe,
-                    inntektBMListe = inntektBMListe,
-                    inntektBBListe = inntektBBListe,
-                    sjablonListe = listOf(
-                        SjablonPeriode(
-                            sjablonPeriode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
-                            sjablon = Sjablon(
-                                navn = SjablonTallNavn.FORSKUDDSSATS_BELOP.navn,
-                                nokkelListe = emptyList(),
-                                innholdListe = listOf(SjablonInnhold(navn = SjablonInnholdNavn.SJABLON_VERDI.navn, verdi = BigDecimal.valueOf(1680)))
-                            )
-                        )
-                    )
-                )
             )
-        )
+
+        val inntektBMListe =
+            listOf(
+                Inntekt(
+                    referanse = INNTEKT_BM_REFERANSE,
+                    type = "LONN_SKE",
+                    belop = BigDecimal.valueOf(222),
+                    deltFordel = false,
+                    skatteklasse2 = false,
+                ),
+            )
+
+        val inntektBBListe =
+            listOf(
+                Inntekt(
+                    referanse = INNTEKT_BB_REFERANSE,
+                    type = "LONN_SKE",
+                    belop = BigDecimal.valueOf(333),
+                    deltFordel = false,
+                    skatteklasse2 = false,
+                ),
+            )
+
+        val periodeResultatListe =
+            listOf(
+                ResultatPeriode(
+                    soknadsbarnPersonId = 1,
+                    periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("2018-01-01")),
+                    resultat =
+                    ResultatBeregning(
+                        andelProsent = BigDecimal.valueOf(0.10),
+                        andelBelop = BigDecimal.valueOf(100),
+                        barnetErSelvforsorget = false,
+                        sjablonListe =
+                        listOf(
+                            SjablonPeriodeNavnVerdi(
+                                periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
+                                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                                verdi = BigDecimal.valueOf(1600),
+                            ),
+                        ),
+                    ),
+                    grunnlag =
+                    GrunnlagBeregning(
+                        underholdskostnad =
+                        Underholdskostnad(
+                            referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                            belop = BigDecimal.valueOf(1000),
+                        ),
+                        inntektBPListe = inntektBPListe,
+                        inntektBMListe = inntektBMListe,
+                        inntektBBListe = inntektBBListe,
+                        sjablonListe =
+                        listOf(
+                            SjablonPeriode(
+                                sjablonPeriode =
+                                Periode(
+                                    datoFom = LocalDate.parse("2017-01-01"),
+                                    datoTil = LocalDate.parse("9999-12-31"),
+                                ),
+                                sjablon =
+                                Sjablon(
+                                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                                    nokkelListe = emptyList(),
+                                    innholdListe =
+                                    listOf(
+                                        SjablonInnhold(
+                                            navn = SjablonInnholdNavn.SJABLON_VERDI.navn,
+                                            verdi = BigDecimal.valueOf(1600),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                ResultatPeriode(
+                    soknadsbarnPersonId = 1,
+                    periode = Periode(datoFom = LocalDate.parse("2018-01-01"), datoTil = LocalDate.parse("2019-01-01")),
+                    resultat =
+                    ResultatBeregning(
+                        andelProsent = BigDecimal.valueOf(0.20),
+                        andelBelop = BigDecimal.valueOf(200),
+                        barnetErSelvforsorget = false,
+                        sjablonListe =
+                        listOf(
+                            SjablonPeriodeNavnVerdi(
+                                periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
+                                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                                verdi = BigDecimal.valueOf(1600),
+                            ),
+                        ),
+                    ),
+                    grunnlag =
+                    GrunnlagBeregning(
+                        underholdskostnad =
+                        Underholdskostnad(
+                            referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                            belop = BigDecimal.valueOf(1000),
+                        ),
+                        inntektBPListe = inntektBPListe,
+                        inntektBMListe = inntektBMListe,
+                        inntektBBListe = inntektBBListe,
+                        sjablonListe =
+                        listOf(
+                            SjablonPeriode(
+                                sjablonPeriode =
+                                Periode(
+                                    datoFom = LocalDate.parse("2017-01-01"),
+                                    datoTil = LocalDate.parse("9999-12-31"),
+                                ),
+                                sjablon =
+                                Sjablon(
+                                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                                    nokkelListe = emptyList(),
+                                    innholdListe =
+                                    listOf(
+                                        SjablonInnhold(
+                                            navn = SjablonInnholdNavn.SJABLON_VERDI.navn,
+                                            verdi = BigDecimal.valueOf(1640),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+                ResultatPeriode(
+                    soknadsbarnPersonId = 1,
+                    periode = Periode(datoFom = LocalDate.parse("2019-01-01"), datoTil = LocalDate.parse("2020-01-01")),
+                    resultat =
+                    ResultatBeregning(
+                        andelProsent = BigDecimal.valueOf(0.30),
+                        andelBelop = BigDecimal.valueOf(300),
+                        barnetErSelvforsorget = false,
+                        sjablonListe =
+                        listOf(
+                            SjablonPeriodeNavnVerdi(
+                                periode = Periode(datoFom = LocalDate.parse("2017-01-01"), datoTil = LocalDate.parse("9999-12-31")),
+                                navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                                verdi = BigDecimal.valueOf(1600),
+                            ),
+                        ),
+                    ),
+                    grunnlag =
+                    GrunnlagBeregning(
+                        underholdskostnad =
+                        Underholdskostnad(
+                            referanse = UNDERHOLDSKOSTNAD_REFERANSE,
+                            belop = BigDecimal.valueOf(1000),
+                        ),
+                        inntektBPListe = inntektBPListe,
+                        inntektBMListe = inntektBMListe,
+                        inntektBBListe = inntektBBListe,
+                        sjablonListe =
+                        listOf(
+                            SjablonPeriode(
+                                sjablonPeriode =
+                                Periode(
+                                    datoFom = LocalDate.parse("2017-01-01"),
+                                    datoTil = LocalDate.parse("9999-12-31"),
+                                ),
+                                sjablon =
+                                Sjablon(
+                                    navn = SjablonTallNavn.FORSKUDDSSATS_BELØP.navn,
+                                    nokkelListe = emptyList(),
+                                    innholdListe =
+                                    listOf(
+                                        SjablonInnhold(
+                                            navn = SjablonInnholdNavn.SJABLON_VERDI.navn,
+                                            verdi = BigDecimal.valueOf(1680),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            )
 
         bPsAndelunderholdskostnadPeriodeResultat = BeregnetBPsAndelUnderholdskostnadResultat(periodeResultatListe)
     }
 
     private fun byggAvvik() {
-        avvikListe = listOf(
-            Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = AvvikType.DATO_FOM_ETTER_DATO_TIL)
-        )
+        avvikListe =
+            listOf(
+                Avvik(avvikTekst = "beregnDatoTil må være etter beregnDatoFra", avvikType = Avvikstype.DATO_FOM_ETTER_DATO_TIL),
+            )
     }
 
     companion object MockitoHelper {

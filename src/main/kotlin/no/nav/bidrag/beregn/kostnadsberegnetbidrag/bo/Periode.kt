@@ -7,13 +7,12 @@ import java.math.BigDecimal
 data class UnderholdskostnadPeriode(
     val referanse: String,
     val underholdskostnadPeriode: Periode,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(underholdskostnadPeriode: UnderholdskostnadPeriode) : this(
         underholdskostnadPeriode.referanse,
         underholdskostnadPeriode.underholdskostnadPeriode.justerDatoer(),
-        underholdskostnadPeriode.belop
+        underholdskostnadPeriode.belop,
     )
 
     override fun getPeriode(): Periode {
@@ -24,13 +23,12 @@ data class UnderholdskostnadPeriode(
 data class BPsAndelUnderholdskostnadPeriode(
     val referanse: String,
     val bPsAndelUnderholdskostnadPeriode: Periode,
-    val andelProsent: BigDecimal
+    val andelProsent: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(bPsAndelunderholdskostnadPeriode: BPsAndelUnderholdskostnadPeriode) : this(
         bPsAndelunderholdskostnadPeriode.referanse,
         bPsAndelunderholdskostnadPeriode.bPsAndelUnderholdskostnadPeriode.justerDatoer(),
-        bPsAndelunderholdskostnadPeriode.andelProsent
+        bPsAndelunderholdskostnadPeriode.andelProsent,
     )
 
     override fun getPeriode(): Periode {
@@ -41,13 +39,12 @@ data class BPsAndelUnderholdskostnadPeriode(
 data class SamvaersfradragPeriode(
     val referanse: String,
     val samvaersfradragPeriode: Periode,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(samvaersfradragPeriode: SamvaersfradragPeriode) : this(
         samvaersfradragPeriode.referanse,
         samvaersfradragPeriode.samvaersfradragPeriode.justerDatoer(),
-        samvaersfradragPeriode.belop
+        samvaersfradragPeriode.belop,
     )
 
     override fun getPeriode(): Periode {

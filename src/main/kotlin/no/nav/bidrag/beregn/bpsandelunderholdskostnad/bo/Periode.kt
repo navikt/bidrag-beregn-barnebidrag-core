@@ -10,16 +10,15 @@ data class InntektPeriode(
     val type: String,
     val belop: BigDecimal,
     val deltFordel: Boolean,
-    val skatteklasse2: Boolean
+    val skatteklasse2: Boolean,
 ) : PeriodisertGrunnlag {
-
     constructor(inntektPeriode: InntektPeriode) : this(
         inntektPeriode.referanse,
         inntektPeriode.inntektPeriode.justerDatoer(),
         inntektPeriode.type,
         inntektPeriode.belop,
         inntektPeriode.deltFordel,
-        inntektPeriode.skatteklasse2
+        inntektPeriode.skatteklasse2,
     )
 
     override fun getPeriode(): Periode {
@@ -30,13 +29,12 @@ data class InntektPeriode(
 data class UnderholdskostnadPeriode(
     val referanse: String,
     val underholdskostnadPeriode: Periode,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(underholdskostnadPeriode: UnderholdskostnadPeriode) : this(
         underholdskostnadPeriode.referanse,
         underholdskostnadPeriode.underholdskostnadPeriode.justerDatoer(),
-        underholdskostnadPeriode.belop
+        underholdskostnadPeriode.belop,
     )
 
     override fun getPeriode(): Periode {

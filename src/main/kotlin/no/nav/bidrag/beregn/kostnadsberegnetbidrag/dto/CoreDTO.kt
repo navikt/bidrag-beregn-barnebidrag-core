@@ -12,40 +12,40 @@ data class BeregnKostnadsberegnetBidragGrunnlagCore(
     val soknadsbarnPersonId: Int,
     val underholdskostnadPeriodeListe: List<UnderholdskostnadPeriodeCore>,
     val bPsAndelUnderholdskostnadPeriodeListe: List<BPsAndelUnderholdskostnadPeriodeCore>,
-    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>
+    val samvaersfradragPeriodeListe: List<SamvaersfradragPeriodeCore>,
 )
 
 data class UnderholdskostnadPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 data class BPsAndelUnderholdskostnadPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val andelProsent: BigDecimal
+    val andelProsent: BigDecimal,
 )
 
 data class SamvaersfradragPeriodeCore(
     val referanse: String,
     val periode: PeriodeCore,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )
 
 // Resultat
 data class BeregnetKostnadsberegnetBidragResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     val soknadsbarnPersonId: Int,
     val periode: PeriodeCore,
     val resultat: ResultatBeregningCore,
-    val grunnlagReferanseListe: List<String>
+    val grunnlagReferanseListe: List<String>,
 )
 
 data class ResultatBeregningCore(
-    val belop: BigDecimal
+    val belop: BigDecimal,
 )

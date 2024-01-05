@@ -7,9 +7,12 @@ import no.nav.bidrag.beregn.forholdsmessigfordeling.bo.BeregnForholdsmessigForde
 
 interface ForholdsmessigFordelingPeriode {
     fun beregnPerioder(grunnlag: BeregnForholdsmessigFordelingGrunnlag): BeregnForholdsmessigFordelingResultat
+
     fun validerInput(grunnlag: BeregnForholdsmessigFordelingGrunnlag): List<Avvik>
 
     companion object {
-        fun getInstance(): ForholdsmessigFordelingPeriode = ForholdsmessigFordelingPeriodeImpl(ForholdsmessigFordelingBeregning.getInstance())
+        fun getInstance(): ForholdsmessigFordelingPeriode = ForholdsmessigFordelingPeriodeImpl(
+            ForholdsmessigFordelingBeregning.getInstance(),
+        )
     }
 }

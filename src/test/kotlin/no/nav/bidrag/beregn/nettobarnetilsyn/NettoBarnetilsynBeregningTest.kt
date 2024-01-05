@@ -14,7 +14,6 @@ import java.math.BigDecimal
 
 @DisplayName("Test av beregning av netto barnetilsyn")
 internal class NettoBarnetilsynBeregningTest {
-
     private var sjablonPeriodeListe = TestUtil.byggSjablonPeriodeListe()
     private val nettoBarnetilsynBeregning = getInstance()
 
@@ -23,15 +22,16 @@ internal class NettoBarnetilsynBeregningTest {
     fun testEttBarnEttBelopUnderMaksTilsynsbelop() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(2500)
-                    )
+                        belop = BigDecimal.valueOf(2500),
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -39,7 +39,7 @@ internal class NettoBarnetilsynBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.size).isEqualTo(1) },
-            Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(1978))).isZero() }
+            Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(1978))).isZero() },
         )
     }
 
@@ -48,21 +48,22 @@ internal class NettoBarnetilsynBeregningTest {
     fun testToBarnUnderMaksTilsynsbelop() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(2500)
+                        belop = BigDecimal.valueOf(2500),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 5,
-                        belop = BigDecimal.valueOf(5000)
-                    )
+                        belop = BigDecimal.valueOf(5000),
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -71,7 +72,7 @@ internal class NettoBarnetilsynBeregningTest {
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.size).isEqualTo(2) },
             Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(2083))).isZero() },
-            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(4583))).isZero() }
+            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(4583))).isZero() },
         )
     }
 
@@ -80,39 +81,40 @@ internal class NettoBarnetilsynBeregningTest {
     fun testAtFaktiskUtgiftSummeresPerBarn() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 5,
-                        belop = BigDecimal.valueOf(2000)
+                        belop = BigDecimal.valueOf(2000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 5,
-                        belop = BigDecimal.valueOf(1000)
+                        belop = BigDecimal.valueOf(1000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(500)
+                        belop = BigDecimal.valueOf(500),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 5,
-                        belop = BigDecimal.valueOf(2000)
+                        belop = BigDecimal.valueOf(2000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(2000)
-                    )
+                        belop = BigDecimal.valueOf(2000),
+                    ),
                 ),
-                sjablonListe = sjablonPeriodeListe
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -121,33 +123,34 @@ internal class NettoBarnetilsynBeregningTest {
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.size).isEqualTo(2) },
             Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(2083))).isZero() },
-            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(4583))).isZero() }
+            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(4583))).isZero() },
         )
     }
 
     @Test
     @DisplayName(
         "Beregning med to barn, beløp over maks tilsynsbeløp, og fradragsbeløp over maks fradragsbeløp,  " +
-            "resultatet skal da beregnes fra sjablon maks tilsynsbeløp for to barn og sjablon maks fradragsbeløp for to barn"
+            "resultatet skal da beregnes fra sjablon maks tilsynsbeløp for to barn og sjablon maks fradragsbeløp for to barn",
     )
     fun testToBarnOverMaksTilsynsbelopogMaksFradragsbelop() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 5,
-                        belop = BigDecimal.valueOf(7000)
+                        belop = BigDecimal.valueOf(7000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 9,
-                        belop = BigDecimal.valueOf(3000)
-                    )
+                        belop = BigDecimal.valueOf(3000),
+                    ),
                 ),
-                sjablonListe = (sjablonPeriodeListe)
+                sjablonListe = (sjablonPeriodeListe),
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -163,7 +166,7 @@ internal class NettoBarnetilsynBeregningTest {
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.size).isEqualTo(2) },
             Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(5367))).isZero() },
-            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(2062))).isZero() }
+            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(2062))).isZero() },
         )
     }
 
@@ -172,32 +175,33 @@ internal class NettoBarnetilsynBeregningTest {
         (
             "Beregning med tre barn, beløp over maks tilsynsbeløp, og fradragsbeløp over maks fradragsbeløp,  " +
                 "resultatet skal da beregnes fra sjablon maks tilsynsbeløp for tre barn og sjablon maks fradragsbeløp for tre barn"
-            )
+            ),
     )
     fun testTreBarnOverMaksTilsynsbelopOgMaksFradragsbelop() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(5000)
+                        belop = BigDecimal.valueOf(5000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 8,
-                        belop = BigDecimal.valueOf(3000)
+                        belop = BigDecimal.valueOf(3000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 3,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 3,
-                        belop = BigDecimal.valueOf(2000)
-                    )
+                        belop = BigDecimal.valueOf(2000),
+                    ),
                 ),
-                sjablonListe = (sjablonPeriodeListe)
+                sjablonListe = (sjablonPeriodeListe),
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -214,7 +218,7 @@ internal class NettoBarnetilsynBeregningTest {
             Executable { assertThat(resultat.size).isEqualTo(3) },
             Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(4299))).isZero() },
             Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(2427))).isZero() },
-            Executable { assertThat(resultat[2].belop.compareTo(BigDecimal.valueOf(1490))).isZero() }
+            Executable { assertThat(resultat[2].belop.compareTo(BigDecimal.valueOf(1490))).isZero() },
         )
     }
 
@@ -223,15 +227,16 @@ internal class NettoBarnetilsynBeregningTest {
     fun testEttBarnBeregnetFradragsbelopLavereEnnSjablonverdi() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(1000)
-                    )
+                        belop = BigDecimal.valueOf(1000),
+                    ),
                 ),
-                sjablonListe = (sjablonPeriodeListe)
+                sjablonListe = (sjablonPeriodeListe),
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -242,7 +247,7 @@ internal class NettoBarnetilsynBeregningTest {
         assertAll(
             Executable { assertThat(resultat).isNotNull() },
             Executable { assertThat(resultat.size).isEqualTo(1) },
-            Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(750))).isZero() }
+            Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.valueOf(750))).isZero() },
         )
     }
 
@@ -251,72 +256,28 @@ internal class NettoBarnetilsynBeregningTest {
     fun testSorteringPaaSoknadsbarnPersonId() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
+                faktiskUtgiftListe =
+                listOf(
                     FaktiskUtgift(
                         soknadsbarnPersonId = 3,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(1000)
+                        belop = BigDecimal.valueOf(1000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 1,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(2000)
+                        belop = BigDecimal.valueOf(2000),
                     ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(3000)
-                    )
+                        belop = BigDecimal.valueOf(3000),
+                    ),
                 ),
-                sjablonListe = (sjablonPeriodeListe)
-            )
-
-        val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
-
-        assertAll(
-            Executable { assertThat(resultat).isNotNull() },
-            Executable { assertThat(resultat.size).isEqualTo(3) },
-            Executable { assertThat(resultat[0].soknadsbarnPersonId).isEqualTo(1) },
-            Executable { assertThat(resultat[1].soknadsbarnPersonId).isEqualTo(2) },
-            Executable { assertThat(resultat[2].soknadsbarnPersonId).isEqualTo(3) }
-        )
-    }
-
-    @Test
-    @DisplayName("Test summering på søknadsbarns personid")
-    fun testSummeringPaaSoknadsbarnPersonId() {
-        val grunnlagBeregning =
-            GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
-                    FaktiskUtgift(
-                        soknadsbarnPersonId = 2,
-                        referanse = FAKTISK_UTGIFT_REFERANSE,
-                        soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(1000)
-                    ),
-                    FaktiskUtgift(
-                        soknadsbarnPersonId = 3,
-                        referanse = FAKTISK_UTGIFT_REFERANSE,
-                        soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(2000)
-                    ),
-                    FaktiskUtgift(
-                        soknadsbarnPersonId = 2,
-                        referanse = FAKTISK_UTGIFT_REFERANSE,
-                        soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(2000)
-                    ),
-                    FaktiskUtgift(
-                        soknadsbarnPersonId = 1,
-                        referanse = FAKTISK_UTGIFT_REFERANSE,
-                        soknadsbarnAlder = 10,
-                        belop = BigDecimal.valueOf(5000)
-                    )
-                ),
-                sjablonListe = (sjablonPeriodeListe)
+                sjablonListe = (sjablonPeriodeListe),
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
@@ -327,7 +288,53 @@ internal class NettoBarnetilsynBeregningTest {
             Executable { assertThat(resultat[0].soknadsbarnPersonId).isEqualTo(1) },
             Executable { assertThat(resultat[1].soknadsbarnPersonId).isEqualTo(2) },
             Executable { assertThat(resultat[2].soknadsbarnPersonId).isEqualTo(3) },
-            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(2427))).isZero() }
+        )
+    }
+
+    @Test
+    @DisplayName("Test summering på søknadsbarns personid")
+    fun testSummeringPaaSoknadsbarnPersonId() {
+        val grunnlagBeregning =
+            GrunnlagBeregning(
+                faktiskUtgiftListe =
+                listOf(
+                    FaktiskUtgift(
+                        soknadsbarnPersonId = 2,
+                        referanse = FAKTISK_UTGIFT_REFERANSE,
+                        soknadsbarnAlder = 10,
+                        belop = BigDecimal.valueOf(1000),
+                    ),
+                    FaktiskUtgift(
+                        soknadsbarnPersonId = 3,
+                        referanse = FAKTISK_UTGIFT_REFERANSE,
+                        soknadsbarnAlder = 10,
+                        belop = BigDecimal.valueOf(2000),
+                    ),
+                    FaktiskUtgift(
+                        soknadsbarnPersonId = 2,
+                        referanse = FAKTISK_UTGIFT_REFERANSE,
+                        soknadsbarnAlder = 10,
+                        belop = BigDecimal.valueOf(2000),
+                    ),
+                    FaktiskUtgift(
+                        soknadsbarnPersonId = 1,
+                        referanse = FAKTISK_UTGIFT_REFERANSE,
+                        soknadsbarnAlder = 10,
+                        belop = BigDecimal.valueOf(5000),
+                    ),
+                ),
+                sjablonListe = (sjablonPeriodeListe),
+            )
+
+        val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
+
+        assertAll(
+            Executable { assertThat(resultat).isNotNull() },
+            Executable { assertThat(resultat.size).isEqualTo(3) },
+            Executable { assertThat(resultat[0].soknadsbarnPersonId).isEqualTo(1) },
+            Executable { assertThat(resultat[1].soknadsbarnPersonId).isEqualTo(2) },
+            Executable { assertThat(resultat[2].soknadsbarnPersonId).isEqualTo(3) },
+            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(2427))).isZero() },
         )
     }
 
@@ -336,24 +343,35 @@ internal class NettoBarnetilsynBeregningTest {
     fun testNettoBarnetilsyn() {
         val grunnlagBeregning =
             GrunnlagBeregning(
-                faktiskUtgiftListe = listOf(
-                    FaktiskUtgift(soknadsbarnPersonId = 1, referanse = FAKTISK_UTGIFT_REFERANSE, soknadsbarnAlder = 10, belop = BigDecimal.ZERO),
+                faktiskUtgiftListe =
+                listOf(
+                    FaktiskUtgift(
+                        soknadsbarnPersonId = 1,
+                        referanse = FAKTISK_UTGIFT_REFERANSE,
+                        soknadsbarnAlder = 10,
+                        belop = BigDecimal.ZERO,
+                    ),
                     FaktiskUtgift(
                         soknadsbarnPersonId = 2,
                         referanse = FAKTISK_UTGIFT_REFERANSE,
                         soknadsbarnAlder = 8,
-                        belop = BigDecimal.valueOf(2500)
+                        belop = BigDecimal.valueOf(2500),
                     ),
-                    FaktiskUtgift(soknadsbarnPersonId = 3, referanse = FAKTISK_UTGIFT_REFERANSE, soknadsbarnAlder = 14, belop = BigDecimal.ZERO)
+                    FaktiskUtgift(
+                        soknadsbarnPersonId = 3,
+                        referanse = FAKTISK_UTGIFT_REFERANSE,
+                        soknadsbarnAlder = 14,
+                        belop = BigDecimal.ZERO,
+                    ),
                 ),
-                sjablonListe = (sjablonPeriodeListe)
+                sjablonListe = (sjablonPeriodeListe),
             )
 
         val resultat = nettoBarnetilsynBeregning.beregn(grunnlagBeregning)
 
         assertAll(
             Executable { assertThat(resultat[0].belop.compareTo(BigDecimal.ZERO)).isZero() },
-            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(1874))).isZero() }
+            Executable { assertThat(resultat[1].belop.compareTo(BigDecimal.valueOf(1874))).isZero() },
         )
     }
 }

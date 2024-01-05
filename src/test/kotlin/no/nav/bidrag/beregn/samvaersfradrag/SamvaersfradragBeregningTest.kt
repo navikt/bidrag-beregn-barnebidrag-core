@@ -1,6 +1,6 @@
 package no.nav.bidrag.beregn.samvaersfradrag
 
-import no.nav.bidrag.beregn.TestUtil.SAMVAERSKLASSE_REFERANSE
+import no.nav.bidrag.beregn.TestUtil.SAMVÆRSKLASSE_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.SOKNADSBARN_REFERANSE
 import no.nav.bidrag.beregn.TestUtil.byggSjablonPeriodeListe
 import no.nav.bidrag.beregn.samvaersfradrag.beregning.SamvaersfradragBeregning.Companion.getInstance
@@ -14,7 +14,6 @@ import java.math.BigDecimal
 
 @DisplayName("Test av beregning av samværsfradrag")
 internal class SamvaersfradragBeregningTest {
-
     private val sjablonPeriodeListe = byggSjablonPeriodeListe()
     private val samvaersfradragBeregning = getInstance()
 
@@ -24,8 +23,8 @@ internal class SamvaersfradragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 4),
-                samvaersklasse = Samvaersklasse(referanse = SAMVAERSKLASSE_REFERANSE, samvaersklasse = "03"),
-                sjablonListe = sjablonPeriodeListe
+                samvaersklasse = Samvaersklasse(referanse = SAMVÆRSKLASSE_REFERANSE, samvaersklasse = "03"),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = samvaersfradragBeregning.beregn(grunnlagBeregning)
@@ -39,8 +38,8 @@ internal class SamvaersfradragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 6),
-                samvaersklasse = Samvaersklasse(referanse = SAMVAERSKLASSE_REFERANSE, samvaersklasse = "03"),
-                sjablonListe = sjablonPeriodeListe
+                samvaersklasse = Samvaersklasse(referanse = SAMVÆRSKLASSE_REFERANSE, samvaersklasse = "03"),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = samvaersfradragBeregning.beregn(grunnlagBeregning)
@@ -54,8 +53,8 @@ internal class SamvaersfradragBeregningTest {
         val grunnlagBeregning =
             GrunnlagBeregning(
                 soknadsbarn = SoknadsbarnAlder(referanse = SOKNADSBARN_REFERANSE, alder = 14),
-                samvaersklasse = Samvaersklasse(referanse = SAMVAERSKLASSE_REFERANSE, samvaersklasse = "01"),
-                sjablonListe = sjablonPeriodeListe
+                samvaersklasse = Samvaersklasse(referanse = SAMVÆRSKLASSE_REFERANSE, samvaersklasse = "01"),
+                sjablonListe = sjablonPeriodeListe,
             )
 
         val (belop) = samvaersfradragBeregning.beregn(grunnlagBeregning)

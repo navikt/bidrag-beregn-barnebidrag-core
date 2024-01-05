@@ -10,61 +10,61 @@ data class BeregnForholdsmessigFordelingGrunnlagCore(
     val beregnDatoFra: LocalDate,
     val beregnDatoTil: LocalDate,
     val bidragsevnePeriodeListe: List<BidragsevnePeriodeCore>,
-    val beregnetBidragPeriodeListe: List<BeregnetBidragSakPeriodeCore>
+    val beregnetBidragPeriodeListe: List<BeregnetBidragSakPeriodeCore>,
 )
 
 data class BidragsevnePeriodeCore(
     val periode: PeriodeCore,
     val belop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal
+    val tjuefemProsentInntekt: BigDecimal,
 )
 
 data class BeregnetBidragSakPeriodeCore(
     val saksnr: Int,
     val periode: PeriodeCore,
-    val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>
+    val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>,
 )
 
 // Resultat
 data class BeregnForholdsmessigFordelingResultatCore(
     val resultatPeriodeListe: List<ResultatPeriodeCore>,
-    val avvikListe: List<AvvikCore>
+    val avvikListe: List<AvvikCore>,
 )
 
 data class ResultatPeriodeCore(
     val periode: PeriodeCore,
     val resultatBeregningListe: List<ResultatBeregningCore>,
-    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore
+    val resultatGrunnlag: GrunnlagBeregningPeriodisertCore,
 )
 
 data class ResultatBeregningCore(
     val saksnr: Int,
-    val resultatPerBarnListe: List<ResultatPerBarnCore>
+    val resultatPerBarnListe: List<ResultatPerBarnCore>,
 )
 
 data class ResultatPerBarnCore(
     val barnPersonId: Int,
     val belop: BigDecimal,
-    val kode: String
+    val kode: String,
 )
 
 // Grunnlag beregning
 data class GrunnlagBeregningPeriodisertCore(
     val bidragsevne: BidragsevneCore,
-    val beregnetBidragSakListe: List<BeregnetBidragSakCore>
+    val beregnetBidragSakListe: List<BeregnetBidragSakCore>,
 )
 
 data class BidragsevneCore(
     val belop: BigDecimal,
-    val tjuefemProsentInntekt: BigDecimal
+    val tjuefemProsentInntekt: BigDecimal,
 )
 
 data class BeregnetBidragSakCore(
     val saksnr: Int,
-    val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>
+    val grunnlagPerBarnListe: List<GrunnlagPerBarnCore>,
 )
 
 data class GrunnlagPerBarnCore(
     val barnPersonId: Int,
-    val bidragBelop: BigDecimal
+    val bidragBelop: BigDecimal,
 )

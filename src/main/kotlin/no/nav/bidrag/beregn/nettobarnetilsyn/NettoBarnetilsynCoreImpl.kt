@@ -28,20 +28,18 @@ class NettoBarnetilsynCoreImpl(private val nettoBarnetilsynPeriode: NettoBarneti
         return mapFraBusinessObject(avvikListe = avvikListe, resultat = beregnNettoBarnetilsynResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnNettoBarnetilsynGrunnlagCore) =
-        BeregnNettoBarnetilsynGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            faktiskUtgiftPeriodeListe = mapFaktiskUtgiftPeriodeListe(grunnlag.faktiskUtgiftPeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnNettoBarnetilsynGrunnlagCore) = BeregnNettoBarnetilsynGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        faktiskUtgiftPeriodeListe = mapFaktiskUtgiftPeriodeListe(grunnlag.faktiskUtgiftPeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
-    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetNettoBarnetilsynResultat) =
-        BeregnetNettoBarnetilsynResultatCore(
-            resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
-        )
+    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetNettoBarnetilsynResultat) = BeregnetNettoBarnetilsynResultatCore(
+        resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
+        sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
+        avvikListe = mapAvvik(avvikListe),
+    )
 
     private fun mapFaktiskUtgiftPeriodeListe(faktiskUtgiftPeriodeListeCore: List<FaktiskUtgiftPeriodeCore>): List<FaktiskUtgiftPeriode> {
         val faktiskUtgiftPeriodeListe = mutableListOf<FaktiskUtgiftPeriode>()
@@ -52,8 +50,8 @@ class NettoBarnetilsynCoreImpl(private val nettoBarnetilsynPeriode: NettoBarneti
                     referanse = it.referanse,
                     faktiskUtgiftPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     soknadsbarnFodselsdato = it.soknadsbarnFodselsdato,
-                    belop = it.belop
-                )
+                    belop = it.belop,
+                ),
             )
         }
         return faktiskUtgiftPeriodeListe
@@ -69,8 +67,8 @@ class NettoBarnetilsynCoreImpl(private val nettoBarnetilsynPeriode: NettoBarneti
                         soknadsbarnPersonId = it.soknadsbarnPersonId,
                         periode = PeriodeCore(datoFom = resultatPeriode.periode.datoFom, datoTil = resultatPeriode.periode.datoTil),
                         resultat = ResultatBeregningCore(it.belop),
-                        grunnlagReferanseListe = mapReferanseListe(resultatPeriode)
-                    )
+                        grunnlagReferanseListe = mapReferanseListe(resultatPeriode),
+                    ),
                 )
             }
         }
@@ -87,9 +85,8 @@ class NettoBarnetilsynCoreImpl(private val nettoBarnetilsynPeriode: NettoBarneti
         return referanseListe.sorted()
     }
 
-    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) =
-        resultatPeriodeListe
-            .flatMap { it.resultatListe }
-            .flatMap { mapSjablonListe(it.sjablonListe) }
-            .distinct()
+    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) = resultatPeriodeListe
+        .flatMap { it.resultatListe }
+        .flatMap { mapSjablonListe(it.sjablonListe) }
+        .distinct()
 }

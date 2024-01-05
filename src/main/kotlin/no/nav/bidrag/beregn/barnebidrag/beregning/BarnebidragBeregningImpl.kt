@@ -7,14 +7,13 @@ import no.nav.bidrag.beregn.barnebidrag.bo.ResultatBeregning
 import no.nav.bidrag.beregn.felles.FellesBeregning
 import no.nav.bidrag.beregn.felles.bo.SjablonPeriode
 import no.nav.bidrag.beregn.felles.util.SjablonUtil
-import no.nav.bidrag.domain.enums.resultatkoder.ResultatKodeBarnebidrag
-import no.nav.bidrag.domain.enums.sjablon.SjablonTallNavn
+import no.nav.bidrag.domene.enums.beregning.ResultatkodeBarnebidrag
+import no.nav.bidrag.domene.enums.sjablon.SjablonTallNavn
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
 
 open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
-
     override fun beregn(grunnlag: GrunnlagBeregning): List<ResultatBeregning> {
         return if (grunnlag.barnetilleggForsvaret.barnetilleggForsvaretIPeriode) {
             beregnMedBarnetilleggForsvaret(grunnlag)
@@ -26,21 +25,23 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
     private fun beregnOrdinaer(grunnlag: GrunnlagBeregning): List<ResultatBeregning> {
         val resultatBeregningListe = mutableListOf<ResultatBeregning>()
 
-        val totaltBelopUnderholdskostnad = grunnlag.grunnlagPerBarnListe
-            .fold(BigDecimal.ZERO) { total, it ->
-                total + it.bPsAndelUnderholdskostnad.andelBelop
-            }
+        val totaltBelopUnderholdskostnad =
+            grunnlag.grunnlagPerBarnListe
+                .fold(BigDecimal.ZERO) { total, it ->
+                    total + it.bPsAndelUnderholdskostnad.andelBelop
+                }
 
-        val totaltBelopLopendeBidrag = grunnlag.andreLopendeBidragListe
-            .fold(BigDecimal.ZERO) { total, it ->
-                total + it.bidragBelop + it.samvaersfradragBelop
-            }
+        val totaltBelopLopendeBidrag =
+            grunnlag.andreLopendeBidragListe
+                .fold(BigDecimal.ZERO) { total, it ->
+                    total + it.bidragBelop + it.samvaersfradragBelop
+                }
 
         val maksBidragsbelop = minOf(grunnlag.bidragsevne.bidragsevneBelop, grunnlag.bidragsevne.tjuefemProsentInntekt)
         val bidragRedusertAvBidragsevne = grunnlag.bidragsevne.bidragsevneBelop < grunnlag.bidragsevne.tjuefemProsentInntekt
 
         grunnlag.grunnlagPerBarnListe.forEach { grunnlagBeregningPerBarn: GrunnlagBeregningPerBarn ->
-            var resultatkode = ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG
+            var resultatkode = ResultatkodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG
             var tempBarnebidrag: BigDecimal
 
             // Beregner netto barnetillegg for BP og BM
@@ -53,14 +54,16 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
             // Sjekker om totalt bidragsbeløp er større enn bidragsevne eller 25% av månedsinntekt
             if (maksBidragsbelop < totaltBelopUnderholdskostnad) {
                 // Bidraget skal begrenses forholdsmessig pga manglende evne/25%-regel
-                val andelProsent = grunnlagBeregningPerBarn.bPsAndelUnderholdskostnad.andelBelop
-                    .divide(totaltBelopUnderholdskostnad, MathContext(10, RoundingMode.HALF_UP))
+                val andelProsent =
+                    grunnlagBeregningPerBarn.bPsAndelUnderholdskostnad.andelBelop
+                        .divide(totaltBelopUnderholdskostnad, MathContext(10, RoundingMode.HALF_UP))
                 tempBarnebidrag = maksBidragsbelop * andelProsent
-                resultatkode = if (bidragRedusertAvBidragsevne) {
-                    ResultatKodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE
-                } else {
-                    ResultatKodeBarnebidrag.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT
-                }
+                resultatkode =
+                    if (bidragRedusertAvBidragsevne) {
+                        ResultatkodeBarnebidrag.BIDRAG_REDUSERT_AV_EVNE
+                    } else {
+                        ResultatkodeBarnebidrag.BIDRAG_REDUSERT_TIL_25_PROSENT_AV_INNTEKT
+                    }
             } else {
                 tempBarnebidrag = grunnlagBeregningPerBarn.bPsAndelUnderholdskostnad.andelBelop
             }
@@ -76,7 +79,7 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
                     tempBarnebidrag < nettoBarnetilleggBP &&
                     nettoBarnetilleggBP > BigDecimal.ZERO -> {
                     tempBarnebidrag = nettoBarnetilleggBP - grunnlagBeregningPerBarn.samvaersfradrag.belop
-                    resultatkode = ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP
+                    resultatkode = ResultatkodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP
                 }
 
                 // Regel for barnetilleggBP har ikke slått til. Sjekk om eventuelt barnetillegg for BM skal benyttes.
@@ -84,7 +87,7 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
                 // netto barnetillegg for BM
                 tempBarnebidrag > (underholdskostnad - nettoBarnetilleggBM) -> {
                     tempBarnebidrag = underholdskostnad - nettoBarnetilleggBM - grunnlagBeregningPerBarn.samvaersfradrag.belop
-                    resultatkode = ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM
+                    resultatkode = ResultatkodeBarnebidrag.BIDRAG_SATT_TIL_UNDERHOLDSKOSTNAD_MINUS_BARNETILLEGG_BM
                 }
             }
 
@@ -94,36 +97,37 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
             }
 
             if (grunnlag.bidragsevne.bidragsevneBelop == BigDecimal.ZERO) {
-                resultatkode = ResultatKodeBarnebidrag.INGEN_EVNE
+                resultatkode = ResultatkodeBarnebidrag.INGEN_EVNE
             }
 
             // Hvis barnet har delt bosted og bidrag ikke er redusert under beregningen skal resultatkode settes til DELT_BOSTED
             if (grunnlagBeregningPerBarn.deltBosted.deltBostedIPeriode) {
                 if (grunnlagBeregningPerBarn.bPsAndelUnderholdskostnad.andelProsent > BigDecimal.ZERO) {
-                    if ((resultatkode == ResultatKodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)) {
-                        resultatkode = ResultatKodeBarnebidrag.DELT_BOSTED
+                    if ((resultatkode == ResultatkodeBarnebidrag.KOSTNADSBEREGNET_BIDRAG)) {
+                        resultatkode = ResultatkodeBarnebidrag.DELT_BOSTED
                     }
                 } else {
-                    resultatkode = ResultatKodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED
+                    resultatkode = ResultatkodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED
                 }
             }
 
             if (grunnlagBeregningPerBarn.bPsAndelUnderholdskostnad.barnetErSelvforsorget) {
                 tempBarnebidrag = BigDecimal.ZERO
-                resultatkode = ResultatKodeBarnebidrag.BARNET_ER_SELVFORSORGET
+                resultatkode = ResultatkodeBarnebidrag.BARNET_ER_SELVFORSØRGET
             }
 
             // Sjekker om bidragsevne dekker beregnet bidrag pluss løpende bidragsbeløp for andre eksisterende bidragssaker + samværsfradrag.
             // Hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
             if (grunnlag.bidragsevne.bidragsevneBelop < (tempBarnebidrag + totaltBelopLopendeBidrag) &&
-                resultatkode !in setOf(
-                        ResultatKodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED,
-                        ResultatKodeBarnebidrag.BARNET_ER_SELVFORSORGET,
-                        ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP,
-                        ResultatKodeBarnebidrag.INGEN_EVNE
-                    )
+                resultatkode !in
+                setOf(
+                    ResultatkodeBarnebidrag.BIDRAG_IKKE_BEREGNET_DELT_BOSTED,
+                    ResultatkodeBarnebidrag.BARNET_ER_SELVFORSØRGET,
+                    ResultatkodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_BP,
+                    ResultatkodeBarnebidrag.INGEN_EVNE,
+                )
             ) {
-                resultatkode = ResultatKodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING
+                resultatkode = ResultatkodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFØR_FORHOLDSMESSIG_FORDELING
             }
 
             // Bidrag skal avrundes til nærmeste tier
@@ -134,16 +138,17 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
                     soknadsbarnPersonId = grunnlagBeregningPerBarn.soknadsbarnPersonId,
                     belop = tempBarnebidrag,
                     kode = resultatkode,
-                    sjablonListe = emptyList()
-                )
+                    sjablonListe = emptyList(),
+                ),
             )
         }
 
         return resultatBeregningListe
     }
 
-    private fun beregnNettoBarnetillegg(barnetillegg: Barnetillegg?) =
-        barnetillegg?.run { belop - (belop * skattProsent).divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP)) } ?: BigDecimal.ZERO
+    private fun beregnNettoBarnetillegg(barnetillegg: Barnetillegg?) = barnetillegg?.run {
+        belop - (belop * skattProsent).divide(BigDecimal.valueOf(100), MathContext(10, RoundingMode.HALF_UP))
+    } ?: BigDecimal.ZERO
 
     private fun beregnUnderholdskostnad(grunnlagBeregningPerBarn: GrunnlagBeregningPerBarn) =
         if (grunnlagBeregningPerBarn.bPsAndelUnderholdskostnad.andelProsent > BigDecimal.ZERO &&
@@ -159,14 +164,15 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
     private fun beregnMedBarnetilleggForsvaret(grunnlag: GrunnlagBeregning): List<ResultatBeregning> {
         // Henter sjablonverdier
         val sjablonNavnVerdiMap = hentSjablonVerdier(grunnlag.sjablonListe)
-        val barnetilleggForsvaretForsteBarn = sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP.navn] ?: BigDecimal.ZERO
-        val barnetilleggForsvaretOvrigeBarn = sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP.navn] ?: BigDecimal.ZERO
+        val barnetilleggForsvaretForsteBarn = sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_FØRSTE_BARN_BELØP.navn] ?: BigDecimal.ZERO
+        val barnetilleggForsvaretOvrigeBarn = sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_ØVRIGE_BARN_BELØP.navn] ?: BigDecimal.ZERO
 
         val resultatBeregningListe = mutableListOf<ResultatBeregning>()
 
-        val totaltBelopLopendeBidrag = grunnlag.andreLopendeBidragListe.fold(BigDecimal.ZERO) { total, it ->
-            total + it.bidragBelop + it.samvaersfradragBelop
-        }
+        val totaltBelopLopendeBidrag =
+            grunnlag.andreLopendeBidragListe.fold(BigDecimal.ZERO) { total, it ->
+                total + it.bidragBelop + it.samvaersfradragBelop
+            }
 
         val barnetilleggForsvaretPerBarn =
             if (grunnlag.grunnlagPerBarnListe.size == 1) {
@@ -181,13 +187,13 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
         // Hvis ikke så skal bidragssaken merkes for forholdsmessig fordeling.
         val resultatkode =
             if (grunnlag.bidragsevne.bidragsevneBelop < (
-                barnetilleggForsvaretPerBarn
-                    * BigDecimal.valueOf(grunnlag.grunnlagPerBarnListe.size.toLong()) + totaltBelopLopendeBidrag
-                )
+                    barnetilleggForsvaretPerBarn
+                        * BigDecimal.valueOf(grunnlag.grunnlagPerBarnListe.size.toLong()) + totaltBelopLopendeBidrag
+                    )
             ) {
-                ResultatKodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFOER_FORHOLDSMESSIG_FORDELING
+                ResultatkodeBarnebidrag.BEGRENSET_EVNE_FLERE_SAKER_UTFØR_FORHOLDSMESSIG_FORDELING
             } else {
-                ResultatKodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET
+                ResultatkodeBarnebidrag.BIDRAG_SATT_TIL_BARNETILLEGG_FORSVARET
             }
 
         grunnlag.grunnlagPerBarnListe.forEach {
@@ -197,8 +203,12 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
                     soknadsbarnPersonId = it.soknadsbarnPersonId,
                     belop = barnebidragEtterSamvaersfradrag,
                     kode = resultatkode,
-                    sjablonListe = byggSjablonResultatListe(sjablonNavnVerdiMap = sjablonNavnVerdiMap, sjablonPeriodeListe = grunnlag.sjablonListe)
-                )
+                    sjablonListe =
+                    byggSjablonResultatListe(
+                        sjablonNavnVerdiMap = sjablonNavnVerdiMap,
+                        sjablonPeriodeListe = grunnlag.sjablonListe,
+                    ),
+                ),
             )
         }
 
@@ -212,10 +222,10 @@ open class BarnebidragBeregningImpl : FellesBeregning(), BarnebidragBeregning {
         val sjablonNavnVerdiMap = HashMap<String, BigDecimal>()
 
         // Sjablontall
-        sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP.navn] =
-            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.BARNETILLEGG_FORSVARET_FORSTE_BARN_BELOP)
-        sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP.navn] =
-            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.BARNETILLEGG_FORSVARET_OVRIGE_BARN_BELOP)
+        sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_FØRSTE_BARN_BELØP.navn] =
+            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.BARNETILLEGG_FORSVARET_FØRSTE_BARN_BELØP)
+        sjablonNavnVerdiMap[SjablonTallNavn.BARNETILLEGG_FORSVARET_ØVRIGE_BARN_BELØP.navn] =
+            SjablonUtil.hentSjablonverdi(sjablonListe = sjablonListe, sjablonTallNavn = SjablonTallNavn.BARNETILLEGG_FORSVARET_ØVRIGE_BARN_BELØP)
 
         return sjablonNavnVerdiMap
     }

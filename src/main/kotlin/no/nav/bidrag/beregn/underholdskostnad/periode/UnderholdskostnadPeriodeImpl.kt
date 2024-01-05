@@ -23,7 +23,10 @@ import no.nav.bidrag.beregn.underholdskostnad.bo.SoknadsbarnAlder
 import java.time.LocalDate
 import java.time.Period
 
-open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: UnderholdskostnadBeregning) : FellesPeriode(), UnderholdskostnadPeriode {
+open class UnderholdskostnadPeriodeImpl(
+    private val underholdskostnadBeregning: UnderholdskostnadBeregning,
+) : FellesPeriode(), UnderholdskostnadPeriode {
+
     override fun beregnPerioder(grunnlag: BeregnUnderholdskostnadGrunnlag): BeregnetUnderholdskostnadResultat {
         val beregnUnderholdskostnadListeGrunnlag = BeregnUnderholdskostnadListeGrunnlag()
 
@@ -31,10 +34,11 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
         justerDatoerGrunnlagslister(periodeGrunnlag = grunnlag, beregnUnderholdskostnadListeGrunnlag = beregnUnderholdskostnadListeGrunnlag)
 
         // Barnetrygd skal ikke trekkes fra i barnets fødselsmåned, må derfor lage denne måneden som egen periode
-        val soknadsbarnFodselsmaaned = Periode(
-            datoFom = grunnlag.soknadsbarn.fodselsdato.withDayOfMonth(1),
-            datoTil = grunnlag.soknadsbarn.fodselsdato.withDayOfMonth(1).plusMonths(1)
-        )
+        val soknadsbarnFodselsmaaned =
+            Periode(
+                datoFom = grunnlag.soknadsbarn.fodselsdato.withDayOfMonth(1),
+                datoTil = grunnlag.soknadsbarn.fodselsdato.withDayOfMonth(1).plusMonths(1),
+            )
 
         // Ny sjablon forhøyet barnetrygd for barn til og med fem år inntrer fra 01.07.2021. Det må derfor legges til brudd på denne datoen
         val datoRegelendringer = Periode(datoFom = LocalDate.parse("2021-07-01"), datoTil = LocalDate.parse("2021-07-01"))
@@ -51,7 +55,7 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
             soknadsbarnFodselsmaaned = soknadsbarnFodselsmaaned,
             seksAarBruddPeriode = seksAarBruddPeriode,
             datoRegelendringer = datoRegelendringer,
-            bruddlisteBarnAlder = bruddVedAlder(grunnlag)
+            bruddlisteBarnAlder = bruddVedAlder(grunnlag),
         )
 
         // Hvis det ligger 2 perioder på slutten som i til-dato inneholder hhv. beregningsperiodens til-dato og null slås de sammen
@@ -63,7 +67,7 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
             grunnlag = grunnlag,
             soknadsbarnFodselsmaaned = soknadsbarnFodselsmaaned,
             datoRegelendringer = datoRegelendringer,
-            seksAarBruddDato = seksAarBruddDato
+            seksAarBruddDato = seksAarBruddDato,
         )
 
         return BeregnetUnderholdskostnadResultat(beregnUnderholdskostnadListeGrunnlag.periodeResultatListe)
@@ -71,20 +75,24 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
 
     private fun justerDatoerGrunnlagslister(
         periodeGrunnlag: BeregnUnderholdskostnadGrunnlag,
-        beregnUnderholdskostnadListeGrunnlag: BeregnUnderholdskostnadListeGrunnlag
+        beregnUnderholdskostnadListeGrunnlag: BeregnUnderholdskostnadListeGrunnlag,
     ) {
         // Justerer datoer på grunnlagslistene (blir gjort implisitt i xxxPeriode(it))
-        beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe = periodeGrunnlag.barnetilsynMedStonadPeriodeListe
-            .map { BarnetilsynMedStonadPeriode(it) }
+        beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe =
+            periodeGrunnlag.barnetilsynMedStonadPeriodeListe
+                .map { BarnetilsynMedStonadPeriode(it) }
 
-        beregnUnderholdskostnadListeGrunnlag.justertNettoBarnetilsynPeriodeListe = periodeGrunnlag.nettoBarnetilsynPeriodeListe
-            .map { NettoBarnetilsynPeriode(it) }
+        beregnUnderholdskostnadListeGrunnlag.justertNettoBarnetilsynPeriodeListe =
+            periodeGrunnlag.nettoBarnetilsynPeriodeListe
+                .map { NettoBarnetilsynPeriode(it) }
 
-        beregnUnderholdskostnadListeGrunnlag.justertForpleiningUtgiftPeriodeListe = periodeGrunnlag.forpleiningUtgiftPeriodeListe
-            .map { ForpleiningUtgiftPeriode(it) }
+        beregnUnderholdskostnadListeGrunnlag.justertForpleiningUtgiftPeriodeListe =
+            periodeGrunnlag.forpleiningUtgiftPeriodeListe
+                .map { ForpleiningUtgiftPeriode(it) }
 
-        beregnUnderholdskostnadListeGrunnlag.justertSjablonPeriodeListe = periodeGrunnlag.sjablonPeriodeListe
-            .map { SjablonPeriode(it) }
+        beregnUnderholdskostnadListeGrunnlag.justertSjablonPeriodeListe =
+            periodeGrunnlag.sjablonPeriodeListe
+                .map { SjablonPeriode(it) }
     }
 
     // Barnets fødselsdag og måned skal overstyres til 01.07.
@@ -109,22 +117,23 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
         soknadsbarnFodselsmaaned: Periode,
         seksAarBruddPeriode: Periode,
         datoRegelendringer: Periode,
-        bruddlisteBarnAlder: List<Periode>
+        bruddlisteBarnAlder: List<Periode>,
     ) {
         // Bygger opp liste over perioder
-        beregnUnderholdskostnadListeGrunnlag.bruddPeriodeListe = Periodiserer()
-            .addBruddpunkt(periodeGrunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
-            .addBruddpunkt(periodeGrunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
-            .addBruddpunkter(soknadsbarnFodselsmaaned)
-            .addBruddpunkter(seksAarBruddPeriode)
-            .addBruddpunkter(datoRegelendringer)
-            .addBruddpunkter(bruddlisteBarnAlder)
-            .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe)
-            .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertNettoBarnetilsynPeriodeListe)
-            .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertForpleiningUtgiftPeriodeListe)
-            .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertSjablonPeriodeListe)
-            .finnPerioder(beregnDatoFom = periodeGrunnlag.beregnDatoFra, beregnDatoTil = periodeGrunnlag.beregnDatoTil)
-            .toMutableList()
+        beregnUnderholdskostnadListeGrunnlag.bruddPeriodeListe =
+            Periodiserer()
+                .addBruddpunkt(periodeGrunnlag.beregnDatoFra) // For å sikre bruddpunkt på start-beregning-fra-dato
+                .addBruddpunkt(periodeGrunnlag.beregnDatoTil) // For å sikre bruddpunkt på start-beregning-til-dato
+                .addBruddpunkter(soknadsbarnFodselsmaaned)
+                .addBruddpunkter(seksAarBruddPeriode)
+                .addBruddpunkter(datoRegelendringer)
+                .addBruddpunkter(bruddlisteBarnAlder)
+                .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe)
+                .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertNettoBarnetilsynPeriodeListe)
+                .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertForpleiningUtgiftPeriodeListe)
+                .addBruddpunkter(beregnUnderholdskostnadListeGrunnlag.justertSjablonPeriodeListe)
+                .finnPerioder(beregnDatoFom = periodeGrunnlag.beregnDatoFra, beregnDatoTil = periodeGrunnlag.beregnDatoTil)
+                .toMutableList()
     }
 
     // Løper gjennom periodene og finner matchende verdi for hver kategori. Kaller beregningsmodulen for hver beregningsperiode
@@ -133,55 +142,66 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
         grunnlag: BeregnUnderholdskostnadGrunnlag,
         soknadsbarnFodselsmaaned: Periode,
         datoRegelendringer: Periode,
-        seksAarBruddDato: LocalDate
+        seksAarBruddDato: LocalDate,
     ) {
         beregnUnderholdskostnadListeGrunnlag.bruddPeriodeListe.forEach { beregningsperiode ->
 
-            val barnetilsynMedStonad = beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map { BarnetilsynMedStonad(referanse = it.referanse, tilsynType = it.tilsynType, stonadType = it.stonadType) }
-                .firstOrNull()
+            val barnetilsynMedStonad =
+                beregnUnderholdskostnadListeGrunnlag.justertBarnetilsynMedStonadPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map { BarnetilsynMedStonad(referanse = it.referanse, tilsynType = it.tilsynType, stonadType = it.stonadType) }
+                    .firstOrNull()
 
-            val nettoBarnetilsyn = beregnUnderholdskostnadListeGrunnlag.justertNettoBarnetilsynPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map { NettoBarnetilsyn(referanse = it.referanse, belop = it.belop) }
-                .firstOrNull()
+            val nettoBarnetilsyn =
+                beregnUnderholdskostnadListeGrunnlag.justertNettoBarnetilsynPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map { NettoBarnetilsyn(referanse = it.referanse, belop = it.belop) }
+                    .firstOrNull()
 
-            val forpleiningUtgift = beregnUnderholdskostnadListeGrunnlag.justertForpleiningUtgiftPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
-                .map { ForpleiningUtgift(referanse = it.referanse, belop = it.belop) }
-                .firstOrNull()
+            val forpleiningUtgift =
+                beregnUnderholdskostnadListeGrunnlag.justertForpleiningUtgiftPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+                    .map { ForpleiningUtgift(referanse = it.referanse, belop = it.belop) }
+                    .firstOrNull()
 
-            val soknadsbarnAlder = SoknadsbarnAlder(
-                referanse = grunnlag.soknadsbarn.referanse,
-                alder = Period.between(grunnlag.soknadsbarn.fodselsdato.withDayOfMonth(1).withMonth(7), beregningsperiode.datoFom).years
-            )
+            val soknadsbarnAlder =
+                SoknadsbarnAlder(
+                    referanse = grunnlag.soknadsbarn.referanse,
+                    alder =
+                    Period.between(
+                        grunnlag.soknadsbarn.fodselsdato.withDayOfMonth(1).withMonth(7),
+                        beregningsperiode.datoFom,
+                    ).years,
+                )
 
-            val sjablonListe = beregnUnderholdskostnadListeGrunnlag.justertSjablonPeriodeListe
-                .filter { it.getPeriode().overlapperMed(beregningsperiode) }
+            val sjablonListe =
+                beregnUnderholdskostnadListeGrunnlag.justertSjablonPeriodeListe
+                    .filter { it.getPeriode().overlapperMed(beregningsperiode) }
 
             // Kaller beregningsmodulen for hver beregningsperiode
-            val grunnlagBeregning = GrunnlagBeregning(
-                soknadsbarn = soknadsbarnAlder,
-                barnetilsynMedStonad = barnetilsynMedStonad!!,
-                nettoBarnetilsyn = nettoBarnetilsyn!!,
-                forpleiningUtgift = forpleiningUtgift!!,
-                sjablonListe = sjablonListe
-            )
+            val grunnlagBeregning =
+                GrunnlagBeregning(
+                    soknadsbarn = soknadsbarnAlder,
+                    barnetilsynMedStonad = barnetilsynMedStonad!!,
+                    nettoBarnetilsyn = nettoBarnetilsyn!!,
+                    forpleiningUtgift = forpleiningUtgift!!,
+                    sjablonListe = sjablonListe,
+                )
 
             beregnUnderholdskostnadListeGrunnlag.periodeResultatListe.add(
                 ResultatPeriode(
                     soknadsbarnPersonId = grunnlag.soknadsbarn.personId,
                     periode = beregningsperiode,
-                    resultat = beregnUnderholdskostnad(
+                    resultat =
+                    beregnUnderholdskostnad(
                         grunnlag = grunnlagBeregning,
                         beregningsperiode = beregningsperiode,
                         soknadsbarnFodselsmaaned = soknadsbarnFodselsmaaned,
                         datoRegelendringer = datoRegelendringer,
-                        seksaarsbruddato = seksAarBruddDato
+                        seksaarsbruddato = seksAarBruddDato,
                     ),
-                    grunnlag = grunnlagBeregning
-                )
+                    grunnlag = grunnlagBeregning,
+                ),
             )
         }
     }
@@ -195,29 +215,32 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
         beregningsperiode: Periode,
         soknadsbarnFodselsmaaned: Periode,
         datoRegelendringer: Periode,
-        seksaarsbruddato: LocalDate
-    ) =
-        when {
-            beregningsperiode.datoFom == soknadsbarnFodselsmaaned.datoFom -> {
-                underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = UTEN_BARNETRYGD)
-            }
-
-            beregningsperiode.datoFom.isBefore(datoRegelendringer.datoFom) -> {
-                underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = ORDINAER_BARNETRYGD)
-            }
-
-            beregningsperiode.datoFom.isBefore(seksaarsbruddato) -> {
-                underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = FORHOYET_BARNETRYGD)
-            }
-
-            else -> {
-                underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = ORDINAER_BARNETRYGD)
-            }
+        seksaarsbruddato: LocalDate,
+    ) = when {
+        beregningsperiode.datoFom == soknadsbarnFodselsmaaned.datoFom -> {
+            underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = UTEN_BARNETRYGD)
         }
+
+        beregningsperiode.datoFom.isBefore(datoRegelendringer.datoFom) -> {
+            underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = ORDINAER_BARNETRYGD)
+        }
+
+        beregningsperiode.datoFom.isBefore(seksaarsbruddato) -> {
+            underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = FORHOYET_BARNETRYGD)
+        }
+
+        else -> {
+            underholdskostnadBeregning.beregn(grunnlag = grunnlag, barnetrygdIndikator = ORDINAER_BARNETRYGD)
+        }
+    }
 
     // Validerer at input-verdier er gyldige
     override fun validerInput(grunnlag: BeregnUnderholdskostnadGrunnlag): List<Avvik> {
-        val avvikListe = validerBeregnPeriodeInput(beregnDatoFra = grunnlag.beregnDatoFra, beregnDatoTil = grunnlag.beregnDatoTil).toMutableList()
+        val avvikListe =
+            validerBeregnPeriodeInput(
+                beregnDatoFom = grunnlag.beregnDatoFra,
+                beregnDatoTil = grunnlag.beregnDatoTil,
+            ).toMutableList()
 
         avvikListe.addAll(
             validerInputDatoer(
@@ -225,11 +248,12 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "barnetilsynMedStonadPeriodeListe",
                 periodeListe = grunnlag.barnetilsynMedStonadPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -238,11 +262,12 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "nettoBarnetilsynPeriodeListe",
                 periodeListe = grunnlag.nettoBarnetilsynPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -251,11 +276,12 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "forpleiningUtgiftPeriodeListe",
                 periodeListe = grunnlag.forpleiningUtgiftPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = true,
-                sjekkOpphold = true,
-                sjekkNull = true,
-                sjekkBeregnPeriode = true
-            )
+                sjekkOverlappendePerioder = true,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = true,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         avvikListe.addAll(
@@ -264,11 +290,12 @@ open class UnderholdskostnadPeriodeImpl(private val underholdskostnadBeregning: 
                 beregnDatoTil = grunnlag.beregnDatoTil,
                 dataElement = "sjablonPeriodeListe",
                 periodeListe = grunnlag.sjablonPeriodeListe.map { it.getPeriode() },
-                sjekkOverlapp = false,
-                sjekkOpphold = false,
-                sjekkNull = false,
-                sjekkBeregnPeriode = false
-            )
+                sjekkOverlappendePerioder = false,
+                sjekkOppholdMellomPerioder = true,
+                sjekkDatoTilNull = false,
+                sjekkDatoStartSluttAvPerioden = true,
+                sjekkBeregnPeriode = true,
+            ),
         )
 
         return avvikListe

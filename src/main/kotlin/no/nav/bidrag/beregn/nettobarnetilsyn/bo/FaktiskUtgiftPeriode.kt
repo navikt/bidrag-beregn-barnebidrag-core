@@ -10,15 +10,14 @@ data class FaktiskUtgiftPeriode(
     val referanse: String,
     val faktiskUtgiftPeriode: Periode,
     val soknadsbarnFodselsdato: LocalDate,
-    val belop: BigDecimal
+    val belop: BigDecimal,
 ) : PeriodisertGrunnlag {
-
     constructor(faktiskUtgiftPeriode: FaktiskUtgiftPeriode) : this(
         faktiskUtgiftPeriode.soknadsbarnPersonId,
         faktiskUtgiftPeriode.referanse,
         faktiskUtgiftPeriode.faktiskUtgiftPeriode.justerDatoer(),
         faktiskUtgiftPeriode.soknadsbarnFodselsdato,
-        faktiskUtgiftPeriode.belop
+        faktiskUtgiftPeriode.belop,
     )
 
     override fun getPeriode(): Periode {

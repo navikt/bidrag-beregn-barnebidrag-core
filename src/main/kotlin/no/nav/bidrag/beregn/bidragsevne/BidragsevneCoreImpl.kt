@@ -22,8 +22,8 @@ import no.nav.bidrag.beregn.felles.FellesCore
 import no.nav.bidrag.beregn.felles.bo.Avvik
 import no.nav.bidrag.beregn.felles.bo.Periode
 import no.nav.bidrag.beregn.felles.dto.PeriodeCore
-import no.nav.bidrag.domain.enums.BostatusKode
-import no.nav.bidrag.domain.enums.SaerfradragKode
+import no.nav.bidrag.domene.enums.beregning.Særfradragskode
+import no.nav.bidrag.domene.enums.person.Bostatuskode
 
 class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : FellesCore(), BidragsevneCore {
     override fun beregnBidragsevne(grunnlag: BeregnBidragsevneGrunnlagCore): BeregnetBidragsevneResultatCore {
@@ -38,24 +38,22 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
         return mapFraBusinessObject(avvikListe = avvikListe, resultat = beregnBidragsevneResultat)
     }
 
-    private fun mapTilBusinessObject(grunnlag: BeregnBidragsevneGrunnlagCore) =
-        BeregnBidragsevneGrunnlag(
-            beregnDatoFra = grunnlag.beregnDatoFra,
-            beregnDatoTil = grunnlag.beregnDatoTil,
-            inntektPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektPeriodeListe),
-            skatteklassePeriodeListe = mapSkatteklassePeriodeListe(grunnlag.skatteklassePeriodeListe),
-            bostatusPeriodeListe = mapBostatusPeriodeListe(grunnlag.bostatusPeriodeListe),
-            barnIHusstandPeriodeListe = mapBarnIHusstandPeriodeListe(grunnlag.barnIHusstandPeriodeListe),
-            saerfradragPeriodeListe = mapSaerfradragPeriodeListe(grunnlag.saerfradragPeriodeListe),
-            sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe)
-        )
+    private fun mapTilBusinessObject(grunnlag: BeregnBidragsevneGrunnlagCore) = BeregnBidragsevneGrunnlag(
+        beregnDatoFra = grunnlag.beregnDatoFra,
+        beregnDatoTil = grunnlag.beregnDatoTil,
+        inntektPeriodeListe = mapInntektPeriodeListe(grunnlag.inntektPeriodeListe),
+        skatteklassePeriodeListe = mapSkatteklassePeriodeListe(grunnlag.skatteklassePeriodeListe),
+        bostatusPeriodeListe = mapBostatusPeriodeListe(grunnlag.bostatusPeriodeListe),
+        barnIHusstandPeriodeListe = mapBarnIHusstandPeriodeListe(grunnlag.barnIHusstandPeriodeListe),
+        saerfradragPeriodeListe = mapSaerfradragPeriodeListe(grunnlag.saerfradragPeriodeListe),
+        sjablonPeriodeListe = mapSjablonPeriodeListe(grunnlag.sjablonPeriodeListe),
+    )
 
-    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetBidragsevneResultat) =
-        BeregnetBidragsevneResultatCore(
-            resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
-            sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
-            avvikListe = mapAvvik(avvikListe)
-        )
+    private fun mapFraBusinessObject(avvikListe: List<Avvik>, resultat: BeregnetBidragsevneResultat) = BeregnetBidragsevneResultatCore(
+        resultatPeriodeListe = mapResultatPeriode(resultat.resultatPeriodeListe),
+        sjablonListe = mapSjablonGrunnlagListe(resultat.resultatPeriodeListe),
+        avvikListe = mapAvvik(avvikListe),
+    )
 
     private fun mapInntektPeriodeListe(inntektPeriodeListeCore: List<InntektPeriodeCore>): List<InntektPeriode> {
         val inntektPeriodeListe = mutableListOf<InntektPeriode>()
@@ -65,8 +63,8 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                     referanse = it.referanse,
                     inntektPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     type = it.type,
-                    belop = it.belop
-                )
+                    belop = it.belop,
+                ),
             )
         }
         return inntektPeriodeListe
@@ -79,8 +77,8 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                 SkatteklassePeriode(
                     referanse = it.referanse,
                     skatteklassePeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    skatteklasse = it.skatteklasse
-                )
+                    skatteklasse = it.skatteklasse,
+                ),
             )
         }
         return skatteklassePeriodeListe
@@ -93,8 +91,8 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                 BostatusPeriode(
                     referanse = it.referanse,
                     bostatusPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    kode = BostatusKode.valueOf(it.kode)
-                )
+                    kode = Bostatuskode.valueOf(it.kode),
+                ),
             )
         }
         return bostatusPeriodeListe
@@ -107,8 +105,8 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                 BarnIHusstandPeriode(
                     referanse = it.referanse,
                     barnIHusstandPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    antallBarn = it.antallBarn
-                )
+                    antallBarn = it.antallBarn,
+                ),
             )
         }
         return barnIHusstandPeriodeListe
@@ -121,8 +119,8 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                 SaerfradragPeriode(
                     referanse = it.referanse,
                     saerfradragPeriode = Periode(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
-                    kode = SaerfradragKode.valueOf(it.kode)
-                )
+                    kode = Særfradragskode.valueOf(it.kode),
+                ),
             )
         }
         return saerfradragPeriodeListe
@@ -136,8 +134,8 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
                 ResultatPeriodeCore(
                     periode = PeriodeCore(datoFom = it.periode.datoFom, datoTil = it.periode.datoTil),
                     resultat = ResultatBeregningCore(belop = belop, inntekt25Prosent = inntekt25Prosent),
-                    grunnlagReferanseListe = mapReferanseListe(it)
-                )
+                    grunnlagReferanseListe = mapReferanseListe(it),
+                ),
             )
         }
         return resultatPeriodeCoreListe
@@ -158,8 +156,7 @@ class BidragsevneCoreImpl(private val bidragsevnePeriode: BidragsevnePeriode) : 
         return referanseListe.sorted()
     }
 
-    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) =
-        resultatPeriodeListe
-            .flatMap { mapSjablonListe(it.resultat.sjablonListe) }
-            .distinct()
+    private fun mapSjablonGrunnlagListe(resultatPeriodeListe: List<ResultatPeriode>) = resultatPeriodeListe
+        .flatMap { mapSjablonListe(it.resultat.sjablonListe) }
+        .distinct()
 }

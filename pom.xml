@@ -25,8 +25,8 @@
   <properties>
 
     <!-- language -->
-    <java.version>17</java.version>
-    <kotlin.version>1.9.0</kotlin.version>
+    <java.version>21</java.version>
+    <kotlin.version>1.9.22</kotlin.version>
 
     <!-- build -->
     <build-helper-maven.version>3.3.0</build-helper-maven.version>
@@ -36,8 +36,8 @@
 
     <!-- dependencies -->
     <spring-boot.version>3.0.6</spring-boot.version>
-    <bidrag-beregn-felles.version>1.0.3</bidrag-beregn-felles.version>
-    <bidrag-domain.version>20230914102523_8f6d6ef</bidrag-domain.version>
+    <bidrag-beregn-felles.version>1.0.8</bidrag-beregn-felles.version>
+    <bidrag-domene.version>20240105113713_ffbeeae</bidrag-domene.version>
   </properties>
 
   <repositories>
@@ -60,7 +60,7 @@
       <dependency>
         <groupId>org.yaml</groupId>
         <artifactId>snakeyaml</artifactId>
-        <version>2.0</version>
+        <version>2.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -87,8 +87,8 @@
 
     <dependency>
       <groupId>no.nav.bidrag</groupId>
-      <artifactId>bidrag-domain</artifactId>
-      <version>${bidrag-domain.version}</version>
+      <artifactId>bidrag-domene</artifactId>
+      <version>${bidrag-domene.version}</version>
     </dependency>
 
     <!-- test -->
@@ -115,7 +115,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.3</version>
         <configuration>
           <argLine>--enable-preview</argLine>
         </configuration>
@@ -199,9 +199,9 @@
         </executions>
         <dependencies>
           <dependency>
-            <groupId>com.pinterest</groupId>
-            <artifactId>ktlint</artifactId>
-            <version>0.47.1</version>
+            <groupId>com.pinterest.ktlint</groupId>
+            <artifactId>ktlint-cli</artifactId>
+            <version>1.0.1</version>
           </dependency>
           <!-- additional 3rd party ruleset(s) can be specified here -->
         </dependencies>
